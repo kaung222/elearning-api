@@ -1,0 +1,107 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client-js"
+  output = "../prisma-course-database/course-database-client-types"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("COURSE_DATABASE_URL")
+}
+
+model Course {
+  id              String           @id @default(uuid())
+  title           String
+  description     String?       // Nullable field
+  level           CourseLevel?  // Nullable field (enum)
+  startDate       DateTime?     // Nullable field
+  price           Decimal       @default(0.00) @db.Decimal(10, 2)
+  language        String        @default("burmese")
+  endDate         DateTime?     // Nullable field
+  category        String?       // Nullable field
+  instructorId    String
+  slug            String        @unique
+  thumbnail       String?       // Nullable field
+  type            CourseType    @default(ONLINE)
+  status          CourseStatus  @default(DRAFT)
+  duration        Decimal       @default(0.00) @db.Decimal(5, 2)
+  enrollmentCount Int           @default(0)
+  link            String?       // Nullable field
+  organizationId  String
+
+  // Relationships
+  chapters        Chapter[]
+}
+
+
+model Chapter {
+  id             String       @id @default(uuid())
+  title          String
+  description    String?   // Nullable field
+  order          Int
+  organizationId String
+  courseId       String
+  course         Course    @relation(fields: [courseId], references: [id])
+  lessons        Lesson[]
+}
+
+
+model Assignment {
+  id          String     @id @default(uuid())
+  title       String
+  description String
+  dueDate     DateTime
+  isCompleted Boolean  @default(false)
+  lessonId    String
+
+  // relationships
+  lesson      Lesson   @relation(fields: [lessonId], references: [id])
+}
+
+model Lesson {
+  id             String       @id @default(uuid())
+  title          String
+  description    String?   // Nullable field
+  videoUrl       String?   // Nullable field
+  urlType        UrlType   @default(YOUTUBE)
+  duration       Int       @default(0) // Duration in minutes
+  order          Int
+  isFree         Boolean   @default(false)
+  organizationId String
+  chapterId      String
+  chapter        Chapter   @relation(fields: [chapterId], references: [id])
+
+  // Relationships
+  assignments    Assignment[]
+}
+
+enum UrlType {
+  YOUTUBE
+  VIMEO
+  CLOUDINARY
+  CLOUDFRONT
+}
+
+enum CourseLevel {
+  BEGINNER
+  INTERMEDIATE
+  ADVANCED
+}
+
+enum CourseType {
+  ONLINE
+  ON_CAMPUS
+  HYBRID
+}
+
+enum CourseStatus {
+  DRAFT
+  PUBLISHED
+  ARCHIVED
+}
+
