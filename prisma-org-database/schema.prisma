@@ -1,0 +1,156 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client-js"
+ output = "../generated/org-database-client-types"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("ORG_DATABASE_URL")
+}
+
+enum OrgType {
+  University
+  Company
+  Institute
+  Academy
+  BootCamp
+  NonProfit  
+}
+
+model OrganizationMember {
+  id             String       @id @default(uuid())
+  userId         String
+  organizationId String
+  role           OrgRole
+  organization   Organization @relation(fields: [organizationId], references: [id])
+  @@unique([userId, organizationId])
+}
+
+enum OrgRole {
+  ORG_ADMIN
+  INSTRUCTOR
+  STAFF
+}
+
+
+model Organization {
+  id               String    @id @default(uuid())
+  userId           String    
+  name             String
+  type             OrgType
+  logo             String
+  coverImage       String
+  description      String
+  longDescription  String
+  location         String
+  website          String
+  email            String
+  phone            String
+  founded          String
+  totalCourses     Int
+  totalStudents    Int
+  totalInstructors Int
+  rating           Float
+  reviewCount      Int
+  specialties      String[]
+  featured         Boolean
+  verified         Boolean
+  accreditation    String[]
+  mission          String
+  vision           String
+  achievements     String[]
+  partnerships     String[]
+  instructors      Instructor[]
+  reviews          Review[]
+  stats            OrgStats?
+  contact          Contact?
+  social           Json
+  members          OrganizationMember[]
+}
+
+model OrgStats {
+  id                 String       @id @default(uuid())
+  graduationRate     String?
+  employmentRate     String?
+  averageSalary      String?
+  studentSatisfaction String
+  organization       Organization @relation(fields: [organizationId], references: [id])
+  organizationId     String       @unique
+}
+
+model Contact {
+  id             String       @id @default(uuid())
+  address        String
+  city           String
+  state          String
+  zipCode        String
+  country        String
+  organization   Organization @relation(fields: [organizationId], references: [id])
+  organizationId String       @unique
+}
+
+model Review {
+  id        String      @id @default(uuid())
+  userName  String
+  userAvatar String
+  rating    Float
+  comment   String
+  createdAt DateTime    @default(now())
+  // instructor reviews
+  instructor Instructor? @relation(fields: [instructorId], references: [id])
+  instructorId String?
+ // organization
+  organizationId String?
+  organization   Organization? @relation(fields: [organizationId], references: [id])
+}
+
+model Instructor {
+  id            String    @id @default(uuid())
+  userId        String    @unique
+  name          String
+  title         String
+  avatar        String
+  coverImage    String?
+  bio           String
+  featured      Boolean?
+  longBio       String?
+  rating        Float
+  totalStudents Int
+  totalCourses  Int
+  experience    String?
+  location      String?
+  joinedDate    String?
+  specialties   String[]
+  achievements  String[]
+  education     String[]
+  workExperience WorkExperience[]
+  social        Json
+  organizationId String?
+  organization   Organization? @relation(fields: [organizationId], references: [id])
+  reviews       Review[]
+  stats         InstructorStats?
+}
+
+model WorkExperience {
+  id            String     @id @default(uuid())
+  company       String
+  position      String
+  duration      String
+  instructor    Instructor @relation(fields: [instructorId], references: [id])
+  instructorId  String
+}
+
+model InstructorStats {
+  id              String     @id @default(uuid())
+  totalReviews    Int
+  responseRate    String
+  avgResponseTime String
+  instructor      Instructor @relation(fields: [instructorId], references: [id])
+  instructorId    String     @unique
+}

@@ -1,5 +1,5 @@
 import { Injectable, OnModuleDestroy, OnModuleInit } from '@nestjs/common';
-import { PrismaClient } from 'prisma-course-database/course-database-client-types';
+import { PrismaClient } from 'generated/course-database-client-types';
 
 @Injectable()
 export class PrismaCourseService

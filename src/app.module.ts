@@ -7,6 +7,13 @@ import { AuthModule } from './auth/auth.module';
 import { RolesGuard } from './security/role.guard';
 import { JwtModule } from '@nestjs/jwt';
 import { OrganizationsModule } from './organizations/organizations.module';
+import { ModulesModule } from './modules/modules.module';
+import { LessonsModule } from './lessons/lessons.module';
+import { FaqsModule } from './faqs/faqs.module';
+import { AssignmentsModule } from './assignments/assignments.module';
+import { InstructorsModule } from './instructors/instructors.module';
+import { OrgRolesGuard } from './security/org-role.guard';
+import { MembersModule } from './members/members.module';
 
 @Module({
   imports: [
@@ -21,9 +28,18 @@ import { OrganizationsModule } from './organizations/organizations.module';
       signOptions: { expiresIn: '1d' },
     }),
     OrganizationsModule,
+    ModulesModule,
+    LessonsModule,
+    FaqsModule,
+    AssignmentsModule,
+    InstructorsModule,
+    MembersModule,
   ],
   controllers: [],
-  providers: [{ provide: 'APP_GUARD', useClass: RolesGuard }],
+  providers: [
+    { provide: 'APP_GUARD', useClass: RolesGuard },
+    { provide: 'APP_GUARD', useClass: OrgRolesGuard },
+  ],
   exports: [],
 })
 export class AppModule {}

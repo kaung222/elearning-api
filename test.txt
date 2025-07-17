@@ -1,0 +1,299 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client-js"
+ output = "../prisma-user-database/user-database-client-types"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("USER_DATABASE_URL")
+}
+
+model User{
+  id String @id @default(uuid())
+  email String @unique
+  name String
+  dob DateTime?
+  phone String? 
+  image String?
+  password String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+
+enum OrgType {
+  University
+  Company
+  Institute
+  Academy
+  BootCamp
+}
+
+model Organization {
+  id               String    @id @default(uuid())
+  name             String
+  type             OrgType
+  logo             String
+  coverImage       String
+  description      String
+  longDescription  String
+  location         String
+  website          String
+  email            String
+  phone            String
+  founded          String
+  totalCourses     Int
+  totalStudents    Int
+  totalInstructors Int
+  rating           Float
+  reviewCount      Int
+  specialties      String[]
+  featured         Boolean
+  verified         Boolean
+  accreditation    String[]
+  mission          String
+  vision           String
+  achievements     String[]
+  partnerships     String[]
+  instructors      Instructor[]
+  reviews          Review[]
+  stats            OrgStats?
+  contact          Contact?
+  social           Json
+}
+
+model OrgStats {
+  id                 String       @id @default(uuid())
+  graduationRate     String?
+  employmentRate     String?
+  averageSalary      String?
+  studentSatisfaction String
+  organization       Organization @relation(fields: [organizationId], references: [id])
+  organizationId     String       @unique
+}
+
+model Contact {
+  id             String       @id @default(uuid())
+  address        String
+  city           String
+  state          String
+  zipCode        String
+  country        String
+  organization   Organization @relation(fields: [organizationId], references: [id])
+  organizationId String       @unique
+}
+
+model Review {
+  id        String      @id @default(uuid())
+  userName  String
+  userAvatar String
+  rating    Float
+  comment   String
+  createdAt DateTime    @default(now())
+  // instructor reviews
+  instructor Instructor? @relation(fields: [instructorId], references: [id])
+  instructorId String?
+ // organization
+  organizationId String?
+  organization   Organization? @relation(fields: [organizationId], references: [id])
+}
+
+model Instructor {
+  id            String    @id @default(uuid())
+  name          String
+  title         String
+  avatar        String
+  coverImage    String?
+  bio           String
+  featured      Boolean?
+  longBio       String?
+  rating        Float
+  totalStudents Int
+  totalCourses  Int
+  experience    String?
+  location      String?
+  joinedDate    String?
+  specialties   String[]
+  achievements  String[]
+  education     String[]
+  workExperience WorkExperience[]
+  social        Json
+  organizationId String?
+  organization   Organization? @relation(fields: [organizationId], references: [id])
+  reviews       Review[]
+  stats         InstructorStats?
+}
+
+model WorkExperience {
+  id            String     @id @default(uuid())
+  company       String
+  position      String
+  duration      String
+  instructor    Instructor @relation(fields: [instructorId], references: [id])
+  instructorId  String
+}
+
+model InstructorStats {
+  id              String     @id @default(uuid())
+  totalReviews    Int
+  responseRate    String
+  avgResponseTime String
+  instructor      Instructor @relation(fields: [instructorId], references: [id])
+  instructorId    String     @unique
+}
+
+
+model Enrollment {
+  id        String  @id @default(uuid())
+  courseId  String
+  userId    String
+  description String?
+  status    EnrollmentStatus  @default(PENDING)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+enum EnrollmentStatus {
+  PENDING
+  APPROVED
+  REJECTED
+}
+
+
+model Course {
+  id                String      @id @default(uuid())
+  title             String
+  description       String
+  longDescription   String?
+
+  // instructor info
+  instructor        String
+  instructorAvatar  String
+  instructorTitle   String?
+  instructorBio     String?
+   instructorId      String
+  
+  // pricing and duration
+  duration          String
+  students          Int      @default(0)
+  totalReviews      Int      @default(0)
+  rating            Float    @default(0)
+  price             Float
+  salePrice         Float?
+  thumbnail         String
+  maxStudents       Int?
+  language          String?
+  category          String?
+  organizationId    String?
+
+  // course details
+  tags              String[]
+  whatYouWillLearn  String[]
+  requirements      String[]
+  includes          String[]
+
+  // course relationships
+  modules           Module[]
+  reviews           Review[]
+  faqs              FAQ[]
+  status            Status
+  level             Level
+  type              Type
+  createdAt         DateTime     @default(now())
+  updatedAt         DateTime     @updatedAt
+  publishedAt       DateTime?
+}
+
+model FAQ {
+  id        String   @id @default(uuid())
+  question  String
+  answer    String
+  course    Course   @relation(fields: [courseId], references: [id])
+  courseId  String
+}
+
+model Review {
+  id        String      @id @default(uuid())
+  userName  String
+  userAvatar String
+  rating    Float
+  comment   String
+  createdAt DateTime    @default(now())
+  // course reviews
+  course    Course?     @relation(fields: [courseId], references: [id])
+  courseId  String?
+  }
+
+
+
+model Module {
+  id             String       @id @default(uuid())
+  title          String
+  description    String?   // Nullable field
+  order          Int
+  organizationId String
+  courseId       String
+  course         Course    @relation(fields: [courseId], references: [id])
+  lessons        Lesson[]
+}
+
+model Assignment {
+  id          String     @id @default(uuid())
+  title       String
+  description String
+  dueDate     DateTime
+  isCompleted Boolean  @default(false)
+  lessonId    String
+
+  // relationships
+  lesson      Lesson   @relation(fields: [lessonId], references: [id])
+}
+
+model Lesson {
+  id             String       @id @default(uuid())
+  title          String
+  description    String?   // Nullable field
+  url            String?   // Nullable field
+  type           LessonType
+  duration       Int       @default(0) // Duration in minutes
+  order          Int
+  isPreview      Boolean   @default(false)
+  organizationId String
+  module    Module      @relation(fields: [moduleId], references: [id])
+  moduleId  String
+  // Relationships
+  assignments    Assignment[]
+}
+
+enum Level {
+  BEGINNER
+  INTERMEDIATE
+  ADVANCED
+}
+
+enum LessonType {
+  video
+  quiz
+  assignment
+  reading
+}
+
+enum Type {
+  ONLINE
+  CAMPUS
+  HYBRID
+  VIDEO
+}
+
+enum Status {
+  DRAFT
+  PUBLISHED
+  ARCHIVED
+}
+

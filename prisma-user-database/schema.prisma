@@ -6,7 +6,7 @@
 
 generator client {
   provider = "prisma-client-js"
- output = "../prisma-user-database/user-database-client-types"
+ output = "../generated/user-database-client-types"
 }
 
 datasource db {
@@ -14,14 +14,21 @@ datasource db {
   url      = env("USER_DATABASE_URL")
 }
 
-model User{
-  id String @id @default(uuid())
-  email String @unique
-  name String
-  dob DateTime?
-  phone String? 
-  image String?
-  password String
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+model User {
+  id            String   @id @default(uuid())
+  email         String   @unique
+  username      String   @unique
+  dob           DateTime?
+  phone         String? 
+  avatar        String?
+  role          UserRole
+  password      String
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+}
+
+enum UserRole {
+ SUPER_ADMIN 
+  ADMIN 
+  USER 
 }
