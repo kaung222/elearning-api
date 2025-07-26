@@ -24,24 +24,28 @@ enum OrgType {
 }
 
 model OrganizationMember {
-  id             String       @id @default(uuid())
+  id             String        @id @default(uuid())
   userId         String
-  organizationId String
-  role           OrgRole
-  organization   Organization @relation(fields: [organizationId], references: [id])
+  role           Role
+  // relations
+  organizationId String?
+  instructorId   String?
+  organization   Organization? @relation(fields: [organizationId], references: [id])
+  instructor     Instructor?
 
   @@unique([userId, organizationId])
 }
 
-enum OrgRole {
-  ORG_ADMIN
+enum Role {
+  STUDENT
   INSTRUCTOR
-  STAFF
+  ORG_ADMIN
+  ORG_STAFF
+  INDIVIDUAL_INSTRUCTOR
 }
 
 model Organization {
   id               String               @id @default(uuid())
-  userId           String
   name             String
   type             OrgType
   logo             String
@@ -53,24 +57,24 @@ model Organization {
   email            String
   phone            String
   founded          String
-  totalCourses     Int
-  totalStudents    Int
-  totalInstructors Int
-  rating           Float
-  reviewCount      Int
+  totalCourses     Int                  @default(0)
+  totalStudents    Int                  @default(0)
+  totalInstructors Int                  @default(0)
+  rating           Float                @default(0)
+  reviewCount      Int                  @default(0)
   specialties      String[]
-  featured         Boolean
-  verified         Boolean
+  featured         Boolean              @default(false)
+  verified         Boolean              @default(false)
   accreditation    String[]
-  mission          String
-  vision           String
+  mission          String?
+  vision           String?
   achievements     String[]
   partnerships     String[]
-  instructors      Instructor[]
   reviews          Review[]
   stats            OrgStats?
   contact          Contact?
   social           Json
+  instructors      Instructor[]
   members          OrganizationMember[]
 }
 
@@ -97,8 +101,8 @@ model Contact {
 
 model Review {
   id             String        @id @default(uuid())
-  userName       String
-  userAvatar     String
+  username       String
+  avatar         String
   rating         Float
   comment        String
   createdAt      DateTime      @default(now())
@@ -111,30 +115,29 @@ model Review {
 }
 
 model Instructor {
-  id             String           @id @default(uuid())
-  userId         String           @unique
-  name           String
-  title          String
-  avatar         String
-  coverImage     String?
-  bio            String
-  featured       Boolean?
-  longBio        String?
-  rating         Float
-  totalStudents  Int
-  totalCourses   Int
-  experience     String?
-  location       String?
-  joinedDate     String?
-  specialties    String[]
-  achievements   String[]
-  education      String[]
-  workExperience WorkExperience[]
-  social         Json
-  organizationId String?
-  organization   Organization?    @relation(fields: [organizationId], references: [id])
-  reviews        Review[]
-  stats          InstructorStats?
+  id                 String             @id @default(uuid())
+  name               String
+  title              String
+  avatar             String
+  coverImage         String?
+  bio                String
+  featured           Boolean?           @default(false)
+  longBio            String?
+  rating             Float              @default(0)
+  totalStudents      Int                @default(0)
+  totalCourses       Int                @default(0)
+  specialties        String[]
+  achievements       String[]
+  education          String[]
+  social             Json
+  // relationships 
+  workExperience     WorkExperience[]
+  reviews            Review[]
+  stats              InstructorStats?
+  organizationMember OrganizationMember @relation(fields: [memberId], references: [id])
+  memberId           String             @unique
+  organizationId     String?
+  organization       Organization?      @relation(fields: [organizationId], references: [id])
 }
 
 model WorkExperience {

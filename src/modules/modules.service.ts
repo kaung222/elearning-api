@@ -9,29 +9,26 @@ export class ModulesService {
   constructor(private prisma: PrismaCourseService) {}
 
   async create(createModuleDto: CreateModuleDto, user: SignedUser) {
-    if (!user.organization?.organizationId) {
-      throw new Error('User not in an organization');
-    }
     const course = await this.prisma.course.findUnique({
       where: {
         id: createModuleDto.courseId,
-        organizationId: user.organization?.organizationId,
+        organizationId: user.orgId,
       },
     });
-    if (!course) {
-      throw new Error('Course not found');
+    if (!course || !user.orgId) {
+      throw new Error('Course or organization not found');
     }
     return await this.prisma.module.create({
       data: {
         ...createModuleDto,
-        organizationId: user.organization?.organizationId,
+        organizationId: user.orgId,
       },
     });
   }
 
   async findAll(user: SignedUser) {
     return await this.prisma.module.findMany({
-      where: { organizationId: user.organization?.organizationId },
+      where: { organizationId: user.orgId },
       include: {
         course: {
           select: {
@@ -73,25 +70,19 @@ export class ModulesService {
     return await this.prisma.lesson.findMany({
       where: { moduleId },
       orderBy: { order: 'asc' },
-      include: {
-        assignments: true,
-        _count: {
-          select: {
-            assignments: true,
-          },
-        },
-      },
     });
   }
 
-  async update(id: string, updateModuleDto: UpdateModuleDto) {
+  async update(id: string, updateModuleDto: UpdateModuleDto, user: SignedUser) {
     return await this.prisma.module.update({
-      where: { id },
+      where: { id, organizationId: user.orgId },
       data: updateModuleDto,
     });
   }
 
-  async remove(id: string) {
-    return await this.prisma.module.delete({ where: { id } });
+  async remove(id: string, user: SignedUser) {
+    return await this.prisma.module.delete({
+      where: { id, organizationId: user.orgId },
+    });
   }
 }

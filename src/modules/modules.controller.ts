@@ -11,17 +11,17 @@ import { ModulesService } from './modules.service';
 import { CreateModuleDto } from './dto/create-module.dto';
 import { UpdateModuleDto } from './dto/update-module.dto';
 import { ApiTags, ApiOperation, ApiResponse, ApiParam } from '@nestjs/swagger';
-import { ROlE_ORG } from 'src/security/role.decorator';
-import { OrgRole } from 'generated/org-database-client-types';
 import { SignedUser, User } from 'src/security/user.decorator';
+import { ROLE_USER } from 'src/security/role.decorator';
+import { Role } from 'generated/org-database-client-types';
 
 @Controller('modules')
 @ApiTags('modules')
+@ROLE_USER(Role.INSTRUCTOR, Role.ORG_ADMIN)
 export class ModulesController {
   constructor(private readonly modulesService: ModulesService) {}
 
   @Post()
-  @ROlE_ORG(OrgRole.INSTRUCTOR, OrgRole.ORG_ADMIN)
   @ApiOperation({ summary: 'Create a new module' })
   @ApiResponse({ status: 201, description: 'Module created successfully' })
   @ApiResponse({ status: 400, description: 'Bad request' })
@@ -30,7 +30,6 @@ export class ModulesController {
   }
 
   @Get()
-  @ROlE_ORG(OrgRole.INSTRUCTOR, OrgRole.ORG_ADMIN)
   @ApiOperation({ summary: 'Get all modules for organization' })
   @ApiResponse({ status: 200, description: 'Modules retrieved successfully' })
   findAll(@User() user: SignedUser) {
@@ -55,22 +54,22 @@ export class ModulesController {
   }
 
   @Patch(':id')
-  @ROlE_ORG(OrgRole.INSTRUCTOR, OrgRole.ORG_ADMIN)
   @ApiOperation({ summary: 'Update a module' })
   @ApiParam({ name: 'id', description: 'Module ID' })
-  @ApiResponse({ status: 200, description: 'Module updated successfully' })
-  @ApiResponse({ status: 404, description: 'Module not found' })
-  update(@Param('id') id: string, @Body() updateModuleDto: UpdateModuleDto) {
-    return this.modulesService.update(id, updateModuleDto);
+  update(
+    @Param('id') id: string,
+    @Body() updateModuleDto: UpdateModuleDto,
+    @User() user: SignedUser,
+  ) {
+    return this.modulesService.update(id, updateModuleDto, user);
   }
 
   @Delete(':id')
-  @ROlE_ORG(OrgRole.INSTRUCTOR, OrgRole.ORG_ADMIN)
   @ApiOperation({ summary: 'Delete a module' })
   @ApiParam({ name: 'id', description: 'Module ID' })
   @ApiResponse({ status: 200, description: 'Module deleted successfully' })
   @ApiResponse({ status: 404, description: 'Module not found' })
-  remove(@Param('id') id: string) {
-    return this.modulesService.remove(id);
+  remove(@Param('id') id: string, @User() user: SignedUser) {
+    return this.modulesService.remove(id, user);
   }
 }

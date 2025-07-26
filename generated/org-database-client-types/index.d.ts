@@ -70,13 +70,15 @@ export namespace $Enums {
 export type OrgType = (typeof OrgType)[keyof typeof OrgType]
 
 
-export const OrgRole: {
-  ORG_ADMIN: 'ORG_ADMIN',
+export const Role: {
+  STUDENT: 'STUDENT',
   INSTRUCTOR: 'INSTRUCTOR',
-  STAFF: 'STAFF'
+  ORG_ADMIN: 'ORG_ADMIN',
+  ORG_STAFF: 'ORG_STAFF',
+  INDIVIDUAL_INSTRUCTOR: 'INDIVIDUAL_INSTRUCTOR'
 };
 
-export type OrgRole = (typeof OrgRole)[keyof typeof OrgRole]
+export type Role = (typeof Role)[keyof typeof Role]
 
 }
 
@@ -84,9 +86,9 @@ export type OrgType = $Enums.OrgType
 
 export const OrgType: typeof $Enums.OrgType
 
-export type OrgRole = $Enums.OrgRole
+export type Role = $Enums.Role
 
-export const OrgRole: typeof $Enums.OrgRole
+export const Role: typeof $Enums.Role
 
 /**
  * ##  Prisma Client ʲˢ
@@ -1540,14 +1542,14 @@ export namespace Prisma {
    */
 
   export type OrganizationCountOutputType = {
-    instructors: number
     reviews: number
+    instructors: number
     members: number
   }
 
   export type OrganizationCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    instructors?: boolean | OrganizationCountOutputTypeCountInstructorsArgs
     reviews?: boolean | OrganizationCountOutputTypeCountReviewsArgs
+    instructors?: boolean | OrganizationCountOutputTypeCountInstructorsArgs
     members?: boolean | OrganizationCountOutputTypeCountMembersArgs
   }
 
@@ -1565,15 +1567,15 @@ export namespace Prisma {
   /**
    * OrganizationCountOutputType without action
    */
-  export type OrganizationCountOutputTypeCountInstructorsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    where?: InstructorWhereInput
+  export type OrganizationCountOutputTypeCountReviewsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: ReviewWhereInput
   }
 
   /**
    * OrganizationCountOutputType without action
    */
-  export type OrganizationCountOutputTypeCountReviewsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    where?: ReviewWhereInput
+  export type OrganizationCountOutputTypeCountInstructorsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: InstructorWhereInput
   }
 
   /**
@@ -1641,22 +1643,25 @@ export namespace Prisma {
   export type OrganizationMemberMinAggregateOutputType = {
     id: string | null
     userId: string | null
+    role: $Enums.Role | null
     organizationId: string | null
-    role: $Enums.OrgRole | null
+    instructorId: string | null
   }
 
   export type OrganizationMemberMaxAggregateOutputType = {
     id: string | null
     userId: string | null
+    role: $Enums.Role | null
     organizationId: string | null
-    role: $Enums.OrgRole | null
+    instructorId: string | null
   }
 
   export type OrganizationMemberCountAggregateOutputType = {
     id: number
     userId: number
-    organizationId: number
     role: number
+    organizationId: number
+    instructorId: number
     _all: number
   }
 
@@ -1664,22 +1669,25 @@ export namespace Prisma {
   export type OrganizationMemberMinAggregateInputType = {
     id?: true
     userId?: true
-    organizationId?: true
     role?: true
+    organizationId?: true
+    instructorId?: true
   }
 
   export type OrganizationMemberMaxAggregateInputType = {
     id?: true
     userId?: true
-    organizationId?: true
     role?: true
+    organizationId?: true
+    instructorId?: true
   }
 
   export type OrganizationMemberCountAggregateInputType = {
     id?: true
     userId?: true
-    organizationId?: true
     role?: true
+    organizationId?: true
+    instructorId?: true
     _all?: true
   }
 
@@ -1758,8 +1766,9 @@ export namespace Prisma {
   export type OrganizationMemberGroupByOutputType = {
     id: string
     userId: string
-    organizationId: string
-    role: $Enums.OrgRole
+    role: $Enums.Role
+    organizationId: string | null
+    instructorId: string | null
     _count: OrganizationMemberCountAggregateOutputType | null
     _min: OrganizationMemberMinAggregateOutputType | null
     _max: OrganizationMemberMaxAggregateOutputType | null
@@ -1782,55 +1791,63 @@ export namespace Prisma {
   export type OrganizationMemberSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     id?: boolean
     userId?: boolean
-    organizationId?: boolean
     role?: boolean
-    organization?: boolean | OrganizationDefaultArgs<ExtArgs>
+    organizationId?: boolean
+    instructorId?: boolean
+    organization?: boolean | OrganizationMember$organizationArgs<ExtArgs>
+    instructor?: boolean | OrganizationMember$instructorArgs<ExtArgs>
   }, ExtArgs["result"]["organizationMember"]>
 
   export type OrganizationMemberSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     id?: boolean
     userId?: boolean
-    organizationId?: boolean
     role?: boolean
-    organization?: boolean | OrganizationDefaultArgs<ExtArgs>
+    organizationId?: boolean
+    instructorId?: boolean
+    organization?: boolean | OrganizationMember$organizationArgs<ExtArgs>
   }, ExtArgs["result"]["organizationMember"]>
 
   export type OrganizationMemberSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     id?: boolean
     userId?: boolean
-    organizationId?: boolean
     role?: boolean
-    organization?: boolean | OrganizationDefaultArgs<ExtArgs>
+    organizationId?: boolean
+    instructorId?: boolean
+    organization?: boolean | OrganizationMember$organizationArgs<ExtArgs>
   }, ExtArgs["result"]["organizationMember"]>
 
   export type OrganizationMemberSelectScalar = {
     id?: boolean
     userId?: boolean
-    organizationId?: boolean
     role?: boolean
+    organizationId?: boolean
+    instructorId?: boolean
   }
 
-  export type OrganizationMemberOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "userId" | "organizationId" | "role", ExtArgs["result"]["organizationMember"]>
+  export type OrganizationMemberOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "userId" | "role" | "organizationId" | "instructorId", ExtArgs["result"]["organizationMember"]>
   export type OrganizationMemberInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    organization?: boolean | OrganizationDefaultArgs<ExtArgs>
+    organization?: boolean | OrganizationMember$organizationArgs<ExtArgs>
+    instructor?: boolean | OrganizationMember$instructorArgs<ExtArgs>
   }
   export type OrganizationMemberIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    organization?: boolean | OrganizationDefaultArgs<ExtArgs>
+    organization?: boolean | OrganizationMember$organizationArgs<ExtArgs>
   }
   export type OrganizationMemberIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    organization?: boolean | OrganizationDefaultArgs<ExtArgs>
+    organization?: boolean | OrganizationMember$organizationArgs<ExtArgs>
   }
 
   export type $OrganizationMemberPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     name: "OrganizationMember"
     objects: {
-      organization: Prisma.$OrganizationPayload<ExtArgs>
+      organization: Prisma.$OrganizationPayload<ExtArgs> | null
+      instructor: Prisma.$InstructorPayload<ExtArgs> | null
     }
     scalars: $Extensions.GetPayloadResult<{
       id: string
       userId: string
-      organizationId: string
-      role: $Enums.OrgRole
+      role: $Enums.Role
+      organizationId: string | null
+      instructorId: string | null
     }, ExtArgs["result"]["organizationMember"]>
     composites: {}
   }
@@ -2225,7 +2242,8 @@ export namespace Prisma {
    */
   export interface Prisma__OrganizationMemberClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
     readonly [Symbol.toStringTag]: "PrismaPromise"
-    organization<T extends OrganizationDefaultArgs<ExtArgs> = {}>(args?: Subset<T, OrganizationDefaultArgs<ExtArgs>>): Prisma__OrganizationClient<$Result.GetResult<Prisma.$OrganizationPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    organization<T extends OrganizationMember$organizationArgs<ExtArgs> = {}>(args?: Subset<T, OrganizationMember$organizationArgs<ExtArgs>>): Prisma__OrganizationClient<$Result.GetResult<Prisma.$OrganizationPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+    instructor<T extends OrganizationMember$instructorArgs<ExtArgs> = {}>(args?: Subset<T, OrganizationMember$instructorArgs<ExtArgs>>): Prisma__InstructorClient<$Result.GetResult<Prisma.$InstructorPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -2257,8 +2275,9 @@ export namespace Prisma {
   interface OrganizationMemberFieldRefs {
     readonly id: FieldRef<"OrganizationMember", 'String'>
     readonly userId: FieldRef<"OrganizationMember", 'String'>
+    readonly role: FieldRef<"OrganizationMember", 'Role'>
     readonly organizationId: FieldRef<"OrganizationMember", 'String'>
-    readonly role: FieldRef<"OrganizationMember", 'OrgRole'>
+    readonly instructorId: FieldRef<"OrganizationMember", 'String'>
   }
     
 
@@ -2655,6 +2674,44 @@ export namespace Prisma {
   }
 
   /**
+   * OrganizationMember.organization
+   */
+  export type OrganizationMember$organizationArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Organization
+     */
+    select?: OrganizationSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Organization
+     */
+    omit?: OrganizationOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: OrganizationInclude<ExtArgs> | null
+    where?: OrganizationWhereInput
+  }
+
+  /**
+   * OrganizationMember.instructor
+   */
+  export type OrganizationMember$instructorArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Instructor
+     */
+    select?: InstructorSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Instructor
+     */
+    omit?: InstructorOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: InstructorInclude<ExtArgs> | null
+    where?: InstructorWhereInput
+  }
+
+  /**
    * OrganizationMember without action
    */
   export type OrganizationMemberDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -2703,7 +2760,6 @@ export namespace Prisma {
 
   export type OrganizationMinAggregateOutputType = {
     id: string | null
-    userId: string | null
     name: string | null
     type: $Enums.OrgType | null
     logo: string | null
@@ -2728,7 +2784,6 @@ export namespace Prisma {
 
   export type OrganizationMaxAggregateOutputType = {
     id: string | null
-    userId: string | null
     name: string | null
     type: $Enums.OrgType | null
     logo: string | null
@@ -2753,7 +2808,6 @@ export namespace Prisma {
 
   export type OrganizationCountAggregateOutputType = {
     id: number
-    userId: number
     name: number
     type: number
     logo: number
@@ -2801,7 +2855,6 @@ export namespace Prisma {
 
   export type OrganizationMinAggregateInputType = {
     id?: true
-    userId?: true
     name?: true
     type?: true
     logo?: true
@@ -2826,7 +2879,6 @@ export namespace Prisma {
 
   export type OrganizationMaxAggregateInputType = {
     id?: true
-    userId?: true
     name?: true
     type?: true
     logo?: true
@@ -2851,7 +2903,6 @@ export namespace Prisma {
 
   export type OrganizationCountAggregateInputType = {
     id?: true
-    userId?: true
     name?: true
     type?: true
     logo?: true
@@ -2968,7 +3019,6 @@ export namespace Prisma {
 
   export type OrganizationGroupByOutputType = {
     id: string
-    userId: string
     name: string
     type: $Enums.OrgType
     logo: string
@@ -2989,8 +3039,8 @@ export namespace Prisma {
     featured: boolean
     verified: boolean
     accreditation: string[]
-    mission: string
-    vision: string
+    mission: string | null
+    vision: string | null
     achievements: string[]
     partnerships: string[]
     social: JsonValue
@@ -3017,7 +3067,6 @@ export namespace Prisma {
 
   export type OrganizationSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     id?: boolean
-    userId?: boolean
     name?: boolean
     type?: boolean
     logo?: boolean
@@ -3043,17 +3092,16 @@ export namespace Prisma {
     achievements?: boolean
     partnerships?: boolean
     social?: boolean
-    instructors?: boolean | Organization$instructorsArgs<ExtArgs>
     reviews?: boolean | Organization$reviewsArgs<ExtArgs>
     stats?: boolean | Organization$statsArgs<ExtArgs>
     contact?: boolean | Organization$contactArgs<ExtArgs>
+    instructors?: boolean | Organization$instructorsArgs<ExtArgs>
     members?: boolean | Organization$membersArgs<ExtArgs>
     _count?: boolean | OrganizationCountOutputTypeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["organization"]>
 
   export type OrganizationSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     id?: boolean
-    userId?: boolean
     name?: boolean
     type?: boolean
     logo?: boolean
@@ -3083,7 +3131,6 @@ export namespace Prisma {
 
   export type OrganizationSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     id?: boolean
-    userId?: boolean
     name?: boolean
     type?: boolean
     logo?: boolean
@@ -3113,7 +3160,6 @@ export namespace Prisma {
 
   export type OrganizationSelectScalar = {
     id?: boolean
-    userId?: boolean
     name?: boolean
     type?: boolean
     logo?: boolean
@@ -3141,12 +3187,12 @@ export namespace Prisma {
     social?: boolean
   }
 
-  export type OrganizationOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "userId" | "name" | "type" | "logo" | "coverImage" | "description" | "longDescription" | "location" | "website" | "email" | "phone" | "founded" | "totalCourses" | "totalStudents" | "totalInstructors" | "rating" | "reviewCount" | "specialties" | "featured" | "verified" | "accreditation" | "mission" | "vision" | "achievements" | "partnerships" | "social", ExtArgs["result"]["organization"]>
+  export type OrganizationOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "name" | "type" | "logo" | "coverImage" | "description" | "longDescription" | "location" | "website" | "email" | "phone" | "founded" | "totalCourses" | "totalStudents" | "totalInstructors" | "rating" | "reviewCount" | "specialties" | "featured" | "verified" | "accreditation" | "mission" | "vision" | "achievements" | "partnerships" | "social", ExtArgs["result"]["organization"]>
   export type OrganizationInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    instructors?: boolean | Organization$instructorsArgs<ExtArgs>
     reviews?: boolean | Organization$reviewsArgs<ExtArgs>
     stats?: boolean | Organization$statsArgs<ExtArgs>
     contact?: boolean | Organization$contactArgs<ExtArgs>
+    instructors?: boolean | Organization$instructorsArgs<ExtArgs>
     members?: boolean | Organization$membersArgs<ExtArgs>
     _count?: boolean | OrganizationCountOutputTypeDefaultArgs<ExtArgs>
   }
@@ -3156,15 +3202,14 @@ export namespace Prisma {
   export type $OrganizationPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     name: "Organization"
     objects: {
-      instructors: Prisma.$InstructorPayload<ExtArgs>[]
       reviews: Prisma.$ReviewPayload<ExtArgs>[]
       stats: Prisma.$OrgStatsPayload<ExtArgs> | null
       contact: Prisma.$ContactPayload<ExtArgs> | null
+      instructors: Prisma.$InstructorPayload<ExtArgs>[]
       members: Prisma.$OrganizationMemberPayload<ExtArgs>[]
     }
     scalars: $Extensions.GetPayloadResult<{
       id: string
-      userId: string
       name: string
       type: $Enums.OrgType
       logo: string
@@ -3185,8 +3230,8 @@ export namespace Prisma {
       featured: boolean
       verified: boolean
       accreditation: string[]
-      mission: string
-      vision: string
+      mission: string | null
+      vision: string | null
       achievements: string[]
       partnerships: string[]
       social: Prisma.JsonValue
@@ -3584,10 +3629,10 @@ export namespace Prisma {
    */
   export interface Prisma__OrganizationClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
     readonly [Symbol.toStringTag]: "PrismaPromise"
-    instructors<T extends Organization$instructorsArgs<ExtArgs> = {}>(args?: Subset<T, Organization$instructorsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$InstructorPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     reviews<T extends Organization$reviewsArgs<ExtArgs> = {}>(args?: Subset<T, Organization$reviewsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ReviewPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     stats<T extends Organization$statsArgs<ExtArgs> = {}>(args?: Subset<T, Organization$statsArgs<ExtArgs>>): Prisma__OrgStatsClient<$Result.GetResult<Prisma.$OrgStatsPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
     contact<T extends Organization$contactArgs<ExtArgs> = {}>(args?: Subset<T, Organization$contactArgs<ExtArgs>>): Prisma__ContactClient<$Result.GetResult<Prisma.$ContactPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+    instructors<T extends Organization$instructorsArgs<ExtArgs> = {}>(args?: Subset<T, Organization$instructorsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$InstructorPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     members<T extends Organization$membersArgs<ExtArgs> = {}>(args?: Subset<T, Organization$membersArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$OrganizationMemberPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
@@ -3619,7 +3664,6 @@ export namespace Prisma {
    */
   interface OrganizationFieldRefs {
     readonly id: FieldRef<"Organization", 'String'>
-    readonly userId: FieldRef<"Organization", 'String'>
     readonly name: FieldRef<"Organization", 'String'>
     readonly type: FieldRef<"Organization", 'OrgType'>
     readonly logo: FieldRef<"Organization", 'String'>
@@ -4033,30 +4077,6 @@ export namespace Prisma {
   }
 
   /**
-   * Organization.instructors
-   */
-  export type Organization$instructorsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the Instructor
-     */
-    select?: InstructorSelect<ExtArgs> | null
-    /**
-     * Omit specific fields from the Instructor
-     */
-    omit?: InstructorOmit<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: InstructorInclude<ExtArgs> | null
-    where?: InstructorWhereInput
-    orderBy?: InstructorOrderByWithRelationInput | InstructorOrderByWithRelationInput[]
-    cursor?: InstructorWhereUniqueInput
-    take?: number
-    skip?: number
-    distinct?: InstructorScalarFieldEnum | InstructorScalarFieldEnum[]
-  }
-
-  /**
    * Organization.reviews
    */
   export type Organization$reviewsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -4116,6 +4136,30 @@ export namespace Prisma {
      */
     include?: ContactInclude<ExtArgs> | null
     where?: ContactWhereInput
+  }
+
+  /**
+   * Organization.instructors
+   */
+  export type Organization$instructorsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Instructor
+     */
+    select?: InstructorSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Instructor
+     */
+    omit?: InstructorOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: InstructorInclude<ExtArgs> | null
+    where?: InstructorWhereInput
+    orderBy?: InstructorOrderByWithRelationInput | InstructorOrderByWithRelationInput[]
+    cursor?: InstructorWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: InstructorScalarFieldEnum | InstructorScalarFieldEnum[]
   }
 
   /**
@@ -6338,8 +6382,8 @@ export namespace Prisma {
 
   export type ReviewMinAggregateOutputType = {
     id: string | null
-    userName: string | null
-    userAvatar: string | null
+    username: string | null
+    avatar: string | null
     rating: number | null
     comment: string | null
     createdAt: Date | null
@@ -6349,8 +6393,8 @@ export namespace Prisma {
 
   export type ReviewMaxAggregateOutputType = {
     id: string | null
-    userName: string | null
-    userAvatar: string | null
+    username: string | null
+    avatar: string | null
     rating: number | null
     comment: string | null
     createdAt: Date | null
@@ -6360,8 +6404,8 @@ export namespace Prisma {
 
   export type ReviewCountAggregateOutputType = {
     id: number
-    userName: number
-    userAvatar: number
+    username: number
+    avatar: number
     rating: number
     comment: number
     createdAt: number
@@ -6381,8 +6425,8 @@ export namespace Prisma {
 
   export type ReviewMinAggregateInputType = {
     id?: true
-    userName?: true
-    userAvatar?: true
+    username?: true
+    avatar?: true
     rating?: true
     comment?: true
     createdAt?: true
@@ -6392,8 +6436,8 @@ export namespace Prisma {
 
   export type ReviewMaxAggregateInputType = {
     id?: true
-    userName?: true
-    userAvatar?: true
+    username?: true
+    avatar?: true
     rating?: true
     comment?: true
     createdAt?: true
@@ -6403,8 +6447,8 @@ export namespace Prisma {
 
   export type ReviewCountAggregateInputType = {
     id?: true
-    userName?: true
-    userAvatar?: true
+    username?: true
+    avatar?: true
     rating?: true
     comment?: true
     createdAt?: true
@@ -6501,8 +6545,8 @@ export namespace Prisma {
 
   export type ReviewGroupByOutputType = {
     id: string
-    userName: string
-    userAvatar: string
+    username: string
+    avatar: string
     rating: number
     comment: string
     createdAt: Date
@@ -6531,8 +6575,8 @@ export namespace Prisma {
 
   export type ReviewSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     id?: boolean
-    userName?: boolean
-    userAvatar?: boolean
+    username?: boolean
+    avatar?: boolean
     rating?: boolean
     comment?: boolean
     createdAt?: boolean
@@ -6544,8 +6588,8 @@ export namespace Prisma {
 
   export type ReviewSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     id?: boolean
-    userName?: boolean
-    userAvatar?: boolean
+    username?: boolean
+    avatar?: boolean
     rating?: boolean
     comment?: boolean
     createdAt?: boolean
@@ -6557,8 +6601,8 @@ export namespace Prisma {
 
   export type ReviewSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     id?: boolean
-    userName?: boolean
-    userAvatar?: boolean
+    username?: boolean
+    avatar?: boolean
     rating?: boolean
     comment?: boolean
     createdAt?: boolean
@@ -6570,8 +6614,8 @@ export namespace Prisma {
 
   export type ReviewSelectScalar = {
     id?: boolean
-    userName?: boolean
-    userAvatar?: boolean
+    username?: boolean
+    avatar?: boolean
     rating?: boolean
     comment?: boolean
     createdAt?: boolean
@@ -6579,7 +6623,7 @@ export namespace Prisma {
     organizationId?: boolean
   }
 
-  export type ReviewOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "userName" | "userAvatar" | "rating" | "comment" | "createdAt" | "instructorId" | "organizationId", ExtArgs["result"]["review"]>
+  export type ReviewOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "username" | "avatar" | "rating" | "comment" | "createdAt" | "instructorId" | "organizationId", ExtArgs["result"]["review"]>
   export type ReviewInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     instructor?: boolean | Review$instructorArgs<ExtArgs>
     organization?: boolean | Review$organizationArgs<ExtArgs>
@@ -6601,8 +6645,8 @@ export namespace Prisma {
     }
     scalars: $Extensions.GetPayloadResult<{
       id: string
-      userName: string
-      userAvatar: string
+      username: string
+      avatar: string
       rating: number
       comment: string
       createdAt: Date
@@ -7034,8 +7078,8 @@ export namespace Prisma {
    */
   interface ReviewFieldRefs {
     readonly id: FieldRef<"Review", 'String'>
-    readonly userName: FieldRef<"Review", 'String'>
-    readonly userAvatar: FieldRef<"Review", 'String'>
+    readonly username: FieldRef<"Review", 'String'>
+    readonly avatar: FieldRef<"Review", 'String'>
     readonly rating: FieldRef<"Review", 'Float'>
     readonly comment: FieldRef<"Review", 'String'>
     readonly createdAt: FieldRef<"Review", 'DateTime'>
@@ -7519,7 +7563,6 @@ export namespace Prisma {
 
   export type InstructorMinAggregateOutputType = {
     id: string | null
-    userId: string | null
     name: string | null
     title: string | null
     avatar: string | null
@@ -7530,15 +7573,12 @@ export namespace Prisma {
     rating: number | null
     totalStudents: number | null
     totalCourses: number | null
-    experience: string | null
-    location: string | null
-    joinedDate: string | null
+    memberId: string | null
     organizationId: string | null
   }
 
   export type InstructorMaxAggregateOutputType = {
     id: string | null
-    userId: string | null
     name: string | null
     title: string | null
     avatar: string | null
@@ -7549,15 +7589,12 @@ export namespace Prisma {
     rating: number | null
     totalStudents: number | null
     totalCourses: number | null
-    experience: string | null
-    location: string | null
-    joinedDate: string | null
+    memberId: string | null
     organizationId: string | null
   }
 
   export type InstructorCountAggregateOutputType = {
     id: number
-    userId: number
     name: number
     title: number
     avatar: number
@@ -7568,13 +7605,11 @@ export namespace Prisma {
     rating: number
     totalStudents: number
     totalCourses: number
-    experience: number
-    location: number
-    joinedDate: number
     specialties: number
     achievements: number
     education: number
     social: number
+    memberId: number
     organizationId: number
     _all: number
   }
@@ -7594,7 +7629,6 @@ export namespace Prisma {
 
   export type InstructorMinAggregateInputType = {
     id?: true
-    userId?: true
     name?: true
     title?: true
     avatar?: true
@@ -7605,15 +7639,12 @@ export namespace Prisma {
     rating?: true
     totalStudents?: true
     totalCourses?: true
-    experience?: true
-    location?: true
-    joinedDate?: true
+    memberId?: true
     organizationId?: true
   }
 
   export type InstructorMaxAggregateInputType = {
     id?: true
-    userId?: true
     name?: true
     title?: true
     avatar?: true
@@ -7624,15 +7655,12 @@ export namespace Prisma {
     rating?: true
     totalStudents?: true
     totalCourses?: true
-    experience?: true
-    location?: true
-    joinedDate?: true
+    memberId?: true
     organizationId?: true
   }
 
   export type InstructorCountAggregateInputType = {
     id?: true
-    userId?: true
     name?: true
     title?: true
     avatar?: true
@@ -7643,13 +7671,11 @@ export namespace Prisma {
     rating?: true
     totalStudents?: true
     totalCourses?: true
-    experience?: true
-    location?: true
-    joinedDate?: true
     specialties?: true
     achievements?: true
     education?: true
     social?: true
+    memberId?: true
     organizationId?: true
     _all?: true
   }
@@ -7742,7 +7768,6 @@ export namespace Prisma {
 
   export type InstructorGroupByOutputType = {
     id: string
-    userId: string
     name: string
     title: string
     avatar: string
@@ -7753,13 +7778,11 @@ export namespace Prisma {
     rating: number
     totalStudents: number
     totalCourses: number
-    experience: string | null
-    location: string | null
-    joinedDate: string | null
     specialties: string[]
     achievements: string[]
     education: string[]
     social: JsonValue
+    memberId: string
     organizationId: string | null
     _count: InstructorCountAggregateOutputType | null
     _avg: InstructorAvgAggregateOutputType | null
@@ -7784,7 +7807,6 @@ export namespace Prisma {
 
   export type InstructorSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     id?: boolean
-    userId?: boolean
     name?: boolean
     title?: boolean
     avatar?: boolean
@@ -7795,24 +7817,22 @@ export namespace Prisma {
     rating?: boolean
     totalStudents?: boolean
     totalCourses?: boolean
-    experience?: boolean
-    location?: boolean
-    joinedDate?: boolean
     specialties?: boolean
     achievements?: boolean
     education?: boolean
     social?: boolean
+    memberId?: boolean
     organizationId?: boolean
     workExperience?: boolean | Instructor$workExperienceArgs<ExtArgs>
-    organization?: boolean | Instructor$organizationArgs<ExtArgs>
     reviews?: boolean | Instructor$reviewsArgs<ExtArgs>
     stats?: boolean | Instructor$statsArgs<ExtArgs>
+    organizationMember?: boolean | OrganizationMemberDefaultArgs<ExtArgs>
+    organization?: boolean | Instructor$organizationArgs<ExtArgs>
     _count?: boolean | InstructorCountOutputTypeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["instructor"]>
 
   export type InstructorSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     id?: boolean
-    userId?: boolean
     name?: boolean
     title?: boolean
     avatar?: boolean
@@ -7823,20 +7843,18 @@ export namespace Prisma {
     rating?: boolean
     totalStudents?: boolean
     totalCourses?: boolean
-    experience?: boolean
-    location?: boolean
-    joinedDate?: boolean
     specialties?: boolean
     achievements?: boolean
     education?: boolean
     social?: boolean
+    memberId?: boolean
     organizationId?: boolean
+    organizationMember?: boolean | OrganizationMemberDefaultArgs<ExtArgs>
     organization?: boolean | Instructor$organizationArgs<ExtArgs>
   }, ExtArgs["result"]["instructor"]>
 
   export type InstructorSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     id?: boolean
-    userId?: boolean
     name?: boolean
     title?: boolean
     avatar?: boolean
@@ -7847,20 +7865,18 @@ export namespace Prisma {
     rating?: boolean
     totalStudents?: boolean
     totalCourses?: boolean
-    experience?: boolean
-    location?: boolean
-    joinedDate?: boolean
     specialties?: boolean
     achievements?: boolean
     education?: boolean
     social?: boolean
+    memberId?: boolean
     organizationId?: boolean
+    organizationMember?: boolean | OrganizationMemberDefaultArgs<ExtArgs>
     organization?: boolean | Instructor$organizationArgs<ExtArgs>
   }, ExtArgs["result"]["instructor"]>
 
   export type InstructorSelectScalar = {
     id?: boolean
-    userId?: boolean
     name?: boolean
     title?: boolean
     avatar?: boolean
@@ -7871,28 +7887,29 @@ export namespace Prisma {
     rating?: boolean
     totalStudents?: boolean
     totalCourses?: boolean
-    experience?: boolean
-    location?: boolean
-    joinedDate?: boolean
     specialties?: boolean
     achievements?: boolean
     education?: boolean
     social?: boolean
+    memberId?: boolean
     organizationId?: boolean
   }
 
-  export type InstructorOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "userId" | "name" | "title" | "avatar" | "coverImage" | "bio" | "featured" | "longBio" | "rating" | "totalStudents" | "totalCourses" | "experience" | "location" | "joinedDate" | "specialties" | "achievements" | "education" | "social" | "organizationId", ExtArgs["result"]["instructor"]>
+  export type InstructorOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "name" | "title" | "avatar" | "coverImage" | "bio" | "featured" | "longBio" | "rating" | "totalStudents" | "totalCourses" | "specialties" | "achievements" | "education" | "social" | "memberId" | "organizationId", ExtArgs["result"]["instructor"]>
   export type InstructorInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     workExperience?: boolean | Instructor$workExperienceArgs<ExtArgs>
-    organization?: boolean | Instructor$organizationArgs<ExtArgs>
     reviews?: boolean | Instructor$reviewsArgs<ExtArgs>
     stats?: boolean | Instructor$statsArgs<ExtArgs>
+    organizationMember?: boolean | OrganizationMemberDefaultArgs<ExtArgs>
+    organization?: boolean | Instructor$organizationArgs<ExtArgs>
     _count?: boolean | InstructorCountOutputTypeDefaultArgs<ExtArgs>
   }
   export type InstructorIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    organizationMember?: boolean | OrganizationMemberDefaultArgs<ExtArgs>
     organization?: boolean | Instructor$organizationArgs<ExtArgs>
   }
   export type InstructorIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    organizationMember?: boolean | OrganizationMemberDefaultArgs<ExtArgs>
     organization?: boolean | Instructor$organizationArgs<ExtArgs>
   }
 
@@ -7900,13 +7917,13 @@ export namespace Prisma {
     name: "Instructor"
     objects: {
       workExperience: Prisma.$WorkExperiencePayload<ExtArgs>[]
-      organization: Prisma.$OrganizationPayload<ExtArgs> | null
       reviews: Prisma.$ReviewPayload<ExtArgs>[]
       stats: Prisma.$InstructorStatsPayload<ExtArgs> | null
+      organizationMember: Prisma.$OrganizationMemberPayload<ExtArgs>
+      organization: Prisma.$OrganizationPayload<ExtArgs> | null
     }
     scalars: $Extensions.GetPayloadResult<{
       id: string
-      userId: string
       name: string
       title: string
       avatar: string
@@ -7917,13 +7934,11 @@ export namespace Prisma {
       rating: number
       totalStudents: number
       totalCourses: number
-      experience: string | null
-      location: string | null
-      joinedDate: string | null
       specialties: string[]
       achievements: string[]
       education: string[]
       social: Prisma.JsonValue
+      memberId: string
       organizationId: string | null
     }, ExtArgs["result"]["instructor"]>
     composites: {}
@@ -8320,9 +8335,10 @@ export namespace Prisma {
   export interface Prisma__InstructorClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
     readonly [Symbol.toStringTag]: "PrismaPromise"
     workExperience<T extends Instructor$workExperienceArgs<ExtArgs> = {}>(args?: Subset<T, Instructor$workExperienceArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$WorkExperiencePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
-    organization<T extends Instructor$organizationArgs<ExtArgs> = {}>(args?: Subset<T, Instructor$organizationArgs<ExtArgs>>): Prisma__OrganizationClient<$Result.GetResult<Prisma.$OrganizationPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
     reviews<T extends Instructor$reviewsArgs<ExtArgs> = {}>(args?: Subset<T, Instructor$reviewsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ReviewPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     stats<T extends Instructor$statsArgs<ExtArgs> = {}>(args?: Subset<T, Instructor$statsArgs<ExtArgs>>): Prisma__InstructorStatsClient<$Result.GetResult<Prisma.$InstructorStatsPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+    organizationMember<T extends OrganizationMemberDefaultArgs<ExtArgs> = {}>(args?: Subset<T, OrganizationMemberDefaultArgs<ExtArgs>>): Prisma__OrganizationMemberClient<$Result.GetResult<Prisma.$OrganizationMemberPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    organization<T extends Instructor$organizationArgs<ExtArgs> = {}>(args?: Subset<T, Instructor$organizationArgs<ExtArgs>>): Prisma__OrganizationClient<$Result.GetResult<Prisma.$OrganizationPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -8353,7 +8369,6 @@ export namespace Prisma {
    */
   interface InstructorFieldRefs {
     readonly id: FieldRef<"Instructor", 'String'>
-    readonly userId: FieldRef<"Instructor", 'String'>
     readonly name: FieldRef<"Instructor", 'String'>
     readonly title: FieldRef<"Instructor", 'String'>
     readonly avatar: FieldRef<"Instructor", 'String'>
@@ -8364,13 +8379,11 @@ export namespace Prisma {
     readonly rating: FieldRef<"Instructor", 'Float'>
     readonly totalStudents: FieldRef<"Instructor", 'Int'>
     readonly totalCourses: FieldRef<"Instructor", 'Int'>
-    readonly experience: FieldRef<"Instructor", 'String'>
-    readonly location: FieldRef<"Instructor", 'String'>
-    readonly joinedDate: FieldRef<"Instructor", 'String'>
     readonly specialties: FieldRef<"Instructor", 'String[]'>
     readonly achievements: FieldRef<"Instructor", 'String[]'>
     readonly education: FieldRef<"Instructor", 'String[]'>
     readonly social: FieldRef<"Instructor", 'Json'>
+    readonly memberId: FieldRef<"Instructor", 'String'>
     readonly organizationId: FieldRef<"Instructor", 'String'>
   }
     
@@ -8792,25 +8805,6 @@ export namespace Prisma {
   }
 
   /**
-   * Instructor.organization
-   */
-  export type Instructor$organizationArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the Organization
-     */
-    select?: OrganizationSelect<ExtArgs> | null
-    /**
-     * Omit specific fields from the Organization
-     */
-    omit?: OrganizationOmit<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: OrganizationInclude<ExtArgs> | null
-    where?: OrganizationWhereInput
-  }
-
-  /**
    * Instructor.reviews
    */
   export type Instructor$reviewsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -8851,6 +8845,25 @@ export namespace Prisma {
      */
     include?: InstructorStatsInclude<ExtArgs> | null
     where?: InstructorStatsWhereInput
+  }
+
+  /**
+   * Instructor.organization
+   */
+  export type Instructor$organizationArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Organization
+     */
+    select?: OrganizationSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Organization
+     */
+    omit?: OrganizationOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: OrganizationInclude<ExtArgs> | null
+    where?: OrganizationWhereInput
   }
 
   /**
@@ -11039,8 +11052,9 @@ export namespace Prisma {
   export const OrganizationMemberScalarFieldEnum: {
     id: 'id',
     userId: 'userId',
+    role: 'role',
     organizationId: 'organizationId',
-    role: 'role'
+    instructorId: 'instructorId'
   };
 
   export type OrganizationMemberScalarFieldEnum = (typeof OrganizationMemberScalarFieldEnum)[keyof typeof OrganizationMemberScalarFieldEnum]
@@ -11048,7 +11062,6 @@ export namespace Prisma {
 
   export const OrganizationScalarFieldEnum: {
     id: 'id',
-    userId: 'userId',
     name: 'name',
     type: 'type',
     logo: 'logo',
@@ -11106,8 +11119,8 @@ export namespace Prisma {
 
   export const ReviewScalarFieldEnum: {
     id: 'id',
-    userName: 'userName',
-    userAvatar: 'userAvatar',
+    username: 'username',
+    avatar: 'avatar',
     rating: 'rating',
     comment: 'comment',
     createdAt: 'createdAt',
@@ -11120,7 +11133,6 @@ export namespace Prisma {
 
   export const InstructorScalarFieldEnum: {
     id: 'id',
-    userId: 'userId',
     name: 'name',
     title: 'title',
     avatar: 'avatar',
@@ -11131,13 +11143,11 @@ export namespace Prisma {
     rating: 'rating',
     totalStudents: 'totalStudents',
     totalCourses: 'totalCourses',
-    experience: 'experience',
-    location: 'location',
-    joinedDate: 'joinedDate',
     specialties: 'specialties',
     achievements: 'achievements',
     education: 'education',
     social: 'social',
+    memberId: 'memberId',
     organizationId: 'organizationId'
   };
 
@@ -11189,6 +11199,14 @@ export namespace Prisma {
   export type QueryMode = (typeof QueryMode)[keyof typeof QueryMode]
 
 
+  export const NullsOrder: {
+    first: 'first',
+    last: 'last'
+  };
+
+  export type NullsOrder = (typeof NullsOrder)[keyof typeof NullsOrder]
+
+
   export const JsonNullValueFilter: {
     DbNull: typeof DbNull,
     JsonNull: typeof JsonNull,
@@ -11196,14 +11214,6 @@ export namespace Prisma {
   };
 
   export type JsonNullValueFilter = (typeof JsonNullValueFilter)[keyof typeof JsonNullValueFilter]
-
-
-  export const NullsOrder: {
-    first: 'first',
-    last: 'last'
-  };
-
-  export type NullsOrder = (typeof NullsOrder)[keyof typeof NullsOrder]
 
 
   /**
@@ -11226,16 +11236,16 @@ export namespace Prisma {
 
 
   /**
-   * Reference to a field of type 'OrgRole'
+   * Reference to a field of type 'Role'
    */
-  export type EnumOrgRoleFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'OrgRole'>
+  export type EnumRoleFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Role'>
     
 
 
   /**
-   * Reference to a field of type 'OrgRole[]'
+   * Reference to a field of type 'Role[]'
    */
-  export type ListEnumOrgRoleFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'OrgRole[]'>
+  export type ListEnumRoleFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Role[]'>
     
 
 
@@ -11325,17 +11335,21 @@ export namespace Prisma {
     NOT?: OrganizationMemberWhereInput | OrganizationMemberWhereInput[]
     id?: StringFilter<"OrganizationMember"> | string
     userId?: StringFilter<"OrganizationMember"> | string
-    organizationId?: StringFilter<"OrganizationMember"> | string
-    role?: EnumOrgRoleFilter<"OrganizationMember"> | $Enums.OrgRole
-    organization?: XOR<OrganizationScalarRelationFilter, OrganizationWhereInput>
+    role?: EnumRoleFilter<"OrganizationMember"> | $Enums.Role
+    organizationId?: StringNullableFilter<"OrganizationMember"> | string | null
+    instructorId?: StringNullableFilter<"OrganizationMember"> | string | null
+    organization?: XOR<OrganizationNullableScalarRelationFilter, OrganizationWhereInput> | null
+    instructor?: XOR<InstructorNullableScalarRelationFilter, InstructorWhereInput> | null
   }
 
   export type OrganizationMemberOrderByWithRelationInput = {
     id?: SortOrder
     userId?: SortOrder
-    organizationId?: SortOrder
     role?: SortOrder
+    organizationId?: SortOrderInput | SortOrder
+    instructorId?: SortOrderInput | SortOrder
     organization?: OrganizationOrderByWithRelationInput
+    instructor?: InstructorOrderByWithRelationInput
   }
 
   export type OrganizationMemberWhereUniqueInput = Prisma.AtLeast<{
@@ -11345,16 +11359,19 @@ export namespace Prisma {
     OR?: OrganizationMemberWhereInput[]
     NOT?: OrganizationMemberWhereInput | OrganizationMemberWhereInput[]
     userId?: StringFilter<"OrganizationMember"> | string
-    organizationId?: StringFilter<"OrganizationMember"> | string
-    role?: EnumOrgRoleFilter<"OrganizationMember"> | $Enums.OrgRole
-    organization?: XOR<OrganizationScalarRelationFilter, OrganizationWhereInput>
+    role?: EnumRoleFilter<"OrganizationMember"> | $Enums.Role
+    organizationId?: StringNullableFilter<"OrganizationMember"> | string | null
+    instructorId?: StringNullableFilter<"OrganizationMember"> | string | null
+    organization?: XOR<OrganizationNullableScalarRelationFilter, OrganizationWhereInput> | null
+    instructor?: XOR<InstructorNullableScalarRelationFilter, InstructorWhereInput> | null
   }, "id" | "userId_organizationId">
 
   export type OrganizationMemberOrderByWithAggregationInput = {
     id?: SortOrder
     userId?: SortOrder
-    organizationId?: SortOrder
     role?: SortOrder
+    organizationId?: SortOrderInput | SortOrder
+    instructorId?: SortOrderInput | SortOrder
     _count?: OrganizationMemberCountOrderByAggregateInput
     _max?: OrganizationMemberMaxOrderByAggregateInput
     _min?: OrganizationMemberMinOrderByAggregateInput
@@ -11366,8 +11383,9 @@ export namespace Prisma {
     NOT?: OrganizationMemberScalarWhereWithAggregatesInput | OrganizationMemberScalarWhereWithAggregatesInput[]
     id?: StringWithAggregatesFilter<"OrganizationMember"> | string
     userId?: StringWithAggregatesFilter<"OrganizationMember"> | string
-    organizationId?: StringWithAggregatesFilter<"OrganizationMember"> | string
-    role?: EnumOrgRoleWithAggregatesFilter<"OrganizationMember"> | $Enums.OrgRole
+    role?: EnumRoleWithAggregatesFilter<"OrganizationMember"> | $Enums.Role
+    organizationId?: StringNullableWithAggregatesFilter<"OrganizationMember"> | string | null
+    instructorId?: StringNullableWithAggregatesFilter<"OrganizationMember"> | string | null
   }
 
   export type OrganizationWhereInput = {
@@ -11375,7 +11393,6 @@ export namespace Prisma {
     OR?: OrganizationWhereInput[]
     NOT?: OrganizationWhereInput | OrganizationWhereInput[]
     id?: StringFilter<"Organization"> | string
-    userId?: StringFilter<"Organization"> | string
     name?: StringFilter<"Organization"> | string
     type?: EnumOrgTypeFilter<"Organization"> | $Enums.OrgType
     logo?: StringFilter<"Organization"> | string
@@ -11396,21 +11413,20 @@ export namespace Prisma {
     featured?: BoolFilter<"Organization"> | boolean
     verified?: BoolFilter<"Organization"> | boolean
     accreditation?: StringNullableListFilter<"Organization">
-    mission?: StringFilter<"Organization"> | string
-    vision?: StringFilter<"Organization"> | string
+    mission?: StringNullableFilter<"Organization"> | string | null
+    vision?: StringNullableFilter<"Organization"> | string | null
     achievements?: StringNullableListFilter<"Organization">
     partnerships?: StringNullableListFilter<"Organization">
     social?: JsonFilter<"Organization">
-    instructors?: InstructorListRelationFilter
     reviews?: ReviewListRelationFilter
     stats?: XOR<OrgStatsNullableScalarRelationFilter, OrgStatsWhereInput> | null
     contact?: XOR<ContactNullableScalarRelationFilter, ContactWhereInput> | null
+    instructors?: InstructorListRelationFilter
     members?: OrganizationMemberListRelationFilter
   }
 
   export type OrganizationOrderByWithRelationInput = {
     id?: SortOrder
-    userId?: SortOrder
     name?: SortOrder
     type?: SortOrder
     logo?: SortOrder
@@ -11431,15 +11447,15 @@ export namespace Prisma {
     featured?: SortOrder
     verified?: SortOrder
     accreditation?: SortOrder
-    mission?: SortOrder
-    vision?: SortOrder
+    mission?: SortOrderInput | SortOrder
+    vision?: SortOrderInput | SortOrder
     achievements?: SortOrder
     partnerships?: SortOrder
     social?: SortOrder
-    instructors?: InstructorOrderByRelationAggregateInput
     reviews?: ReviewOrderByRelationAggregateInput
     stats?: OrgStatsOrderByWithRelationInput
     contact?: ContactOrderByWithRelationInput
+    instructors?: InstructorOrderByRelationAggregateInput
     members?: OrganizationMemberOrderByRelationAggregateInput
   }
 
@@ -11448,7 +11464,6 @@ export namespace Prisma {
     AND?: OrganizationWhereInput | OrganizationWhereInput[]
     OR?: OrganizationWhereInput[]
     NOT?: OrganizationWhereInput | OrganizationWhereInput[]
-    userId?: StringFilter<"Organization"> | string
     name?: StringFilter<"Organization"> | string
     type?: EnumOrgTypeFilter<"Organization"> | $Enums.OrgType
     logo?: StringFilter<"Organization"> | string
@@ -11469,21 +11484,20 @@ export namespace Prisma {
     featured?: BoolFilter<"Organization"> | boolean
     verified?: BoolFilter<"Organization"> | boolean
     accreditation?: StringNullableListFilter<"Organization">
-    mission?: StringFilter<"Organization"> | string
-    vision?: StringFilter<"Organization"> | string
+    mission?: StringNullableFilter<"Organization"> | string | null
+    vision?: StringNullableFilter<"Organization"> | string | null
     achievements?: StringNullableListFilter<"Organization">
     partnerships?: StringNullableListFilter<"Organization">
     social?: JsonFilter<"Organization">
-    instructors?: InstructorListRelationFilter
     reviews?: ReviewListRelationFilter
     stats?: XOR<OrgStatsNullableScalarRelationFilter, OrgStatsWhereInput> | null
     contact?: XOR<ContactNullableScalarRelationFilter, ContactWhereInput> | null
+    instructors?: InstructorListRelationFilter
     members?: OrganizationMemberListRelationFilter
   }, "id">
 
   export type OrganizationOrderByWithAggregationInput = {
     id?: SortOrder
-    userId?: SortOrder
     name?: SortOrder
     type?: SortOrder
     logo?: SortOrder
@@ -11504,8 +11518,8 @@ export namespace Prisma {
     featured?: SortOrder
     verified?: SortOrder
     accreditation?: SortOrder
-    mission?: SortOrder
-    vision?: SortOrder
+    mission?: SortOrderInput | SortOrder
+    vision?: SortOrderInput | SortOrder
     achievements?: SortOrder
     partnerships?: SortOrder
     social?: SortOrder
@@ -11521,7 +11535,6 @@ export namespace Prisma {
     OR?: OrganizationScalarWhereWithAggregatesInput[]
     NOT?: OrganizationScalarWhereWithAggregatesInput | OrganizationScalarWhereWithAggregatesInput[]
     id?: StringWithAggregatesFilter<"Organization"> | string
-    userId?: StringWithAggregatesFilter<"Organization"> | string
     name?: StringWithAggregatesFilter<"Organization"> | string
     type?: EnumOrgTypeWithAggregatesFilter<"Organization"> | $Enums.OrgType
     logo?: StringWithAggregatesFilter<"Organization"> | string
@@ -11542,8 +11555,8 @@ export namespace Prisma {
     featured?: BoolWithAggregatesFilter<"Organization"> | boolean
     verified?: BoolWithAggregatesFilter<"Organization"> | boolean
     accreditation?: StringNullableListFilter<"Organization">
-    mission?: StringWithAggregatesFilter<"Organization"> | string
-    vision?: StringWithAggregatesFilter<"Organization"> | string
+    mission?: StringNullableWithAggregatesFilter<"Organization"> | string | null
+    vision?: StringNullableWithAggregatesFilter<"Organization"> | string | null
     achievements?: StringNullableListFilter<"Organization">
     partnerships?: StringNullableListFilter<"Organization">
     social?: JsonWithAggregatesFilter<"Organization">
@@ -11679,8 +11692,8 @@ export namespace Prisma {
     OR?: ReviewWhereInput[]
     NOT?: ReviewWhereInput | ReviewWhereInput[]
     id?: StringFilter<"Review"> | string
-    userName?: StringFilter<"Review"> | string
-    userAvatar?: StringFilter<"Review"> | string
+    username?: StringFilter<"Review"> | string
+    avatar?: StringFilter<"Review"> | string
     rating?: FloatFilter<"Review"> | number
     comment?: StringFilter<"Review"> | string
     createdAt?: DateTimeFilter<"Review"> | Date | string
@@ -11692,8 +11705,8 @@ export namespace Prisma {
 
   export type ReviewOrderByWithRelationInput = {
     id?: SortOrder
-    userName?: SortOrder
-    userAvatar?: SortOrder
+    username?: SortOrder
+    avatar?: SortOrder
     rating?: SortOrder
     comment?: SortOrder
     createdAt?: SortOrder
@@ -11708,8 +11721,8 @@ export namespace Prisma {
     AND?: ReviewWhereInput | ReviewWhereInput[]
     OR?: ReviewWhereInput[]
     NOT?: ReviewWhereInput | ReviewWhereInput[]
-    userName?: StringFilter<"Review"> | string
-    userAvatar?: StringFilter<"Review"> | string
+    username?: StringFilter<"Review"> | string
+    avatar?: StringFilter<"Review"> | string
     rating?: FloatFilter<"Review"> | number
     comment?: StringFilter<"Review"> | string
     createdAt?: DateTimeFilter<"Review"> | Date | string
@@ -11721,8 +11734,8 @@ export namespace Prisma {
 
   export type ReviewOrderByWithAggregationInput = {
     id?: SortOrder
-    userName?: SortOrder
-    userAvatar?: SortOrder
+    username?: SortOrder
+    avatar?: SortOrder
     rating?: SortOrder
     comment?: SortOrder
     createdAt?: SortOrder
@@ -11740,8 +11753,8 @@ export namespace Prisma {
     OR?: ReviewScalarWhereWithAggregatesInput[]
     NOT?: ReviewScalarWhereWithAggregatesInput | ReviewScalarWhereWithAggregatesInput[]
     id?: StringWithAggregatesFilter<"Review"> | string
-    userName?: StringWithAggregatesFilter<"Review"> | string
-    userAvatar?: StringWithAggregatesFilter<"Review"> | string
+    username?: StringWithAggregatesFilter<"Review"> | string
+    avatar?: StringWithAggregatesFilter<"Review"> | string
     rating?: FloatWithAggregatesFilter<"Review"> | number
     comment?: StringWithAggregatesFilter<"Review"> | string
     createdAt?: DateTimeWithAggregatesFilter<"Review"> | Date | string
@@ -11754,7 +11767,6 @@ export namespace Prisma {
     OR?: InstructorWhereInput[]
     NOT?: InstructorWhereInput | InstructorWhereInput[]
     id?: StringFilter<"Instructor"> | string
-    userId?: StringFilter<"Instructor"> | string
     name?: StringFilter<"Instructor"> | string
     title?: StringFilter<"Instructor"> | string
     avatar?: StringFilter<"Instructor"> | string
@@ -11765,23 +11777,21 @@ export namespace Prisma {
     rating?: FloatFilter<"Instructor"> | number
     totalStudents?: IntFilter<"Instructor"> | number
     totalCourses?: IntFilter<"Instructor"> | number
-    experience?: StringNullableFilter<"Instructor"> | string | null
-    location?: StringNullableFilter<"Instructor"> | string | null
-    joinedDate?: StringNullableFilter<"Instructor"> | string | null
     specialties?: StringNullableListFilter<"Instructor">
     achievements?: StringNullableListFilter<"Instructor">
     education?: StringNullableListFilter<"Instructor">
     social?: JsonFilter<"Instructor">
+    memberId?: StringFilter<"Instructor"> | string
     organizationId?: StringNullableFilter<"Instructor"> | string | null
     workExperience?: WorkExperienceListRelationFilter
-    organization?: XOR<OrganizationNullableScalarRelationFilter, OrganizationWhereInput> | null
     reviews?: ReviewListRelationFilter
     stats?: XOR<InstructorStatsNullableScalarRelationFilter, InstructorStatsWhereInput> | null
+    organizationMember?: XOR<OrganizationMemberScalarRelationFilter, OrganizationMemberWhereInput>
+    organization?: XOR<OrganizationNullableScalarRelationFilter, OrganizationWhereInput> | null
   }
 
   export type InstructorOrderByWithRelationInput = {
     id?: SortOrder
-    userId?: SortOrder
     name?: SortOrder
     title?: SortOrder
     avatar?: SortOrder
@@ -11792,23 +11802,22 @@ export namespace Prisma {
     rating?: SortOrder
     totalStudents?: SortOrder
     totalCourses?: SortOrder
-    experience?: SortOrderInput | SortOrder
-    location?: SortOrderInput | SortOrder
-    joinedDate?: SortOrderInput | SortOrder
     specialties?: SortOrder
     achievements?: SortOrder
     education?: SortOrder
     social?: SortOrder
+    memberId?: SortOrder
     organizationId?: SortOrderInput | SortOrder
     workExperience?: WorkExperienceOrderByRelationAggregateInput
-    organization?: OrganizationOrderByWithRelationInput
     reviews?: ReviewOrderByRelationAggregateInput
     stats?: InstructorStatsOrderByWithRelationInput
+    organizationMember?: OrganizationMemberOrderByWithRelationInput
+    organization?: OrganizationOrderByWithRelationInput
   }
 
   export type InstructorWhereUniqueInput = Prisma.AtLeast<{
     id?: string
-    userId?: string
+    memberId?: string
     AND?: InstructorWhereInput | InstructorWhereInput[]
     OR?: InstructorWhereInput[]
     NOT?: InstructorWhereInput | InstructorWhereInput[]
@@ -11822,23 +11831,20 @@ export namespace Prisma {
     rating?: FloatFilter<"Instructor"> | number
     totalStudents?: IntFilter<"Instructor"> | number
     totalCourses?: IntFilter<"Instructor"> | number
-    experience?: StringNullableFilter<"Instructor"> | string | null
-    location?: StringNullableFilter<"Instructor"> | string | null
-    joinedDate?: StringNullableFilter<"Instructor"> | string | null
     specialties?: StringNullableListFilter<"Instructor">
     achievements?: StringNullableListFilter<"Instructor">
     education?: StringNullableListFilter<"Instructor">
     social?: JsonFilter<"Instructor">
     organizationId?: StringNullableFilter<"Instructor"> | string | null
     workExperience?: WorkExperienceListRelationFilter
-    organization?: XOR<OrganizationNullableScalarRelationFilter, OrganizationWhereInput> | null
     reviews?: ReviewListRelationFilter
     stats?: XOR<InstructorStatsNullableScalarRelationFilter, InstructorStatsWhereInput> | null
-  }, "id" | "userId">
+    organizationMember?: XOR<OrganizationMemberScalarRelationFilter, OrganizationMemberWhereInput>
+    organization?: XOR<OrganizationNullableScalarRelationFilter, OrganizationWhereInput> | null
+  }, "id" | "memberId">
 
   export type InstructorOrderByWithAggregationInput = {
     id?: SortOrder
-    userId?: SortOrder
     name?: SortOrder
     title?: SortOrder
     avatar?: SortOrder
@@ -11849,13 +11855,11 @@ export namespace Prisma {
     rating?: SortOrder
     totalStudents?: SortOrder
     totalCourses?: SortOrder
-    experience?: SortOrderInput | SortOrder
-    location?: SortOrderInput | SortOrder
-    joinedDate?: SortOrderInput | SortOrder
     specialties?: SortOrder
     achievements?: SortOrder
     education?: SortOrder
     social?: SortOrder
+    memberId?: SortOrder
     organizationId?: SortOrderInput | SortOrder
     _count?: InstructorCountOrderByAggregateInput
     _avg?: InstructorAvgOrderByAggregateInput
@@ -11869,7 +11873,6 @@ export namespace Prisma {
     OR?: InstructorScalarWhereWithAggregatesInput[]
     NOT?: InstructorScalarWhereWithAggregatesInput | InstructorScalarWhereWithAggregatesInput[]
     id?: StringWithAggregatesFilter<"Instructor"> | string
-    userId?: StringWithAggregatesFilter<"Instructor"> | string
     name?: StringWithAggregatesFilter<"Instructor"> | string
     title?: StringWithAggregatesFilter<"Instructor"> | string
     avatar?: StringWithAggregatesFilter<"Instructor"> | string
@@ -11880,13 +11883,11 @@ export namespace Prisma {
     rating?: FloatWithAggregatesFilter<"Instructor"> | number
     totalStudents?: IntWithAggregatesFilter<"Instructor"> | number
     totalCourses?: IntWithAggregatesFilter<"Instructor"> | number
-    experience?: StringNullableWithAggregatesFilter<"Instructor"> | string | null
-    location?: StringNullableWithAggregatesFilter<"Instructor"> | string | null
-    joinedDate?: StringNullableWithAggregatesFilter<"Instructor"> | string | null
     specialties?: StringNullableListFilter<"Instructor">
     achievements?: StringNullableListFilter<"Instructor">
     education?: StringNullableListFilter<"Instructor">
     social?: JsonWithAggregatesFilter<"Instructor">
+    memberId?: StringWithAggregatesFilter<"Instructor"> | string
     organizationId?: StringNullableWithAggregatesFilter<"Instructor"> | string | null
   }
 
@@ -12005,54 +12006,64 @@ export namespace Prisma {
   export type OrganizationMemberCreateInput = {
     id?: string
     userId: string
-    role: $Enums.OrgRole
-    organization: OrganizationCreateNestedOneWithoutMembersInput
+    role: $Enums.Role
+    instructorId?: string | null
+    organization?: OrganizationCreateNestedOneWithoutMembersInput
+    instructor?: InstructorCreateNestedOneWithoutOrganizationMemberInput
   }
 
   export type OrganizationMemberUncheckedCreateInput = {
     id?: string
     userId: string
-    organizationId: string
-    role: $Enums.OrgRole
+    role: $Enums.Role
+    organizationId?: string | null
+    instructorId?: string | null
+    instructor?: InstructorUncheckedCreateNestedOneWithoutOrganizationMemberInput
   }
 
   export type OrganizationMemberUpdateInput = {
     id?: StringFieldUpdateOperationsInput | string
     userId?: StringFieldUpdateOperationsInput | string
-    role?: EnumOrgRoleFieldUpdateOperationsInput | $Enums.OrgRole
-    organization?: OrganizationUpdateOneRequiredWithoutMembersNestedInput
+    role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
+    instructorId?: NullableStringFieldUpdateOperationsInput | string | null
+    organization?: OrganizationUpdateOneWithoutMembersNestedInput
+    instructor?: InstructorUpdateOneWithoutOrganizationMemberNestedInput
   }
 
   export type OrganizationMemberUncheckedUpdateInput = {
     id?: StringFieldUpdateOperationsInput | string
     userId?: StringFieldUpdateOperationsInput | string
-    organizationId?: StringFieldUpdateOperationsInput | string
-    role?: EnumOrgRoleFieldUpdateOperationsInput | $Enums.OrgRole
+    role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
+    organizationId?: NullableStringFieldUpdateOperationsInput | string | null
+    instructorId?: NullableStringFieldUpdateOperationsInput | string | null
+    instructor?: InstructorUncheckedUpdateOneWithoutOrganizationMemberNestedInput
   }
 
   export type OrganizationMemberCreateManyInput = {
     id?: string
     userId: string
-    organizationId: string
-    role: $Enums.OrgRole
+    role: $Enums.Role
+    organizationId?: string | null
+    instructorId?: string | null
   }
 
   export type OrganizationMemberUpdateManyMutationInput = {
     id?: StringFieldUpdateOperationsInput | string
     userId?: StringFieldUpdateOperationsInput | string
-    role?: EnumOrgRoleFieldUpdateOperationsInput | $Enums.OrgRole
+    role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
+    instructorId?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
   export type OrganizationMemberUncheckedUpdateManyInput = {
     id?: StringFieldUpdateOperationsInput | string
     userId?: StringFieldUpdateOperationsInput | string
-    organizationId?: StringFieldUpdateOperationsInput | string
-    role?: EnumOrgRoleFieldUpdateOperationsInput | $Enums.OrgRole
+    role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
+    organizationId?: NullableStringFieldUpdateOperationsInput | string | null
+    instructorId?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
   export type OrganizationCreateInput = {
     id?: string
-    userId: string
     name: string
     type: $Enums.OrgType
     logo: string
@@ -12064,30 +12075,29 @@ export namespace Prisma {
     email: string
     phone: string
     founded: string
-    totalCourses: number
-    totalStudents: number
-    totalInstructors: number
-    rating: number
-    reviewCount: number
+    totalCourses?: number
+    totalStudents?: number
+    totalInstructors?: number
+    rating?: number
+    reviewCount?: number
     specialties?: OrganizationCreatespecialtiesInput | string[]
-    featured: boolean
-    verified: boolean
+    featured?: boolean
+    verified?: boolean
     accreditation?: OrganizationCreateaccreditationInput | string[]
-    mission: string
-    vision: string
+    mission?: string | null
+    vision?: string | null
     achievements?: OrganizationCreateachievementsInput | string[]
     partnerships?: OrganizationCreatepartnershipsInput | string[]
     social: JsonNullValueInput | InputJsonValue
-    instructors?: InstructorCreateNestedManyWithoutOrganizationInput
     reviews?: ReviewCreateNestedManyWithoutOrganizationInput
     stats?: OrgStatsCreateNestedOneWithoutOrganizationInput
     contact?: ContactCreateNestedOneWithoutOrganizationInput
+    instructors?: InstructorCreateNestedManyWithoutOrganizationInput
     members?: OrganizationMemberCreateNestedManyWithoutOrganizationInput
   }
 
   export type OrganizationUncheckedCreateInput = {
     id?: string
-    userId: string
     name: string
     type: $Enums.OrgType
     logo: string
@@ -12099,30 +12109,29 @@ export namespace Prisma {
     email: string
     phone: string
     founded: string
-    totalCourses: number
-    totalStudents: number
-    totalInstructors: number
-    rating: number
-    reviewCount: number
+    totalCourses?: number
+    totalStudents?: number
+    totalInstructors?: number
+    rating?: number
+    reviewCount?: number
     specialties?: OrganizationCreatespecialtiesInput | string[]
-    featured: boolean
-    verified: boolean
+    featured?: boolean
+    verified?: boolean
     accreditation?: OrganizationCreateaccreditationInput | string[]
-    mission: string
-    vision: string
+    mission?: string | null
+    vision?: string | null
     achievements?: OrganizationCreateachievementsInput | string[]
     partnerships?: OrganizationCreatepartnershipsInput | string[]
     social: JsonNullValueInput | InputJsonValue
-    instructors?: InstructorUncheckedCreateNestedManyWithoutOrganizationInput
     reviews?: ReviewUncheckedCreateNestedManyWithoutOrganizationInput
     stats?: OrgStatsUncheckedCreateNestedOneWithoutOrganizationInput
     contact?: ContactUncheckedCreateNestedOneWithoutOrganizationInput
+    instructors?: InstructorUncheckedCreateNestedManyWithoutOrganizationInput
     members?: OrganizationMemberUncheckedCreateNestedManyWithoutOrganizationInput
   }
 
   export type OrganizationUpdateInput = {
     id?: StringFieldUpdateOperationsInput | string
-    userId?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
     type?: EnumOrgTypeFieldUpdateOperationsInput | $Enums.OrgType
     logo?: StringFieldUpdateOperationsInput | string
@@ -12143,21 +12152,20 @@ export namespace Prisma {
     featured?: BoolFieldUpdateOperationsInput | boolean
     verified?: BoolFieldUpdateOperationsInput | boolean
     accreditation?: OrganizationUpdateaccreditationInput | string[]
-    mission?: StringFieldUpdateOperationsInput | string
-    vision?: StringFieldUpdateOperationsInput | string
+    mission?: NullableStringFieldUpdateOperationsInput | string | null
+    vision?: NullableStringFieldUpdateOperationsInput | string | null
     achievements?: OrganizationUpdateachievementsInput | string[]
     partnerships?: OrganizationUpdatepartnershipsInput | string[]
     social?: JsonNullValueInput | InputJsonValue
-    instructors?: InstructorUpdateManyWithoutOrganizationNestedInput
     reviews?: ReviewUpdateManyWithoutOrganizationNestedInput
     stats?: OrgStatsUpdateOneWithoutOrganizationNestedInput
     contact?: ContactUpdateOneWithoutOrganizationNestedInput
+    instructors?: InstructorUpdateManyWithoutOrganizationNestedInput
     members?: OrganizationMemberUpdateManyWithoutOrganizationNestedInput
   }
 
   export type OrganizationUncheckedUpdateInput = {
     id?: StringFieldUpdateOperationsInput | string
-    userId?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
     type?: EnumOrgTypeFieldUpdateOperationsInput | $Enums.OrgType
     logo?: StringFieldUpdateOperationsInput | string
@@ -12178,21 +12186,20 @@ export namespace Prisma {
     featured?: BoolFieldUpdateOperationsInput | boolean
     verified?: BoolFieldUpdateOperationsInput | boolean
     accreditation?: OrganizationUpdateaccreditationInput | string[]
-    mission?: StringFieldUpdateOperationsInput | string
-    vision?: StringFieldUpdateOperationsInput | string
+    mission?: NullableStringFieldUpdateOperationsInput | string | null
+    vision?: NullableStringFieldUpdateOperationsInput | string | null
     achievements?: OrganizationUpdateachievementsInput | string[]
     partnerships?: OrganizationUpdatepartnershipsInput | string[]
     social?: JsonNullValueInput | InputJsonValue
-    instructors?: InstructorUncheckedUpdateManyWithoutOrganizationNestedInput
     reviews?: ReviewUncheckedUpdateManyWithoutOrganizationNestedInput
     stats?: OrgStatsUncheckedUpdateOneWithoutOrganizationNestedInput
     contact?: ContactUncheckedUpdateOneWithoutOrganizationNestedInput
+    instructors?: InstructorUncheckedUpdateManyWithoutOrganizationNestedInput
     members?: OrganizationMemberUncheckedUpdateManyWithoutOrganizationNestedInput
   }
 
   export type OrganizationCreateManyInput = {
     id?: string
-    userId: string
     name: string
     type: $Enums.OrgType
     logo: string
@@ -12204,17 +12211,17 @@ export namespace Prisma {
     email: string
     phone: string
     founded: string
-    totalCourses: number
-    totalStudents: number
-    totalInstructors: number
-    rating: number
-    reviewCount: number
+    totalCourses?: number
+    totalStudents?: number
+    totalInstructors?: number
+    rating?: number
+    reviewCount?: number
     specialties?: OrganizationCreatespecialtiesInput | string[]
-    featured: boolean
-    verified: boolean
+    featured?: boolean
+    verified?: boolean
     accreditation?: OrganizationCreateaccreditationInput | string[]
-    mission: string
-    vision: string
+    mission?: string | null
+    vision?: string | null
     achievements?: OrganizationCreateachievementsInput | string[]
     partnerships?: OrganizationCreatepartnershipsInput | string[]
     social: JsonNullValueInput | InputJsonValue
@@ -12222,7 +12229,6 @@ export namespace Prisma {
 
   export type OrganizationUpdateManyMutationInput = {
     id?: StringFieldUpdateOperationsInput | string
-    userId?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
     type?: EnumOrgTypeFieldUpdateOperationsInput | $Enums.OrgType
     logo?: StringFieldUpdateOperationsInput | string
@@ -12243,8 +12249,8 @@ export namespace Prisma {
     featured?: BoolFieldUpdateOperationsInput | boolean
     verified?: BoolFieldUpdateOperationsInput | boolean
     accreditation?: OrganizationUpdateaccreditationInput | string[]
-    mission?: StringFieldUpdateOperationsInput | string
-    vision?: StringFieldUpdateOperationsInput | string
+    mission?: NullableStringFieldUpdateOperationsInput | string | null
+    vision?: NullableStringFieldUpdateOperationsInput | string | null
     achievements?: OrganizationUpdateachievementsInput | string[]
     partnerships?: OrganizationUpdatepartnershipsInput | string[]
     social?: JsonNullValueInput | InputJsonValue
@@ -12252,7 +12258,6 @@ export namespace Prisma {
 
   export type OrganizationUncheckedUpdateManyInput = {
     id?: StringFieldUpdateOperationsInput | string
-    userId?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
     type?: EnumOrgTypeFieldUpdateOperationsInput | $Enums.OrgType
     logo?: StringFieldUpdateOperationsInput | string
@@ -12273,8 +12278,8 @@ export namespace Prisma {
     featured?: BoolFieldUpdateOperationsInput | boolean
     verified?: BoolFieldUpdateOperationsInput | boolean
     accreditation?: OrganizationUpdateaccreditationInput | string[]
-    mission?: StringFieldUpdateOperationsInput | string
-    vision?: StringFieldUpdateOperationsInput | string
+    mission?: NullableStringFieldUpdateOperationsInput | string | null
+    vision?: NullableStringFieldUpdateOperationsInput | string | null
     achievements?: OrganizationUpdateachievementsInput | string[]
     partnerships?: OrganizationUpdatepartnershipsInput | string[]
     social?: JsonNullValueInput | InputJsonValue
@@ -12413,8 +12418,8 @@ export namespace Prisma {
 
   export type ReviewCreateInput = {
     id?: string
-    userName: string
-    userAvatar: string
+    username: string
+    avatar: string
     rating: number
     comment: string
     createdAt?: Date | string
@@ -12424,8 +12429,8 @@ export namespace Prisma {
 
   export type ReviewUncheckedCreateInput = {
     id?: string
-    userName: string
-    userAvatar: string
+    username: string
+    avatar: string
     rating: number
     comment: string
     createdAt?: Date | string
@@ -12435,8 +12440,8 @@ export namespace Prisma {
 
   export type ReviewUpdateInput = {
     id?: StringFieldUpdateOperationsInput | string
-    userName?: StringFieldUpdateOperationsInput | string
-    userAvatar?: StringFieldUpdateOperationsInput | string
+    username?: StringFieldUpdateOperationsInput | string
+    avatar?: StringFieldUpdateOperationsInput | string
     rating?: FloatFieldUpdateOperationsInput | number
     comment?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -12446,8 +12451,8 @@ export namespace Prisma {
 
   export type ReviewUncheckedUpdateInput = {
     id?: StringFieldUpdateOperationsInput | string
-    userName?: StringFieldUpdateOperationsInput | string
-    userAvatar?: StringFieldUpdateOperationsInput | string
+    username?: StringFieldUpdateOperationsInput | string
+    avatar?: StringFieldUpdateOperationsInput | string
     rating?: FloatFieldUpdateOperationsInput | number
     comment?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -12457,8 +12462,8 @@ export namespace Prisma {
 
   export type ReviewCreateManyInput = {
     id?: string
-    userName: string
-    userAvatar: string
+    username: string
+    avatar: string
     rating: number
     comment: string
     createdAt?: Date | string
@@ -12468,8 +12473,8 @@ export namespace Prisma {
 
   export type ReviewUpdateManyMutationInput = {
     id?: StringFieldUpdateOperationsInput | string
-    userName?: StringFieldUpdateOperationsInput | string
-    userAvatar?: StringFieldUpdateOperationsInput | string
+    username?: StringFieldUpdateOperationsInput | string
+    avatar?: StringFieldUpdateOperationsInput | string
     rating?: FloatFieldUpdateOperationsInput | number
     comment?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -12477,8 +12482,8 @@ export namespace Prisma {
 
   export type ReviewUncheckedUpdateManyInput = {
     id?: StringFieldUpdateOperationsInput | string
-    userName?: StringFieldUpdateOperationsInput | string
-    userAvatar?: StringFieldUpdateOperationsInput | string
+    username?: StringFieldUpdateOperationsInput | string
+    avatar?: StringFieldUpdateOperationsInput | string
     rating?: FloatFieldUpdateOperationsInput | number
     comment?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -12488,7 +12493,6 @@ export namespace Prisma {
 
   export type InstructorCreateInput = {
     id?: string
-    userId: string
     name: string
     title: string
     avatar: string
@@ -12496,25 +12500,22 @@ export namespace Prisma {
     bio: string
     featured?: boolean | null
     longBio?: string | null
-    rating: number
-    totalStudents: number
-    totalCourses: number
-    experience?: string | null
-    location?: string | null
-    joinedDate?: string | null
+    rating?: number
+    totalStudents?: number
+    totalCourses?: number
     specialties?: InstructorCreatespecialtiesInput | string[]
     achievements?: InstructorCreateachievementsInput | string[]
     education?: InstructorCreateeducationInput | string[]
     social: JsonNullValueInput | InputJsonValue
     workExperience?: WorkExperienceCreateNestedManyWithoutInstructorInput
-    organization?: OrganizationCreateNestedOneWithoutInstructorsInput
     reviews?: ReviewCreateNestedManyWithoutInstructorInput
     stats?: InstructorStatsCreateNestedOneWithoutInstructorInput
+    organizationMember: OrganizationMemberCreateNestedOneWithoutInstructorInput
+    organization?: OrganizationCreateNestedOneWithoutInstructorsInput
   }
 
   export type InstructorUncheckedCreateInput = {
     id?: string
-    userId: string
     name: string
     title: string
     avatar: string
@@ -12522,16 +12523,14 @@ export namespace Prisma {
     bio: string
     featured?: boolean | null
     longBio?: string | null
-    rating: number
-    totalStudents: number
-    totalCourses: number
-    experience?: string | null
-    location?: string | null
-    joinedDate?: string | null
+    rating?: number
+    totalStudents?: number
+    totalCourses?: number
     specialties?: InstructorCreatespecialtiesInput | string[]
     achievements?: InstructorCreateachievementsInput | string[]
     education?: InstructorCreateeducationInput | string[]
     social: JsonNullValueInput | InputJsonValue
+    memberId: string
     organizationId?: string | null
     workExperience?: WorkExperienceUncheckedCreateNestedManyWithoutInstructorInput
     reviews?: ReviewUncheckedCreateNestedManyWithoutInstructorInput
@@ -12540,7 +12539,6 @@ export namespace Prisma {
 
   export type InstructorUpdateInput = {
     id?: StringFieldUpdateOperationsInput | string
-    userId?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
     title?: StringFieldUpdateOperationsInput | string
     avatar?: StringFieldUpdateOperationsInput | string
@@ -12551,22 +12549,19 @@ export namespace Prisma {
     rating?: FloatFieldUpdateOperationsInput | number
     totalStudents?: IntFieldUpdateOperationsInput | number
     totalCourses?: IntFieldUpdateOperationsInput | number
-    experience?: NullableStringFieldUpdateOperationsInput | string | null
-    location?: NullableStringFieldUpdateOperationsInput | string | null
-    joinedDate?: NullableStringFieldUpdateOperationsInput | string | null
     specialties?: InstructorUpdatespecialtiesInput | string[]
     achievements?: InstructorUpdateachievementsInput | string[]
     education?: InstructorUpdateeducationInput | string[]
     social?: JsonNullValueInput | InputJsonValue
     workExperience?: WorkExperienceUpdateManyWithoutInstructorNestedInput
-    organization?: OrganizationUpdateOneWithoutInstructorsNestedInput
     reviews?: ReviewUpdateManyWithoutInstructorNestedInput
     stats?: InstructorStatsUpdateOneWithoutInstructorNestedInput
+    organizationMember?: OrganizationMemberUpdateOneRequiredWithoutInstructorNestedInput
+    organization?: OrganizationUpdateOneWithoutInstructorsNestedInput
   }
 
   export type InstructorUncheckedUpdateInput = {
     id?: StringFieldUpdateOperationsInput | string
-    userId?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
     title?: StringFieldUpdateOperationsInput | string
     avatar?: StringFieldUpdateOperationsInput | string
@@ -12577,13 +12572,11 @@ export namespace Prisma {
     rating?: FloatFieldUpdateOperationsInput | number
     totalStudents?: IntFieldUpdateOperationsInput | number
     totalCourses?: IntFieldUpdateOperationsInput | number
-    experience?: NullableStringFieldUpdateOperationsInput | string | null
-    location?: NullableStringFieldUpdateOperationsInput | string | null
-    joinedDate?: NullableStringFieldUpdateOperationsInput | string | null
     specialties?: InstructorUpdatespecialtiesInput | string[]
     achievements?: InstructorUpdateachievementsInput | string[]
     education?: InstructorUpdateeducationInput | string[]
     social?: JsonNullValueInput | InputJsonValue
+    memberId?: StringFieldUpdateOperationsInput | string
     organizationId?: NullableStringFieldUpdateOperationsInput | string | null
     workExperience?: WorkExperienceUncheckedUpdateManyWithoutInstructorNestedInput
     reviews?: ReviewUncheckedUpdateManyWithoutInstructorNestedInput
@@ -12592,7 +12585,6 @@ export namespace Prisma {
 
   export type InstructorCreateManyInput = {
     id?: string
-    userId: string
     name: string
     title: string
     avatar: string
@@ -12600,22 +12592,19 @@ export namespace Prisma {
     bio: string
     featured?: boolean | null
     longBio?: string | null
-    rating: number
-    totalStudents: number
-    totalCourses: number
-    experience?: string | null
-    location?: string | null
-    joinedDate?: string | null
+    rating?: number
+    totalStudents?: number
+    totalCourses?: number
     specialties?: InstructorCreatespecialtiesInput | string[]
     achievements?: InstructorCreateachievementsInput | string[]
     education?: InstructorCreateeducationInput | string[]
     social: JsonNullValueInput | InputJsonValue
+    memberId: string
     organizationId?: string | null
   }
 
   export type InstructorUpdateManyMutationInput = {
     id?: StringFieldUpdateOperationsInput | string
-    userId?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
     title?: StringFieldUpdateOperationsInput | string
     avatar?: StringFieldUpdateOperationsInput | string
@@ -12626,9 +12615,6 @@ export namespace Prisma {
     rating?: FloatFieldUpdateOperationsInput | number
     totalStudents?: IntFieldUpdateOperationsInput | number
     totalCourses?: IntFieldUpdateOperationsInput | number
-    experience?: NullableStringFieldUpdateOperationsInput | string | null
-    location?: NullableStringFieldUpdateOperationsInput | string | null
-    joinedDate?: NullableStringFieldUpdateOperationsInput | string | null
     specialties?: InstructorUpdatespecialtiesInput | string[]
     achievements?: InstructorUpdateachievementsInput | string[]
     education?: InstructorUpdateeducationInput | string[]
@@ -12637,7 +12623,6 @@ export namespace Prisma {
 
   export type InstructorUncheckedUpdateManyInput = {
     id?: StringFieldUpdateOperationsInput | string
-    userId?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
     title?: StringFieldUpdateOperationsInput | string
     avatar?: StringFieldUpdateOperationsInput | string
@@ -12648,13 +12633,11 @@ export namespace Prisma {
     rating?: FloatFieldUpdateOperationsInput | number
     totalStudents?: IntFieldUpdateOperationsInput | number
     totalCourses?: IntFieldUpdateOperationsInput | number
-    experience?: NullableStringFieldUpdateOperationsInput | string | null
-    location?: NullableStringFieldUpdateOperationsInput | string | null
-    joinedDate?: NullableStringFieldUpdateOperationsInput | string | null
     specialties?: InstructorUpdatespecialtiesInput | string[]
     achievements?: InstructorUpdateachievementsInput | string[]
     education?: InstructorUpdateeducationInput | string[]
     social?: JsonNullValueInput | InputJsonValue
+    memberId?: StringFieldUpdateOperationsInput | string
     organizationId?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
@@ -12783,16 +12766,41 @@ export namespace Prisma {
     not?: NestedStringFilter<$PrismaModel> | string
   }
 
-  export type EnumOrgRoleFilter<$PrismaModel = never> = {
-    equals?: $Enums.OrgRole | EnumOrgRoleFieldRefInput<$PrismaModel>
-    in?: $Enums.OrgRole[] | ListEnumOrgRoleFieldRefInput<$PrismaModel>
-    notIn?: $Enums.OrgRole[] | ListEnumOrgRoleFieldRefInput<$PrismaModel>
-    not?: NestedEnumOrgRoleFilter<$PrismaModel> | $Enums.OrgRole
+  export type EnumRoleFilter<$PrismaModel = never> = {
+    equals?: $Enums.Role | EnumRoleFieldRefInput<$PrismaModel>
+    in?: $Enums.Role[] | ListEnumRoleFieldRefInput<$PrismaModel>
+    notIn?: $Enums.Role[] | ListEnumRoleFieldRefInput<$PrismaModel>
+    not?: NestedEnumRoleFilter<$PrismaModel> | $Enums.Role
   }
 
-  export type OrganizationScalarRelationFilter = {
-    is?: OrganizationWhereInput
-    isNot?: OrganizationWhereInput
+  export type StringNullableFilter<$PrismaModel = never> = {
+    equals?: string | StringFieldRefInput<$PrismaModel> | null
+    in?: string[] | ListStringFieldRefInput<$PrismaModel> | null
+    notIn?: string[] | ListStringFieldRefInput<$PrismaModel> | null
+    lt?: string | StringFieldRefInput<$PrismaModel>
+    lte?: string | StringFieldRefInput<$PrismaModel>
+    gt?: string | StringFieldRefInput<$PrismaModel>
+    gte?: string | StringFieldRefInput<$PrismaModel>
+    contains?: string | StringFieldRefInput<$PrismaModel>
+    startsWith?: string | StringFieldRefInput<$PrismaModel>
+    endsWith?: string | StringFieldRefInput<$PrismaModel>
+    mode?: QueryMode
+    not?: NestedStringNullableFilter<$PrismaModel> | string | null
+  }
+
+  export type OrganizationNullableScalarRelationFilter = {
+    is?: OrganizationWhereInput | null
+    isNot?: OrganizationWhereInput | null
+  }
+
+  export type InstructorNullableScalarRelationFilter = {
+    is?: InstructorWhereInput | null
+    isNot?: InstructorWhereInput | null
+  }
+
+  export type SortOrderInput = {
+    sort: SortOrder
+    nulls?: NullsOrder
   }
 
   export type OrganizationMemberUserIdOrganizationIdCompoundUniqueInput = {
@@ -12803,22 +12811,25 @@ export namespace Prisma {
   export type OrganizationMemberCountOrderByAggregateInput = {
     id?: SortOrder
     userId?: SortOrder
-    organizationId?: SortOrder
     role?: SortOrder
+    organizationId?: SortOrder
+    instructorId?: SortOrder
   }
 
   export type OrganizationMemberMaxOrderByAggregateInput = {
     id?: SortOrder
     userId?: SortOrder
-    organizationId?: SortOrder
     role?: SortOrder
+    organizationId?: SortOrder
+    instructorId?: SortOrder
   }
 
   export type OrganizationMemberMinOrderByAggregateInput = {
     id?: SortOrder
     userId?: SortOrder
-    organizationId?: SortOrder
     role?: SortOrder
+    organizationId?: SortOrder
+    instructorId?: SortOrder
   }
 
   export type StringWithAggregatesFilter<$PrismaModel = never> = {
@@ -12839,14 +12850,32 @@ export namespace Prisma {
     _max?: NestedStringFilter<$PrismaModel>
   }
 
-  export type EnumOrgRoleWithAggregatesFilter<$PrismaModel = never> = {
-    equals?: $Enums.OrgRole | EnumOrgRoleFieldRefInput<$PrismaModel>
-    in?: $Enums.OrgRole[] | ListEnumOrgRoleFieldRefInput<$PrismaModel>
-    notIn?: $Enums.OrgRole[] | ListEnumOrgRoleFieldRefInput<$PrismaModel>
-    not?: NestedEnumOrgRoleWithAggregatesFilter<$PrismaModel> | $Enums.OrgRole
+  export type EnumRoleWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.Role | EnumRoleFieldRefInput<$PrismaModel>
+    in?: $Enums.Role[] | ListEnumRoleFieldRefInput<$PrismaModel>
+    notIn?: $Enums.Role[] | ListEnumRoleFieldRefInput<$PrismaModel>
+    not?: NestedEnumRoleWithAggregatesFilter<$PrismaModel> | $Enums.Role
     _count?: NestedIntFilter<$PrismaModel>
-    _min?: NestedEnumOrgRoleFilter<$PrismaModel>
-    _max?: NestedEnumOrgRoleFilter<$PrismaModel>
+    _min?: NestedEnumRoleFilter<$PrismaModel>
+    _max?: NestedEnumRoleFilter<$PrismaModel>
+  }
+
+  export type StringNullableWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: string | StringFieldRefInput<$PrismaModel> | null
+    in?: string[] | ListStringFieldRefInput<$PrismaModel> | null
+    notIn?: string[] | ListStringFieldRefInput<$PrismaModel> | null
+    lt?: string | StringFieldRefInput<$PrismaModel>
+    lte?: string | StringFieldRefInput<$PrismaModel>
+    gt?: string | StringFieldRefInput<$PrismaModel>
+    gte?: string | StringFieldRefInput<$PrismaModel>
+    contains?: string | StringFieldRefInput<$PrismaModel>
+    startsWith?: string | StringFieldRefInput<$PrismaModel>
+    endsWith?: string | StringFieldRefInput<$PrismaModel>
+    mode?: QueryMode
+    not?: NestedStringNullableWithAggregatesFilter<$PrismaModel> | string | null
+    _count?: NestedIntNullableFilter<$PrismaModel>
+    _min?: NestedStringNullableFilter<$PrismaModel>
+    _max?: NestedStringNullableFilter<$PrismaModel>
   }
 
   export type EnumOrgTypeFilter<$PrismaModel = never> = {
@@ -12914,12 +12943,6 @@ export namespace Prisma {
     not?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | JsonNullValueFilter
   }
 
-  export type InstructorListRelationFilter = {
-    every?: InstructorWhereInput
-    some?: InstructorWhereInput
-    none?: InstructorWhereInput
-  }
-
   export type ReviewListRelationFilter = {
     every?: ReviewWhereInput
     some?: ReviewWhereInput
@@ -12936,17 +12959,23 @@ export namespace Prisma {
     isNot?: ContactWhereInput | null
   }
 
+  export type InstructorListRelationFilter = {
+    every?: InstructorWhereInput
+    some?: InstructorWhereInput
+    none?: InstructorWhereInput
+  }
+
   export type OrganizationMemberListRelationFilter = {
     every?: OrganizationMemberWhereInput
     some?: OrganizationMemberWhereInput
     none?: OrganizationMemberWhereInput
   }
 
-  export type InstructorOrderByRelationAggregateInput = {
+  export type ReviewOrderByRelationAggregateInput = {
     _count?: SortOrder
   }
 
-  export type ReviewOrderByRelationAggregateInput = {
+  export type InstructorOrderByRelationAggregateInput = {
     _count?: SortOrder
   }
 
@@ -12956,7 +12985,6 @@ export namespace Prisma {
 
   export type OrganizationCountOrderByAggregateInput = {
     id?: SortOrder
-    userId?: SortOrder
     name?: SortOrder
     type?: SortOrder
     logo?: SortOrder
@@ -12994,7 +13022,6 @@ export namespace Prisma {
 
   export type OrganizationMaxOrderByAggregateInput = {
     id?: SortOrder
-    userId?: SortOrder
     name?: SortOrder
     type?: SortOrder
     logo?: SortOrder
@@ -13019,7 +13046,6 @@ export namespace Prisma {
 
   export type OrganizationMinOrderByAggregateInput = {
     id?: SortOrder
-    userId?: SortOrder
     name?: SortOrder
     type?: SortOrder
     logo?: SortOrder
@@ -13126,24 +13152,9 @@ export namespace Prisma {
     _max?: NestedJsonFilter<$PrismaModel>
   }
 
-  export type StringNullableFilter<$PrismaModel = never> = {
-    equals?: string | StringFieldRefInput<$PrismaModel> | null
-    in?: string[] | ListStringFieldRefInput<$PrismaModel> | null
-    notIn?: string[] | ListStringFieldRefInput<$PrismaModel> | null
-    lt?: string | StringFieldRefInput<$PrismaModel>
-    lte?: string | StringFieldRefInput<$PrismaModel>
-    gt?: string | StringFieldRefInput<$PrismaModel>
-    gte?: string | StringFieldRefInput<$PrismaModel>
-    contains?: string | StringFieldRefInput<$PrismaModel>
-    startsWith?: string | StringFieldRefInput<$PrismaModel>
-    endsWith?: string | StringFieldRefInput<$PrismaModel>
-    mode?: QueryMode
-    not?: NestedStringNullableFilter<$PrismaModel> | string | null
-  }
-
-  export type SortOrderInput = {
-    sort: SortOrder
-    nulls?: NullsOrder
+  export type OrganizationScalarRelationFilter = {
+    is?: OrganizationWhereInput
+    isNot?: OrganizationWhereInput
   }
 
   export type OrgStatsCountOrderByAggregateInput = {
@@ -13171,24 +13182,6 @@ export namespace Prisma {
     averageSalary?: SortOrder
     studentSatisfaction?: SortOrder
     organizationId?: SortOrder
-  }
-
-  export type StringNullableWithAggregatesFilter<$PrismaModel = never> = {
-    equals?: string | StringFieldRefInput<$PrismaModel> | null
-    in?: string[] | ListStringFieldRefInput<$PrismaModel> | null
-    notIn?: string[] | ListStringFieldRefInput<$PrismaModel> | null
-    lt?: string | StringFieldRefInput<$PrismaModel>
-    lte?: string | StringFieldRefInput<$PrismaModel>
-    gt?: string | StringFieldRefInput<$PrismaModel>
-    gte?: string | StringFieldRefInput<$PrismaModel>
-    contains?: string | StringFieldRefInput<$PrismaModel>
-    startsWith?: string | StringFieldRefInput<$PrismaModel>
-    endsWith?: string | StringFieldRefInput<$PrismaModel>
-    mode?: QueryMode
-    not?: NestedStringNullableWithAggregatesFilter<$PrismaModel> | string | null
-    _count?: NestedIntNullableFilter<$PrismaModel>
-    _min?: NestedStringNullableFilter<$PrismaModel>
-    _max?: NestedStringNullableFilter<$PrismaModel>
   }
 
   export type ContactCountOrderByAggregateInput = {
@@ -13232,20 +13225,10 @@ export namespace Prisma {
     not?: NestedDateTimeFilter<$PrismaModel> | Date | string
   }
 
-  export type InstructorNullableScalarRelationFilter = {
-    is?: InstructorWhereInput | null
-    isNot?: InstructorWhereInput | null
-  }
-
-  export type OrganizationNullableScalarRelationFilter = {
-    is?: OrganizationWhereInput | null
-    isNot?: OrganizationWhereInput | null
-  }
-
   export type ReviewCountOrderByAggregateInput = {
     id?: SortOrder
-    userName?: SortOrder
-    userAvatar?: SortOrder
+    username?: SortOrder
+    avatar?: SortOrder
     rating?: SortOrder
     comment?: SortOrder
     createdAt?: SortOrder
@@ -13259,8 +13242,8 @@ export namespace Prisma {
 
   export type ReviewMaxOrderByAggregateInput = {
     id?: SortOrder
-    userName?: SortOrder
-    userAvatar?: SortOrder
+    username?: SortOrder
+    avatar?: SortOrder
     rating?: SortOrder
     comment?: SortOrder
     createdAt?: SortOrder
@@ -13270,8 +13253,8 @@ export namespace Prisma {
 
   export type ReviewMinOrderByAggregateInput = {
     id?: SortOrder
-    userName?: SortOrder
-    userAvatar?: SortOrder
+    username?: SortOrder
+    avatar?: SortOrder
     rating?: SortOrder
     comment?: SortOrder
     createdAt?: SortOrder
@@ -13313,13 +13296,17 @@ export namespace Prisma {
     isNot?: InstructorStatsWhereInput | null
   }
 
+  export type OrganizationMemberScalarRelationFilter = {
+    is?: OrganizationMemberWhereInput
+    isNot?: OrganizationMemberWhereInput
+  }
+
   export type WorkExperienceOrderByRelationAggregateInput = {
     _count?: SortOrder
   }
 
   export type InstructorCountOrderByAggregateInput = {
     id?: SortOrder
-    userId?: SortOrder
     name?: SortOrder
     title?: SortOrder
     avatar?: SortOrder
@@ -13330,13 +13317,11 @@ export namespace Prisma {
     rating?: SortOrder
     totalStudents?: SortOrder
     totalCourses?: SortOrder
-    experience?: SortOrder
-    location?: SortOrder
-    joinedDate?: SortOrder
     specialties?: SortOrder
     achievements?: SortOrder
     education?: SortOrder
     social?: SortOrder
+    memberId?: SortOrder
     organizationId?: SortOrder
   }
 
@@ -13348,7 +13333,6 @@ export namespace Prisma {
 
   export type InstructorMaxOrderByAggregateInput = {
     id?: SortOrder
-    userId?: SortOrder
     name?: SortOrder
     title?: SortOrder
     avatar?: SortOrder
@@ -13359,15 +13343,12 @@ export namespace Prisma {
     rating?: SortOrder
     totalStudents?: SortOrder
     totalCourses?: SortOrder
-    experience?: SortOrder
-    location?: SortOrder
-    joinedDate?: SortOrder
+    memberId?: SortOrder
     organizationId?: SortOrder
   }
 
   export type InstructorMinOrderByAggregateInput = {
     id?: SortOrder
-    userId?: SortOrder
     name?: SortOrder
     title?: SortOrder
     avatar?: SortOrder
@@ -13378,9 +13359,7 @@ export namespace Prisma {
     rating?: SortOrder
     totalStudents?: SortOrder
     totalCourses?: SortOrder
-    experience?: SortOrder
-    location?: SortOrder
-    joinedDate?: SortOrder
+    memberId?: SortOrder
     organizationId?: SortOrder
   }
 
@@ -13465,20 +13444,58 @@ export namespace Prisma {
     connect?: OrganizationWhereUniqueInput
   }
 
+  export type InstructorCreateNestedOneWithoutOrganizationMemberInput = {
+    create?: XOR<InstructorCreateWithoutOrganizationMemberInput, InstructorUncheckedCreateWithoutOrganizationMemberInput>
+    connectOrCreate?: InstructorCreateOrConnectWithoutOrganizationMemberInput
+    connect?: InstructorWhereUniqueInput
+  }
+
+  export type InstructorUncheckedCreateNestedOneWithoutOrganizationMemberInput = {
+    create?: XOR<InstructorCreateWithoutOrganizationMemberInput, InstructorUncheckedCreateWithoutOrganizationMemberInput>
+    connectOrCreate?: InstructorCreateOrConnectWithoutOrganizationMemberInput
+    connect?: InstructorWhereUniqueInput
+  }
+
   export type StringFieldUpdateOperationsInput = {
     set?: string
   }
 
-  export type EnumOrgRoleFieldUpdateOperationsInput = {
-    set?: $Enums.OrgRole
+  export type EnumRoleFieldUpdateOperationsInput = {
+    set?: $Enums.Role
   }
 
-  export type OrganizationUpdateOneRequiredWithoutMembersNestedInput = {
+  export type NullableStringFieldUpdateOperationsInput = {
+    set?: string | null
+  }
+
+  export type OrganizationUpdateOneWithoutMembersNestedInput = {
     create?: XOR<OrganizationCreateWithoutMembersInput, OrganizationUncheckedCreateWithoutMembersInput>
     connectOrCreate?: OrganizationCreateOrConnectWithoutMembersInput
     upsert?: OrganizationUpsertWithoutMembersInput
+    disconnect?: OrganizationWhereInput | boolean
+    delete?: OrganizationWhereInput | boolean
     connect?: OrganizationWhereUniqueInput
     update?: XOR<XOR<OrganizationUpdateToOneWithWhereWithoutMembersInput, OrganizationUpdateWithoutMembersInput>, OrganizationUncheckedUpdateWithoutMembersInput>
+  }
+
+  export type InstructorUpdateOneWithoutOrganizationMemberNestedInput = {
+    create?: XOR<InstructorCreateWithoutOrganizationMemberInput, InstructorUncheckedCreateWithoutOrganizationMemberInput>
+    connectOrCreate?: InstructorCreateOrConnectWithoutOrganizationMemberInput
+    upsert?: InstructorUpsertWithoutOrganizationMemberInput
+    disconnect?: InstructorWhereInput | boolean
+    delete?: InstructorWhereInput | boolean
+    connect?: InstructorWhereUniqueInput
+    update?: XOR<XOR<InstructorUpdateToOneWithWhereWithoutOrganizationMemberInput, InstructorUpdateWithoutOrganizationMemberInput>, InstructorUncheckedUpdateWithoutOrganizationMemberInput>
+  }
+
+  export type InstructorUncheckedUpdateOneWithoutOrganizationMemberNestedInput = {
+    create?: XOR<InstructorCreateWithoutOrganizationMemberInput, InstructorUncheckedCreateWithoutOrganizationMemberInput>
+    connectOrCreate?: InstructorCreateOrConnectWithoutOrganizationMemberInput
+    upsert?: InstructorUpsertWithoutOrganizationMemberInput
+    disconnect?: InstructorWhereInput | boolean
+    delete?: InstructorWhereInput | boolean
+    connect?: InstructorWhereUniqueInput
+    update?: XOR<XOR<InstructorUpdateToOneWithWhereWithoutOrganizationMemberInput, InstructorUpdateWithoutOrganizationMemberInput>, InstructorUncheckedUpdateWithoutOrganizationMemberInput>
   }
 
   export type OrganizationCreatespecialtiesInput = {
@@ -13495,13 +13512,6 @@ export namespace Prisma {
 
   export type OrganizationCreatepartnershipsInput = {
     set: string[]
-  }
-
-  export type InstructorCreateNestedManyWithoutOrganizationInput = {
-    create?: XOR<InstructorCreateWithoutOrganizationInput, InstructorUncheckedCreateWithoutOrganizationInput> | InstructorCreateWithoutOrganizationInput[] | InstructorUncheckedCreateWithoutOrganizationInput[]
-    connectOrCreate?: InstructorCreateOrConnectWithoutOrganizationInput | InstructorCreateOrConnectWithoutOrganizationInput[]
-    createMany?: InstructorCreateManyOrganizationInputEnvelope
-    connect?: InstructorWhereUniqueInput | InstructorWhereUniqueInput[]
   }
 
   export type ReviewCreateNestedManyWithoutOrganizationInput = {
@@ -13523,18 +13533,18 @@ export namespace Prisma {
     connect?: ContactWhereUniqueInput
   }
 
+  export type InstructorCreateNestedManyWithoutOrganizationInput = {
+    create?: XOR<InstructorCreateWithoutOrganizationInput, InstructorUncheckedCreateWithoutOrganizationInput> | InstructorCreateWithoutOrganizationInput[] | InstructorUncheckedCreateWithoutOrganizationInput[]
+    connectOrCreate?: InstructorCreateOrConnectWithoutOrganizationInput | InstructorCreateOrConnectWithoutOrganizationInput[]
+    createMany?: InstructorCreateManyOrganizationInputEnvelope
+    connect?: InstructorWhereUniqueInput | InstructorWhereUniqueInput[]
+  }
+
   export type OrganizationMemberCreateNestedManyWithoutOrganizationInput = {
     create?: XOR<OrganizationMemberCreateWithoutOrganizationInput, OrganizationMemberUncheckedCreateWithoutOrganizationInput> | OrganizationMemberCreateWithoutOrganizationInput[] | OrganizationMemberUncheckedCreateWithoutOrganizationInput[]
     connectOrCreate?: OrganizationMemberCreateOrConnectWithoutOrganizationInput | OrganizationMemberCreateOrConnectWithoutOrganizationInput[]
     createMany?: OrganizationMemberCreateManyOrganizationInputEnvelope
     connect?: OrganizationMemberWhereUniqueInput | OrganizationMemberWhereUniqueInput[]
-  }
-
-  export type InstructorUncheckedCreateNestedManyWithoutOrganizationInput = {
-    create?: XOR<InstructorCreateWithoutOrganizationInput, InstructorUncheckedCreateWithoutOrganizationInput> | InstructorCreateWithoutOrganizationInput[] | InstructorUncheckedCreateWithoutOrganizationInput[]
-    connectOrCreate?: InstructorCreateOrConnectWithoutOrganizationInput | InstructorCreateOrConnectWithoutOrganizationInput[]
-    createMany?: InstructorCreateManyOrganizationInputEnvelope
-    connect?: InstructorWhereUniqueInput | InstructorWhereUniqueInput[]
   }
 
   export type ReviewUncheckedCreateNestedManyWithoutOrganizationInput = {
@@ -13554,6 +13564,13 @@ export namespace Prisma {
     create?: XOR<ContactCreateWithoutOrganizationInput, ContactUncheckedCreateWithoutOrganizationInput>
     connectOrCreate?: ContactCreateOrConnectWithoutOrganizationInput
     connect?: ContactWhereUniqueInput
+  }
+
+  export type InstructorUncheckedCreateNestedManyWithoutOrganizationInput = {
+    create?: XOR<InstructorCreateWithoutOrganizationInput, InstructorUncheckedCreateWithoutOrganizationInput> | InstructorCreateWithoutOrganizationInput[] | InstructorUncheckedCreateWithoutOrganizationInput[]
+    connectOrCreate?: InstructorCreateOrConnectWithoutOrganizationInput | InstructorCreateOrConnectWithoutOrganizationInput[]
+    createMany?: InstructorCreateManyOrganizationInputEnvelope
+    connect?: InstructorWhereUniqueInput | InstructorWhereUniqueInput[]
   }
 
   export type OrganizationMemberUncheckedCreateNestedManyWithoutOrganizationInput = {
@@ -13607,20 +13624,6 @@ export namespace Prisma {
     push?: string | string[]
   }
 
-  export type InstructorUpdateManyWithoutOrganizationNestedInput = {
-    create?: XOR<InstructorCreateWithoutOrganizationInput, InstructorUncheckedCreateWithoutOrganizationInput> | InstructorCreateWithoutOrganizationInput[] | InstructorUncheckedCreateWithoutOrganizationInput[]
-    connectOrCreate?: InstructorCreateOrConnectWithoutOrganizationInput | InstructorCreateOrConnectWithoutOrganizationInput[]
-    upsert?: InstructorUpsertWithWhereUniqueWithoutOrganizationInput | InstructorUpsertWithWhereUniqueWithoutOrganizationInput[]
-    createMany?: InstructorCreateManyOrganizationInputEnvelope
-    set?: InstructorWhereUniqueInput | InstructorWhereUniqueInput[]
-    disconnect?: InstructorWhereUniqueInput | InstructorWhereUniqueInput[]
-    delete?: InstructorWhereUniqueInput | InstructorWhereUniqueInput[]
-    connect?: InstructorWhereUniqueInput | InstructorWhereUniqueInput[]
-    update?: InstructorUpdateWithWhereUniqueWithoutOrganizationInput | InstructorUpdateWithWhereUniqueWithoutOrganizationInput[]
-    updateMany?: InstructorUpdateManyWithWhereWithoutOrganizationInput | InstructorUpdateManyWithWhereWithoutOrganizationInput[]
-    deleteMany?: InstructorScalarWhereInput | InstructorScalarWhereInput[]
-  }
-
   export type ReviewUpdateManyWithoutOrganizationNestedInput = {
     create?: XOR<ReviewCreateWithoutOrganizationInput, ReviewUncheckedCreateWithoutOrganizationInput> | ReviewCreateWithoutOrganizationInput[] | ReviewUncheckedCreateWithoutOrganizationInput[]
     connectOrCreate?: ReviewCreateOrConnectWithoutOrganizationInput | ReviewCreateOrConnectWithoutOrganizationInput[]
@@ -13655,6 +13658,20 @@ export namespace Prisma {
     update?: XOR<XOR<ContactUpdateToOneWithWhereWithoutOrganizationInput, ContactUpdateWithoutOrganizationInput>, ContactUncheckedUpdateWithoutOrganizationInput>
   }
 
+  export type InstructorUpdateManyWithoutOrganizationNestedInput = {
+    create?: XOR<InstructorCreateWithoutOrganizationInput, InstructorUncheckedCreateWithoutOrganizationInput> | InstructorCreateWithoutOrganizationInput[] | InstructorUncheckedCreateWithoutOrganizationInput[]
+    connectOrCreate?: InstructorCreateOrConnectWithoutOrganizationInput | InstructorCreateOrConnectWithoutOrganizationInput[]
+    upsert?: InstructorUpsertWithWhereUniqueWithoutOrganizationInput | InstructorUpsertWithWhereUniqueWithoutOrganizationInput[]
+    createMany?: InstructorCreateManyOrganizationInputEnvelope
+    set?: InstructorWhereUniqueInput | InstructorWhereUniqueInput[]
+    disconnect?: InstructorWhereUniqueInput | InstructorWhereUniqueInput[]
+    delete?: InstructorWhereUniqueInput | InstructorWhereUniqueInput[]
+    connect?: InstructorWhereUniqueInput | InstructorWhereUniqueInput[]
+    update?: InstructorUpdateWithWhereUniqueWithoutOrganizationInput | InstructorUpdateWithWhereUniqueWithoutOrganizationInput[]
+    updateMany?: InstructorUpdateManyWithWhereWithoutOrganizationInput | InstructorUpdateManyWithWhereWithoutOrganizationInput[]
+    deleteMany?: InstructorScalarWhereInput | InstructorScalarWhereInput[]
+  }
+
   export type OrganizationMemberUpdateManyWithoutOrganizationNestedInput = {
     create?: XOR<OrganizationMemberCreateWithoutOrganizationInput, OrganizationMemberUncheckedCreateWithoutOrganizationInput> | OrganizationMemberCreateWithoutOrganizationInput[] | OrganizationMemberUncheckedCreateWithoutOrganizationInput[]
     connectOrCreate?: OrganizationMemberCreateOrConnectWithoutOrganizationInput | OrganizationMemberCreateOrConnectWithoutOrganizationInput[]
@@ -13667,20 +13684,6 @@ export namespace Prisma {
     update?: OrganizationMemberUpdateWithWhereUniqueWithoutOrganizationInput | OrganizationMemberUpdateWithWhereUniqueWithoutOrganizationInput[]
     updateMany?: OrganizationMemberUpdateManyWithWhereWithoutOrganizationInput | OrganizationMemberUpdateManyWithWhereWithoutOrganizationInput[]
     deleteMany?: OrganizationMemberScalarWhereInput | OrganizationMemberScalarWhereInput[]
-  }
-
-  export type InstructorUncheckedUpdateManyWithoutOrganizationNestedInput = {
-    create?: XOR<InstructorCreateWithoutOrganizationInput, InstructorUncheckedCreateWithoutOrganizationInput> | InstructorCreateWithoutOrganizationInput[] | InstructorUncheckedCreateWithoutOrganizationInput[]
-    connectOrCreate?: InstructorCreateOrConnectWithoutOrganizationInput | InstructorCreateOrConnectWithoutOrganizationInput[]
-    upsert?: InstructorUpsertWithWhereUniqueWithoutOrganizationInput | InstructorUpsertWithWhereUniqueWithoutOrganizationInput[]
-    createMany?: InstructorCreateManyOrganizationInputEnvelope
-    set?: InstructorWhereUniqueInput | InstructorWhereUniqueInput[]
-    disconnect?: InstructorWhereUniqueInput | InstructorWhereUniqueInput[]
-    delete?: InstructorWhereUniqueInput | InstructorWhereUniqueInput[]
-    connect?: InstructorWhereUniqueInput | InstructorWhereUniqueInput[]
-    update?: InstructorUpdateWithWhereUniqueWithoutOrganizationInput | InstructorUpdateWithWhereUniqueWithoutOrganizationInput[]
-    updateMany?: InstructorUpdateManyWithWhereWithoutOrganizationInput | InstructorUpdateManyWithWhereWithoutOrganizationInput[]
-    deleteMany?: InstructorScalarWhereInput | InstructorScalarWhereInput[]
   }
 
   export type ReviewUncheckedUpdateManyWithoutOrganizationNestedInput = {
@@ -13717,6 +13720,20 @@ export namespace Prisma {
     update?: XOR<XOR<ContactUpdateToOneWithWhereWithoutOrganizationInput, ContactUpdateWithoutOrganizationInput>, ContactUncheckedUpdateWithoutOrganizationInput>
   }
 
+  export type InstructorUncheckedUpdateManyWithoutOrganizationNestedInput = {
+    create?: XOR<InstructorCreateWithoutOrganizationInput, InstructorUncheckedCreateWithoutOrganizationInput> | InstructorCreateWithoutOrganizationInput[] | InstructorUncheckedCreateWithoutOrganizationInput[]
+    connectOrCreate?: InstructorCreateOrConnectWithoutOrganizationInput | InstructorCreateOrConnectWithoutOrganizationInput[]
+    upsert?: InstructorUpsertWithWhereUniqueWithoutOrganizationInput | InstructorUpsertWithWhereUniqueWithoutOrganizationInput[]
+    createMany?: InstructorCreateManyOrganizationInputEnvelope
+    set?: InstructorWhereUniqueInput | InstructorWhereUniqueInput[]
+    disconnect?: InstructorWhereUniqueInput | InstructorWhereUniqueInput[]
+    delete?: InstructorWhereUniqueInput | InstructorWhereUniqueInput[]
+    connect?: InstructorWhereUniqueInput | InstructorWhereUniqueInput[]
+    update?: InstructorUpdateWithWhereUniqueWithoutOrganizationInput | InstructorUpdateWithWhereUniqueWithoutOrganizationInput[]
+    updateMany?: InstructorUpdateManyWithWhereWithoutOrganizationInput | InstructorUpdateManyWithWhereWithoutOrganizationInput[]
+    deleteMany?: InstructorScalarWhereInput | InstructorScalarWhereInput[]
+  }
+
   export type OrganizationMemberUncheckedUpdateManyWithoutOrganizationNestedInput = {
     create?: XOR<OrganizationMemberCreateWithoutOrganizationInput, OrganizationMemberUncheckedCreateWithoutOrganizationInput> | OrganizationMemberCreateWithoutOrganizationInput[] | OrganizationMemberUncheckedCreateWithoutOrganizationInput[]
     connectOrCreate?: OrganizationMemberCreateOrConnectWithoutOrganizationInput | OrganizationMemberCreateOrConnectWithoutOrganizationInput[]
@@ -13735,10 +13752,6 @@ export namespace Prisma {
     create?: XOR<OrganizationCreateWithoutStatsInput, OrganizationUncheckedCreateWithoutStatsInput>
     connectOrCreate?: OrganizationCreateOrConnectWithoutStatsInput
     connect?: OrganizationWhereUniqueInput
-  }
-
-  export type NullableStringFieldUpdateOperationsInput = {
-    set?: string | null
   }
 
   export type OrganizationUpdateOneRequiredWithoutStatsNestedInput = {
@@ -13818,12 +13831,6 @@ export namespace Prisma {
     connect?: WorkExperienceWhereUniqueInput | WorkExperienceWhereUniqueInput[]
   }
 
-  export type OrganizationCreateNestedOneWithoutInstructorsInput = {
-    create?: XOR<OrganizationCreateWithoutInstructorsInput, OrganizationUncheckedCreateWithoutInstructorsInput>
-    connectOrCreate?: OrganizationCreateOrConnectWithoutInstructorsInput
-    connect?: OrganizationWhereUniqueInput
-  }
-
   export type ReviewCreateNestedManyWithoutInstructorInput = {
     create?: XOR<ReviewCreateWithoutInstructorInput, ReviewUncheckedCreateWithoutInstructorInput> | ReviewCreateWithoutInstructorInput[] | ReviewUncheckedCreateWithoutInstructorInput[]
     connectOrCreate?: ReviewCreateOrConnectWithoutInstructorInput | ReviewCreateOrConnectWithoutInstructorInput[]
@@ -13835,6 +13842,18 @@ export namespace Prisma {
     create?: XOR<InstructorStatsCreateWithoutInstructorInput, InstructorStatsUncheckedCreateWithoutInstructorInput>
     connectOrCreate?: InstructorStatsCreateOrConnectWithoutInstructorInput
     connect?: InstructorStatsWhereUniqueInput
+  }
+
+  export type OrganizationMemberCreateNestedOneWithoutInstructorInput = {
+    create?: XOR<OrganizationMemberCreateWithoutInstructorInput, OrganizationMemberUncheckedCreateWithoutInstructorInput>
+    connectOrCreate?: OrganizationMemberCreateOrConnectWithoutInstructorInput
+    connect?: OrganizationMemberWhereUniqueInput
+  }
+
+  export type OrganizationCreateNestedOneWithoutInstructorsInput = {
+    create?: XOR<OrganizationCreateWithoutInstructorsInput, OrganizationUncheckedCreateWithoutInstructorsInput>
+    connectOrCreate?: OrganizationCreateOrConnectWithoutInstructorsInput
+    connect?: OrganizationWhereUniqueInput
   }
 
   export type WorkExperienceUncheckedCreateNestedManyWithoutInstructorInput = {
@@ -13890,16 +13909,6 @@ export namespace Prisma {
     deleteMany?: WorkExperienceScalarWhereInput | WorkExperienceScalarWhereInput[]
   }
 
-  export type OrganizationUpdateOneWithoutInstructorsNestedInput = {
-    create?: XOR<OrganizationCreateWithoutInstructorsInput, OrganizationUncheckedCreateWithoutInstructorsInput>
-    connectOrCreate?: OrganizationCreateOrConnectWithoutInstructorsInput
-    upsert?: OrganizationUpsertWithoutInstructorsInput
-    disconnect?: OrganizationWhereInput | boolean
-    delete?: OrganizationWhereInput | boolean
-    connect?: OrganizationWhereUniqueInput
-    update?: XOR<XOR<OrganizationUpdateToOneWithWhereWithoutInstructorsInput, OrganizationUpdateWithoutInstructorsInput>, OrganizationUncheckedUpdateWithoutInstructorsInput>
-  }
-
   export type ReviewUpdateManyWithoutInstructorNestedInput = {
     create?: XOR<ReviewCreateWithoutInstructorInput, ReviewUncheckedCreateWithoutInstructorInput> | ReviewCreateWithoutInstructorInput[] | ReviewUncheckedCreateWithoutInstructorInput[]
     connectOrCreate?: ReviewCreateOrConnectWithoutInstructorInput | ReviewCreateOrConnectWithoutInstructorInput[]
@@ -13922,6 +13931,24 @@ export namespace Prisma {
     delete?: InstructorStatsWhereInput | boolean
     connect?: InstructorStatsWhereUniqueInput
     update?: XOR<XOR<InstructorStatsUpdateToOneWithWhereWithoutInstructorInput, InstructorStatsUpdateWithoutInstructorInput>, InstructorStatsUncheckedUpdateWithoutInstructorInput>
+  }
+
+  export type OrganizationMemberUpdateOneRequiredWithoutInstructorNestedInput = {
+    create?: XOR<OrganizationMemberCreateWithoutInstructorInput, OrganizationMemberUncheckedCreateWithoutInstructorInput>
+    connectOrCreate?: OrganizationMemberCreateOrConnectWithoutInstructorInput
+    upsert?: OrganizationMemberUpsertWithoutInstructorInput
+    connect?: OrganizationMemberWhereUniqueInput
+    update?: XOR<XOR<OrganizationMemberUpdateToOneWithWhereWithoutInstructorInput, OrganizationMemberUpdateWithoutInstructorInput>, OrganizationMemberUncheckedUpdateWithoutInstructorInput>
+  }
+
+  export type OrganizationUpdateOneWithoutInstructorsNestedInput = {
+    create?: XOR<OrganizationCreateWithoutInstructorsInput, OrganizationUncheckedCreateWithoutInstructorsInput>
+    connectOrCreate?: OrganizationCreateOrConnectWithoutInstructorsInput
+    upsert?: OrganizationUpsertWithoutInstructorsInput
+    disconnect?: OrganizationWhereInput | boolean
+    delete?: OrganizationWhereInput | boolean
+    connect?: OrganizationWhereUniqueInput
+    update?: XOR<XOR<OrganizationUpdateToOneWithWhereWithoutInstructorsInput, OrganizationUpdateWithoutInstructorsInput>, OrganizationUncheckedUpdateWithoutInstructorsInput>
   }
 
   export type WorkExperienceUncheckedUpdateManyWithoutInstructorNestedInput = {
@@ -14004,11 +14031,25 @@ export namespace Prisma {
     not?: NestedStringFilter<$PrismaModel> | string
   }
 
-  export type NestedEnumOrgRoleFilter<$PrismaModel = never> = {
-    equals?: $Enums.OrgRole | EnumOrgRoleFieldRefInput<$PrismaModel>
-    in?: $Enums.OrgRole[] | ListEnumOrgRoleFieldRefInput<$PrismaModel>
-    notIn?: $Enums.OrgRole[] | ListEnumOrgRoleFieldRefInput<$PrismaModel>
-    not?: NestedEnumOrgRoleFilter<$PrismaModel> | $Enums.OrgRole
+  export type NestedEnumRoleFilter<$PrismaModel = never> = {
+    equals?: $Enums.Role | EnumRoleFieldRefInput<$PrismaModel>
+    in?: $Enums.Role[] | ListEnumRoleFieldRefInput<$PrismaModel>
+    notIn?: $Enums.Role[] | ListEnumRoleFieldRefInput<$PrismaModel>
+    not?: NestedEnumRoleFilter<$PrismaModel> | $Enums.Role
+  }
+
+  export type NestedStringNullableFilter<$PrismaModel = never> = {
+    equals?: string | StringFieldRefInput<$PrismaModel> | null
+    in?: string[] | ListStringFieldRefInput<$PrismaModel> | null
+    notIn?: string[] | ListStringFieldRefInput<$PrismaModel> | null
+    lt?: string | StringFieldRefInput<$PrismaModel>
+    lte?: string | StringFieldRefInput<$PrismaModel>
+    gt?: string | StringFieldRefInput<$PrismaModel>
+    gte?: string | StringFieldRefInput<$PrismaModel>
+    contains?: string | StringFieldRefInput<$PrismaModel>
+    startsWith?: string | StringFieldRefInput<$PrismaModel>
+    endsWith?: string | StringFieldRefInput<$PrismaModel>
+    not?: NestedStringNullableFilter<$PrismaModel> | string | null
   }
 
   export type NestedStringWithAggregatesFilter<$PrismaModel = never> = {
@@ -14039,14 +14080,42 @@ export namespace Prisma {
     not?: NestedIntFilter<$PrismaModel> | number
   }
 
-  export type NestedEnumOrgRoleWithAggregatesFilter<$PrismaModel = never> = {
-    equals?: $Enums.OrgRole | EnumOrgRoleFieldRefInput<$PrismaModel>
-    in?: $Enums.OrgRole[] | ListEnumOrgRoleFieldRefInput<$PrismaModel>
-    notIn?: $Enums.OrgRole[] | ListEnumOrgRoleFieldRefInput<$PrismaModel>
-    not?: NestedEnumOrgRoleWithAggregatesFilter<$PrismaModel> | $Enums.OrgRole
+  export type NestedEnumRoleWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.Role | EnumRoleFieldRefInput<$PrismaModel>
+    in?: $Enums.Role[] | ListEnumRoleFieldRefInput<$PrismaModel>
+    notIn?: $Enums.Role[] | ListEnumRoleFieldRefInput<$PrismaModel>
+    not?: NestedEnumRoleWithAggregatesFilter<$PrismaModel> | $Enums.Role
     _count?: NestedIntFilter<$PrismaModel>
-    _min?: NestedEnumOrgRoleFilter<$PrismaModel>
-    _max?: NestedEnumOrgRoleFilter<$PrismaModel>
+    _min?: NestedEnumRoleFilter<$PrismaModel>
+    _max?: NestedEnumRoleFilter<$PrismaModel>
+  }
+
+  export type NestedStringNullableWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: string | StringFieldRefInput<$PrismaModel> | null
+    in?: string[] | ListStringFieldRefInput<$PrismaModel> | null
+    notIn?: string[] | ListStringFieldRefInput<$PrismaModel> | null
+    lt?: string | StringFieldRefInput<$PrismaModel>
+    lte?: string | StringFieldRefInput<$PrismaModel>
+    gt?: string | StringFieldRefInput<$PrismaModel>
+    gte?: string | StringFieldRefInput<$PrismaModel>
+    contains?: string | StringFieldRefInput<$PrismaModel>
+    startsWith?: string | StringFieldRefInput<$PrismaModel>
+    endsWith?: string | StringFieldRefInput<$PrismaModel>
+    not?: NestedStringNullableWithAggregatesFilter<$PrismaModel> | string | null
+    _count?: NestedIntNullableFilter<$PrismaModel>
+    _min?: NestedStringNullableFilter<$PrismaModel>
+    _max?: NestedStringNullableFilter<$PrismaModel>
+  }
+
+  export type NestedIntNullableFilter<$PrismaModel = never> = {
+    equals?: number | IntFieldRefInput<$PrismaModel> | null
+    in?: number[] | ListIntFieldRefInput<$PrismaModel> | null
+    notIn?: number[] | ListIntFieldRefInput<$PrismaModel> | null
+    lt?: number | IntFieldRefInput<$PrismaModel>
+    lte?: number | IntFieldRefInput<$PrismaModel>
+    gt?: number | IntFieldRefInput<$PrismaModel>
+    gte?: number | IntFieldRefInput<$PrismaModel>
+    not?: NestedIntNullableFilter<$PrismaModel> | number | null
   }
 
   export type NestedEnumOrgTypeFilter<$PrismaModel = never> = {
@@ -14145,48 +14214,6 @@ export namespace Prisma {
     not?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | JsonNullValueFilter
   }
 
-  export type NestedStringNullableFilter<$PrismaModel = never> = {
-    equals?: string | StringFieldRefInput<$PrismaModel> | null
-    in?: string[] | ListStringFieldRefInput<$PrismaModel> | null
-    notIn?: string[] | ListStringFieldRefInput<$PrismaModel> | null
-    lt?: string | StringFieldRefInput<$PrismaModel>
-    lte?: string | StringFieldRefInput<$PrismaModel>
-    gt?: string | StringFieldRefInput<$PrismaModel>
-    gte?: string | StringFieldRefInput<$PrismaModel>
-    contains?: string | StringFieldRefInput<$PrismaModel>
-    startsWith?: string | StringFieldRefInput<$PrismaModel>
-    endsWith?: string | StringFieldRefInput<$PrismaModel>
-    not?: NestedStringNullableFilter<$PrismaModel> | string | null
-  }
-
-  export type NestedStringNullableWithAggregatesFilter<$PrismaModel = never> = {
-    equals?: string | StringFieldRefInput<$PrismaModel> | null
-    in?: string[] | ListStringFieldRefInput<$PrismaModel> | null
-    notIn?: string[] | ListStringFieldRefInput<$PrismaModel> | null
-    lt?: string | StringFieldRefInput<$PrismaModel>
-    lte?: string | StringFieldRefInput<$PrismaModel>
-    gt?: string | StringFieldRefInput<$PrismaModel>
-    gte?: string | StringFieldRefInput<$PrismaModel>
-    contains?: string | StringFieldRefInput<$PrismaModel>
-    startsWith?: string | StringFieldRefInput<$PrismaModel>
-    endsWith?: string | StringFieldRefInput<$PrismaModel>
-    not?: NestedStringNullableWithAggregatesFilter<$PrismaModel> | string | null
-    _count?: NestedIntNullableFilter<$PrismaModel>
-    _min?: NestedStringNullableFilter<$PrismaModel>
-    _max?: NestedStringNullableFilter<$PrismaModel>
-  }
-
-  export type NestedIntNullableFilter<$PrismaModel = never> = {
-    equals?: number | IntFieldRefInput<$PrismaModel> | null
-    in?: number[] | ListIntFieldRefInput<$PrismaModel> | null
-    notIn?: number[] | ListIntFieldRefInput<$PrismaModel> | null
-    lt?: number | IntFieldRefInput<$PrismaModel>
-    lte?: number | IntFieldRefInput<$PrismaModel>
-    gt?: number | IntFieldRefInput<$PrismaModel>
-    gte?: number | IntFieldRefInput<$PrismaModel>
-    not?: NestedIntNullableFilter<$PrismaModel> | number | null
-  }
-
   export type NestedDateTimeFilter<$PrismaModel = never> = {
     equals?: Date | string | DateTimeFieldRefInput<$PrismaModel>
     in?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel>
@@ -14227,7 +14254,6 @@ export namespace Prisma {
 
   export type OrganizationCreateWithoutMembersInput = {
     id?: string
-    userId: string
     name: string
     type: $Enums.OrgType
     logo: string
@@ -14239,29 +14265,28 @@ export namespace Prisma {
     email: string
     phone: string
     founded: string
-    totalCourses: number
-    totalStudents: number
-    totalInstructors: number
-    rating: number
-    reviewCount: number
+    totalCourses?: number
+    totalStudents?: number
+    totalInstructors?: number
+    rating?: number
+    reviewCount?: number
     specialties?: OrganizationCreatespecialtiesInput | string[]
-    featured: boolean
-    verified: boolean
+    featured?: boolean
+    verified?: boolean
     accreditation?: OrganizationCreateaccreditationInput | string[]
-    mission: string
-    vision: string
+    mission?: string | null
+    vision?: string | null
     achievements?: OrganizationCreateachievementsInput | string[]
     partnerships?: OrganizationCreatepartnershipsInput | string[]
     social: JsonNullValueInput | InputJsonValue
-    instructors?: InstructorCreateNestedManyWithoutOrganizationInput
     reviews?: ReviewCreateNestedManyWithoutOrganizationInput
     stats?: OrgStatsCreateNestedOneWithoutOrganizationInput
     contact?: ContactCreateNestedOneWithoutOrganizationInput
+    instructors?: InstructorCreateNestedManyWithoutOrganizationInput
   }
 
   export type OrganizationUncheckedCreateWithoutMembersInput = {
     id?: string
-    userId: string
     name: string
     type: $Enums.OrgType
     logo: string
@@ -14273,29 +14298,78 @@ export namespace Prisma {
     email: string
     phone: string
     founded: string
-    totalCourses: number
-    totalStudents: number
-    totalInstructors: number
-    rating: number
-    reviewCount: number
+    totalCourses?: number
+    totalStudents?: number
+    totalInstructors?: number
+    rating?: number
+    reviewCount?: number
     specialties?: OrganizationCreatespecialtiesInput | string[]
-    featured: boolean
-    verified: boolean
+    featured?: boolean
+    verified?: boolean
     accreditation?: OrganizationCreateaccreditationInput | string[]
-    mission: string
-    vision: string
+    mission?: string | null
+    vision?: string | null
     achievements?: OrganizationCreateachievementsInput | string[]
     partnerships?: OrganizationCreatepartnershipsInput | string[]
     social: JsonNullValueInput | InputJsonValue
-    instructors?: InstructorUncheckedCreateNestedManyWithoutOrganizationInput
     reviews?: ReviewUncheckedCreateNestedManyWithoutOrganizationInput
     stats?: OrgStatsUncheckedCreateNestedOneWithoutOrganizationInput
     contact?: ContactUncheckedCreateNestedOneWithoutOrganizationInput
+    instructors?: InstructorUncheckedCreateNestedManyWithoutOrganizationInput
   }
 
   export type OrganizationCreateOrConnectWithoutMembersInput = {
     where: OrganizationWhereUniqueInput
     create: XOR<OrganizationCreateWithoutMembersInput, OrganizationUncheckedCreateWithoutMembersInput>
+  }
+
+  export type InstructorCreateWithoutOrganizationMemberInput = {
+    id?: string
+    name: string
+    title: string
+    avatar: string
+    coverImage?: string | null
+    bio: string
+    featured?: boolean | null
+    longBio?: string | null
+    rating?: number
+    totalStudents?: number
+    totalCourses?: number
+    specialties?: InstructorCreatespecialtiesInput | string[]
+    achievements?: InstructorCreateachievementsInput | string[]
+    education?: InstructorCreateeducationInput | string[]
+    social: JsonNullValueInput | InputJsonValue
+    workExperience?: WorkExperienceCreateNestedManyWithoutInstructorInput
+    reviews?: ReviewCreateNestedManyWithoutInstructorInput
+    stats?: InstructorStatsCreateNestedOneWithoutInstructorInput
+    organization?: OrganizationCreateNestedOneWithoutInstructorsInput
+  }
+
+  export type InstructorUncheckedCreateWithoutOrganizationMemberInput = {
+    id?: string
+    name: string
+    title: string
+    avatar: string
+    coverImage?: string | null
+    bio: string
+    featured?: boolean | null
+    longBio?: string | null
+    rating?: number
+    totalStudents?: number
+    totalCourses?: number
+    specialties?: InstructorCreatespecialtiesInput | string[]
+    achievements?: InstructorCreateachievementsInput | string[]
+    education?: InstructorCreateeducationInput | string[]
+    social: JsonNullValueInput | InputJsonValue
+    organizationId?: string | null
+    workExperience?: WorkExperienceUncheckedCreateNestedManyWithoutInstructorInput
+    reviews?: ReviewUncheckedCreateNestedManyWithoutInstructorInput
+    stats?: InstructorStatsUncheckedCreateNestedOneWithoutInstructorInput
+  }
+
+  export type InstructorCreateOrConnectWithoutOrganizationMemberInput = {
+    where: InstructorWhereUniqueInput
+    create: XOR<InstructorCreateWithoutOrganizationMemberInput, InstructorUncheckedCreateWithoutOrganizationMemberInput>
   }
 
   export type OrganizationUpsertWithoutMembersInput = {
@@ -14311,7 +14385,6 @@ export namespace Prisma {
 
   export type OrganizationUpdateWithoutMembersInput = {
     id?: StringFieldUpdateOperationsInput | string
-    userId?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
     type?: EnumOrgTypeFieldUpdateOperationsInput | $Enums.OrgType
     logo?: StringFieldUpdateOperationsInput | string
@@ -14332,20 +14405,19 @@ export namespace Prisma {
     featured?: BoolFieldUpdateOperationsInput | boolean
     verified?: BoolFieldUpdateOperationsInput | boolean
     accreditation?: OrganizationUpdateaccreditationInput | string[]
-    mission?: StringFieldUpdateOperationsInput | string
-    vision?: StringFieldUpdateOperationsInput | string
+    mission?: NullableStringFieldUpdateOperationsInput | string | null
+    vision?: NullableStringFieldUpdateOperationsInput | string | null
     achievements?: OrganizationUpdateachievementsInput | string[]
     partnerships?: OrganizationUpdatepartnershipsInput | string[]
     social?: JsonNullValueInput | InputJsonValue
-    instructors?: InstructorUpdateManyWithoutOrganizationNestedInput
     reviews?: ReviewUpdateManyWithoutOrganizationNestedInput
     stats?: OrgStatsUpdateOneWithoutOrganizationNestedInput
     contact?: ContactUpdateOneWithoutOrganizationNestedInput
+    instructors?: InstructorUpdateManyWithoutOrganizationNestedInput
   }
 
   export type OrganizationUncheckedUpdateWithoutMembersInput = {
     id?: StringFieldUpdateOperationsInput | string
-    userId?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
     type?: EnumOrgTypeFieldUpdateOperationsInput | $Enums.OrgType
     logo?: StringFieldUpdateOperationsInput | string
@@ -14366,81 +14438,76 @@ export namespace Prisma {
     featured?: BoolFieldUpdateOperationsInput | boolean
     verified?: BoolFieldUpdateOperationsInput | boolean
     accreditation?: OrganizationUpdateaccreditationInput | string[]
-    mission?: StringFieldUpdateOperationsInput | string
-    vision?: StringFieldUpdateOperationsInput | string
+    mission?: NullableStringFieldUpdateOperationsInput | string | null
+    vision?: NullableStringFieldUpdateOperationsInput | string | null
     achievements?: OrganizationUpdateachievementsInput | string[]
     partnerships?: OrganizationUpdatepartnershipsInput | string[]
     social?: JsonNullValueInput | InputJsonValue
-    instructors?: InstructorUncheckedUpdateManyWithoutOrganizationNestedInput
     reviews?: ReviewUncheckedUpdateManyWithoutOrganizationNestedInput
     stats?: OrgStatsUncheckedUpdateOneWithoutOrganizationNestedInput
     contact?: ContactUncheckedUpdateOneWithoutOrganizationNestedInput
+    instructors?: InstructorUncheckedUpdateManyWithoutOrganizationNestedInput
   }
 
-  export type InstructorCreateWithoutOrganizationInput = {
-    id?: string
-    userId: string
-    name: string
-    title: string
-    avatar: string
-    coverImage?: string | null
-    bio: string
-    featured?: boolean | null
-    longBio?: string | null
-    rating: number
-    totalStudents: number
-    totalCourses: number
-    experience?: string | null
-    location?: string | null
-    joinedDate?: string | null
-    specialties?: InstructorCreatespecialtiesInput | string[]
-    achievements?: InstructorCreateachievementsInput | string[]
-    education?: InstructorCreateeducationInput | string[]
-    social: JsonNullValueInput | InputJsonValue
-    workExperience?: WorkExperienceCreateNestedManyWithoutInstructorInput
-    reviews?: ReviewCreateNestedManyWithoutInstructorInput
-    stats?: InstructorStatsCreateNestedOneWithoutInstructorInput
+  export type InstructorUpsertWithoutOrganizationMemberInput = {
+    update: XOR<InstructorUpdateWithoutOrganizationMemberInput, InstructorUncheckedUpdateWithoutOrganizationMemberInput>
+    create: XOR<InstructorCreateWithoutOrganizationMemberInput, InstructorUncheckedCreateWithoutOrganizationMemberInput>
+    where?: InstructorWhereInput
   }
 
-  export type InstructorUncheckedCreateWithoutOrganizationInput = {
-    id?: string
-    userId: string
-    name: string
-    title: string
-    avatar: string
-    coverImage?: string | null
-    bio: string
-    featured?: boolean | null
-    longBio?: string | null
-    rating: number
-    totalStudents: number
-    totalCourses: number
-    experience?: string | null
-    location?: string | null
-    joinedDate?: string | null
-    specialties?: InstructorCreatespecialtiesInput | string[]
-    achievements?: InstructorCreateachievementsInput | string[]
-    education?: InstructorCreateeducationInput | string[]
-    social: JsonNullValueInput | InputJsonValue
-    workExperience?: WorkExperienceUncheckedCreateNestedManyWithoutInstructorInput
-    reviews?: ReviewUncheckedCreateNestedManyWithoutInstructorInput
-    stats?: InstructorStatsUncheckedCreateNestedOneWithoutInstructorInput
+  export type InstructorUpdateToOneWithWhereWithoutOrganizationMemberInput = {
+    where?: InstructorWhereInput
+    data: XOR<InstructorUpdateWithoutOrganizationMemberInput, InstructorUncheckedUpdateWithoutOrganizationMemberInput>
   }
 
-  export type InstructorCreateOrConnectWithoutOrganizationInput = {
-    where: InstructorWhereUniqueInput
-    create: XOR<InstructorCreateWithoutOrganizationInput, InstructorUncheckedCreateWithoutOrganizationInput>
+  export type InstructorUpdateWithoutOrganizationMemberInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    avatar?: StringFieldUpdateOperationsInput | string
+    coverImage?: NullableStringFieldUpdateOperationsInput | string | null
+    bio?: StringFieldUpdateOperationsInput | string
+    featured?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    longBio?: NullableStringFieldUpdateOperationsInput | string | null
+    rating?: FloatFieldUpdateOperationsInput | number
+    totalStudents?: IntFieldUpdateOperationsInput | number
+    totalCourses?: IntFieldUpdateOperationsInput | number
+    specialties?: InstructorUpdatespecialtiesInput | string[]
+    achievements?: InstructorUpdateachievementsInput | string[]
+    education?: InstructorUpdateeducationInput | string[]
+    social?: JsonNullValueInput | InputJsonValue
+    workExperience?: WorkExperienceUpdateManyWithoutInstructorNestedInput
+    reviews?: ReviewUpdateManyWithoutInstructorNestedInput
+    stats?: InstructorStatsUpdateOneWithoutInstructorNestedInput
+    organization?: OrganizationUpdateOneWithoutInstructorsNestedInput
   }
 
-  export type InstructorCreateManyOrganizationInputEnvelope = {
-    data: InstructorCreateManyOrganizationInput | InstructorCreateManyOrganizationInput[]
-    skipDuplicates?: boolean
+  export type InstructorUncheckedUpdateWithoutOrganizationMemberInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    avatar?: StringFieldUpdateOperationsInput | string
+    coverImage?: NullableStringFieldUpdateOperationsInput | string | null
+    bio?: StringFieldUpdateOperationsInput | string
+    featured?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    longBio?: NullableStringFieldUpdateOperationsInput | string | null
+    rating?: FloatFieldUpdateOperationsInput | number
+    totalStudents?: IntFieldUpdateOperationsInput | number
+    totalCourses?: IntFieldUpdateOperationsInput | number
+    specialties?: InstructorUpdatespecialtiesInput | string[]
+    achievements?: InstructorUpdateachievementsInput | string[]
+    education?: InstructorUpdateeducationInput | string[]
+    social?: JsonNullValueInput | InputJsonValue
+    organizationId?: NullableStringFieldUpdateOperationsInput | string | null
+    workExperience?: WorkExperienceUncheckedUpdateManyWithoutInstructorNestedInput
+    reviews?: ReviewUncheckedUpdateManyWithoutInstructorNestedInput
+    stats?: InstructorStatsUncheckedUpdateOneWithoutInstructorNestedInput
   }
 
   export type ReviewCreateWithoutOrganizationInput = {
     id?: string
-    userName: string
-    userAvatar: string
+    username: string
+    avatar: string
     rating: number
     comment: string
     createdAt?: Date | string
@@ -14449,8 +14516,8 @@ export namespace Prisma {
 
   export type ReviewUncheckedCreateWithoutOrganizationInput = {
     id?: string
-    userName: string
-    userAvatar: string
+    username: string
+    avatar: string
     rating: number
     comment: string
     createdAt?: Date | string
@@ -14511,16 +14578,74 @@ export namespace Prisma {
     create: XOR<ContactCreateWithoutOrganizationInput, ContactUncheckedCreateWithoutOrganizationInput>
   }
 
+  export type InstructorCreateWithoutOrganizationInput = {
+    id?: string
+    name: string
+    title: string
+    avatar: string
+    coverImage?: string | null
+    bio: string
+    featured?: boolean | null
+    longBio?: string | null
+    rating?: number
+    totalStudents?: number
+    totalCourses?: number
+    specialties?: InstructorCreatespecialtiesInput | string[]
+    achievements?: InstructorCreateachievementsInput | string[]
+    education?: InstructorCreateeducationInput | string[]
+    social: JsonNullValueInput | InputJsonValue
+    workExperience?: WorkExperienceCreateNestedManyWithoutInstructorInput
+    reviews?: ReviewCreateNestedManyWithoutInstructorInput
+    stats?: InstructorStatsCreateNestedOneWithoutInstructorInput
+    organizationMember: OrganizationMemberCreateNestedOneWithoutInstructorInput
+  }
+
+  export type InstructorUncheckedCreateWithoutOrganizationInput = {
+    id?: string
+    name: string
+    title: string
+    avatar: string
+    coverImage?: string | null
+    bio: string
+    featured?: boolean | null
+    longBio?: string | null
+    rating?: number
+    totalStudents?: number
+    totalCourses?: number
+    specialties?: InstructorCreatespecialtiesInput | string[]
+    achievements?: InstructorCreateachievementsInput | string[]
+    education?: InstructorCreateeducationInput | string[]
+    social: JsonNullValueInput | InputJsonValue
+    memberId: string
+    workExperience?: WorkExperienceUncheckedCreateNestedManyWithoutInstructorInput
+    reviews?: ReviewUncheckedCreateNestedManyWithoutInstructorInput
+    stats?: InstructorStatsUncheckedCreateNestedOneWithoutInstructorInput
+  }
+
+  export type InstructorCreateOrConnectWithoutOrganizationInput = {
+    where: InstructorWhereUniqueInput
+    create: XOR<InstructorCreateWithoutOrganizationInput, InstructorUncheckedCreateWithoutOrganizationInput>
+  }
+
+  export type InstructorCreateManyOrganizationInputEnvelope = {
+    data: InstructorCreateManyOrganizationInput | InstructorCreateManyOrganizationInput[]
+    skipDuplicates?: boolean
+  }
+
   export type OrganizationMemberCreateWithoutOrganizationInput = {
     id?: string
     userId: string
-    role: $Enums.OrgRole
+    role: $Enums.Role
+    instructorId?: string | null
+    instructor?: InstructorCreateNestedOneWithoutOrganizationMemberInput
   }
 
   export type OrganizationMemberUncheckedCreateWithoutOrganizationInput = {
     id?: string
     userId: string
-    role: $Enums.OrgRole
+    role: $Enums.Role
+    instructorId?: string | null
+    instructor?: InstructorUncheckedCreateNestedOneWithoutOrganizationMemberInput
   }
 
   export type OrganizationMemberCreateOrConnectWithoutOrganizationInput = {
@@ -14531,48 +14656,6 @@ export namespace Prisma {
   export type OrganizationMemberCreateManyOrganizationInputEnvelope = {
     data: OrganizationMemberCreateManyOrganizationInput | OrganizationMemberCreateManyOrganizationInput[]
     skipDuplicates?: boolean
-  }
-
-  export type InstructorUpsertWithWhereUniqueWithoutOrganizationInput = {
-    where: InstructorWhereUniqueInput
-    update: XOR<InstructorUpdateWithoutOrganizationInput, InstructorUncheckedUpdateWithoutOrganizationInput>
-    create: XOR<InstructorCreateWithoutOrganizationInput, InstructorUncheckedCreateWithoutOrganizationInput>
-  }
-
-  export type InstructorUpdateWithWhereUniqueWithoutOrganizationInput = {
-    where: InstructorWhereUniqueInput
-    data: XOR<InstructorUpdateWithoutOrganizationInput, InstructorUncheckedUpdateWithoutOrganizationInput>
-  }
-
-  export type InstructorUpdateManyWithWhereWithoutOrganizationInput = {
-    where: InstructorScalarWhereInput
-    data: XOR<InstructorUpdateManyMutationInput, InstructorUncheckedUpdateManyWithoutOrganizationInput>
-  }
-
-  export type InstructorScalarWhereInput = {
-    AND?: InstructorScalarWhereInput | InstructorScalarWhereInput[]
-    OR?: InstructorScalarWhereInput[]
-    NOT?: InstructorScalarWhereInput | InstructorScalarWhereInput[]
-    id?: StringFilter<"Instructor"> | string
-    userId?: StringFilter<"Instructor"> | string
-    name?: StringFilter<"Instructor"> | string
-    title?: StringFilter<"Instructor"> | string
-    avatar?: StringFilter<"Instructor"> | string
-    coverImage?: StringNullableFilter<"Instructor"> | string | null
-    bio?: StringFilter<"Instructor"> | string
-    featured?: BoolNullableFilter<"Instructor"> | boolean | null
-    longBio?: StringNullableFilter<"Instructor"> | string | null
-    rating?: FloatFilter<"Instructor"> | number
-    totalStudents?: IntFilter<"Instructor"> | number
-    totalCourses?: IntFilter<"Instructor"> | number
-    experience?: StringNullableFilter<"Instructor"> | string | null
-    location?: StringNullableFilter<"Instructor"> | string | null
-    joinedDate?: StringNullableFilter<"Instructor"> | string | null
-    specialties?: StringNullableListFilter<"Instructor">
-    achievements?: StringNullableListFilter<"Instructor">
-    education?: StringNullableListFilter<"Instructor">
-    social?: JsonFilter<"Instructor">
-    organizationId?: StringNullableFilter<"Instructor"> | string | null
   }
 
   export type ReviewUpsertWithWhereUniqueWithoutOrganizationInput = {
@@ -14596,8 +14679,8 @@ export namespace Prisma {
     OR?: ReviewScalarWhereInput[]
     NOT?: ReviewScalarWhereInput | ReviewScalarWhereInput[]
     id?: StringFilter<"Review"> | string
-    userName?: StringFilter<"Review"> | string
-    userAvatar?: StringFilter<"Review"> | string
+    username?: StringFilter<"Review"> | string
+    avatar?: StringFilter<"Review"> | string
     rating?: FloatFilter<"Review"> | number
     comment?: StringFilter<"Review"> | string
     createdAt?: DateTimeFilter<"Review"> | Date | string
@@ -14661,6 +14744,45 @@ export namespace Prisma {
     country?: StringFieldUpdateOperationsInput | string
   }
 
+  export type InstructorUpsertWithWhereUniqueWithoutOrganizationInput = {
+    where: InstructorWhereUniqueInput
+    update: XOR<InstructorUpdateWithoutOrganizationInput, InstructorUncheckedUpdateWithoutOrganizationInput>
+    create: XOR<InstructorCreateWithoutOrganizationInput, InstructorUncheckedCreateWithoutOrganizationInput>
+  }
+
+  export type InstructorUpdateWithWhereUniqueWithoutOrganizationInput = {
+    where: InstructorWhereUniqueInput
+    data: XOR<InstructorUpdateWithoutOrganizationInput, InstructorUncheckedUpdateWithoutOrganizationInput>
+  }
+
+  export type InstructorUpdateManyWithWhereWithoutOrganizationInput = {
+    where: InstructorScalarWhereInput
+    data: XOR<InstructorUpdateManyMutationInput, InstructorUncheckedUpdateManyWithoutOrganizationInput>
+  }
+
+  export type InstructorScalarWhereInput = {
+    AND?: InstructorScalarWhereInput | InstructorScalarWhereInput[]
+    OR?: InstructorScalarWhereInput[]
+    NOT?: InstructorScalarWhereInput | InstructorScalarWhereInput[]
+    id?: StringFilter<"Instructor"> | string
+    name?: StringFilter<"Instructor"> | string
+    title?: StringFilter<"Instructor"> | string
+    avatar?: StringFilter<"Instructor"> | string
+    coverImage?: StringNullableFilter<"Instructor"> | string | null
+    bio?: StringFilter<"Instructor"> | string
+    featured?: BoolNullableFilter<"Instructor"> | boolean | null
+    longBio?: StringNullableFilter<"Instructor"> | string | null
+    rating?: FloatFilter<"Instructor"> | number
+    totalStudents?: IntFilter<"Instructor"> | number
+    totalCourses?: IntFilter<"Instructor"> | number
+    specialties?: StringNullableListFilter<"Instructor">
+    achievements?: StringNullableListFilter<"Instructor">
+    education?: StringNullableListFilter<"Instructor">
+    social?: JsonFilter<"Instructor">
+    memberId?: StringFilter<"Instructor"> | string
+    organizationId?: StringNullableFilter<"Instructor"> | string | null
+  }
+
   export type OrganizationMemberUpsertWithWhereUniqueWithoutOrganizationInput = {
     where: OrganizationMemberWhereUniqueInput
     update: XOR<OrganizationMemberUpdateWithoutOrganizationInput, OrganizationMemberUncheckedUpdateWithoutOrganizationInput>
@@ -14683,13 +14805,13 @@ export namespace Prisma {
     NOT?: OrganizationMemberScalarWhereInput | OrganizationMemberScalarWhereInput[]
     id?: StringFilter<"OrganizationMember"> | string
     userId?: StringFilter<"OrganizationMember"> | string
-    organizationId?: StringFilter<"OrganizationMember"> | string
-    role?: EnumOrgRoleFilter<"OrganizationMember"> | $Enums.OrgRole
+    role?: EnumRoleFilter<"OrganizationMember"> | $Enums.Role
+    organizationId?: StringNullableFilter<"OrganizationMember"> | string | null
+    instructorId?: StringNullableFilter<"OrganizationMember"> | string | null
   }
 
   export type OrganizationCreateWithoutStatsInput = {
     id?: string
-    userId: string
     name: string
     type: $Enums.OrgType
     logo: string
@@ -14701,29 +14823,28 @@ export namespace Prisma {
     email: string
     phone: string
     founded: string
-    totalCourses: number
-    totalStudents: number
-    totalInstructors: number
-    rating: number
-    reviewCount: number
+    totalCourses?: number
+    totalStudents?: number
+    totalInstructors?: number
+    rating?: number
+    reviewCount?: number
     specialties?: OrganizationCreatespecialtiesInput | string[]
-    featured: boolean
-    verified: boolean
+    featured?: boolean
+    verified?: boolean
     accreditation?: OrganizationCreateaccreditationInput | string[]
-    mission: string
-    vision: string
+    mission?: string | null
+    vision?: string | null
     achievements?: OrganizationCreateachievementsInput | string[]
     partnerships?: OrganizationCreatepartnershipsInput | string[]
     social: JsonNullValueInput | InputJsonValue
-    instructors?: InstructorCreateNestedManyWithoutOrganizationInput
     reviews?: ReviewCreateNestedManyWithoutOrganizationInput
     contact?: ContactCreateNestedOneWithoutOrganizationInput
+    instructors?: InstructorCreateNestedManyWithoutOrganizationInput
     members?: OrganizationMemberCreateNestedManyWithoutOrganizationInput
   }
 
   export type OrganizationUncheckedCreateWithoutStatsInput = {
     id?: string
-    userId: string
     name: string
     type: $Enums.OrgType
     logo: string
@@ -14735,23 +14856,23 @@ export namespace Prisma {
     email: string
     phone: string
     founded: string
-    totalCourses: number
-    totalStudents: number
-    totalInstructors: number
-    rating: number
-    reviewCount: number
+    totalCourses?: number
+    totalStudents?: number
+    totalInstructors?: number
+    rating?: number
+    reviewCount?: number
     specialties?: OrganizationCreatespecialtiesInput | string[]
-    featured: boolean
-    verified: boolean
+    featured?: boolean
+    verified?: boolean
     accreditation?: OrganizationCreateaccreditationInput | string[]
-    mission: string
-    vision: string
+    mission?: string | null
+    vision?: string | null
     achievements?: OrganizationCreateachievementsInput | string[]
     partnerships?: OrganizationCreatepartnershipsInput | string[]
     social: JsonNullValueInput | InputJsonValue
-    instructors?: InstructorUncheckedCreateNestedManyWithoutOrganizationInput
     reviews?: ReviewUncheckedCreateNestedManyWithoutOrganizationInput
     contact?: ContactUncheckedCreateNestedOneWithoutOrganizationInput
+    instructors?: InstructorUncheckedCreateNestedManyWithoutOrganizationInput
     members?: OrganizationMemberUncheckedCreateNestedManyWithoutOrganizationInput
   }
 
@@ -14773,7 +14894,6 @@ export namespace Prisma {
 
   export type OrganizationUpdateWithoutStatsInput = {
     id?: StringFieldUpdateOperationsInput | string
-    userId?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
     type?: EnumOrgTypeFieldUpdateOperationsInput | $Enums.OrgType
     logo?: StringFieldUpdateOperationsInput | string
@@ -14794,20 +14914,19 @@ export namespace Prisma {
     featured?: BoolFieldUpdateOperationsInput | boolean
     verified?: BoolFieldUpdateOperationsInput | boolean
     accreditation?: OrganizationUpdateaccreditationInput | string[]
-    mission?: StringFieldUpdateOperationsInput | string
-    vision?: StringFieldUpdateOperationsInput | string
+    mission?: NullableStringFieldUpdateOperationsInput | string | null
+    vision?: NullableStringFieldUpdateOperationsInput | string | null
     achievements?: OrganizationUpdateachievementsInput | string[]
     partnerships?: OrganizationUpdatepartnershipsInput | string[]
     social?: JsonNullValueInput | InputJsonValue
-    instructors?: InstructorUpdateManyWithoutOrganizationNestedInput
     reviews?: ReviewUpdateManyWithoutOrganizationNestedInput
     contact?: ContactUpdateOneWithoutOrganizationNestedInput
+    instructors?: InstructorUpdateManyWithoutOrganizationNestedInput
     members?: OrganizationMemberUpdateManyWithoutOrganizationNestedInput
   }
 
   export type OrganizationUncheckedUpdateWithoutStatsInput = {
     id?: StringFieldUpdateOperationsInput | string
-    userId?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
     type?: EnumOrgTypeFieldUpdateOperationsInput | $Enums.OrgType
     logo?: StringFieldUpdateOperationsInput | string
@@ -14828,20 +14947,19 @@ export namespace Prisma {
     featured?: BoolFieldUpdateOperationsInput | boolean
     verified?: BoolFieldUpdateOperationsInput | boolean
     accreditation?: OrganizationUpdateaccreditationInput | string[]
-    mission?: StringFieldUpdateOperationsInput | string
-    vision?: StringFieldUpdateOperationsInput | string
+    mission?: NullableStringFieldUpdateOperationsInput | string | null
+    vision?: NullableStringFieldUpdateOperationsInput | string | null
     achievements?: OrganizationUpdateachievementsInput | string[]
     partnerships?: OrganizationUpdatepartnershipsInput | string[]
     social?: JsonNullValueInput | InputJsonValue
-    instructors?: InstructorUncheckedUpdateManyWithoutOrganizationNestedInput
     reviews?: ReviewUncheckedUpdateManyWithoutOrganizationNestedInput
     contact?: ContactUncheckedUpdateOneWithoutOrganizationNestedInput
+    instructors?: InstructorUncheckedUpdateManyWithoutOrganizationNestedInput
     members?: OrganizationMemberUncheckedUpdateManyWithoutOrganizationNestedInput
   }
 
   export type OrganizationCreateWithoutContactInput = {
     id?: string
-    userId: string
     name: string
     type: $Enums.OrgType
     logo: string
@@ -14853,29 +14971,28 @@ export namespace Prisma {
     email: string
     phone: string
     founded: string
-    totalCourses: number
-    totalStudents: number
-    totalInstructors: number
-    rating: number
-    reviewCount: number
+    totalCourses?: number
+    totalStudents?: number
+    totalInstructors?: number
+    rating?: number
+    reviewCount?: number
     specialties?: OrganizationCreatespecialtiesInput | string[]
-    featured: boolean
-    verified: boolean
+    featured?: boolean
+    verified?: boolean
     accreditation?: OrganizationCreateaccreditationInput | string[]
-    mission: string
-    vision: string
+    mission?: string | null
+    vision?: string | null
     achievements?: OrganizationCreateachievementsInput | string[]
     partnerships?: OrganizationCreatepartnershipsInput | string[]
     social: JsonNullValueInput | InputJsonValue
-    instructors?: InstructorCreateNestedManyWithoutOrganizationInput
     reviews?: ReviewCreateNestedManyWithoutOrganizationInput
     stats?: OrgStatsCreateNestedOneWithoutOrganizationInput
+    instructors?: InstructorCreateNestedManyWithoutOrganizationInput
     members?: OrganizationMemberCreateNestedManyWithoutOrganizationInput
   }
 
   export type OrganizationUncheckedCreateWithoutContactInput = {
     id?: string
-    userId: string
     name: string
     type: $Enums.OrgType
     logo: string
@@ -14887,23 +15004,23 @@ export namespace Prisma {
     email: string
     phone: string
     founded: string
-    totalCourses: number
-    totalStudents: number
-    totalInstructors: number
-    rating: number
-    reviewCount: number
+    totalCourses?: number
+    totalStudents?: number
+    totalInstructors?: number
+    rating?: number
+    reviewCount?: number
     specialties?: OrganizationCreatespecialtiesInput | string[]
-    featured: boolean
-    verified: boolean
+    featured?: boolean
+    verified?: boolean
     accreditation?: OrganizationCreateaccreditationInput | string[]
-    mission: string
-    vision: string
+    mission?: string | null
+    vision?: string | null
     achievements?: OrganizationCreateachievementsInput | string[]
     partnerships?: OrganizationCreatepartnershipsInput | string[]
     social: JsonNullValueInput | InputJsonValue
-    instructors?: InstructorUncheckedCreateNestedManyWithoutOrganizationInput
     reviews?: ReviewUncheckedCreateNestedManyWithoutOrganizationInput
     stats?: OrgStatsUncheckedCreateNestedOneWithoutOrganizationInput
+    instructors?: InstructorUncheckedCreateNestedManyWithoutOrganizationInput
     members?: OrganizationMemberUncheckedCreateNestedManyWithoutOrganizationInput
   }
 
@@ -14925,7 +15042,6 @@ export namespace Prisma {
 
   export type OrganizationUpdateWithoutContactInput = {
     id?: StringFieldUpdateOperationsInput | string
-    userId?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
     type?: EnumOrgTypeFieldUpdateOperationsInput | $Enums.OrgType
     logo?: StringFieldUpdateOperationsInput | string
@@ -14946,20 +15062,19 @@ export namespace Prisma {
     featured?: BoolFieldUpdateOperationsInput | boolean
     verified?: BoolFieldUpdateOperationsInput | boolean
     accreditation?: OrganizationUpdateaccreditationInput | string[]
-    mission?: StringFieldUpdateOperationsInput | string
-    vision?: StringFieldUpdateOperationsInput | string
+    mission?: NullableStringFieldUpdateOperationsInput | string | null
+    vision?: NullableStringFieldUpdateOperationsInput | string | null
     achievements?: OrganizationUpdateachievementsInput | string[]
     partnerships?: OrganizationUpdatepartnershipsInput | string[]
     social?: JsonNullValueInput | InputJsonValue
-    instructors?: InstructorUpdateManyWithoutOrganizationNestedInput
     reviews?: ReviewUpdateManyWithoutOrganizationNestedInput
     stats?: OrgStatsUpdateOneWithoutOrganizationNestedInput
+    instructors?: InstructorUpdateManyWithoutOrganizationNestedInput
     members?: OrganizationMemberUpdateManyWithoutOrganizationNestedInput
   }
 
   export type OrganizationUncheckedUpdateWithoutContactInput = {
     id?: StringFieldUpdateOperationsInput | string
-    userId?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
     type?: EnumOrgTypeFieldUpdateOperationsInput | $Enums.OrgType
     logo?: StringFieldUpdateOperationsInput | string
@@ -14980,20 +15095,19 @@ export namespace Prisma {
     featured?: BoolFieldUpdateOperationsInput | boolean
     verified?: BoolFieldUpdateOperationsInput | boolean
     accreditation?: OrganizationUpdateaccreditationInput | string[]
-    mission?: StringFieldUpdateOperationsInput | string
-    vision?: StringFieldUpdateOperationsInput | string
+    mission?: NullableStringFieldUpdateOperationsInput | string | null
+    vision?: NullableStringFieldUpdateOperationsInput | string | null
     achievements?: OrganizationUpdateachievementsInput | string[]
     partnerships?: OrganizationUpdatepartnershipsInput | string[]
     social?: JsonNullValueInput | InputJsonValue
-    instructors?: InstructorUncheckedUpdateManyWithoutOrganizationNestedInput
     reviews?: ReviewUncheckedUpdateManyWithoutOrganizationNestedInput
     stats?: OrgStatsUncheckedUpdateOneWithoutOrganizationNestedInput
+    instructors?: InstructorUncheckedUpdateManyWithoutOrganizationNestedInput
     members?: OrganizationMemberUncheckedUpdateManyWithoutOrganizationNestedInput
   }
 
   export type InstructorCreateWithoutReviewsInput = {
     id?: string
-    userId: string
     name: string
     title: string
     avatar: string
@@ -15001,24 +15115,21 @@ export namespace Prisma {
     bio: string
     featured?: boolean | null
     longBio?: string | null
-    rating: number
-    totalStudents: number
-    totalCourses: number
-    experience?: string | null
-    location?: string | null
-    joinedDate?: string | null
+    rating?: number
+    totalStudents?: number
+    totalCourses?: number
     specialties?: InstructorCreatespecialtiesInput | string[]
     achievements?: InstructorCreateachievementsInput | string[]
     education?: InstructorCreateeducationInput | string[]
     social: JsonNullValueInput | InputJsonValue
     workExperience?: WorkExperienceCreateNestedManyWithoutInstructorInput
-    organization?: OrganizationCreateNestedOneWithoutInstructorsInput
     stats?: InstructorStatsCreateNestedOneWithoutInstructorInput
+    organizationMember: OrganizationMemberCreateNestedOneWithoutInstructorInput
+    organization?: OrganizationCreateNestedOneWithoutInstructorsInput
   }
 
   export type InstructorUncheckedCreateWithoutReviewsInput = {
     id?: string
-    userId: string
     name: string
     title: string
     avatar: string
@@ -15026,16 +15137,14 @@ export namespace Prisma {
     bio: string
     featured?: boolean | null
     longBio?: string | null
-    rating: number
-    totalStudents: number
-    totalCourses: number
-    experience?: string | null
-    location?: string | null
-    joinedDate?: string | null
+    rating?: number
+    totalStudents?: number
+    totalCourses?: number
     specialties?: InstructorCreatespecialtiesInput | string[]
     achievements?: InstructorCreateachievementsInput | string[]
     education?: InstructorCreateeducationInput | string[]
     social: JsonNullValueInput | InputJsonValue
+    memberId: string
     organizationId?: string | null
     workExperience?: WorkExperienceUncheckedCreateNestedManyWithoutInstructorInput
     stats?: InstructorStatsUncheckedCreateNestedOneWithoutInstructorInput
@@ -15048,7 +15157,6 @@ export namespace Prisma {
 
   export type OrganizationCreateWithoutReviewsInput = {
     id?: string
-    userId: string
     name: string
     type: $Enums.OrgType
     logo: string
@@ -15060,29 +15168,28 @@ export namespace Prisma {
     email: string
     phone: string
     founded: string
-    totalCourses: number
-    totalStudents: number
-    totalInstructors: number
-    rating: number
-    reviewCount: number
+    totalCourses?: number
+    totalStudents?: number
+    totalInstructors?: number
+    rating?: number
+    reviewCount?: number
     specialties?: OrganizationCreatespecialtiesInput | string[]
-    featured: boolean
-    verified: boolean
+    featured?: boolean
+    verified?: boolean
     accreditation?: OrganizationCreateaccreditationInput | string[]
-    mission: string
-    vision: string
+    mission?: string | null
+    vision?: string | null
     achievements?: OrganizationCreateachievementsInput | string[]
     partnerships?: OrganizationCreatepartnershipsInput | string[]
     social: JsonNullValueInput | InputJsonValue
-    instructors?: InstructorCreateNestedManyWithoutOrganizationInput
     stats?: OrgStatsCreateNestedOneWithoutOrganizationInput
     contact?: ContactCreateNestedOneWithoutOrganizationInput
+    instructors?: InstructorCreateNestedManyWithoutOrganizationInput
     members?: OrganizationMemberCreateNestedManyWithoutOrganizationInput
   }
 
   export type OrganizationUncheckedCreateWithoutReviewsInput = {
     id?: string
-    userId: string
     name: string
     type: $Enums.OrgType
     logo: string
@@ -15094,23 +15201,23 @@ export namespace Prisma {
     email: string
     phone: string
     founded: string
-    totalCourses: number
-    totalStudents: number
-    totalInstructors: number
-    rating: number
-    reviewCount: number
+    totalCourses?: number
+    totalStudents?: number
+    totalInstructors?: number
+    rating?: number
+    reviewCount?: number
     specialties?: OrganizationCreatespecialtiesInput | string[]
-    featured: boolean
-    verified: boolean
+    featured?: boolean
+    verified?: boolean
     accreditation?: OrganizationCreateaccreditationInput | string[]
-    mission: string
-    vision: string
+    mission?: string | null
+    vision?: string | null
     achievements?: OrganizationCreateachievementsInput | string[]
     partnerships?: OrganizationCreatepartnershipsInput | string[]
     social: JsonNullValueInput | InputJsonValue
-    instructors?: InstructorUncheckedCreateNestedManyWithoutOrganizationInput
     stats?: OrgStatsUncheckedCreateNestedOneWithoutOrganizationInput
     contact?: ContactUncheckedCreateNestedOneWithoutOrganizationInput
+    instructors?: InstructorUncheckedCreateNestedManyWithoutOrganizationInput
     members?: OrganizationMemberUncheckedCreateNestedManyWithoutOrganizationInput
   }
 
@@ -15132,7 +15239,6 @@ export namespace Prisma {
 
   export type InstructorUpdateWithoutReviewsInput = {
     id?: StringFieldUpdateOperationsInput | string
-    userId?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
     title?: StringFieldUpdateOperationsInput | string
     avatar?: StringFieldUpdateOperationsInput | string
@@ -15143,21 +15249,18 @@ export namespace Prisma {
     rating?: FloatFieldUpdateOperationsInput | number
     totalStudents?: IntFieldUpdateOperationsInput | number
     totalCourses?: IntFieldUpdateOperationsInput | number
-    experience?: NullableStringFieldUpdateOperationsInput | string | null
-    location?: NullableStringFieldUpdateOperationsInput | string | null
-    joinedDate?: NullableStringFieldUpdateOperationsInput | string | null
     specialties?: InstructorUpdatespecialtiesInput | string[]
     achievements?: InstructorUpdateachievementsInput | string[]
     education?: InstructorUpdateeducationInput | string[]
     social?: JsonNullValueInput | InputJsonValue
     workExperience?: WorkExperienceUpdateManyWithoutInstructorNestedInput
-    organization?: OrganizationUpdateOneWithoutInstructorsNestedInput
     stats?: InstructorStatsUpdateOneWithoutInstructorNestedInput
+    organizationMember?: OrganizationMemberUpdateOneRequiredWithoutInstructorNestedInput
+    organization?: OrganizationUpdateOneWithoutInstructorsNestedInput
   }
 
   export type InstructorUncheckedUpdateWithoutReviewsInput = {
     id?: StringFieldUpdateOperationsInput | string
-    userId?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
     title?: StringFieldUpdateOperationsInput | string
     avatar?: StringFieldUpdateOperationsInput | string
@@ -15168,13 +15271,11 @@ export namespace Prisma {
     rating?: FloatFieldUpdateOperationsInput | number
     totalStudents?: IntFieldUpdateOperationsInput | number
     totalCourses?: IntFieldUpdateOperationsInput | number
-    experience?: NullableStringFieldUpdateOperationsInput | string | null
-    location?: NullableStringFieldUpdateOperationsInput | string | null
-    joinedDate?: NullableStringFieldUpdateOperationsInput | string | null
     specialties?: InstructorUpdatespecialtiesInput | string[]
     achievements?: InstructorUpdateachievementsInput | string[]
     education?: InstructorUpdateeducationInput | string[]
     social?: JsonNullValueInput | InputJsonValue
+    memberId?: StringFieldUpdateOperationsInput | string
     organizationId?: NullableStringFieldUpdateOperationsInput | string | null
     workExperience?: WorkExperienceUncheckedUpdateManyWithoutInstructorNestedInput
     stats?: InstructorStatsUncheckedUpdateOneWithoutInstructorNestedInput
@@ -15193,7 +15294,6 @@ export namespace Prisma {
 
   export type OrganizationUpdateWithoutReviewsInput = {
     id?: StringFieldUpdateOperationsInput | string
-    userId?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
     type?: EnumOrgTypeFieldUpdateOperationsInput | $Enums.OrgType
     logo?: StringFieldUpdateOperationsInput | string
@@ -15214,20 +15314,19 @@ export namespace Prisma {
     featured?: BoolFieldUpdateOperationsInput | boolean
     verified?: BoolFieldUpdateOperationsInput | boolean
     accreditation?: OrganizationUpdateaccreditationInput | string[]
-    mission?: StringFieldUpdateOperationsInput | string
-    vision?: StringFieldUpdateOperationsInput | string
+    mission?: NullableStringFieldUpdateOperationsInput | string | null
+    vision?: NullableStringFieldUpdateOperationsInput | string | null
     achievements?: OrganizationUpdateachievementsInput | string[]
     partnerships?: OrganizationUpdatepartnershipsInput | string[]
     social?: JsonNullValueInput | InputJsonValue
-    instructors?: InstructorUpdateManyWithoutOrganizationNestedInput
     stats?: OrgStatsUpdateOneWithoutOrganizationNestedInput
     contact?: ContactUpdateOneWithoutOrganizationNestedInput
+    instructors?: InstructorUpdateManyWithoutOrganizationNestedInput
     members?: OrganizationMemberUpdateManyWithoutOrganizationNestedInput
   }
 
   export type OrganizationUncheckedUpdateWithoutReviewsInput = {
     id?: StringFieldUpdateOperationsInput | string
-    userId?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
     type?: EnumOrgTypeFieldUpdateOperationsInput | $Enums.OrgType
     logo?: StringFieldUpdateOperationsInput | string
@@ -15248,14 +15347,14 @@ export namespace Prisma {
     featured?: BoolFieldUpdateOperationsInput | boolean
     verified?: BoolFieldUpdateOperationsInput | boolean
     accreditation?: OrganizationUpdateaccreditationInput | string[]
-    mission?: StringFieldUpdateOperationsInput | string
-    vision?: StringFieldUpdateOperationsInput | string
+    mission?: NullableStringFieldUpdateOperationsInput | string | null
+    vision?: NullableStringFieldUpdateOperationsInput | string | null
     achievements?: OrganizationUpdateachievementsInput | string[]
     partnerships?: OrganizationUpdatepartnershipsInput | string[]
     social?: JsonNullValueInput | InputJsonValue
-    instructors?: InstructorUncheckedUpdateManyWithoutOrganizationNestedInput
     stats?: OrgStatsUncheckedUpdateOneWithoutOrganizationNestedInput
     contact?: ContactUncheckedUpdateOneWithoutOrganizationNestedInput
+    instructors?: InstructorUncheckedUpdateManyWithoutOrganizationNestedInput
     members?: OrganizationMemberUncheckedUpdateManyWithoutOrganizationNestedInput
   }
 
@@ -15283,83 +15382,10 @@ export namespace Prisma {
     skipDuplicates?: boolean
   }
 
-  export type OrganizationCreateWithoutInstructorsInput = {
-    id?: string
-    userId: string
-    name: string
-    type: $Enums.OrgType
-    logo: string
-    coverImage: string
-    description: string
-    longDescription: string
-    location: string
-    website: string
-    email: string
-    phone: string
-    founded: string
-    totalCourses: number
-    totalStudents: number
-    totalInstructors: number
-    rating: number
-    reviewCount: number
-    specialties?: OrganizationCreatespecialtiesInput | string[]
-    featured: boolean
-    verified: boolean
-    accreditation?: OrganizationCreateaccreditationInput | string[]
-    mission: string
-    vision: string
-    achievements?: OrganizationCreateachievementsInput | string[]
-    partnerships?: OrganizationCreatepartnershipsInput | string[]
-    social: JsonNullValueInput | InputJsonValue
-    reviews?: ReviewCreateNestedManyWithoutOrganizationInput
-    stats?: OrgStatsCreateNestedOneWithoutOrganizationInput
-    contact?: ContactCreateNestedOneWithoutOrganizationInput
-    members?: OrganizationMemberCreateNestedManyWithoutOrganizationInput
-  }
-
-  export type OrganizationUncheckedCreateWithoutInstructorsInput = {
-    id?: string
-    userId: string
-    name: string
-    type: $Enums.OrgType
-    logo: string
-    coverImage: string
-    description: string
-    longDescription: string
-    location: string
-    website: string
-    email: string
-    phone: string
-    founded: string
-    totalCourses: number
-    totalStudents: number
-    totalInstructors: number
-    rating: number
-    reviewCount: number
-    specialties?: OrganizationCreatespecialtiesInput | string[]
-    featured: boolean
-    verified: boolean
-    accreditation?: OrganizationCreateaccreditationInput | string[]
-    mission: string
-    vision: string
-    achievements?: OrganizationCreateachievementsInput | string[]
-    partnerships?: OrganizationCreatepartnershipsInput | string[]
-    social: JsonNullValueInput | InputJsonValue
-    reviews?: ReviewUncheckedCreateNestedManyWithoutOrganizationInput
-    stats?: OrgStatsUncheckedCreateNestedOneWithoutOrganizationInput
-    contact?: ContactUncheckedCreateNestedOneWithoutOrganizationInput
-    members?: OrganizationMemberUncheckedCreateNestedManyWithoutOrganizationInput
-  }
-
-  export type OrganizationCreateOrConnectWithoutInstructorsInput = {
-    where: OrganizationWhereUniqueInput
-    create: XOR<OrganizationCreateWithoutInstructorsInput, OrganizationUncheckedCreateWithoutInstructorsInput>
-  }
-
   export type ReviewCreateWithoutInstructorInput = {
     id?: string
-    userName: string
-    userAvatar: string
+    username: string
+    avatar: string
     rating: number
     comment: string
     createdAt?: Date | string
@@ -15368,8 +15394,8 @@ export namespace Prisma {
 
   export type ReviewUncheckedCreateWithoutInstructorInput = {
     id?: string
-    userName: string
-    userAvatar: string
+    username: string
+    avatar: string
     rating: number
     comment: string
     createdAt?: Date | string
@@ -15405,6 +15431,98 @@ export namespace Prisma {
     create: XOR<InstructorStatsCreateWithoutInstructorInput, InstructorStatsUncheckedCreateWithoutInstructorInput>
   }
 
+  export type OrganizationMemberCreateWithoutInstructorInput = {
+    id?: string
+    userId: string
+    role: $Enums.Role
+    instructorId?: string | null
+    organization?: OrganizationCreateNestedOneWithoutMembersInput
+  }
+
+  export type OrganizationMemberUncheckedCreateWithoutInstructorInput = {
+    id?: string
+    userId: string
+    role: $Enums.Role
+    organizationId?: string | null
+    instructorId?: string | null
+  }
+
+  export type OrganizationMemberCreateOrConnectWithoutInstructorInput = {
+    where: OrganizationMemberWhereUniqueInput
+    create: XOR<OrganizationMemberCreateWithoutInstructorInput, OrganizationMemberUncheckedCreateWithoutInstructorInput>
+  }
+
+  export type OrganizationCreateWithoutInstructorsInput = {
+    id?: string
+    name: string
+    type: $Enums.OrgType
+    logo: string
+    coverImage: string
+    description: string
+    longDescription: string
+    location: string
+    website: string
+    email: string
+    phone: string
+    founded: string
+    totalCourses?: number
+    totalStudents?: number
+    totalInstructors?: number
+    rating?: number
+    reviewCount?: number
+    specialties?: OrganizationCreatespecialtiesInput | string[]
+    featured?: boolean
+    verified?: boolean
+    accreditation?: OrganizationCreateaccreditationInput | string[]
+    mission?: string | null
+    vision?: string | null
+    achievements?: OrganizationCreateachievementsInput | string[]
+    partnerships?: OrganizationCreatepartnershipsInput | string[]
+    social: JsonNullValueInput | InputJsonValue
+    reviews?: ReviewCreateNestedManyWithoutOrganizationInput
+    stats?: OrgStatsCreateNestedOneWithoutOrganizationInput
+    contact?: ContactCreateNestedOneWithoutOrganizationInput
+    members?: OrganizationMemberCreateNestedManyWithoutOrganizationInput
+  }
+
+  export type OrganizationUncheckedCreateWithoutInstructorsInput = {
+    id?: string
+    name: string
+    type: $Enums.OrgType
+    logo: string
+    coverImage: string
+    description: string
+    longDescription: string
+    location: string
+    website: string
+    email: string
+    phone: string
+    founded: string
+    totalCourses?: number
+    totalStudents?: number
+    totalInstructors?: number
+    rating?: number
+    reviewCount?: number
+    specialties?: OrganizationCreatespecialtiesInput | string[]
+    featured?: boolean
+    verified?: boolean
+    accreditation?: OrganizationCreateaccreditationInput | string[]
+    mission?: string | null
+    vision?: string | null
+    achievements?: OrganizationCreateachievementsInput | string[]
+    partnerships?: OrganizationCreatepartnershipsInput | string[]
+    social: JsonNullValueInput | InputJsonValue
+    reviews?: ReviewUncheckedCreateNestedManyWithoutOrganizationInput
+    stats?: OrgStatsUncheckedCreateNestedOneWithoutOrganizationInput
+    contact?: ContactUncheckedCreateNestedOneWithoutOrganizationInput
+    members?: OrganizationMemberUncheckedCreateNestedManyWithoutOrganizationInput
+  }
+
+  export type OrganizationCreateOrConnectWithoutInstructorsInput = {
+    where: OrganizationWhereUniqueInput
+    create: XOR<OrganizationCreateWithoutInstructorsInput, OrganizationUncheckedCreateWithoutInstructorsInput>
+  }
+
   export type WorkExperienceUpsertWithWhereUniqueWithoutInstructorInput = {
     where: WorkExperienceWhereUniqueInput
     update: XOR<WorkExperienceUpdateWithoutInstructorInput, WorkExperienceUncheckedUpdateWithoutInstructorInput>
@@ -15430,85 +15548,6 @@ export namespace Prisma {
     position?: StringFilter<"WorkExperience"> | string
     duration?: StringFilter<"WorkExperience"> | string
     instructorId?: StringFilter<"WorkExperience"> | string
-  }
-
-  export type OrganizationUpsertWithoutInstructorsInput = {
-    update: XOR<OrganizationUpdateWithoutInstructorsInput, OrganizationUncheckedUpdateWithoutInstructorsInput>
-    create: XOR<OrganizationCreateWithoutInstructorsInput, OrganizationUncheckedCreateWithoutInstructorsInput>
-    where?: OrganizationWhereInput
-  }
-
-  export type OrganizationUpdateToOneWithWhereWithoutInstructorsInput = {
-    where?: OrganizationWhereInput
-    data: XOR<OrganizationUpdateWithoutInstructorsInput, OrganizationUncheckedUpdateWithoutInstructorsInput>
-  }
-
-  export type OrganizationUpdateWithoutInstructorsInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    userId?: StringFieldUpdateOperationsInput | string
-    name?: StringFieldUpdateOperationsInput | string
-    type?: EnumOrgTypeFieldUpdateOperationsInput | $Enums.OrgType
-    logo?: StringFieldUpdateOperationsInput | string
-    coverImage?: StringFieldUpdateOperationsInput | string
-    description?: StringFieldUpdateOperationsInput | string
-    longDescription?: StringFieldUpdateOperationsInput | string
-    location?: StringFieldUpdateOperationsInput | string
-    website?: StringFieldUpdateOperationsInput | string
-    email?: StringFieldUpdateOperationsInput | string
-    phone?: StringFieldUpdateOperationsInput | string
-    founded?: StringFieldUpdateOperationsInput | string
-    totalCourses?: IntFieldUpdateOperationsInput | number
-    totalStudents?: IntFieldUpdateOperationsInput | number
-    totalInstructors?: IntFieldUpdateOperationsInput | number
-    rating?: FloatFieldUpdateOperationsInput | number
-    reviewCount?: IntFieldUpdateOperationsInput | number
-    specialties?: OrganizationUpdatespecialtiesInput | string[]
-    featured?: BoolFieldUpdateOperationsInput | boolean
-    verified?: BoolFieldUpdateOperationsInput | boolean
-    accreditation?: OrganizationUpdateaccreditationInput | string[]
-    mission?: StringFieldUpdateOperationsInput | string
-    vision?: StringFieldUpdateOperationsInput | string
-    achievements?: OrganizationUpdateachievementsInput | string[]
-    partnerships?: OrganizationUpdatepartnershipsInput | string[]
-    social?: JsonNullValueInput | InputJsonValue
-    reviews?: ReviewUpdateManyWithoutOrganizationNestedInput
-    stats?: OrgStatsUpdateOneWithoutOrganizationNestedInput
-    contact?: ContactUpdateOneWithoutOrganizationNestedInput
-    members?: OrganizationMemberUpdateManyWithoutOrganizationNestedInput
-  }
-
-  export type OrganizationUncheckedUpdateWithoutInstructorsInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    userId?: StringFieldUpdateOperationsInput | string
-    name?: StringFieldUpdateOperationsInput | string
-    type?: EnumOrgTypeFieldUpdateOperationsInput | $Enums.OrgType
-    logo?: StringFieldUpdateOperationsInput | string
-    coverImage?: StringFieldUpdateOperationsInput | string
-    description?: StringFieldUpdateOperationsInput | string
-    longDescription?: StringFieldUpdateOperationsInput | string
-    location?: StringFieldUpdateOperationsInput | string
-    website?: StringFieldUpdateOperationsInput | string
-    email?: StringFieldUpdateOperationsInput | string
-    phone?: StringFieldUpdateOperationsInput | string
-    founded?: StringFieldUpdateOperationsInput | string
-    totalCourses?: IntFieldUpdateOperationsInput | number
-    totalStudents?: IntFieldUpdateOperationsInput | number
-    totalInstructors?: IntFieldUpdateOperationsInput | number
-    rating?: FloatFieldUpdateOperationsInput | number
-    reviewCount?: IntFieldUpdateOperationsInput | number
-    specialties?: OrganizationUpdatespecialtiesInput | string[]
-    featured?: BoolFieldUpdateOperationsInput | boolean
-    verified?: BoolFieldUpdateOperationsInput | boolean
-    accreditation?: OrganizationUpdateaccreditationInput | string[]
-    mission?: StringFieldUpdateOperationsInput | string
-    vision?: StringFieldUpdateOperationsInput | string
-    achievements?: OrganizationUpdateachievementsInput | string[]
-    partnerships?: OrganizationUpdatepartnershipsInput | string[]
-    social?: JsonNullValueInput | InputJsonValue
-    reviews?: ReviewUncheckedUpdateManyWithoutOrganizationNestedInput
-    stats?: OrgStatsUncheckedUpdateOneWithoutOrganizationNestedInput
-    contact?: ContactUncheckedUpdateOneWithoutOrganizationNestedInput
-    members?: OrganizationMemberUncheckedUpdateManyWithoutOrganizationNestedInput
   }
 
   export type ReviewUpsertWithWhereUniqueWithoutInstructorInput = {
@@ -15552,9 +15591,112 @@ export namespace Prisma {
     avgResponseTime?: StringFieldUpdateOperationsInput | string
   }
 
+  export type OrganizationMemberUpsertWithoutInstructorInput = {
+    update: XOR<OrganizationMemberUpdateWithoutInstructorInput, OrganizationMemberUncheckedUpdateWithoutInstructorInput>
+    create: XOR<OrganizationMemberCreateWithoutInstructorInput, OrganizationMemberUncheckedCreateWithoutInstructorInput>
+    where?: OrganizationMemberWhereInput
+  }
+
+  export type OrganizationMemberUpdateToOneWithWhereWithoutInstructorInput = {
+    where?: OrganizationMemberWhereInput
+    data: XOR<OrganizationMemberUpdateWithoutInstructorInput, OrganizationMemberUncheckedUpdateWithoutInstructorInput>
+  }
+
+  export type OrganizationMemberUpdateWithoutInstructorInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    userId?: StringFieldUpdateOperationsInput | string
+    role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
+    instructorId?: NullableStringFieldUpdateOperationsInput | string | null
+    organization?: OrganizationUpdateOneWithoutMembersNestedInput
+  }
+
+  export type OrganizationMemberUncheckedUpdateWithoutInstructorInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    userId?: StringFieldUpdateOperationsInput | string
+    role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
+    organizationId?: NullableStringFieldUpdateOperationsInput | string | null
+    instructorId?: NullableStringFieldUpdateOperationsInput | string | null
+  }
+
+  export type OrganizationUpsertWithoutInstructorsInput = {
+    update: XOR<OrganizationUpdateWithoutInstructorsInput, OrganizationUncheckedUpdateWithoutInstructorsInput>
+    create: XOR<OrganizationCreateWithoutInstructorsInput, OrganizationUncheckedCreateWithoutInstructorsInput>
+    where?: OrganizationWhereInput
+  }
+
+  export type OrganizationUpdateToOneWithWhereWithoutInstructorsInput = {
+    where?: OrganizationWhereInput
+    data: XOR<OrganizationUpdateWithoutInstructorsInput, OrganizationUncheckedUpdateWithoutInstructorsInput>
+  }
+
+  export type OrganizationUpdateWithoutInstructorsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    type?: EnumOrgTypeFieldUpdateOperationsInput | $Enums.OrgType
+    logo?: StringFieldUpdateOperationsInput | string
+    coverImage?: StringFieldUpdateOperationsInput | string
+    description?: StringFieldUpdateOperationsInput | string
+    longDescription?: StringFieldUpdateOperationsInput | string
+    location?: StringFieldUpdateOperationsInput | string
+    website?: StringFieldUpdateOperationsInput | string
+    email?: StringFieldUpdateOperationsInput | string
+    phone?: StringFieldUpdateOperationsInput | string
+    founded?: StringFieldUpdateOperationsInput | string
+    totalCourses?: IntFieldUpdateOperationsInput | number
+    totalStudents?: IntFieldUpdateOperationsInput | number
+    totalInstructors?: IntFieldUpdateOperationsInput | number
+    rating?: FloatFieldUpdateOperationsInput | number
+    reviewCount?: IntFieldUpdateOperationsInput | number
+    specialties?: OrganizationUpdatespecialtiesInput | string[]
+    featured?: BoolFieldUpdateOperationsInput | boolean
+    verified?: BoolFieldUpdateOperationsInput | boolean
+    accreditation?: OrganizationUpdateaccreditationInput | string[]
+    mission?: NullableStringFieldUpdateOperationsInput | string | null
+    vision?: NullableStringFieldUpdateOperationsInput | string | null
+    achievements?: OrganizationUpdateachievementsInput | string[]
+    partnerships?: OrganizationUpdatepartnershipsInput | string[]
+    social?: JsonNullValueInput | InputJsonValue
+    reviews?: ReviewUpdateManyWithoutOrganizationNestedInput
+    stats?: OrgStatsUpdateOneWithoutOrganizationNestedInput
+    contact?: ContactUpdateOneWithoutOrganizationNestedInput
+    members?: OrganizationMemberUpdateManyWithoutOrganizationNestedInput
+  }
+
+  export type OrganizationUncheckedUpdateWithoutInstructorsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    type?: EnumOrgTypeFieldUpdateOperationsInput | $Enums.OrgType
+    logo?: StringFieldUpdateOperationsInput | string
+    coverImage?: StringFieldUpdateOperationsInput | string
+    description?: StringFieldUpdateOperationsInput | string
+    longDescription?: StringFieldUpdateOperationsInput | string
+    location?: StringFieldUpdateOperationsInput | string
+    website?: StringFieldUpdateOperationsInput | string
+    email?: StringFieldUpdateOperationsInput | string
+    phone?: StringFieldUpdateOperationsInput | string
+    founded?: StringFieldUpdateOperationsInput | string
+    totalCourses?: IntFieldUpdateOperationsInput | number
+    totalStudents?: IntFieldUpdateOperationsInput | number
+    totalInstructors?: IntFieldUpdateOperationsInput | number
+    rating?: FloatFieldUpdateOperationsInput | number
+    reviewCount?: IntFieldUpdateOperationsInput | number
+    specialties?: OrganizationUpdatespecialtiesInput | string[]
+    featured?: BoolFieldUpdateOperationsInput | boolean
+    verified?: BoolFieldUpdateOperationsInput | boolean
+    accreditation?: OrganizationUpdateaccreditationInput | string[]
+    mission?: NullableStringFieldUpdateOperationsInput | string | null
+    vision?: NullableStringFieldUpdateOperationsInput | string | null
+    achievements?: OrganizationUpdateachievementsInput | string[]
+    partnerships?: OrganizationUpdatepartnershipsInput | string[]
+    social?: JsonNullValueInput | InputJsonValue
+    reviews?: ReviewUncheckedUpdateManyWithoutOrganizationNestedInput
+    stats?: OrgStatsUncheckedUpdateOneWithoutOrganizationNestedInput
+    contact?: ContactUncheckedUpdateOneWithoutOrganizationNestedInput
+    members?: OrganizationMemberUncheckedUpdateManyWithoutOrganizationNestedInput
+  }
+
   export type InstructorCreateWithoutWorkExperienceInput = {
     id?: string
-    userId: string
     name: string
     title: string
     avatar: string
@@ -15562,24 +15704,21 @@ export namespace Prisma {
     bio: string
     featured?: boolean | null
     longBio?: string | null
-    rating: number
-    totalStudents: number
-    totalCourses: number
-    experience?: string | null
-    location?: string | null
-    joinedDate?: string | null
+    rating?: number
+    totalStudents?: number
+    totalCourses?: number
     specialties?: InstructorCreatespecialtiesInput | string[]
     achievements?: InstructorCreateachievementsInput | string[]
     education?: InstructorCreateeducationInput | string[]
     social: JsonNullValueInput | InputJsonValue
-    organization?: OrganizationCreateNestedOneWithoutInstructorsInput
     reviews?: ReviewCreateNestedManyWithoutInstructorInput
     stats?: InstructorStatsCreateNestedOneWithoutInstructorInput
+    organizationMember: OrganizationMemberCreateNestedOneWithoutInstructorInput
+    organization?: OrganizationCreateNestedOneWithoutInstructorsInput
   }
 
   export type InstructorUncheckedCreateWithoutWorkExperienceInput = {
     id?: string
-    userId: string
     name: string
     title: string
     avatar: string
@@ -15587,16 +15726,14 @@ export namespace Prisma {
     bio: string
     featured?: boolean | null
     longBio?: string | null
-    rating: number
-    totalStudents: number
-    totalCourses: number
-    experience?: string | null
-    location?: string | null
-    joinedDate?: string | null
+    rating?: number
+    totalStudents?: number
+    totalCourses?: number
     specialties?: InstructorCreatespecialtiesInput | string[]
     achievements?: InstructorCreateachievementsInput | string[]
     education?: InstructorCreateeducationInput | string[]
     social: JsonNullValueInput | InputJsonValue
+    memberId: string
     organizationId?: string | null
     reviews?: ReviewUncheckedCreateNestedManyWithoutInstructorInput
     stats?: InstructorStatsUncheckedCreateNestedOneWithoutInstructorInput
@@ -15620,7 +15757,6 @@ export namespace Prisma {
 
   export type InstructorUpdateWithoutWorkExperienceInput = {
     id?: StringFieldUpdateOperationsInput | string
-    userId?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
     title?: StringFieldUpdateOperationsInput | string
     avatar?: StringFieldUpdateOperationsInput | string
@@ -15631,21 +15767,18 @@ export namespace Prisma {
     rating?: FloatFieldUpdateOperationsInput | number
     totalStudents?: IntFieldUpdateOperationsInput | number
     totalCourses?: IntFieldUpdateOperationsInput | number
-    experience?: NullableStringFieldUpdateOperationsInput | string | null
-    location?: NullableStringFieldUpdateOperationsInput | string | null
-    joinedDate?: NullableStringFieldUpdateOperationsInput | string | null
     specialties?: InstructorUpdatespecialtiesInput | string[]
     achievements?: InstructorUpdateachievementsInput | string[]
     education?: InstructorUpdateeducationInput | string[]
     social?: JsonNullValueInput | InputJsonValue
-    organization?: OrganizationUpdateOneWithoutInstructorsNestedInput
     reviews?: ReviewUpdateManyWithoutInstructorNestedInput
     stats?: InstructorStatsUpdateOneWithoutInstructorNestedInput
+    organizationMember?: OrganizationMemberUpdateOneRequiredWithoutInstructorNestedInput
+    organization?: OrganizationUpdateOneWithoutInstructorsNestedInput
   }
 
   export type InstructorUncheckedUpdateWithoutWorkExperienceInput = {
     id?: StringFieldUpdateOperationsInput | string
-    userId?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
     title?: StringFieldUpdateOperationsInput | string
     avatar?: StringFieldUpdateOperationsInput | string
@@ -15656,13 +15789,11 @@ export namespace Prisma {
     rating?: FloatFieldUpdateOperationsInput | number
     totalStudents?: IntFieldUpdateOperationsInput | number
     totalCourses?: IntFieldUpdateOperationsInput | number
-    experience?: NullableStringFieldUpdateOperationsInput | string | null
-    location?: NullableStringFieldUpdateOperationsInput | string | null
-    joinedDate?: NullableStringFieldUpdateOperationsInput | string | null
     specialties?: InstructorUpdatespecialtiesInput | string[]
     achievements?: InstructorUpdateachievementsInput | string[]
     education?: InstructorUpdateeducationInput | string[]
     social?: JsonNullValueInput | InputJsonValue
+    memberId?: StringFieldUpdateOperationsInput | string
     organizationId?: NullableStringFieldUpdateOperationsInput | string | null
     reviews?: ReviewUncheckedUpdateManyWithoutInstructorNestedInput
     stats?: InstructorStatsUncheckedUpdateOneWithoutInstructorNestedInput
@@ -15670,7 +15801,6 @@ export namespace Prisma {
 
   export type InstructorCreateWithoutStatsInput = {
     id?: string
-    userId: string
     name: string
     title: string
     avatar: string
@@ -15678,24 +15808,21 @@ export namespace Prisma {
     bio: string
     featured?: boolean | null
     longBio?: string | null
-    rating: number
-    totalStudents: number
-    totalCourses: number
-    experience?: string | null
-    location?: string | null
-    joinedDate?: string | null
+    rating?: number
+    totalStudents?: number
+    totalCourses?: number
     specialties?: InstructorCreatespecialtiesInput | string[]
     achievements?: InstructorCreateachievementsInput | string[]
     education?: InstructorCreateeducationInput | string[]
     social: JsonNullValueInput | InputJsonValue
     workExperience?: WorkExperienceCreateNestedManyWithoutInstructorInput
-    organization?: OrganizationCreateNestedOneWithoutInstructorsInput
     reviews?: ReviewCreateNestedManyWithoutInstructorInput
+    organizationMember: OrganizationMemberCreateNestedOneWithoutInstructorInput
+    organization?: OrganizationCreateNestedOneWithoutInstructorsInput
   }
 
   export type InstructorUncheckedCreateWithoutStatsInput = {
     id?: string
-    userId: string
     name: string
     title: string
     avatar: string
@@ -15703,16 +15830,14 @@ export namespace Prisma {
     bio: string
     featured?: boolean | null
     longBio?: string | null
-    rating: number
-    totalStudents: number
-    totalCourses: number
-    experience?: string | null
-    location?: string | null
-    joinedDate?: string | null
+    rating?: number
+    totalStudents?: number
+    totalCourses?: number
     specialties?: InstructorCreatespecialtiesInput | string[]
     achievements?: InstructorCreateachievementsInput | string[]
     education?: InstructorCreateeducationInput | string[]
     social: JsonNullValueInput | InputJsonValue
+    memberId: string
     organizationId?: string | null
     workExperience?: WorkExperienceUncheckedCreateNestedManyWithoutInstructorInput
     reviews?: ReviewUncheckedCreateNestedManyWithoutInstructorInput
@@ -15736,7 +15861,6 @@ export namespace Prisma {
 
   export type InstructorUpdateWithoutStatsInput = {
     id?: StringFieldUpdateOperationsInput | string
-    userId?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
     title?: StringFieldUpdateOperationsInput | string
     avatar?: StringFieldUpdateOperationsInput | string
@@ -15747,21 +15871,18 @@ export namespace Prisma {
     rating?: FloatFieldUpdateOperationsInput | number
     totalStudents?: IntFieldUpdateOperationsInput | number
     totalCourses?: IntFieldUpdateOperationsInput | number
-    experience?: NullableStringFieldUpdateOperationsInput | string | null
-    location?: NullableStringFieldUpdateOperationsInput | string | null
-    joinedDate?: NullableStringFieldUpdateOperationsInput | string | null
     specialties?: InstructorUpdatespecialtiesInput | string[]
     achievements?: InstructorUpdateachievementsInput | string[]
     education?: InstructorUpdateeducationInput | string[]
     social?: JsonNullValueInput | InputJsonValue
     workExperience?: WorkExperienceUpdateManyWithoutInstructorNestedInput
-    organization?: OrganizationUpdateOneWithoutInstructorsNestedInput
     reviews?: ReviewUpdateManyWithoutInstructorNestedInput
+    organizationMember?: OrganizationMemberUpdateOneRequiredWithoutInstructorNestedInput
+    organization?: OrganizationUpdateOneWithoutInstructorsNestedInput
   }
 
   export type InstructorUncheckedUpdateWithoutStatsInput = {
     id?: StringFieldUpdateOperationsInput | string
-    userId?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
     title?: StringFieldUpdateOperationsInput | string
     avatar?: StringFieldUpdateOperationsInput | string
@@ -15772,21 +15893,28 @@ export namespace Prisma {
     rating?: FloatFieldUpdateOperationsInput | number
     totalStudents?: IntFieldUpdateOperationsInput | number
     totalCourses?: IntFieldUpdateOperationsInput | number
-    experience?: NullableStringFieldUpdateOperationsInput | string | null
-    location?: NullableStringFieldUpdateOperationsInput | string | null
-    joinedDate?: NullableStringFieldUpdateOperationsInput | string | null
     specialties?: InstructorUpdatespecialtiesInput | string[]
     achievements?: InstructorUpdateachievementsInput | string[]
     education?: InstructorUpdateeducationInput | string[]
     social?: JsonNullValueInput | InputJsonValue
+    memberId?: StringFieldUpdateOperationsInput | string
     organizationId?: NullableStringFieldUpdateOperationsInput | string | null
     workExperience?: WorkExperienceUncheckedUpdateManyWithoutInstructorNestedInput
     reviews?: ReviewUncheckedUpdateManyWithoutInstructorNestedInput
   }
 
+  export type ReviewCreateManyOrganizationInput = {
+    id?: string
+    username: string
+    avatar: string
+    rating: number
+    comment: string
+    createdAt?: Date | string
+    instructorId?: string | null
+  }
+
   export type InstructorCreateManyOrganizationInput = {
     id?: string
-    userId: string
     name: string
     title: string
     avatar: string
@@ -15794,110 +15922,27 @@ export namespace Prisma {
     bio: string
     featured?: boolean | null
     longBio?: string | null
-    rating: number
-    totalStudents: number
-    totalCourses: number
-    experience?: string | null
-    location?: string | null
-    joinedDate?: string | null
+    rating?: number
+    totalStudents?: number
+    totalCourses?: number
     specialties?: InstructorCreatespecialtiesInput | string[]
     achievements?: InstructorCreateachievementsInput | string[]
     education?: InstructorCreateeducationInput | string[]
     social: JsonNullValueInput | InputJsonValue
-  }
-
-  export type ReviewCreateManyOrganizationInput = {
-    id?: string
-    userName: string
-    userAvatar: string
-    rating: number
-    comment: string
-    createdAt?: Date | string
-    instructorId?: string | null
+    memberId: string
   }
 
   export type OrganizationMemberCreateManyOrganizationInput = {
     id?: string
     userId: string
-    role: $Enums.OrgRole
-  }
-
-  export type InstructorUpdateWithoutOrganizationInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    userId?: StringFieldUpdateOperationsInput | string
-    name?: StringFieldUpdateOperationsInput | string
-    title?: StringFieldUpdateOperationsInput | string
-    avatar?: StringFieldUpdateOperationsInput | string
-    coverImage?: NullableStringFieldUpdateOperationsInput | string | null
-    bio?: StringFieldUpdateOperationsInput | string
-    featured?: NullableBoolFieldUpdateOperationsInput | boolean | null
-    longBio?: NullableStringFieldUpdateOperationsInput | string | null
-    rating?: FloatFieldUpdateOperationsInput | number
-    totalStudents?: IntFieldUpdateOperationsInput | number
-    totalCourses?: IntFieldUpdateOperationsInput | number
-    experience?: NullableStringFieldUpdateOperationsInput | string | null
-    location?: NullableStringFieldUpdateOperationsInput | string | null
-    joinedDate?: NullableStringFieldUpdateOperationsInput | string | null
-    specialties?: InstructorUpdatespecialtiesInput | string[]
-    achievements?: InstructorUpdateachievementsInput | string[]
-    education?: InstructorUpdateeducationInput | string[]
-    social?: JsonNullValueInput | InputJsonValue
-    workExperience?: WorkExperienceUpdateManyWithoutInstructorNestedInput
-    reviews?: ReviewUpdateManyWithoutInstructorNestedInput
-    stats?: InstructorStatsUpdateOneWithoutInstructorNestedInput
-  }
-
-  export type InstructorUncheckedUpdateWithoutOrganizationInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    userId?: StringFieldUpdateOperationsInput | string
-    name?: StringFieldUpdateOperationsInput | string
-    title?: StringFieldUpdateOperationsInput | string
-    avatar?: StringFieldUpdateOperationsInput | string
-    coverImage?: NullableStringFieldUpdateOperationsInput | string | null
-    bio?: StringFieldUpdateOperationsInput | string
-    featured?: NullableBoolFieldUpdateOperationsInput | boolean | null
-    longBio?: NullableStringFieldUpdateOperationsInput | string | null
-    rating?: FloatFieldUpdateOperationsInput | number
-    totalStudents?: IntFieldUpdateOperationsInput | number
-    totalCourses?: IntFieldUpdateOperationsInput | number
-    experience?: NullableStringFieldUpdateOperationsInput | string | null
-    location?: NullableStringFieldUpdateOperationsInput | string | null
-    joinedDate?: NullableStringFieldUpdateOperationsInput | string | null
-    specialties?: InstructorUpdatespecialtiesInput | string[]
-    achievements?: InstructorUpdateachievementsInput | string[]
-    education?: InstructorUpdateeducationInput | string[]
-    social?: JsonNullValueInput | InputJsonValue
-    workExperience?: WorkExperienceUncheckedUpdateManyWithoutInstructorNestedInput
-    reviews?: ReviewUncheckedUpdateManyWithoutInstructorNestedInput
-    stats?: InstructorStatsUncheckedUpdateOneWithoutInstructorNestedInput
-  }
-
-  export type InstructorUncheckedUpdateManyWithoutOrganizationInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    userId?: StringFieldUpdateOperationsInput | string
-    name?: StringFieldUpdateOperationsInput | string
-    title?: StringFieldUpdateOperationsInput | string
-    avatar?: StringFieldUpdateOperationsInput | string
-    coverImage?: NullableStringFieldUpdateOperationsInput | string | null
-    bio?: StringFieldUpdateOperationsInput | string
-    featured?: NullableBoolFieldUpdateOperationsInput | boolean | null
-    longBio?: NullableStringFieldUpdateOperationsInput | string | null
-    rating?: FloatFieldUpdateOperationsInput | number
-    totalStudents?: IntFieldUpdateOperationsInput | number
-    totalCourses?: IntFieldUpdateOperationsInput | number
-    experience?: NullableStringFieldUpdateOperationsInput | string | null
-    location?: NullableStringFieldUpdateOperationsInput | string | null
-    joinedDate?: NullableStringFieldUpdateOperationsInput | string | null
-    specialties?: InstructorUpdatespecialtiesInput | string[]
-    achievements?: InstructorUpdateachievementsInput | string[]
-    education?: InstructorUpdateeducationInput | string[]
-    social?: JsonNullValueInput | InputJsonValue
+    role: $Enums.Role
+    instructorId?: string | null
   }
 
   export type ReviewUpdateWithoutOrganizationInput = {
     id?: StringFieldUpdateOperationsInput | string
-    userName?: StringFieldUpdateOperationsInput | string
-    userAvatar?: StringFieldUpdateOperationsInput | string
+    username?: StringFieldUpdateOperationsInput | string
+    avatar?: StringFieldUpdateOperationsInput | string
     rating?: FloatFieldUpdateOperationsInput | number
     comment?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -15906,8 +15951,8 @@ export namespace Prisma {
 
   export type ReviewUncheckedUpdateWithoutOrganizationInput = {
     id?: StringFieldUpdateOperationsInput | string
-    userName?: StringFieldUpdateOperationsInput | string
-    userAvatar?: StringFieldUpdateOperationsInput | string
+    username?: StringFieldUpdateOperationsInput | string
+    avatar?: StringFieldUpdateOperationsInput | string
     rating?: FloatFieldUpdateOperationsInput | number
     comment?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -15916,30 +15961,98 @@ export namespace Prisma {
 
   export type ReviewUncheckedUpdateManyWithoutOrganizationInput = {
     id?: StringFieldUpdateOperationsInput | string
-    userName?: StringFieldUpdateOperationsInput | string
-    userAvatar?: StringFieldUpdateOperationsInput | string
+    username?: StringFieldUpdateOperationsInput | string
+    avatar?: StringFieldUpdateOperationsInput | string
     rating?: FloatFieldUpdateOperationsInput | number
     comment?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     instructorId?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
+  export type InstructorUpdateWithoutOrganizationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    avatar?: StringFieldUpdateOperationsInput | string
+    coverImage?: NullableStringFieldUpdateOperationsInput | string | null
+    bio?: StringFieldUpdateOperationsInput | string
+    featured?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    longBio?: NullableStringFieldUpdateOperationsInput | string | null
+    rating?: FloatFieldUpdateOperationsInput | number
+    totalStudents?: IntFieldUpdateOperationsInput | number
+    totalCourses?: IntFieldUpdateOperationsInput | number
+    specialties?: InstructorUpdatespecialtiesInput | string[]
+    achievements?: InstructorUpdateachievementsInput | string[]
+    education?: InstructorUpdateeducationInput | string[]
+    social?: JsonNullValueInput | InputJsonValue
+    workExperience?: WorkExperienceUpdateManyWithoutInstructorNestedInput
+    reviews?: ReviewUpdateManyWithoutInstructorNestedInput
+    stats?: InstructorStatsUpdateOneWithoutInstructorNestedInput
+    organizationMember?: OrganizationMemberUpdateOneRequiredWithoutInstructorNestedInput
+  }
+
+  export type InstructorUncheckedUpdateWithoutOrganizationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    avatar?: StringFieldUpdateOperationsInput | string
+    coverImage?: NullableStringFieldUpdateOperationsInput | string | null
+    bio?: StringFieldUpdateOperationsInput | string
+    featured?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    longBio?: NullableStringFieldUpdateOperationsInput | string | null
+    rating?: FloatFieldUpdateOperationsInput | number
+    totalStudents?: IntFieldUpdateOperationsInput | number
+    totalCourses?: IntFieldUpdateOperationsInput | number
+    specialties?: InstructorUpdatespecialtiesInput | string[]
+    achievements?: InstructorUpdateachievementsInput | string[]
+    education?: InstructorUpdateeducationInput | string[]
+    social?: JsonNullValueInput | InputJsonValue
+    memberId?: StringFieldUpdateOperationsInput | string
+    workExperience?: WorkExperienceUncheckedUpdateManyWithoutInstructorNestedInput
+    reviews?: ReviewUncheckedUpdateManyWithoutInstructorNestedInput
+    stats?: InstructorStatsUncheckedUpdateOneWithoutInstructorNestedInput
+  }
+
+  export type InstructorUncheckedUpdateManyWithoutOrganizationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    avatar?: StringFieldUpdateOperationsInput | string
+    coverImage?: NullableStringFieldUpdateOperationsInput | string | null
+    bio?: StringFieldUpdateOperationsInput | string
+    featured?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    longBio?: NullableStringFieldUpdateOperationsInput | string | null
+    rating?: FloatFieldUpdateOperationsInput | number
+    totalStudents?: IntFieldUpdateOperationsInput | number
+    totalCourses?: IntFieldUpdateOperationsInput | number
+    specialties?: InstructorUpdatespecialtiesInput | string[]
+    achievements?: InstructorUpdateachievementsInput | string[]
+    education?: InstructorUpdateeducationInput | string[]
+    social?: JsonNullValueInput | InputJsonValue
+    memberId?: StringFieldUpdateOperationsInput | string
+  }
+
   export type OrganizationMemberUpdateWithoutOrganizationInput = {
     id?: StringFieldUpdateOperationsInput | string
     userId?: StringFieldUpdateOperationsInput | string
-    role?: EnumOrgRoleFieldUpdateOperationsInput | $Enums.OrgRole
+    role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
+    instructorId?: NullableStringFieldUpdateOperationsInput | string | null
+    instructor?: InstructorUpdateOneWithoutOrganizationMemberNestedInput
   }
 
   export type OrganizationMemberUncheckedUpdateWithoutOrganizationInput = {
     id?: StringFieldUpdateOperationsInput | string
     userId?: StringFieldUpdateOperationsInput | string
-    role?: EnumOrgRoleFieldUpdateOperationsInput | $Enums.OrgRole
+    role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
+    instructorId?: NullableStringFieldUpdateOperationsInput | string | null
+    instructor?: InstructorUncheckedUpdateOneWithoutOrganizationMemberNestedInput
   }
 
   export type OrganizationMemberUncheckedUpdateManyWithoutOrganizationInput = {
     id?: StringFieldUpdateOperationsInput | string
     userId?: StringFieldUpdateOperationsInput | string
-    role?: EnumOrgRoleFieldUpdateOperationsInput | $Enums.OrgRole
+    role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
+    instructorId?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
   export type WorkExperienceCreateManyInstructorInput = {
@@ -15951,8 +16064,8 @@ export namespace Prisma {
 
   export type ReviewCreateManyInstructorInput = {
     id?: string
-    userName: string
-    userAvatar: string
+    username: string
+    avatar: string
     rating: number
     comment: string
     createdAt?: Date | string
@@ -15982,8 +16095,8 @@ export namespace Prisma {
 
   export type ReviewUpdateWithoutInstructorInput = {
     id?: StringFieldUpdateOperationsInput | string
-    userName?: StringFieldUpdateOperationsInput | string
-    userAvatar?: StringFieldUpdateOperationsInput | string
+    username?: StringFieldUpdateOperationsInput | string
+    avatar?: StringFieldUpdateOperationsInput | string
     rating?: FloatFieldUpdateOperationsInput | number
     comment?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -15992,8 +16105,8 @@ export namespace Prisma {
 
   export type ReviewUncheckedUpdateWithoutInstructorInput = {
     id?: StringFieldUpdateOperationsInput | string
-    userName?: StringFieldUpdateOperationsInput | string
-    userAvatar?: StringFieldUpdateOperationsInput | string
+    username?: StringFieldUpdateOperationsInput | string
+    avatar?: StringFieldUpdateOperationsInput | string
     rating?: FloatFieldUpdateOperationsInput | number
     comment?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -16002,8 +16115,8 @@ export namespace Prisma {
 
   export type ReviewUncheckedUpdateManyWithoutInstructorInput = {
     id?: StringFieldUpdateOperationsInput | string
-    userName?: StringFieldUpdateOperationsInput | string
-    userAvatar?: StringFieldUpdateOperationsInput | string
+    username?: StringFieldUpdateOperationsInput | string
+    avatar?: StringFieldUpdateOperationsInput | string
     rating?: FloatFieldUpdateOperationsInput | number
     comment?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string

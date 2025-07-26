@@ -1,4 +1,8 @@
-import { Injectable, NotFoundException } from '@nestjs/common';
+import {
+  Injectable,
+  NotFoundException,
+  UnauthorizedException,
+} from '@nestjs/common';
 import { CreateOrganizationDto } from './dto/create-organization.dto';
 import { UpdateOrganizationDto } from './dto/update-organization.dto';
 import { CreateContactDto } from './dto/create-contact.dto';
@@ -8,6 +12,7 @@ import { UpdateOrgStatsDto } from './dto/update-org-stats.dto';
 import { PrismaOrgService } from 'src/prisma/prisma-org.service';
 import { SignedUser } from 'src/security/user.decorator';
 import { PrismaUserService } from 'src/prisma/prisma-user.service';
+import { Role } from 'generated/org-database-client-types';
 
 @Injectable()
 export class OrganizationsService {
@@ -24,45 +29,68 @@ export class OrganizationsService {
       where: { id: signedUser.sub },
     });
     if (!user) throw new NotFoundException('User not found');
-    return await this.orgService.organization.create({
-      data: { ...createOrganizationDto, userId: user.id },
+    const existName = await this.orgService.organization.findFirst({
+      where: { name: createOrganizationDto.name },
     });
-  }
-
-  async findAll() {
-    return await this.orgService.organization.findMany({
-      include: {
-        _count: {
-          select: {
-            instructors: true,
-            reviews: true,
-          },
-        },
+    if (existName)
+      throw new NotFoundException('Organization name already exists');
+    return await this.orgService.organization.create({
+      data: {
+        ...createOrganizationDto,
+        featured: false,
+        verified: false,
+        rating: 0,
+        reviewCount: 0,
       },
     });
   }
 
-  async findOne(id: string) {
+  async findAll(signedUser: SignedUser) {
+    const user = await this.userService.user.findUnique({
+      where: { id: signedUser.sub },
+    });
+    if (!user) throw new NotFoundException('User not found');
+    return await this.orgService.organizationMember.findMany({
+      where: { userId: signedUser.sub },
+      include: { instructor: true, organization: true },
+    });
+  }
+
+  async findOne(id: string, signedUser: SignedUser) {
     const organization = await this.orgService.organization.findUnique({
       where: { id },
       include: {
-        instructors: true,
         stats: true,
         contact: true,
-        reviews: true,
+        // reviews: true,
       },
+    });
+    const instructors = await this.orgService.instructor.findMany({
+      where: { organizationId: id },
     });
 
     if (!organization) {
       throw new NotFoundException(`Organization with ID ${id} not found`);
     }
-
-    return organization;
+    return { ...organization, instructors };
   }
 
-  async update(id: string, updateOrganizationDto: UpdateOrganizationDto) {
+  async update(
+    id: string,
+    updateOrganizationDto: UpdateOrganizationDto,
+    user: SignedUser,
+  ) {
     try {
-      return await this.orgService.organization.update({
+      const organization = await this.orgService.organization.findUnique({
+        where: { id },
+      });
+      if (!organization) {
+        throw new NotFoundException();
+      }
+      if (organization.id !== user.orgId) {
+        throw new UnauthorizedException();
+      }
+      await this.orgService.organization.update({
         where: { id },
         data: updateOrganizationDto,
       });
@@ -71,9 +99,10 @@ export class OrganizationsService {
     }
   }
 
-  async remove(id: string) {
+  async remove(id: string, signedUser: SignedUser) {
+    return;
     try {
-      return await this.orgService.organization.delete({
+      const organization = await this.orgService.organization.findUnique({
         where: { id },
       });
     } catch (error) {
@@ -83,9 +112,6 @@ export class OrganizationsService {
 
   // Contact methods
   async createContact(orgId: string, createContactDto: CreateContactDto) {
-    // Verify organization exists
-    await this.findOne(orgId);
-
     return await this.orgService.contact.create({
       data: {
         ...createContactDto,
@@ -123,9 +149,6 @@ export class OrganizationsService {
 
   // Stats methods
   async createStats(orgId: string, createOrgStatsDto: CreateOrgStatsDto) {
-    // Verify organization exists
-    await this.findOne(orgId);
-
     return await this.orgService.orgStats.create({
       data: {
         ...createOrgStatsDto,

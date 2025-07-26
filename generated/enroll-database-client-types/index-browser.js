@@ -124,6 +124,7 @@ exports.Prisma.EnrollmentScalarFieldEnum = {
   id: 'id',
   courseId: 'courseId',
   userId: 'userId',
+  organizationId: 'organizationId',
   description: 'description',
   status: 'status',
   createdAt: 'createdAt',

@@ -15,13 +15,14 @@ datasource db {
 }
 
 model Enrollment {
-  id          String           @id @default(uuid())
-  courseId    String
-  userId      String
-  description String?
-  status      EnrollmentStatus @default(PENDING)
-  createdAt   DateTime         @default(now())
-  updatedAt   DateTime         @updatedAt
+  id             String           @id @default(uuid())
+  courseId       String
+  userId         String
+  organizationId String
+  description    String?
+  status         EnrollmentStatus @default(PENDING)
+  createdAt      DateTime         @default(now())
+  updatedAt      DateTime         @updatedAt
 }
 
 enum EnrollmentStatus {

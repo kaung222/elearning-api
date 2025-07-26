@@ -21,14 +21,7 @@ model User {
   dob           DateTime?
   phone         String? 
   avatar        String?
-  role          UserRole
   password      String
   createdAt     DateTime @default(now())
   updatedAt     DateTime @updatedAt
-}
-
-enum UserRole {
- SUPER_ADMIN 
-  ADMIN 
-  USER 
 }

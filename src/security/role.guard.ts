@@ -8,7 +8,7 @@ import { Reflector } from '@nestjs/core';
 import { ROLE_KEY } from './role.decorator';
 import { SignedUser } from './user.decorator';
 import { JwtService } from '@nestjs/jwt';
-import { UserRole } from 'generated/user-database-client-types';
+import { Role } from 'generated/org-database-client-types';
 
 @Injectable()
 export class RolesGuard implements CanActivate {
@@ -19,10 +19,10 @@ export class RolesGuard implements CanActivate {
 
   canActivate(context: ExecutionContext): boolean {
     try {
-      const requiredRoles = this.reflector.getAllAndOverride<UserRole[]>(
-        ROLE_KEY,
-        [context.getHandler(), context.getClass()],
-      );
+      const requiredRoles = this.reflector.getAllAndOverride<Role[]>(ROLE_KEY, [
+        context.getHandler(),
+        context.getClass(),
+      ]);
       if (!requiredRoles) {
         return true;
       }

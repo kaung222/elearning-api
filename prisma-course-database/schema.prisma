@@ -50,7 +50,6 @@ model Course {
   modules           Module[]
   reviews           Review[]
   faqs              FAQ[]
-  assignments       Assignment[]
   status            Status
   level             Level
   type              Type
@@ -79,8 +78,6 @@ model Review {
   courseId  String?
   }
 
-
-
 model Module {
   id             String       @id @default(uuid())
   title          String
@@ -90,18 +87,6 @@ model Module {
   courseId       String
   course         Course    @relation(fields: [courseId], references: [id])
   lessons        Lesson[]
-}
-
-model Assignment {
-  id          String     @id @default(uuid())
-  title       String
-  description String
-  dueDate     DateTime
-  isCompleted Boolean  @default(false)
-  courseId    String
-
-  // relationships
-  course      Course   @relation(fields: [courseId], references: [id])
 }
 
 model Lesson {

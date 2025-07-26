@@ -1,0 +1,152 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client-js"
+  output   = "../generated/assess-database-client-types"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("ASSESS_DATABASE_URL")
+}
+
+model Assignment {
+  id                  String            @id @default(uuid())
+  title               String
+  description         String
+  dueDate             DateTime
+  isCompleted         Boolean           @default(false)
+  createdAt           DateTime          @default(now())
+  assignmentSessionId String
+  userId              String
+  // relationships
+  assignmentSession   AssignmentSession @relation(fields: [assignmentSessionId], references: [id])
+}
+
+model AssignmentSession {
+  id          String   @id @default(uuid())
+  title       String
+  description String
+  dueDate     DateTime
+  isCompleted Boolean  @default(false)
+  courseId    String
+  createAt    DateTime @default(now())
+
+  assignments Assignment[]
+}
+
+model Assessment {
+  id        String         @id @default(uuid())
+  title     String
+  type      AssessmentType
+  courseId  String
+  dueDate   DateTime
+  createdAt DateTime       @default(now())
+
+  examQuestions ExamQuestion[]
+  submissions   Submission[]
+  examSessions  ExamSession[]
+}
+
+enum AssessmentType {
+  QUIZ
+  ASSIGNMENT
+  PROJECT
+  EXAM
+}
+
+model Submission {
+  id           String   @id @default(uuid())
+  assessmentId String
+  studentId    String
+  submittedAt  DateTime @default(now())
+  grade        Float?
+  feedback     String?
+
+  assessment Assessment @relation(fields: [assessmentId], references: [id])
+}
+
+model ActivityLog {
+  id        String   @id @default(uuid())
+  userId    String
+  courseId  String
+  action    String
+  timestamp DateTime @default(now())
+}
+
+model Competency {
+  id               String           @id @default(uuid())
+  name             String
+  description      String?
+  courseId         String
+  usercompetencies UserCompetency[]
+}
+
+model UserCompetency {
+  id           String     @id @default(uuid())
+  userId       String
+  competencyId String
+  achievedAt   DateTime?
+  competency   Competency @relation(fields: [competencyId], references: [id])
+}
+
+model QuestionBank {
+  id            String         @id @default(uuid())
+  text          String
+  type          QuestionType
+  options       Json? // for MCQ
+  answer        String? // correct answer (optional for subjective)
+  createdAt     DateTime       @default(now())
+  examQuestions ExamQuestion[]
+  tags          String[]
+}
+
+model ExamQuestion {
+  id             String @id @default(uuid())
+  assessmentId   String
+  questionBankId String
+  points         Int
+
+  assessment   Assessment   @relation(fields: [assessmentId], references: [id])
+  questionBank QuestionBank @relation(fields: [questionBankId], references: [id])
+}
+
+enum QuestionType {
+  MCQ
+  SHORT_ANSWER
+  ESSAY
+  TRUE_FALSE
+}
+
+model ExamSession {
+  id           String     @id @default(uuid())
+  studentId    String
+  assessmentId String
+  startedAt    DateTime   @default(now())
+  submittedAt  DateTime?
+  status       ExamStatus @default(IN_PROGRESS)
+
+  assessment Assessment @relation(fields: [assessmentId], references: [id])
+  answers    Answer[]
+}
+
+enum ExamStatus {
+  IN_PROGRESS
+  SUBMITTED
+  LATE
+  CANCELLED
+}
+
+model Answer {
+  id          String  @id @default(uuid())
+  sessionId   String
+  questionId  String
+  response    String? // JSON if needed for multiple
+  gradedScore Float?
+
+  session ExamSession @relation(fields: [sessionId], references: [id])
+}

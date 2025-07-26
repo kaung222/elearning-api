@@ -1,9 +1,15 @@
-import { Injectable, NotFoundException } from '@nestjs/common';
+import {
+  Injectable,
+  NotFoundException,
+  BadRequestException,
+  ForbiddenException,
+} from '@nestjs/common';
 import { CreateMemberDto } from './dto/create-member.dto';
 import { UpdateMemberDto } from './dto/update-member.dto';
 import { SignedUser } from 'src/security/user.decorator';
 import { PrismaUserService } from 'src/prisma/prisma-user.service';
 import { PrismaOrgService } from 'src/prisma/prisma-org.service';
+import { Role } from 'generated/org-database-client-types';
 
 @Injectable()
 export class MembersService {
@@ -17,7 +23,7 @@ export class MembersService {
     const user = await this.userService.user.findUnique({
       where: { id: createMemberDto.userId },
     });
-    const organizationId = signedUser.organization?.organizationId;
+    const organizationId = signedUser.orgId;
     if (!user || !organizationId)
       throw new NotFoundException('User not found!');
     return await this.orgService.organizationMember.create({
@@ -30,33 +36,92 @@ export class MembersService {
   }
 
   async findAll(signedUser: SignedUser) {
-    const member = await this.orgService.organizationMember.findMany({
-      where: { organizationId: signedUser.organization?.organizationId },
-    });
+    try {
+      const whereClause: any =
+        signedUser.role === Role.ORG_ADMIN
+          ? {
+              organizationId: signedUser.orgId,
+            }
+          : { userId: signedUser.sub };
+      const members = await this.orgService.organizationMember.findMany({
+        where: whereClause,
+        include: { instructor: true },
+      });
+      const users = await this.userService.user.findMany({
+        where: { id: { in: members.map((item) => item.userId) } },
+      });
 
-    const users = await this.userService.user.findMany({
-      where: { id: { in: member.map((item) => item.userId) } },
-    });
-
-    const memberWithUser = member.map((item) => ({
-      ...item,
-      user: users.filter((u) => u.id === item.userId),
-    }));
-    return memberWithUser;
+      return members.map((item) => ({
+        ...item,
+        user: users.find((u) => u.id === item.userId),
+      }));
+    } catch (error) {
+      throw new BadRequestException(error.message);
+    }
   }
 
-  findOne(id: string) {
-    return this.orgService.organizationMember.findUnique({ where: { id } });
+  async findOne(id: string, user: SignedUser) {
+    try {
+      const member = await this.orgService.organizationMember.findFirst({
+        where: {
+          id,
+          organizationId: user.orgId,
+        },
+      });
+
+      if (!member) {
+        throw new NotFoundException(`Member with ID ${id} not found`);
+      }
+
+      const userData = await this.userService.user.findUnique({
+        where: { id: member.userId },
+      });
+
+      return {
+        ...member,
+        user: userData,
+      };
+    } catch (error) {
+      if (error instanceof NotFoundException) {
+        throw error;
+      }
+      throw new BadRequestException(error.message);
+    }
   }
 
-  update(id: string, updateMemberDto: UpdateMemberDto) {
-    return this.orgService.organizationMember.update({
-      where: { id },
-      data: { ...updateMemberDto },
-    });
+  async update(id: string, updateMemberDto: UpdateMemberDto, user: SignedUser) {
+    try {
+      const member = await this.orgService.organizationMember.update({
+        where: { id, organizationId: user.orgId },
+        data: { ...updateMemberDto },
+      });
+      return member;
+    } catch (error) {
+      throw new NotFoundException(error.message);
+    }
   }
 
-  remove(id: string) {
-    return this.orgService.organizationMember.delete({ where: { id } });
+  async remove(id: string, user: SignedUser) {
+    try {
+      const member = await this.orgService.organizationMember.findFirst({
+        where: {
+          id,
+          organizationId: user.orgId,
+        },
+      });
+
+      if (!member) {
+        throw new NotFoundException(`Member with ID ${id} not found`);
+      }
+
+      return this.orgService.organizationMember.delete({
+        where: { id },
+      });
+    } catch (error) {
+      if (error instanceof NotFoundException) {
+        throw error;
+      }
+      throw new BadRequestException(error.message);
+    }
   }
 }

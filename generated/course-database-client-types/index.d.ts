@@ -34,11 +34,6 @@ export type Review = $Result.DefaultSelection<Prisma.$ReviewPayload>
  */
 export type Module = $Result.DefaultSelection<Prisma.$ModulePayload>
 /**
- * Model Assignment
- * 
- */
-export type Assignment = $Result.DefaultSelection<Prisma.$AssignmentPayload>
-/**
  * Model Lesson
  * 
  */
@@ -267,16 +262,6 @@ export class PrismaClient<
     * ```
     */
   get module(): Prisma.ModuleDelegate<ExtArgs, ClientOptions>;
-
-  /**
-   * `prisma.assignment`: Exposes CRUD operations for the **Assignment** model.
-    * Example usage:
-    * ```ts
-    * // Fetch zero or more Assignments
-    * const assignments = await prisma.assignment.findMany()
-    * ```
-    */
-  get assignment(): Prisma.AssignmentDelegate<ExtArgs, ClientOptions>;
 
   /**
    * `prisma.lesson`: Exposes CRUD operations for the **Lesson** model.
@@ -731,7 +716,6 @@ export namespace Prisma {
     FAQ: 'FAQ',
     Review: 'Review',
     Module: 'Module',
-    Assignment: 'Assignment',
     Lesson: 'Lesson'
   };
 
@@ -751,7 +735,7 @@ export namespace Prisma {
       omit: GlobalOmitOptions
     }
     meta: {
-      modelProps: "course" | "fAQ" | "review" | "module" | "assignment" | "lesson"
+      modelProps: "course" | "fAQ" | "review" | "module" | "lesson"
       txIsolationLevel: Prisma.TransactionIsolationLevel
     }
     model: {
@@ -1051,80 +1035,6 @@ export namespace Prisma {
           }
         }
       }
-      Assignment: {
-        payload: Prisma.$AssignmentPayload<ExtArgs>
-        fields: Prisma.AssignmentFieldRefs
-        operations: {
-          findUnique: {
-            args: Prisma.AssignmentFindUniqueArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$AssignmentPayload> | null
-          }
-          findUniqueOrThrow: {
-            args: Prisma.AssignmentFindUniqueOrThrowArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$AssignmentPayload>
-          }
-          findFirst: {
-            args: Prisma.AssignmentFindFirstArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$AssignmentPayload> | null
-          }
-          findFirstOrThrow: {
-            args: Prisma.AssignmentFindFirstOrThrowArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$AssignmentPayload>
-          }
-          findMany: {
-            args: Prisma.AssignmentFindManyArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$AssignmentPayload>[]
-          }
-          create: {
-            args: Prisma.AssignmentCreateArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$AssignmentPayload>
-          }
-          createMany: {
-            args: Prisma.AssignmentCreateManyArgs<ExtArgs>
-            result: BatchPayload
-          }
-          createManyAndReturn: {
-            args: Prisma.AssignmentCreateManyAndReturnArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$AssignmentPayload>[]
-          }
-          delete: {
-            args: Prisma.AssignmentDeleteArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$AssignmentPayload>
-          }
-          update: {
-            args: Prisma.AssignmentUpdateArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$AssignmentPayload>
-          }
-          deleteMany: {
-            args: Prisma.AssignmentDeleteManyArgs<ExtArgs>
-            result: BatchPayload
-          }
-          updateMany: {
-            args: Prisma.AssignmentUpdateManyArgs<ExtArgs>
-            result: BatchPayload
-          }
-          updateManyAndReturn: {
-            args: Prisma.AssignmentUpdateManyAndReturnArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$AssignmentPayload>[]
-          }
-          upsert: {
-            args: Prisma.AssignmentUpsertArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$AssignmentPayload>
-          }
-          aggregate: {
-            args: Prisma.AssignmentAggregateArgs<ExtArgs>
-            result: $Utils.Optional<AggregateAssignment>
-          }
-          groupBy: {
-            args: Prisma.AssignmentGroupByArgs<ExtArgs>
-            result: $Utils.Optional<AssignmentGroupByOutputType>[]
-          }
-          count: {
-            args: Prisma.AssignmentCountArgs<ExtArgs>
-            result: $Utils.Optional<AssignmentCountAggregateOutputType> | number
-          }
-        }
-      }
       Lesson: {
         payload: Prisma.$LessonPayload<ExtArgs>
         fields: Prisma.LessonFieldRefs
@@ -1287,7 +1197,6 @@ export namespace Prisma {
     fAQ?: FAQOmit
     review?: ReviewOmit
     module?: ModuleOmit
-    assignment?: AssignmentOmit
     lesson?: LessonOmit
   }
 
@@ -1455,37 +1364,6 @@ export namespace Prisma {
    */
   export type ModuleCountOutputTypeCountLessonsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     where?: LessonWhereInput
-  }
-
-
-  /**
-   * Count Type LessonCountOutputType
-   */
-
-  export type LessonCountOutputType = {
-    assignments: number
-  }
-
-  export type LessonCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    assignments?: boolean | LessonCountOutputTypeCountAssignmentsArgs
-  }
-
-  // Custom InputTypes
-  /**
-   * LessonCountOutputType without action
-   */
-  export type LessonCountOutputTypeDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the LessonCountOutputType
-     */
-    select?: LessonCountOutputTypeSelect<ExtArgs> | null
-  }
-
-  /**
-   * LessonCountOutputType without action
-   */
-  export type LessonCountOutputTypeCountAssignmentsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    where?: AssignmentWhereInput
   }
 
 
@@ -6300,1077 +6178,6 @@ export namespace Prisma {
 
 
   /**
-   * Model Assignment
-   */
-
-  export type AggregateAssignment = {
-    _count: AssignmentCountAggregateOutputType | null
-    _min: AssignmentMinAggregateOutputType | null
-    _max: AssignmentMaxAggregateOutputType | null
-  }
-
-  export type AssignmentMinAggregateOutputType = {
-    id: string | null
-    title: string | null
-    description: string | null
-    dueDate: Date | null
-    isCompleted: boolean | null
-    lessonId: string | null
-  }
-
-  export type AssignmentMaxAggregateOutputType = {
-    id: string | null
-    title: string | null
-    description: string | null
-    dueDate: Date | null
-    isCompleted: boolean | null
-    lessonId: string | null
-  }
-
-  export type AssignmentCountAggregateOutputType = {
-    id: number
-    title: number
-    description: number
-    dueDate: number
-    isCompleted: number
-    lessonId: number
-    _all: number
-  }
-
-
-  export type AssignmentMinAggregateInputType = {
-    id?: true
-    title?: true
-    description?: true
-    dueDate?: true
-    isCompleted?: true
-    lessonId?: true
-  }
-
-  export type AssignmentMaxAggregateInputType = {
-    id?: true
-    title?: true
-    description?: true
-    dueDate?: true
-    isCompleted?: true
-    lessonId?: true
-  }
-
-  export type AssignmentCountAggregateInputType = {
-    id?: true
-    title?: true
-    description?: true
-    dueDate?: true
-    isCompleted?: true
-    lessonId?: true
-    _all?: true
-  }
-
-  export type AssignmentAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Filter which Assignment to aggregate.
-     */
-    where?: AssignmentWhereInput
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
-     * 
-     * Determine the order of Assignments to fetch.
-     */
-    orderBy?: AssignmentOrderByWithRelationInput | AssignmentOrderByWithRelationInput[]
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
-     * 
-     * Sets the start position
-     */
-    cursor?: AssignmentWhereUniqueInput
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
-     * 
-     * Take `±n` Assignments from the position of the cursor.
-     */
-    take?: number
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
-     * 
-     * Skip the first `n` Assignments.
-     */
-    skip?: number
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
-     * 
-     * Count returned Assignments
-    **/
-    _count?: true | AssignmentCountAggregateInputType
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
-     * 
-     * Select which fields to find the minimum value
-    **/
-    _min?: AssignmentMinAggregateInputType
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
-     * 
-     * Select which fields to find the maximum value
-    **/
-    _max?: AssignmentMaxAggregateInputType
-  }
-
-  export type GetAssignmentAggregateType<T extends AssignmentAggregateArgs> = {
-        [P in keyof T & keyof AggregateAssignment]: P extends '_count' | 'count'
-      ? T[P] extends true
-        ? number
-        : GetScalarType<T[P], AggregateAssignment[P]>
-      : GetScalarType<T[P], AggregateAssignment[P]>
-  }
-
-
-
-
-  export type AssignmentGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    where?: AssignmentWhereInput
-    orderBy?: AssignmentOrderByWithAggregationInput | AssignmentOrderByWithAggregationInput[]
-    by: AssignmentScalarFieldEnum[] | AssignmentScalarFieldEnum
-    having?: AssignmentScalarWhereWithAggregatesInput
-    take?: number
-    skip?: number
-    _count?: AssignmentCountAggregateInputType | true
-    _min?: AssignmentMinAggregateInputType
-    _max?: AssignmentMaxAggregateInputType
-  }
-
-  export type AssignmentGroupByOutputType = {
-    id: string
-    title: string
-    description: string
-    dueDate: Date
-    isCompleted: boolean
-    lessonId: string
-    _count: AssignmentCountAggregateOutputType | null
-    _min: AssignmentMinAggregateOutputType | null
-    _max: AssignmentMaxAggregateOutputType | null
-  }
-
-  type GetAssignmentGroupByPayload<T extends AssignmentGroupByArgs> = Prisma.PrismaPromise<
-    Array<
-      PickEnumerable<AssignmentGroupByOutputType, T['by']> &
-        {
-          [P in ((keyof T) & (keyof AssignmentGroupByOutputType))]: P extends '_count'
-            ? T[P] extends boolean
-              ? number
-              : GetScalarType<T[P], AssignmentGroupByOutputType[P]>
-            : GetScalarType<T[P], AssignmentGroupByOutputType[P]>
-        }
-      >
-    >
-
-
-  export type AssignmentSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
-    id?: boolean
-    title?: boolean
-    description?: boolean
-    dueDate?: boolean
-    isCompleted?: boolean
-    lessonId?: boolean
-    lesson?: boolean | LessonDefaultArgs<ExtArgs>
-  }, ExtArgs["result"]["assignment"]>
-
-  export type AssignmentSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
-    id?: boolean
-    title?: boolean
-    description?: boolean
-    dueDate?: boolean
-    isCompleted?: boolean
-    lessonId?: boolean
-    lesson?: boolean | LessonDefaultArgs<ExtArgs>
-  }, ExtArgs["result"]["assignment"]>
-
-  export type AssignmentSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
-    id?: boolean
-    title?: boolean
-    description?: boolean
-    dueDate?: boolean
-    isCompleted?: boolean
-    lessonId?: boolean
-    lesson?: boolean | LessonDefaultArgs<ExtArgs>
-  }, ExtArgs["result"]["assignment"]>
-
-  export type AssignmentSelectScalar = {
-    id?: boolean
-    title?: boolean
-    description?: boolean
-    dueDate?: boolean
-    isCompleted?: boolean
-    lessonId?: boolean
-  }
-
-  export type AssignmentOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "title" | "description" | "dueDate" | "isCompleted" | "lessonId", ExtArgs["result"]["assignment"]>
-  export type AssignmentInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    lesson?: boolean | LessonDefaultArgs<ExtArgs>
-  }
-  export type AssignmentIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    lesson?: boolean | LessonDefaultArgs<ExtArgs>
-  }
-  export type AssignmentIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    lesson?: boolean | LessonDefaultArgs<ExtArgs>
-  }
-
-  export type $AssignmentPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    name: "Assignment"
-    objects: {
-      lesson: Prisma.$LessonPayload<ExtArgs>
-    }
-    scalars: $Extensions.GetPayloadResult<{
-      id: string
-      title: string
-      description: string
-      dueDate: Date
-      isCompleted: boolean
-      lessonId: string
-    }, ExtArgs["result"]["assignment"]>
-    composites: {}
-  }
-
-  type AssignmentGetPayload<S extends boolean | null | undefined | AssignmentDefaultArgs> = $Result.GetResult<Prisma.$AssignmentPayload, S>
-
-  type AssignmentCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
-    Omit<AssignmentFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
-      select?: AssignmentCountAggregateInputType | true
-    }
-
-  export interface AssignmentDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
-    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['Assignment'], meta: { name: 'Assignment' } }
-    /**
-     * Find zero or one Assignment that matches the filter.
-     * @param {AssignmentFindUniqueArgs} args - Arguments to find a Assignment
-     * @example
-     * // Get one Assignment
-     * const assignment = await prisma.assignment.findUnique({
-     *   where: {
-     *     // ... provide filter here
-     *   }
-     * })
-     */
-    findUnique<T extends AssignmentFindUniqueArgs>(args: SelectSubset<T, AssignmentFindUniqueArgs<ExtArgs>>): Prisma__AssignmentClient<$Result.GetResult<Prisma.$AssignmentPayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
-
-    /**
-     * Find one Assignment that matches the filter or throw an error with `error.code='P2025'`
-     * if no matches were found.
-     * @param {AssignmentFindUniqueOrThrowArgs} args - Arguments to find a Assignment
-     * @example
-     * // Get one Assignment
-     * const assignment = await prisma.assignment.findUniqueOrThrow({
-     *   where: {
-     *     // ... provide filter here
-     *   }
-     * })
-     */
-    findUniqueOrThrow<T extends AssignmentFindUniqueOrThrowArgs>(args: SelectSubset<T, AssignmentFindUniqueOrThrowArgs<ExtArgs>>): Prisma__AssignmentClient<$Result.GetResult<Prisma.$AssignmentPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
-
-    /**
-     * Find the first Assignment that matches the filter.
-     * Note, that providing `undefined` is treated as the value not being there.
-     * Read more here: https://pris.ly/d/null-undefined
-     * @param {AssignmentFindFirstArgs} args - Arguments to find a Assignment
-     * @example
-     * // Get one Assignment
-     * const assignment = await prisma.assignment.findFirst({
-     *   where: {
-     *     // ... provide filter here
-     *   }
-     * })
-     */
-    findFirst<T extends AssignmentFindFirstArgs>(args?: SelectSubset<T, AssignmentFindFirstArgs<ExtArgs>>): Prisma__AssignmentClient<$Result.GetResult<Prisma.$AssignmentPayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
-
-    /**
-     * Find the first Assignment that matches the filter or
-     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
-     * Note, that providing `undefined` is treated as the value not being there.
-     * Read more here: https://pris.ly/d/null-undefined
-     * @param {AssignmentFindFirstOrThrowArgs} args - Arguments to find a Assignment
-     * @example
-     * // Get one Assignment
-     * const assignment = await prisma.assignment.findFirstOrThrow({
-     *   where: {
-     *     // ... provide filter here
-     *   }
-     * })
-     */
-    findFirstOrThrow<T extends AssignmentFindFirstOrThrowArgs>(args?: SelectSubset<T, AssignmentFindFirstOrThrowArgs<ExtArgs>>): Prisma__AssignmentClient<$Result.GetResult<Prisma.$AssignmentPayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
-
-    /**
-     * Find zero or more Assignments that matches the filter.
-     * Note, that providing `undefined` is treated as the value not being there.
-     * Read more here: https://pris.ly/d/null-undefined
-     * @param {AssignmentFindManyArgs} args - Arguments to filter and select certain fields only.
-     * @example
-     * // Get all Assignments
-     * const assignments = await prisma.assignment.findMany()
-     * 
-     * // Get first 10 Assignments
-     * const assignments = await prisma.assignment.findMany({ take: 10 })
-     * 
-     * // Only select the `id`
-     * const assignmentWithIdOnly = await prisma.assignment.findMany({ select: { id: true } })
-     * 
-     */
-    findMany<T extends AssignmentFindManyArgs>(args?: SelectSubset<T, AssignmentFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$AssignmentPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
-
-    /**
-     * Create a Assignment.
-     * @param {AssignmentCreateArgs} args - Arguments to create a Assignment.
-     * @example
-     * // Create one Assignment
-     * const Assignment = await prisma.assignment.create({
-     *   data: {
-     *     // ... data to create a Assignment
-     *   }
-     * })
-     * 
-     */
-    create<T extends AssignmentCreateArgs>(args: SelectSubset<T, AssignmentCreateArgs<ExtArgs>>): Prisma__AssignmentClient<$Result.GetResult<Prisma.$AssignmentPayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
-
-    /**
-     * Create many Assignments.
-     * @param {AssignmentCreateManyArgs} args - Arguments to create many Assignments.
-     * @example
-     * // Create many Assignments
-     * const assignment = await prisma.assignment.createMany({
-     *   data: [
-     *     // ... provide data here
-     *   ]
-     * })
-     *     
-     */
-    createMany<T extends AssignmentCreateManyArgs>(args?: SelectSubset<T, AssignmentCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
-
-    /**
-     * Create many Assignments and returns the data saved in the database.
-     * @param {AssignmentCreateManyAndReturnArgs} args - Arguments to create many Assignments.
-     * @example
-     * // Create many Assignments
-     * const assignment = await prisma.assignment.createManyAndReturn({
-     *   data: [
-     *     // ... provide data here
-     *   ]
-     * })
-     * 
-     * // Create many Assignments and only return the `id`
-     * const assignmentWithIdOnly = await prisma.assignment.createManyAndReturn({
-     *   select: { id: true },
-     *   data: [
-     *     // ... provide data here
-     *   ]
-     * })
-     * Note, that providing `undefined` is treated as the value not being there.
-     * Read more here: https://pris.ly/d/null-undefined
-     * 
-     */
-    createManyAndReturn<T extends AssignmentCreateManyAndReturnArgs>(args?: SelectSubset<T, AssignmentCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$AssignmentPayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
-
-    /**
-     * Delete a Assignment.
-     * @param {AssignmentDeleteArgs} args - Arguments to delete one Assignment.
-     * @example
-     * // Delete one Assignment
-     * const Assignment = await prisma.assignment.delete({
-     *   where: {
-     *     // ... filter to delete one Assignment
-     *   }
-     * })
-     * 
-     */
-    delete<T extends AssignmentDeleteArgs>(args: SelectSubset<T, AssignmentDeleteArgs<ExtArgs>>): Prisma__AssignmentClient<$Result.GetResult<Prisma.$AssignmentPayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
-
-    /**
-     * Update one Assignment.
-     * @param {AssignmentUpdateArgs} args - Arguments to update one Assignment.
-     * @example
-     * // Update one Assignment
-     * const assignment = await prisma.assignment.update({
-     *   where: {
-     *     // ... provide filter here
-     *   },
-     *   data: {
-     *     // ... provide data here
-     *   }
-     * })
-     * 
-     */
-    update<T extends AssignmentUpdateArgs>(args: SelectSubset<T, AssignmentUpdateArgs<ExtArgs>>): Prisma__AssignmentClient<$Result.GetResult<Prisma.$AssignmentPayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
-
-    /**
-     * Delete zero or more Assignments.
-     * @param {AssignmentDeleteManyArgs} args - Arguments to filter Assignments to delete.
-     * @example
-     * // Delete a few Assignments
-     * const { count } = await prisma.assignment.deleteMany({
-     *   where: {
-     *     // ... provide filter here
-     *   }
-     * })
-     * 
-     */
-    deleteMany<T extends AssignmentDeleteManyArgs>(args?: SelectSubset<T, AssignmentDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
-
-    /**
-     * Update zero or more Assignments.
-     * Note, that providing `undefined` is treated as the value not being there.
-     * Read more here: https://pris.ly/d/null-undefined
-     * @param {AssignmentUpdateManyArgs} args - Arguments to update one or more rows.
-     * @example
-     * // Update many Assignments
-     * const assignment = await prisma.assignment.updateMany({
-     *   where: {
-     *     // ... provide filter here
-     *   },
-     *   data: {
-     *     // ... provide data here
-     *   }
-     * })
-     * 
-     */
-    updateMany<T extends AssignmentUpdateManyArgs>(args: SelectSubset<T, AssignmentUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
-
-    /**
-     * Update zero or more Assignments and returns the data updated in the database.
-     * @param {AssignmentUpdateManyAndReturnArgs} args - Arguments to update many Assignments.
-     * @example
-     * // Update many Assignments
-     * const assignment = await prisma.assignment.updateManyAndReturn({
-     *   where: {
-     *     // ... provide filter here
-     *   },
-     *   data: [
-     *     // ... provide data here
-     *   ]
-     * })
-     * 
-     * // Update zero or more Assignments and only return the `id`
-     * const assignmentWithIdOnly = await prisma.assignment.updateManyAndReturn({
-     *   select: { id: true },
-     *   where: {
-     *     // ... provide filter here
-     *   },
-     *   data: [
-     *     // ... provide data here
-     *   ]
-     * })
-     * Note, that providing `undefined` is treated as the value not being there.
-     * Read more here: https://pris.ly/d/null-undefined
-     * 
-     */
-    updateManyAndReturn<T extends AssignmentUpdateManyAndReturnArgs>(args: SelectSubset<T, AssignmentUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$AssignmentPayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
-
-    /**
-     * Create or update one Assignment.
-     * @param {AssignmentUpsertArgs} args - Arguments to update or create a Assignment.
-     * @example
-     * // Update or create a Assignment
-     * const assignment = await prisma.assignment.upsert({
-     *   create: {
-     *     // ... data to create a Assignment
-     *   },
-     *   update: {
-     *     // ... in case it already exists, update
-     *   },
-     *   where: {
-     *     // ... the filter for the Assignment we want to update
-     *   }
-     * })
-     */
-    upsert<T extends AssignmentUpsertArgs>(args: SelectSubset<T, AssignmentUpsertArgs<ExtArgs>>): Prisma__AssignmentClient<$Result.GetResult<Prisma.$AssignmentPayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
-
-
-    /**
-     * Count the number of Assignments.
-     * Note, that providing `undefined` is treated as the value not being there.
-     * Read more here: https://pris.ly/d/null-undefined
-     * @param {AssignmentCountArgs} args - Arguments to filter Assignments to count.
-     * @example
-     * // Count the number of Assignments
-     * const count = await prisma.assignment.count({
-     *   where: {
-     *     // ... the filter for the Assignments we want to count
-     *   }
-     * })
-    **/
-    count<T extends AssignmentCountArgs>(
-      args?: Subset<T, AssignmentCountArgs>,
-    ): Prisma.PrismaPromise<
-      T extends $Utils.Record<'select', any>
-        ? T['select'] extends true
-          ? number
-          : GetScalarType<T['select'], AssignmentCountAggregateOutputType>
-        : number
-    >
-
-    /**
-     * Allows you to perform aggregations operations on a Assignment.
-     * Note, that providing `undefined` is treated as the value not being there.
-     * Read more here: https://pris.ly/d/null-undefined
-     * @param {AssignmentAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
-     * @example
-     * // Ordered by age ascending
-     * // Where email contains prisma.io
-     * // Limited to the 10 users
-     * const aggregations = await prisma.user.aggregate({
-     *   _avg: {
-     *     age: true,
-     *   },
-     *   where: {
-     *     email: {
-     *       contains: "prisma.io",
-     *     },
-     *   },
-     *   orderBy: {
-     *     age: "asc",
-     *   },
-     *   take: 10,
-     * })
-    **/
-    aggregate<T extends AssignmentAggregateArgs>(args: Subset<T, AssignmentAggregateArgs>): Prisma.PrismaPromise<GetAssignmentAggregateType<T>>
-
-    /**
-     * Group by Assignment.
-     * Note, that providing `undefined` is treated as the value not being there.
-     * Read more here: https://pris.ly/d/null-undefined
-     * @param {AssignmentGroupByArgs} args - Group by arguments.
-     * @example
-     * // Group by city, order by createdAt, get count
-     * const result = await prisma.user.groupBy({
-     *   by: ['city', 'createdAt'],
-     *   orderBy: {
-     *     createdAt: true
-     *   },
-     *   _count: {
-     *     _all: true
-     *   },
-     * })
-     * 
-    **/
-    groupBy<
-      T extends AssignmentGroupByArgs,
-      HasSelectOrTake extends Or<
-        Extends<'skip', Keys<T>>,
-        Extends<'take', Keys<T>>
-      >,
-      OrderByArg extends True extends HasSelectOrTake
-        ? { orderBy: AssignmentGroupByArgs['orderBy'] }
-        : { orderBy?: AssignmentGroupByArgs['orderBy'] },
-      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
-      ByFields extends MaybeTupleToUnion<T['by']>,
-      ByValid extends Has<ByFields, OrderFields>,
-      HavingFields extends GetHavingFields<T['having']>,
-      HavingValid extends Has<ByFields, HavingFields>,
-      ByEmpty extends T['by'] extends never[] ? True : False,
-      InputErrors extends ByEmpty extends True
-      ? `Error: "by" must not be empty.`
-      : HavingValid extends False
-      ? {
-          [P in HavingFields]: P extends ByFields
-            ? never
-            : P extends string
-            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
-            : [
-                Error,
-                'Field ',
-                P,
-                ` in "having" needs to be provided in "by"`,
-              ]
-        }[HavingFields]
-      : 'take' extends Keys<T>
-      ? 'orderBy' extends Keys<T>
-        ? ByValid extends True
-          ? {}
-          : {
-              [P in OrderFields]: P extends ByFields
-                ? never
-                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
-            }[OrderFields]
-        : 'Error: If you provide "take", you also need to provide "orderBy"'
-      : 'skip' extends Keys<T>
-      ? 'orderBy' extends Keys<T>
-        ? ByValid extends True
-          ? {}
-          : {
-              [P in OrderFields]: P extends ByFields
-                ? never
-                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
-            }[OrderFields]
-        : 'Error: If you provide "skip", you also need to provide "orderBy"'
-      : ByValid extends True
-      ? {}
-      : {
-          [P in OrderFields]: P extends ByFields
-            ? never
-            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
-        }[OrderFields]
-    >(args: SubsetIntersection<T, AssignmentGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetAssignmentGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
-  /**
-   * Fields of the Assignment model
-   */
-  readonly fields: AssignmentFieldRefs;
-  }
-
-  /**
-   * The delegate class that acts as a "Promise-like" for Assignment.
-   * Why is this prefixed with `Prisma__`?
-   * Because we want to prevent naming conflicts as mentioned in
-   * https://github.com/prisma/prisma-client-js/issues/707
-   */
-  export interface Prisma__AssignmentClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
-    readonly [Symbol.toStringTag]: "PrismaPromise"
-    lesson<T extends LessonDefaultArgs<ExtArgs> = {}>(args?: Subset<T, LessonDefaultArgs<ExtArgs>>): Prisma__LessonClient<$Result.GetResult<Prisma.$LessonPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
-    /**
-     * Attaches callbacks for the resolution and/or rejection of the Promise.
-     * @param onfulfilled The callback to execute when the Promise is resolved.
-     * @param onrejected The callback to execute when the Promise is rejected.
-     * @returns A Promise for the completion of which ever callback is executed.
-     */
-    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
-    /**
-     * Attaches a callback for only the rejection of the Promise.
-     * @param onrejected The callback to execute when the Promise is rejected.
-     * @returns A Promise for the completion of the callback.
-     */
-    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
-    /**
-     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
-     * resolved value cannot be modified from the callback.
-     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
-     * @returns A Promise for the completion of the callback.
-     */
-    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
-  }
-
-
-
-
-  /**
-   * Fields of the Assignment model
-   */
-  interface AssignmentFieldRefs {
-    readonly id: FieldRef<"Assignment", 'String'>
-    readonly title: FieldRef<"Assignment", 'String'>
-    readonly description: FieldRef<"Assignment", 'String'>
-    readonly dueDate: FieldRef<"Assignment", 'DateTime'>
-    readonly isCompleted: FieldRef<"Assignment", 'Boolean'>
-    readonly lessonId: FieldRef<"Assignment", 'String'>
-  }
-    
-
-  // Custom InputTypes
-  /**
-   * Assignment findUnique
-   */
-  export type AssignmentFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the Assignment
-     */
-    select?: AssignmentSelect<ExtArgs> | null
-    /**
-     * Omit specific fields from the Assignment
-     */
-    omit?: AssignmentOmit<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: AssignmentInclude<ExtArgs> | null
-    /**
-     * Filter, which Assignment to fetch.
-     */
-    where: AssignmentWhereUniqueInput
-  }
-
-  /**
-   * Assignment findUniqueOrThrow
-   */
-  export type AssignmentFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the Assignment
-     */
-    select?: AssignmentSelect<ExtArgs> | null
-    /**
-     * Omit specific fields from the Assignment
-     */
-    omit?: AssignmentOmit<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: AssignmentInclude<ExtArgs> | null
-    /**
-     * Filter, which Assignment to fetch.
-     */
-    where: AssignmentWhereUniqueInput
-  }
-
-  /**
-   * Assignment findFirst
-   */
-  export type AssignmentFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the Assignment
-     */
-    select?: AssignmentSelect<ExtArgs> | null
-    /**
-     * Omit specific fields from the Assignment
-     */
-    omit?: AssignmentOmit<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: AssignmentInclude<ExtArgs> | null
-    /**
-     * Filter, which Assignment to fetch.
-     */
-    where?: AssignmentWhereInput
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
-     * 
-     * Determine the order of Assignments to fetch.
-     */
-    orderBy?: AssignmentOrderByWithRelationInput | AssignmentOrderByWithRelationInput[]
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
-     * 
-     * Sets the position for searching for Assignments.
-     */
-    cursor?: AssignmentWhereUniqueInput
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
-     * 
-     * Take `±n` Assignments from the position of the cursor.
-     */
-    take?: number
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
-     * 
-     * Skip the first `n` Assignments.
-     */
-    skip?: number
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
-     * 
-     * Filter by unique combinations of Assignments.
-     */
-    distinct?: AssignmentScalarFieldEnum | AssignmentScalarFieldEnum[]
-  }
-
-  /**
-   * Assignment findFirstOrThrow
-   */
-  export type AssignmentFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the Assignment
-     */
-    select?: AssignmentSelect<ExtArgs> | null
-    /**
-     * Omit specific fields from the Assignment
-     */
-    omit?: AssignmentOmit<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: AssignmentInclude<ExtArgs> | null
-    /**
-     * Filter, which Assignment to fetch.
-     */
-    where?: AssignmentWhereInput
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
-     * 
-     * Determine the order of Assignments to fetch.
-     */
-    orderBy?: AssignmentOrderByWithRelationInput | AssignmentOrderByWithRelationInput[]
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
-     * 
-     * Sets the position for searching for Assignments.
-     */
-    cursor?: AssignmentWhereUniqueInput
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
-     * 
-     * Take `±n` Assignments from the position of the cursor.
-     */
-    take?: number
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
-     * 
-     * Skip the first `n` Assignments.
-     */
-    skip?: number
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
-     * 
-     * Filter by unique combinations of Assignments.
-     */
-    distinct?: AssignmentScalarFieldEnum | AssignmentScalarFieldEnum[]
-  }
-
-  /**
-   * Assignment findMany
-   */
-  export type AssignmentFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the Assignment
-     */
-    select?: AssignmentSelect<ExtArgs> | null
-    /**
-     * Omit specific fields from the Assignment
-     */
-    omit?: AssignmentOmit<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: AssignmentInclude<ExtArgs> | null
-    /**
-     * Filter, which Assignments to fetch.
-     */
-    where?: AssignmentWhereInput
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
-     * 
-     * Determine the order of Assignments to fetch.
-     */
-    orderBy?: AssignmentOrderByWithRelationInput | AssignmentOrderByWithRelationInput[]
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
-     * 
-     * Sets the position for listing Assignments.
-     */
-    cursor?: AssignmentWhereUniqueInput
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
-     * 
-     * Take `±n` Assignments from the position of the cursor.
-     */
-    take?: number
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
-     * 
-     * Skip the first `n` Assignments.
-     */
-    skip?: number
-    distinct?: AssignmentScalarFieldEnum | AssignmentScalarFieldEnum[]
-  }
-
-  /**
-   * Assignment create
-   */
-  export type AssignmentCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the Assignment
-     */
-    select?: AssignmentSelect<ExtArgs> | null
-    /**
-     * Omit specific fields from the Assignment
-     */
-    omit?: AssignmentOmit<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: AssignmentInclude<ExtArgs> | null
-    /**
-     * The data needed to create a Assignment.
-     */
-    data: XOR<AssignmentCreateInput, AssignmentUncheckedCreateInput>
-  }
-
-  /**
-   * Assignment createMany
-   */
-  export type AssignmentCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * The data used to create many Assignments.
-     */
-    data: AssignmentCreateManyInput | AssignmentCreateManyInput[]
-    skipDuplicates?: boolean
-  }
-
-  /**
-   * Assignment createManyAndReturn
-   */
-  export type AssignmentCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the Assignment
-     */
-    select?: AssignmentSelectCreateManyAndReturn<ExtArgs> | null
-    /**
-     * Omit specific fields from the Assignment
-     */
-    omit?: AssignmentOmit<ExtArgs> | null
-    /**
-     * The data used to create many Assignments.
-     */
-    data: AssignmentCreateManyInput | AssignmentCreateManyInput[]
-    skipDuplicates?: boolean
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: AssignmentIncludeCreateManyAndReturn<ExtArgs> | null
-  }
-
-  /**
-   * Assignment update
-   */
-  export type AssignmentUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the Assignment
-     */
-    select?: AssignmentSelect<ExtArgs> | null
-    /**
-     * Omit specific fields from the Assignment
-     */
-    omit?: AssignmentOmit<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: AssignmentInclude<ExtArgs> | null
-    /**
-     * The data needed to update a Assignment.
-     */
-    data: XOR<AssignmentUpdateInput, AssignmentUncheckedUpdateInput>
-    /**
-     * Choose, which Assignment to update.
-     */
-    where: AssignmentWhereUniqueInput
-  }
-
-  /**
-   * Assignment updateMany
-   */
-  export type AssignmentUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * The data used to update Assignments.
-     */
-    data: XOR<AssignmentUpdateManyMutationInput, AssignmentUncheckedUpdateManyInput>
-    /**
-     * Filter which Assignments to update
-     */
-    where?: AssignmentWhereInput
-    /**
-     * Limit how many Assignments to update.
-     */
-    limit?: number
-  }
-
-  /**
-   * Assignment updateManyAndReturn
-   */
-  export type AssignmentUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the Assignment
-     */
-    select?: AssignmentSelectUpdateManyAndReturn<ExtArgs> | null
-    /**
-     * Omit specific fields from the Assignment
-     */
-    omit?: AssignmentOmit<ExtArgs> | null
-    /**
-     * The data used to update Assignments.
-     */
-    data: XOR<AssignmentUpdateManyMutationInput, AssignmentUncheckedUpdateManyInput>
-    /**
-     * Filter which Assignments to update
-     */
-    where?: AssignmentWhereInput
-    /**
-     * Limit how many Assignments to update.
-     */
-    limit?: number
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: AssignmentIncludeUpdateManyAndReturn<ExtArgs> | null
-  }
-
-  /**
-   * Assignment upsert
-   */
-  export type AssignmentUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the Assignment
-     */
-    select?: AssignmentSelect<ExtArgs> | null
-    /**
-     * Omit specific fields from the Assignment
-     */
-    omit?: AssignmentOmit<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: AssignmentInclude<ExtArgs> | null
-    /**
-     * The filter to search for the Assignment to update in case it exists.
-     */
-    where: AssignmentWhereUniqueInput
-    /**
-     * In case the Assignment found by the `where` argument doesn't exist, create a new Assignment with this data.
-     */
-    create: XOR<AssignmentCreateInput, AssignmentUncheckedCreateInput>
-    /**
-     * In case the Assignment was found with the provided `where` argument, update it with this data.
-     */
-    update: XOR<AssignmentUpdateInput, AssignmentUncheckedUpdateInput>
-  }
-
-  /**
-   * Assignment delete
-   */
-  export type AssignmentDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the Assignment
-     */
-    select?: AssignmentSelect<ExtArgs> | null
-    /**
-     * Omit specific fields from the Assignment
-     */
-    omit?: AssignmentOmit<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: AssignmentInclude<ExtArgs> | null
-    /**
-     * Filter which Assignment to delete.
-     */
-    where: AssignmentWhereUniqueInput
-  }
-
-  /**
-   * Assignment deleteMany
-   */
-  export type AssignmentDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Filter which Assignments to delete
-     */
-    where?: AssignmentWhereInput
-    /**
-     * Limit how many Assignments to delete.
-     */
-    limit?: number
-  }
-
-  /**
-   * Assignment without action
-   */
-  export type AssignmentDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the Assignment
-     */
-    select?: AssignmentSelect<ExtArgs> | null
-    /**
-     * Omit specific fields from the Assignment
-     */
-    omit?: AssignmentOmit<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: AssignmentInclude<ExtArgs> | null
-  }
-
-
-  /**
    * Model Lesson
    */
 
@@ -7613,8 +6420,6 @@ export namespace Prisma {
     organizationId?: boolean
     moduleId?: boolean
     module?: boolean | ModuleDefaultArgs<ExtArgs>
-    assignments?: boolean | Lesson$assignmentsArgs<ExtArgs>
-    _count?: boolean | LessonCountOutputTypeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["lesson"]>
 
   export type LessonSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
@@ -7661,8 +6466,6 @@ export namespace Prisma {
   export type LessonOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "title" | "description" | "url" | "type" | "duration" | "order" | "isPreview" | "organizationId" | "moduleId", ExtArgs["result"]["lesson"]>
   export type LessonInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     module?: boolean | ModuleDefaultArgs<ExtArgs>
-    assignments?: boolean | Lesson$assignmentsArgs<ExtArgs>
-    _count?: boolean | LessonCountOutputTypeDefaultArgs<ExtArgs>
   }
   export type LessonIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     module?: boolean | ModuleDefaultArgs<ExtArgs>
@@ -7675,7 +6478,6 @@ export namespace Prisma {
     name: "Lesson"
     objects: {
       module: Prisma.$ModulePayload<ExtArgs>
-      assignments: Prisma.$AssignmentPayload<ExtArgs>[]
     }
     scalars: $Extensions.GetPayloadResult<{
       id: string
@@ -8083,7 +6885,6 @@ export namespace Prisma {
   export interface Prisma__LessonClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
     readonly [Symbol.toStringTag]: "PrismaPromise"
     module<T extends ModuleDefaultArgs<ExtArgs> = {}>(args?: Subset<T, ModuleDefaultArgs<ExtArgs>>): Prisma__ModuleClient<$Result.GetResult<Prisma.$ModulePayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
-    assignments<T extends Lesson$assignmentsArgs<ExtArgs> = {}>(args?: Subset<T, Lesson$assignmentsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$AssignmentPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -8519,30 +7320,6 @@ export namespace Prisma {
   }
 
   /**
-   * Lesson.assignments
-   */
-  export type Lesson$assignmentsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the Assignment
-     */
-    select?: AssignmentSelect<ExtArgs> | null
-    /**
-     * Omit specific fields from the Assignment
-     */
-    omit?: AssignmentOmit<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: AssignmentInclude<ExtArgs> | null
-    where?: AssignmentWhereInput
-    orderBy?: AssignmentOrderByWithRelationInput | AssignmentOrderByWithRelationInput[]
-    cursor?: AssignmentWhereUniqueInput
-    take?: number
-    skip?: number
-    distinct?: AssignmentScalarFieldEnum | AssignmentScalarFieldEnum[]
-  }
-
-  /**
    * Lesson without action
    */
   export type LessonDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -8644,18 +7421,6 @@ export namespace Prisma {
   };
 
   export type ModuleScalarFieldEnum = (typeof ModuleScalarFieldEnum)[keyof typeof ModuleScalarFieldEnum]
-
-
-  export const AssignmentScalarFieldEnum: {
-    id: 'id',
-    title: 'title',
-    description: 'description',
-    dueDate: 'dueDate',
-    isCompleted: 'isCompleted',
-    lessonId: 'lessonId'
-  };
-
-  export type AssignmentScalarFieldEnum = (typeof AssignmentScalarFieldEnum)[keyof typeof AssignmentScalarFieldEnum]
 
 
   export const LessonScalarFieldEnum: {
@@ -8802,13 +7567,6 @@ export namespace Prisma {
 
 
   /**
-   * Reference to a field of type 'Boolean'
-   */
-  export type BooleanFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Boolean'>
-    
-
-
-  /**
    * Reference to a field of type 'LessonType'
    */
   export type EnumLessonTypeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'LessonType'>
@@ -8819,6 +7577,13 @@ export namespace Prisma {
    * Reference to a field of type 'LessonType[]'
    */
   export type ListEnumLessonTypeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'LessonType[]'>
+    
+
+
+  /**
+   * Reference to a field of type 'Boolean'
+   */
+  export type BooleanFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Boolean'>
     
   /**
    * Deep Input Types
@@ -9195,66 +7960,6 @@ export namespace Prisma {
     courseId?: StringWithAggregatesFilter<"Module"> | string
   }
 
-  export type AssignmentWhereInput = {
-    AND?: AssignmentWhereInput | AssignmentWhereInput[]
-    OR?: AssignmentWhereInput[]
-    NOT?: AssignmentWhereInput | AssignmentWhereInput[]
-    id?: StringFilter<"Assignment"> | string
-    title?: StringFilter<"Assignment"> | string
-    description?: StringFilter<"Assignment"> | string
-    dueDate?: DateTimeFilter<"Assignment"> | Date | string
-    isCompleted?: BoolFilter<"Assignment"> | boolean
-    lessonId?: StringFilter<"Assignment"> | string
-    lesson?: XOR<LessonScalarRelationFilter, LessonWhereInput>
-  }
-
-  export type AssignmentOrderByWithRelationInput = {
-    id?: SortOrder
-    title?: SortOrder
-    description?: SortOrder
-    dueDate?: SortOrder
-    isCompleted?: SortOrder
-    lessonId?: SortOrder
-    lesson?: LessonOrderByWithRelationInput
-  }
-
-  export type AssignmentWhereUniqueInput = Prisma.AtLeast<{
-    id?: string
-    AND?: AssignmentWhereInput | AssignmentWhereInput[]
-    OR?: AssignmentWhereInput[]
-    NOT?: AssignmentWhereInput | AssignmentWhereInput[]
-    title?: StringFilter<"Assignment"> | string
-    description?: StringFilter<"Assignment"> | string
-    dueDate?: DateTimeFilter<"Assignment"> | Date | string
-    isCompleted?: BoolFilter<"Assignment"> | boolean
-    lessonId?: StringFilter<"Assignment"> | string
-    lesson?: XOR<LessonScalarRelationFilter, LessonWhereInput>
-  }, "id">
-
-  export type AssignmentOrderByWithAggregationInput = {
-    id?: SortOrder
-    title?: SortOrder
-    description?: SortOrder
-    dueDate?: SortOrder
-    isCompleted?: SortOrder
-    lessonId?: SortOrder
-    _count?: AssignmentCountOrderByAggregateInput
-    _max?: AssignmentMaxOrderByAggregateInput
-    _min?: AssignmentMinOrderByAggregateInput
-  }
-
-  export type AssignmentScalarWhereWithAggregatesInput = {
-    AND?: AssignmentScalarWhereWithAggregatesInput | AssignmentScalarWhereWithAggregatesInput[]
-    OR?: AssignmentScalarWhereWithAggregatesInput[]
-    NOT?: AssignmentScalarWhereWithAggregatesInput | AssignmentScalarWhereWithAggregatesInput[]
-    id?: StringWithAggregatesFilter<"Assignment"> | string
-    title?: StringWithAggregatesFilter<"Assignment"> | string
-    description?: StringWithAggregatesFilter<"Assignment"> | string
-    dueDate?: DateTimeWithAggregatesFilter<"Assignment"> | Date | string
-    isCompleted?: BoolWithAggregatesFilter<"Assignment"> | boolean
-    lessonId?: StringWithAggregatesFilter<"Assignment"> | string
-  }
-
   export type LessonWhereInput = {
     AND?: LessonWhereInput | LessonWhereInput[]
     OR?: LessonWhereInput[]
@@ -9270,7 +7975,6 @@ export namespace Prisma {
     organizationId?: StringFilter<"Lesson"> | string
     moduleId?: StringFilter<"Lesson"> | string
     module?: XOR<ModuleScalarRelationFilter, ModuleWhereInput>
-    assignments?: AssignmentListRelationFilter
   }
 
   export type LessonOrderByWithRelationInput = {
@@ -9285,7 +7989,6 @@ export namespace Prisma {
     organizationId?: SortOrder
     moduleId?: SortOrder
     module?: ModuleOrderByWithRelationInput
-    assignments?: AssignmentOrderByRelationAggregateInput
   }
 
   export type LessonWhereUniqueInput = Prisma.AtLeast<{
@@ -9303,7 +8006,6 @@ export namespace Prisma {
     organizationId?: StringFilter<"Lesson"> | string
     moduleId?: StringFilter<"Lesson"> | string
     module?: XOR<ModuleScalarRelationFilter, ModuleWhereInput>
-    assignments?: AssignmentListRelationFilter
   }, "id">
 
   export type LessonOrderByWithAggregationInput = {
@@ -9766,68 +8468,6 @@ export namespace Prisma {
     courseId?: StringFieldUpdateOperationsInput | string
   }
 
-  export type AssignmentCreateInput = {
-    id?: string
-    title: string
-    description: string
-    dueDate: Date | string
-    isCompleted?: boolean
-    lesson: LessonCreateNestedOneWithoutAssignmentsInput
-  }
-
-  export type AssignmentUncheckedCreateInput = {
-    id?: string
-    title: string
-    description: string
-    dueDate: Date | string
-    isCompleted?: boolean
-    lessonId: string
-  }
-
-  export type AssignmentUpdateInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    title?: StringFieldUpdateOperationsInput | string
-    description?: StringFieldUpdateOperationsInput | string
-    dueDate?: DateTimeFieldUpdateOperationsInput | Date | string
-    isCompleted?: BoolFieldUpdateOperationsInput | boolean
-    lesson?: LessonUpdateOneRequiredWithoutAssignmentsNestedInput
-  }
-
-  export type AssignmentUncheckedUpdateInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    title?: StringFieldUpdateOperationsInput | string
-    description?: StringFieldUpdateOperationsInput | string
-    dueDate?: DateTimeFieldUpdateOperationsInput | Date | string
-    isCompleted?: BoolFieldUpdateOperationsInput | boolean
-    lessonId?: StringFieldUpdateOperationsInput | string
-  }
-
-  export type AssignmentCreateManyInput = {
-    id?: string
-    title: string
-    description: string
-    dueDate: Date | string
-    isCompleted?: boolean
-    lessonId: string
-  }
-
-  export type AssignmentUpdateManyMutationInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    title?: StringFieldUpdateOperationsInput | string
-    description?: StringFieldUpdateOperationsInput | string
-    dueDate?: DateTimeFieldUpdateOperationsInput | Date | string
-    isCompleted?: BoolFieldUpdateOperationsInput | boolean
-  }
-
-  export type AssignmentUncheckedUpdateManyInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    title?: StringFieldUpdateOperationsInput | string
-    description?: StringFieldUpdateOperationsInput | string
-    dueDate?: DateTimeFieldUpdateOperationsInput | Date | string
-    isCompleted?: BoolFieldUpdateOperationsInput | boolean
-    lessonId?: StringFieldUpdateOperationsInput | string
-  }
-
   export type LessonCreateInput = {
     id?: string
     title: string
@@ -9839,7 +8479,6 @@ export namespace Prisma {
     isPreview?: boolean
     organizationId: string
     module: ModuleCreateNestedOneWithoutLessonsInput
-    assignments?: AssignmentCreateNestedManyWithoutLessonInput
   }
 
   export type LessonUncheckedCreateInput = {
@@ -9853,7 +8492,6 @@ export namespace Prisma {
     isPreview?: boolean
     organizationId: string
     moduleId: string
-    assignments?: AssignmentUncheckedCreateNestedManyWithoutLessonInput
   }
 
   export type LessonUpdateInput = {
@@ -9867,7 +8505,6 @@ export namespace Prisma {
     isPreview?: BoolFieldUpdateOperationsInput | boolean
     organizationId?: StringFieldUpdateOperationsInput | string
     module?: ModuleUpdateOneRequiredWithoutLessonsNestedInput
-    assignments?: AssignmentUpdateManyWithoutLessonNestedInput
   }
 
   export type LessonUncheckedUpdateInput = {
@@ -9881,7 +8518,6 @@ export namespace Prisma {
     isPreview?: BoolFieldUpdateOperationsInput | boolean
     organizationId?: StringFieldUpdateOperationsInput | string
     moduleId?: StringFieldUpdateOperationsInput | string
-    assignments?: AssignmentUncheckedUpdateManyWithoutLessonNestedInput
   }
 
   export type LessonCreateManyInput = {
@@ -10463,51 +9099,6 @@ export namespace Prisma {
     order?: SortOrder
   }
 
-  export type BoolFilter<$PrismaModel = never> = {
-    equals?: boolean | BooleanFieldRefInput<$PrismaModel>
-    not?: NestedBoolFilter<$PrismaModel> | boolean
-  }
-
-  export type LessonScalarRelationFilter = {
-    is?: LessonWhereInput
-    isNot?: LessonWhereInput
-  }
-
-  export type AssignmentCountOrderByAggregateInput = {
-    id?: SortOrder
-    title?: SortOrder
-    description?: SortOrder
-    dueDate?: SortOrder
-    isCompleted?: SortOrder
-    lessonId?: SortOrder
-  }
-
-  export type AssignmentMaxOrderByAggregateInput = {
-    id?: SortOrder
-    title?: SortOrder
-    description?: SortOrder
-    dueDate?: SortOrder
-    isCompleted?: SortOrder
-    lessonId?: SortOrder
-  }
-
-  export type AssignmentMinOrderByAggregateInput = {
-    id?: SortOrder
-    title?: SortOrder
-    description?: SortOrder
-    dueDate?: SortOrder
-    isCompleted?: SortOrder
-    lessonId?: SortOrder
-  }
-
-  export type BoolWithAggregatesFilter<$PrismaModel = never> = {
-    equals?: boolean | BooleanFieldRefInput<$PrismaModel>
-    not?: NestedBoolWithAggregatesFilter<$PrismaModel> | boolean
-    _count?: NestedIntFilter<$PrismaModel>
-    _min?: NestedBoolFilter<$PrismaModel>
-    _max?: NestedBoolFilter<$PrismaModel>
-  }
-
   export type EnumLessonTypeFilter<$PrismaModel = never> = {
     equals?: $Enums.LessonType | EnumLessonTypeFieldRefInput<$PrismaModel>
     in?: $Enums.LessonType[] | ListEnumLessonTypeFieldRefInput<$PrismaModel>
@@ -10515,19 +9106,14 @@ export namespace Prisma {
     not?: NestedEnumLessonTypeFilter<$PrismaModel> | $Enums.LessonType
   }
 
+  export type BoolFilter<$PrismaModel = never> = {
+    equals?: boolean | BooleanFieldRefInput<$PrismaModel>
+    not?: NestedBoolFilter<$PrismaModel> | boolean
+  }
+
   export type ModuleScalarRelationFilter = {
     is?: ModuleWhereInput
     isNot?: ModuleWhereInput
-  }
-
-  export type AssignmentListRelationFilter = {
-    every?: AssignmentWhereInput
-    some?: AssignmentWhereInput
-    none?: AssignmentWhereInput
-  }
-
-  export type AssignmentOrderByRelationAggregateInput = {
-    _count?: SortOrder
   }
 
   export type LessonCountOrderByAggregateInput = {
@@ -10587,6 +9173,14 @@ export namespace Prisma {
     _count?: NestedIntFilter<$PrismaModel>
     _min?: NestedEnumLessonTypeFilter<$PrismaModel>
     _max?: NestedEnumLessonTypeFilter<$PrismaModel>
+  }
+
+  export type BoolWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: boolean | BooleanFieldRefInput<$PrismaModel>
+    not?: NestedBoolWithAggregatesFilter<$PrismaModel> | boolean
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedBoolFilter<$PrismaModel>
+    _max?: NestedBoolFilter<$PrismaModel>
   }
 
   export type CourseCreatetagsInput = {
@@ -10897,46 +9491,18 @@ export namespace Prisma {
     deleteMany?: LessonScalarWhereInput | LessonScalarWhereInput[]
   }
 
-  export type LessonCreateNestedOneWithoutAssignmentsInput = {
-    create?: XOR<LessonCreateWithoutAssignmentsInput, LessonUncheckedCreateWithoutAssignmentsInput>
-    connectOrCreate?: LessonCreateOrConnectWithoutAssignmentsInput
-    connect?: LessonWhereUniqueInput
-  }
-
-  export type BoolFieldUpdateOperationsInput = {
-    set?: boolean
-  }
-
-  export type LessonUpdateOneRequiredWithoutAssignmentsNestedInput = {
-    create?: XOR<LessonCreateWithoutAssignmentsInput, LessonUncheckedCreateWithoutAssignmentsInput>
-    connectOrCreate?: LessonCreateOrConnectWithoutAssignmentsInput
-    upsert?: LessonUpsertWithoutAssignmentsInput
-    connect?: LessonWhereUniqueInput
-    update?: XOR<XOR<LessonUpdateToOneWithWhereWithoutAssignmentsInput, LessonUpdateWithoutAssignmentsInput>, LessonUncheckedUpdateWithoutAssignmentsInput>
-  }
-
   export type ModuleCreateNestedOneWithoutLessonsInput = {
     create?: XOR<ModuleCreateWithoutLessonsInput, ModuleUncheckedCreateWithoutLessonsInput>
     connectOrCreate?: ModuleCreateOrConnectWithoutLessonsInput
     connect?: ModuleWhereUniqueInput
   }
 
-  export type AssignmentCreateNestedManyWithoutLessonInput = {
-    create?: XOR<AssignmentCreateWithoutLessonInput, AssignmentUncheckedCreateWithoutLessonInput> | AssignmentCreateWithoutLessonInput[] | AssignmentUncheckedCreateWithoutLessonInput[]
-    connectOrCreate?: AssignmentCreateOrConnectWithoutLessonInput | AssignmentCreateOrConnectWithoutLessonInput[]
-    createMany?: AssignmentCreateManyLessonInputEnvelope
-    connect?: AssignmentWhereUniqueInput | AssignmentWhereUniqueInput[]
-  }
-
-  export type AssignmentUncheckedCreateNestedManyWithoutLessonInput = {
-    create?: XOR<AssignmentCreateWithoutLessonInput, AssignmentUncheckedCreateWithoutLessonInput> | AssignmentCreateWithoutLessonInput[] | AssignmentUncheckedCreateWithoutLessonInput[]
-    connectOrCreate?: AssignmentCreateOrConnectWithoutLessonInput | AssignmentCreateOrConnectWithoutLessonInput[]
-    createMany?: AssignmentCreateManyLessonInputEnvelope
-    connect?: AssignmentWhereUniqueInput | AssignmentWhereUniqueInput[]
-  }
-
   export type EnumLessonTypeFieldUpdateOperationsInput = {
     set?: $Enums.LessonType
+  }
+
+  export type BoolFieldUpdateOperationsInput = {
+    set?: boolean
   }
 
   export type ModuleUpdateOneRequiredWithoutLessonsNestedInput = {
@@ -10945,34 +9511,6 @@ export namespace Prisma {
     upsert?: ModuleUpsertWithoutLessonsInput
     connect?: ModuleWhereUniqueInput
     update?: XOR<XOR<ModuleUpdateToOneWithWhereWithoutLessonsInput, ModuleUpdateWithoutLessonsInput>, ModuleUncheckedUpdateWithoutLessonsInput>
-  }
-
-  export type AssignmentUpdateManyWithoutLessonNestedInput = {
-    create?: XOR<AssignmentCreateWithoutLessonInput, AssignmentUncheckedCreateWithoutLessonInput> | AssignmentCreateWithoutLessonInput[] | AssignmentUncheckedCreateWithoutLessonInput[]
-    connectOrCreate?: AssignmentCreateOrConnectWithoutLessonInput | AssignmentCreateOrConnectWithoutLessonInput[]
-    upsert?: AssignmentUpsertWithWhereUniqueWithoutLessonInput | AssignmentUpsertWithWhereUniqueWithoutLessonInput[]
-    createMany?: AssignmentCreateManyLessonInputEnvelope
-    set?: AssignmentWhereUniqueInput | AssignmentWhereUniqueInput[]
-    disconnect?: AssignmentWhereUniqueInput | AssignmentWhereUniqueInput[]
-    delete?: AssignmentWhereUniqueInput | AssignmentWhereUniqueInput[]
-    connect?: AssignmentWhereUniqueInput | AssignmentWhereUniqueInput[]
-    update?: AssignmentUpdateWithWhereUniqueWithoutLessonInput | AssignmentUpdateWithWhereUniqueWithoutLessonInput[]
-    updateMany?: AssignmentUpdateManyWithWhereWithoutLessonInput | AssignmentUpdateManyWithWhereWithoutLessonInput[]
-    deleteMany?: AssignmentScalarWhereInput | AssignmentScalarWhereInput[]
-  }
-
-  export type AssignmentUncheckedUpdateManyWithoutLessonNestedInput = {
-    create?: XOR<AssignmentCreateWithoutLessonInput, AssignmentUncheckedCreateWithoutLessonInput> | AssignmentCreateWithoutLessonInput[] | AssignmentUncheckedCreateWithoutLessonInput[]
-    connectOrCreate?: AssignmentCreateOrConnectWithoutLessonInput | AssignmentCreateOrConnectWithoutLessonInput[]
-    upsert?: AssignmentUpsertWithWhereUniqueWithoutLessonInput | AssignmentUpsertWithWhereUniqueWithoutLessonInput[]
-    createMany?: AssignmentCreateManyLessonInputEnvelope
-    set?: AssignmentWhereUniqueInput | AssignmentWhereUniqueInput[]
-    disconnect?: AssignmentWhereUniqueInput | AssignmentWhereUniqueInput[]
-    delete?: AssignmentWhereUniqueInput | AssignmentWhereUniqueInput[]
-    connect?: AssignmentWhereUniqueInput | AssignmentWhereUniqueInput[]
-    update?: AssignmentUpdateWithWhereUniqueWithoutLessonInput | AssignmentUpdateWithWhereUniqueWithoutLessonInput[]
-    updateMany?: AssignmentUpdateManyWithWhereWithoutLessonInput | AssignmentUpdateManyWithWhereWithoutLessonInput[]
-    deleteMany?: AssignmentScalarWhereInput | AssignmentScalarWhereInput[]
   }
 
   export type NestedStringFilter<$PrismaModel = never> = {
@@ -11246,24 +9784,16 @@ export namespace Prisma {
     _max?: NestedDateTimeNullableFilter<$PrismaModel>
   }
 
-  export type NestedBoolFilter<$PrismaModel = never> = {
-    equals?: boolean | BooleanFieldRefInput<$PrismaModel>
-    not?: NestedBoolFilter<$PrismaModel> | boolean
-  }
-
-  export type NestedBoolWithAggregatesFilter<$PrismaModel = never> = {
-    equals?: boolean | BooleanFieldRefInput<$PrismaModel>
-    not?: NestedBoolWithAggregatesFilter<$PrismaModel> | boolean
-    _count?: NestedIntFilter<$PrismaModel>
-    _min?: NestedBoolFilter<$PrismaModel>
-    _max?: NestedBoolFilter<$PrismaModel>
-  }
-
   export type NestedEnumLessonTypeFilter<$PrismaModel = never> = {
     equals?: $Enums.LessonType | EnumLessonTypeFieldRefInput<$PrismaModel>
     in?: $Enums.LessonType[] | ListEnumLessonTypeFieldRefInput<$PrismaModel>
     notIn?: $Enums.LessonType[] | ListEnumLessonTypeFieldRefInput<$PrismaModel>
     not?: NestedEnumLessonTypeFilter<$PrismaModel> | $Enums.LessonType
+  }
+
+  export type NestedBoolFilter<$PrismaModel = never> = {
+    equals?: boolean | BooleanFieldRefInput<$PrismaModel>
+    not?: NestedBoolFilter<$PrismaModel> | boolean
   }
 
   export type NestedEnumLessonTypeWithAggregatesFilter<$PrismaModel = never> = {
@@ -11274,6 +9804,14 @@ export namespace Prisma {
     _count?: NestedIntFilter<$PrismaModel>
     _min?: NestedEnumLessonTypeFilter<$PrismaModel>
     _max?: NestedEnumLessonTypeFilter<$PrismaModel>
+  }
+
+  export type NestedBoolWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: boolean | BooleanFieldRefInput<$PrismaModel>
+    not?: NestedBoolWithAggregatesFilter<$PrismaModel> | boolean
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedBoolFilter<$PrismaModel>
+    _max?: NestedBoolFilter<$PrismaModel>
   }
 
   export type ModuleCreateWithoutCourseInput = {
@@ -11834,7 +10372,6 @@ export namespace Prisma {
     order: number
     isPreview?: boolean
     organizationId: string
-    assignments?: AssignmentCreateNestedManyWithoutLessonInput
   }
 
   export type LessonUncheckedCreateWithoutModuleInput = {
@@ -11847,7 +10384,6 @@ export namespace Prisma {
     order: number
     isPreview?: boolean
     organizationId: string
-    assignments?: AssignmentUncheckedCreateNestedManyWithoutLessonInput
   }
 
   export type LessonCreateOrConnectWithoutModuleInput = {
@@ -11973,74 +10509,6 @@ export namespace Prisma {
     moduleId?: StringFilter<"Lesson"> | string
   }
 
-  export type LessonCreateWithoutAssignmentsInput = {
-    id?: string
-    title: string
-    description?: string | null
-    url?: string | null
-    type: $Enums.LessonType
-    duration?: number
-    order: number
-    isPreview?: boolean
-    organizationId: string
-    module: ModuleCreateNestedOneWithoutLessonsInput
-  }
-
-  export type LessonUncheckedCreateWithoutAssignmentsInput = {
-    id?: string
-    title: string
-    description?: string | null
-    url?: string | null
-    type: $Enums.LessonType
-    duration?: number
-    order: number
-    isPreview?: boolean
-    organizationId: string
-    moduleId: string
-  }
-
-  export type LessonCreateOrConnectWithoutAssignmentsInput = {
-    where: LessonWhereUniqueInput
-    create: XOR<LessonCreateWithoutAssignmentsInput, LessonUncheckedCreateWithoutAssignmentsInput>
-  }
-
-  export type LessonUpsertWithoutAssignmentsInput = {
-    update: XOR<LessonUpdateWithoutAssignmentsInput, LessonUncheckedUpdateWithoutAssignmentsInput>
-    create: XOR<LessonCreateWithoutAssignmentsInput, LessonUncheckedCreateWithoutAssignmentsInput>
-    where?: LessonWhereInput
-  }
-
-  export type LessonUpdateToOneWithWhereWithoutAssignmentsInput = {
-    where?: LessonWhereInput
-    data: XOR<LessonUpdateWithoutAssignmentsInput, LessonUncheckedUpdateWithoutAssignmentsInput>
-  }
-
-  export type LessonUpdateWithoutAssignmentsInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    title?: StringFieldUpdateOperationsInput | string
-    description?: NullableStringFieldUpdateOperationsInput | string | null
-    url?: NullableStringFieldUpdateOperationsInput | string | null
-    type?: EnumLessonTypeFieldUpdateOperationsInput | $Enums.LessonType
-    duration?: IntFieldUpdateOperationsInput | number
-    order?: IntFieldUpdateOperationsInput | number
-    isPreview?: BoolFieldUpdateOperationsInput | boolean
-    organizationId?: StringFieldUpdateOperationsInput | string
-    module?: ModuleUpdateOneRequiredWithoutLessonsNestedInput
-  }
-
-  export type LessonUncheckedUpdateWithoutAssignmentsInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    title?: StringFieldUpdateOperationsInput | string
-    description?: NullableStringFieldUpdateOperationsInput | string | null
-    url?: NullableStringFieldUpdateOperationsInput | string | null
-    type?: EnumLessonTypeFieldUpdateOperationsInput | $Enums.LessonType
-    duration?: IntFieldUpdateOperationsInput | number
-    order?: IntFieldUpdateOperationsInput | number
-    isPreview?: BoolFieldUpdateOperationsInput | boolean
-    organizationId?: StringFieldUpdateOperationsInput | string
-    moduleId?: StringFieldUpdateOperationsInput | string
-  }
-
   export type ModuleCreateWithoutLessonsInput = {
     id?: string
     title: string
@@ -12062,32 +10530,6 @@ export namespace Prisma {
   export type ModuleCreateOrConnectWithoutLessonsInput = {
     where: ModuleWhereUniqueInput
     create: XOR<ModuleCreateWithoutLessonsInput, ModuleUncheckedCreateWithoutLessonsInput>
-  }
-
-  export type AssignmentCreateWithoutLessonInput = {
-    id?: string
-    title: string
-    description: string
-    dueDate: Date | string
-    isCompleted?: boolean
-  }
-
-  export type AssignmentUncheckedCreateWithoutLessonInput = {
-    id?: string
-    title: string
-    description: string
-    dueDate: Date | string
-    isCompleted?: boolean
-  }
-
-  export type AssignmentCreateOrConnectWithoutLessonInput = {
-    where: AssignmentWhereUniqueInput
-    create: XOR<AssignmentCreateWithoutLessonInput, AssignmentUncheckedCreateWithoutLessonInput>
-  }
-
-  export type AssignmentCreateManyLessonInputEnvelope = {
-    data: AssignmentCreateManyLessonInput | AssignmentCreateManyLessonInput[]
-    skipDuplicates?: boolean
   }
 
   export type ModuleUpsertWithoutLessonsInput = {
@@ -12117,34 +10559,6 @@ export namespace Prisma {
     order?: IntFieldUpdateOperationsInput | number
     organizationId?: StringFieldUpdateOperationsInput | string
     courseId?: StringFieldUpdateOperationsInput | string
-  }
-
-  export type AssignmentUpsertWithWhereUniqueWithoutLessonInput = {
-    where: AssignmentWhereUniqueInput
-    update: XOR<AssignmentUpdateWithoutLessonInput, AssignmentUncheckedUpdateWithoutLessonInput>
-    create: XOR<AssignmentCreateWithoutLessonInput, AssignmentUncheckedCreateWithoutLessonInput>
-  }
-
-  export type AssignmentUpdateWithWhereUniqueWithoutLessonInput = {
-    where: AssignmentWhereUniqueInput
-    data: XOR<AssignmentUpdateWithoutLessonInput, AssignmentUncheckedUpdateWithoutLessonInput>
-  }
-
-  export type AssignmentUpdateManyWithWhereWithoutLessonInput = {
-    where: AssignmentScalarWhereInput
-    data: XOR<AssignmentUpdateManyMutationInput, AssignmentUncheckedUpdateManyWithoutLessonInput>
-  }
-
-  export type AssignmentScalarWhereInput = {
-    AND?: AssignmentScalarWhereInput | AssignmentScalarWhereInput[]
-    OR?: AssignmentScalarWhereInput[]
-    NOT?: AssignmentScalarWhereInput | AssignmentScalarWhereInput[]
-    id?: StringFilter<"Assignment"> | string
-    title?: StringFilter<"Assignment"> | string
-    description?: StringFilter<"Assignment"> | string
-    dueDate?: DateTimeFilter<"Assignment"> | Date | string
-    isCompleted?: BoolFilter<"Assignment"> | boolean
-    lessonId?: StringFilter<"Assignment"> | string
   }
 
   export type ModuleCreateManyCourseInput = {
@@ -12263,7 +10677,6 @@ export namespace Prisma {
     order?: IntFieldUpdateOperationsInput | number
     isPreview?: BoolFieldUpdateOperationsInput | boolean
     organizationId?: StringFieldUpdateOperationsInput | string
-    assignments?: AssignmentUpdateManyWithoutLessonNestedInput
   }
 
   export type LessonUncheckedUpdateWithoutModuleInput = {
@@ -12276,7 +10689,6 @@ export namespace Prisma {
     order?: IntFieldUpdateOperationsInput | number
     isPreview?: BoolFieldUpdateOperationsInput | boolean
     organizationId?: StringFieldUpdateOperationsInput | string
-    assignments?: AssignmentUncheckedUpdateManyWithoutLessonNestedInput
   }
 
   export type LessonUncheckedUpdateManyWithoutModuleInput = {
@@ -12289,38 +10701,6 @@ export namespace Prisma {
     order?: IntFieldUpdateOperationsInput | number
     isPreview?: BoolFieldUpdateOperationsInput | boolean
     organizationId?: StringFieldUpdateOperationsInput | string
-  }
-
-  export type AssignmentCreateManyLessonInput = {
-    id?: string
-    title: string
-    description: string
-    dueDate: Date | string
-    isCompleted?: boolean
-  }
-
-  export type AssignmentUpdateWithoutLessonInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    title?: StringFieldUpdateOperationsInput | string
-    description?: StringFieldUpdateOperationsInput | string
-    dueDate?: DateTimeFieldUpdateOperationsInput | Date | string
-    isCompleted?: BoolFieldUpdateOperationsInput | boolean
-  }
-
-  export type AssignmentUncheckedUpdateWithoutLessonInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    title?: StringFieldUpdateOperationsInput | string
-    description?: StringFieldUpdateOperationsInput | string
-    dueDate?: DateTimeFieldUpdateOperationsInput | Date | string
-    isCompleted?: BoolFieldUpdateOperationsInput | boolean
-  }
-
-  export type AssignmentUncheckedUpdateManyWithoutLessonInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    title?: StringFieldUpdateOperationsInput | string
-    description?: StringFieldUpdateOperationsInput | string
-    dueDate?: DateTimeFieldUpdateOperationsInput | Date | string
-    isCompleted?: BoolFieldUpdateOperationsInput | boolean
   }
 
 

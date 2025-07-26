@@ -6,6 +6,7 @@ import {
   IsArray,
   IsUUID,
   IsJSON,
+  IsNotEmpty,
 } from 'class-validator';
 import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
 
@@ -26,6 +27,10 @@ export class CreateInstructorDto {
   @IsOptional()
   @IsString()
   coverImage?: string;
+
+  @IsNotEmpty()
+  @IsUUID()
+  userId: string;
 
   @ApiProperty({ description: 'Short instructor bio' })
   @IsString()
@@ -81,9 +86,4 @@ export class CreateInstructorDto {
   @ApiProperty({ description: 'Social media links' })
   @IsJSON()
   social: Record<string, string>;
-
-  // @ApiPropertyOptional({ description: 'Organization ID' })
-  // @IsOptional()
-  // @IsUUID()
-  // organizationId?: string;
 }

@@ -13,18 +13,13 @@ import {
   IsNotEmpty,
   IsUUID,
 } from 'class-validator';
-import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
+import { ApiProperty } from '@nestjs/swagger';
 import { OrgType } from 'generated/org-database-client-types';
 
 export class CreateOrganizationDto {
   @ApiProperty({ description: 'Organization name' })
   @IsString()
   name: string;
-
-  @ApiProperty({ description: 'User id' })
-  @IsNotEmpty()
-  @IsUUID()
-  userId: string;
 
   @ApiProperty({ description: 'Organization type', enum: OrgType })
   @IsEnum(OrgType)
@@ -77,14 +72,6 @@ export class CreateOrganizationDto {
   @ApiProperty({ description: 'Total number of instructors' })
   @IsInt()
   totalInstructors: number;
-
-  @ApiProperty({ description: 'Average rating of the organization' })
-  @IsNumber()
-  rating: number;
-
-  @ApiProperty({ description: 'Number of reviews received' })
-  @IsInt()
-  reviewCount: number;
 
   @ApiProperty({ description: 'Organization specialties' })
   @IsArray()

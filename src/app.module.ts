@@ -10,10 +10,12 @@ import { OrganizationsModule } from './organizations/organizations.module';
 import { ModulesModule } from './modules/modules.module';
 import { LessonsModule } from './lessons/lessons.module';
 import { FaqsModule } from './faqs/faqs.module';
-import { AssignmentsModule } from './assignments/assignments.module';
 import { InstructorsModule } from './instructors/instructors.module';
-import { OrgRolesGuard } from './security/org-role.guard';
 import { MembersModule } from './members/members.module';
+import { GlobalModule } from './global/global.module';
+import { AssignmentsModule } from './assignments/assignments.module';
+import { PublicModule } from './public/public.module';
+import { CategoriesModule } from './categories/categories.module';
 
 @Module({
   imports: [
@@ -31,15 +33,16 @@ import { MembersModule } from './members/members.module';
     ModulesModule,
     LessonsModule,
     FaqsModule,
-    AssignmentsModule,
     InstructorsModule,
     MembersModule,
+    GlobalModule,
+    AssignmentsModule,
+    PublicModule,
+    CoursesModule,
+    CategoriesModule,
   ],
   controllers: [],
-  providers: [
-    { provide: 'APP_GUARD', useClass: RolesGuard },
-    { provide: 'APP_GUARD', useClass: OrgRolesGuard },
-  ],
+  providers: [{ provide: 'APP_GUARD', useClass: RolesGuard }],
   exports: [],
 })
 export class AppModule {}

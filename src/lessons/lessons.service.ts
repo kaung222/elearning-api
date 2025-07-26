@@ -33,12 +33,6 @@ export class LessonsService {
             },
           },
         },
-        assignments: true,
-        _count: {
-          select: {
-            assignments: true,
-          },
-        },
       },
       orderBy: { order: 'asc' },
     });
@@ -60,17 +54,15 @@ export class LessonsService {
             },
           },
         },
-        assignments: true,
       },
     });
   }
 
-  async findLessonAssignments(lessonId: string) {
-    return await this.prisma.assignment.findMany({
-      where: { lessonId },
-      orderBy: { dueDate: 'asc' },
-    });
-  }
+  // async findLessonAssignments(lessonId: string) {
+  //   return await this.prisma.assignment.findMany({
+  //     orderBy: { dueDate: 'asc' },
+  //   });
+  // }
 
   async update(id: string, updateLessonDto: UpdateLessonDto) {
     return await this.prisma.lesson.update({

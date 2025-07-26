@@ -179,15 +179,6 @@ exports.Prisma.ModuleScalarFieldEnum = {
   courseId: 'courseId'
 };
 
-exports.Prisma.AssignmentScalarFieldEnum = {
-  id: 'id',
-  title: 'title',
-  description: 'description',
-  dueDate: 'dueDate',
-  isCompleted: 'isCompleted',
-  lessonId: 'lessonId'
-};
-
 exports.Prisma.LessonScalarFieldEnum = {
   id: 'id',
   title: 'title',
@@ -246,7 +237,6 @@ exports.Prisma.ModelName = {
   FAQ: 'FAQ',
   Review: 'Review',
   Module: 'Module',
-  Assignment: 'Assignment',
   Lesson: 'Lesson'
 };
 

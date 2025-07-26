@@ -89,32 +89,18 @@ model Module {
   lessons        Lesson[]
 }
 
-model Assignment {
-  id          String   @id @default(uuid())
-  title       String
-  description String
-  dueDate     DateTime
-  isCompleted Boolean  @default(false)
-  lessonId    String
-
-  // relationships
-  lesson Lesson @relation(fields: [lessonId], references: [id])
-}
-
 model Lesson {
-  id             String       @id @default(uuid())
+  id             String     @id @default(uuid())
   title          String
   description    String? // Nullable field
   url            String? // Nullable field
   type           LessonType
-  duration       Int          @default(0) // Duration in minutes
+  duration       Int        @default(0) // Duration in minutes
   order          Int
-  isPreview      Boolean      @default(false)
+  isPreview      Boolean    @default(false)
   organizationId String
-  module         Module       @relation(fields: [moduleId], references: [id])
+  module         Module     @relation(fields: [moduleId], references: [id])
   moduleId       String
-  // Relationships
-  assignments    Assignment[]
 }
 
 enum Level {

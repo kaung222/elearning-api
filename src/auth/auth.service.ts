@@ -1,11 +1,16 @@
-import { Injectable, NotFoundException } from '@nestjs/common';
+import {
+  ConflictException,
+  Injectable,
+  NotFoundException,
+} from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
 import * as bcryptjs from 'bcryptjs';
-import { OrgRole } from 'generated/org-database-client-types';
-import { UserRole } from 'generated/user-database-client-types';
 import { PrismaOrgService } from 'src/prisma/prisma-org.service';
 import { PrismaUserService } from 'src/prisma/prisma-user.service';
 import { SignedUser } from 'src/security/user.decorator';
+import { LoginDto } from './dto/login.dto';
+import { RegisterDto } from './dto/register.dto';
+import { Role } from 'generated/org-database-client-types';
 @Injectable()
 export class AuthService {
   constructor(
@@ -22,7 +27,7 @@ export class AuthService {
     return await bcryptjs.hash(password, 10);
   }
 
-  async login(loginDto: any) {
+  async login(loginDto: LoginDto) {
     const { email, password } = loginDto;
     const user = await this.userService.user.findUnique({
       where: {
@@ -34,72 +39,77 @@ export class AuthService {
     }
 
     await this.checkPassword(password, user.password);
-
-    const organizations = await this.orgService.organizationMember.findMany({
-      where: { userId: user.id },
-    });
-    const instructor = await this.orgService.instructor.findUnique({
-      where: { userId: user.id },
-    });
     const jwtPayload: SignedUser = {
       sub: user.id,
-      username: user.name,
-      role: UserRole.USER,
-      avatar: user.avatar,
+      username: user.username,
+      role: Role.STUDENT,
+      avatar: user.avatar || undefined,
       email: user.email,
     };
-    const token = await this.jwtService.signAsync(jwtPayload);
-    return { user, token };
+
+    const accessToken = this.jwtService.sign(jwtPayload, { expiresIn: '1d' });
+    const refreshToken = this.jwtService.sign(jwtPayload, {
+      secret: process.env.JWT_REFRESH_SECRET,
+      expiresIn: '7d',
+    });
+    return { user, accessToken, refreshToken };
   }
 
-  async register(registerDto: any) {
-    const { email, password, name } = registerDto;
-    const user = await this.userService.user.findUnique({
+  async register(registerDto: RegisterDto) {
+    const { email, password, username } = registerDto;
+
+    const existing = await this.userService.user.findFirst({
       where: {
-        email,
+        OR: [{ email }, { username }],
       },
     });
-    if (user) {
-      throw new NotFoundException('User already exists');
+
+    if (existing) {
+      throw new ConflictException('Email or username already taken');
     }
+
     const hashedPassword = await this.hashPassword(password);
+
+    const newUser = await this.userService.user.create({
+      data: {
+        email,
+        username,
+        password: hashedPassword,
+      },
+    });
+
+    return newUser;
   }
 
-  async loginAsOrganization(signedUser: SignedUser, orgId: string) {
+  async loginToDashboard(signedUser: SignedUser, memberId: string) {
     const user = await this.userService.user.findUnique({
       where: {
         id: signedUser.sub,
       },
     });
     if (!user) throw new NotFoundException('User not found');
-
-    const instructor = await this.orgService.instructor.findUnique({
-      where: { userId: user.id },
-    });
     const member = await this.orgService.organizationMember.findFirst({
-      where: { userId: user.id, organizationId: orgId },
+      where: { userId: user.id, id: memberId },
     });
 
     if (!member) {
-      throw new NotFoundException(`Organization with ID ${orgId} not found`);
+      throw new NotFoundException(`You are not associated with any profiles`);
     }
     const jwtPayload: SignedUser = {
       sub: user.id,
       email: user.email,
-      avatar: user.avatar,
-      role: UserRole.USER,
-      username: user.name,
-      instructor: instructor
-        ? { id: instructor.id, type: 'organization' }
-        : undefined,
-      organization: {
-        organizationId: orgId,
-        role: member.role,
-      },
+      avatar: user.avatar || undefined,
+      role: member.role,
+      username: user.username,
     };
+    const accessToken = this.jwtService.sign(jwtPayload, { expiresIn: '1d' });
+    const refreshToken = this.jwtService.sign(jwtPayload, {
+      secret: process.env.JWT_REFRESH_SECRET,
+    });
     return {
       user,
-      token: this.jwtService.sign(jwtPayload, { expiresIn: '1d' }),
+      accessToken,
+      refreshToken,
     };
   }
 }

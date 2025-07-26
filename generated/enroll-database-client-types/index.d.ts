@@ -901,6 +901,7 @@ export namespace Prisma {
     id: string | null
     courseId: string | null
     userId: string | null
+    organizationId: string | null
     description: string | null
     status: $Enums.EnrollmentStatus | null
     createdAt: Date | null
@@ -911,6 +912,7 @@ export namespace Prisma {
     id: string | null
     courseId: string | null
     userId: string | null
+    organizationId: string | null
     description: string | null
     status: $Enums.EnrollmentStatus | null
     createdAt: Date | null
@@ -921,6 +923,7 @@ export namespace Prisma {
     id: number
     courseId: number
     userId: number
+    organizationId: number
     description: number
     status: number
     createdAt: number
@@ -933,6 +936,7 @@ export namespace Prisma {
     id?: true
     courseId?: true
     userId?: true
+    organizationId?: true
     description?: true
     status?: true
     createdAt?: true
@@ -943,6 +947,7 @@ export namespace Prisma {
     id?: true
     courseId?: true
     userId?: true
+    organizationId?: true
     description?: true
     status?: true
     createdAt?: true
@@ -953,6 +958,7 @@ export namespace Prisma {
     id?: true
     courseId?: true
     userId?: true
+    organizationId?: true
     description?: true
     status?: true
     createdAt?: true
@@ -1036,6 +1042,7 @@ export namespace Prisma {
     id: string
     courseId: string
     userId: string
+    organizationId: string
     description: string | null
     status: $Enums.EnrollmentStatus
     createdAt: Date
@@ -1063,6 +1070,7 @@ export namespace Prisma {
     id?: boolean
     courseId?: boolean
     userId?: boolean
+    organizationId?: boolean
     description?: boolean
     status?: boolean
     createdAt?: boolean
@@ -1073,6 +1081,7 @@ export namespace Prisma {
     id?: boolean
     courseId?: boolean
     userId?: boolean
+    organizationId?: boolean
     description?: boolean
     status?: boolean
     createdAt?: boolean
@@ -1083,6 +1092,7 @@ export namespace Prisma {
     id?: boolean
     courseId?: boolean
     userId?: boolean
+    organizationId?: boolean
     description?: boolean
     status?: boolean
     createdAt?: boolean
@@ -1093,13 +1103,14 @@ export namespace Prisma {
     id?: boolean
     courseId?: boolean
     userId?: boolean
+    organizationId?: boolean
     description?: boolean
     status?: boolean
     createdAt?: boolean
     updatedAt?: boolean
   }
 
-  export type EnrollmentOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "courseId" | "userId" | "description" | "status" | "createdAt" | "updatedAt", ExtArgs["result"]["enrollment"]>
+  export type EnrollmentOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "courseId" | "userId" | "organizationId" | "description" | "status" | "createdAt" | "updatedAt", ExtArgs["result"]["enrollment"]>
 
   export type $EnrollmentPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     name: "Enrollment"
@@ -1108,6 +1119,7 @@ export namespace Prisma {
       id: string
       courseId: string
       userId: string
+      organizationId: string
       description: string | null
       status: $Enums.EnrollmentStatus
       createdAt: Date
@@ -1538,6 +1550,7 @@ export namespace Prisma {
     readonly id: FieldRef<"Enrollment", 'String'>
     readonly courseId: FieldRef<"Enrollment", 'String'>
     readonly userId: FieldRef<"Enrollment", 'String'>
+    readonly organizationId: FieldRef<"Enrollment", 'String'>
     readonly description: FieldRef<"Enrollment", 'String'>
     readonly status: FieldRef<"Enrollment", 'EnrollmentStatus'>
     readonly createdAt: FieldRef<"Enrollment", 'DateTime'>
@@ -1926,6 +1939,7 @@ export namespace Prisma {
     id: 'id',
     courseId: 'courseId',
     userId: 'userId',
+    organizationId: 'organizationId',
     description: 'description',
     status: 'status',
     createdAt: 'createdAt',
@@ -2030,6 +2044,7 @@ export namespace Prisma {
     id?: StringFilter<"Enrollment"> | string
     courseId?: StringFilter<"Enrollment"> | string
     userId?: StringFilter<"Enrollment"> | string
+    organizationId?: StringFilter<"Enrollment"> | string
     description?: StringNullableFilter<"Enrollment"> | string | null
     status?: EnumEnrollmentStatusFilter<"Enrollment"> | $Enums.EnrollmentStatus
     createdAt?: DateTimeFilter<"Enrollment"> | Date | string
@@ -2040,6 +2055,7 @@ export namespace Prisma {
     id?: SortOrder
     courseId?: SortOrder
     userId?: SortOrder
+    organizationId?: SortOrder
     description?: SortOrderInput | SortOrder
     status?: SortOrder
     createdAt?: SortOrder
@@ -2053,6 +2069,7 @@ export namespace Prisma {
     NOT?: EnrollmentWhereInput | EnrollmentWhereInput[]
     courseId?: StringFilter<"Enrollment"> | string
     userId?: StringFilter<"Enrollment"> | string
+    organizationId?: StringFilter<"Enrollment"> | string
     description?: StringNullableFilter<"Enrollment"> | string | null
     status?: EnumEnrollmentStatusFilter<"Enrollment"> | $Enums.EnrollmentStatus
     createdAt?: DateTimeFilter<"Enrollment"> | Date | string
@@ -2063,6 +2080,7 @@ export namespace Prisma {
     id?: SortOrder
     courseId?: SortOrder
     userId?: SortOrder
+    organizationId?: SortOrder
     description?: SortOrderInput | SortOrder
     status?: SortOrder
     createdAt?: SortOrder
@@ -2079,6 +2097,7 @@ export namespace Prisma {
     id?: StringWithAggregatesFilter<"Enrollment"> | string
     courseId?: StringWithAggregatesFilter<"Enrollment"> | string
     userId?: StringWithAggregatesFilter<"Enrollment"> | string
+    organizationId?: StringWithAggregatesFilter<"Enrollment"> | string
     description?: StringNullableWithAggregatesFilter<"Enrollment"> | string | null
     status?: EnumEnrollmentStatusWithAggregatesFilter<"Enrollment"> | $Enums.EnrollmentStatus
     createdAt?: DateTimeWithAggregatesFilter<"Enrollment"> | Date | string
@@ -2089,6 +2108,7 @@ export namespace Prisma {
     id?: string
     courseId: string
     userId: string
+    organizationId: string
     description?: string | null
     status?: $Enums.EnrollmentStatus
     createdAt?: Date | string
@@ -2099,6 +2119,7 @@ export namespace Prisma {
     id?: string
     courseId: string
     userId: string
+    organizationId: string
     description?: string | null
     status?: $Enums.EnrollmentStatus
     createdAt?: Date | string
@@ -2109,6 +2130,7 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     courseId?: StringFieldUpdateOperationsInput | string
     userId?: StringFieldUpdateOperationsInput | string
+    organizationId?: StringFieldUpdateOperationsInput | string
     description?: NullableStringFieldUpdateOperationsInput | string | null
     status?: EnumEnrollmentStatusFieldUpdateOperationsInput | $Enums.EnrollmentStatus
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -2119,6 +2141,7 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     courseId?: StringFieldUpdateOperationsInput | string
     userId?: StringFieldUpdateOperationsInput | string
+    organizationId?: StringFieldUpdateOperationsInput | string
     description?: NullableStringFieldUpdateOperationsInput | string | null
     status?: EnumEnrollmentStatusFieldUpdateOperationsInput | $Enums.EnrollmentStatus
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -2129,6 +2152,7 @@ export namespace Prisma {
     id?: string
     courseId: string
     userId: string
+    organizationId: string
     description?: string | null
     status?: $Enums.EnrollmentStatus
     createdAt?: Date | string
@@ -2139,6 +2163,7 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     courseId?: StringFieldUpdateOperationsInput | string
     userId?: StringFieldUpdateOperationsInput | string
+    organizationId?: StringFieldUpdateOperationsInput | string
     description?: NullableStringFieldUpdateOperationsInput | string | null
     status?: EnumEnrollmentStatusFieldUpdateOperationsInput | $Enums.EnrollmentStatus
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -2149,6 +2174,7 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     courseId?: StringFieldUpdateOperationsInput | string
     userId?: StringFieldUpdateOperationsInput | string
+    organizationId?: StringFieldUpdateOperationsInput | string
     description?: NullableStringFieldUpdateOperationsInput | string | null
     status?: EnumEnrollmentStatusFieldUpdateOperationsInput | $Enums.EnrollmentStatus
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -2212,6 +2238,7 @@ export namespace Prisma {
     id?: SortOrder
     courseId?: SortOrder
     userId?: SortOrder
+    organizationId?: SortOrder
     description?: SortOrder
     status?: SortOrder
     createdAt?: SortOrder
@@ -2222,6 +2249,7 @@ export namespace Prisma {
     id?: SortOrder
     courseId?: SortOrder
     userId?: SortOrder
+    organizationId?: SortOrder
     description?: SortOrder
     status?: SortOrder
     createdAt?: SortOrder
@@ -2232,6 +2260,7 @@ export namespace Prisma {
     id?: SortOrder
     courseId?: SortOrder
     userId?: SortOrder
+    organizationId?: SortOrder
     description?: SortOrder
     status?: SortOrder
     createdAt?: SortOrder

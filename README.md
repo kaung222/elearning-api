@@ -23,7 +23,7 @@
 
 ## Description
 
-[Nest](https://github.com/nestjs/nest) framework TypeScript starter repository.
+This is a comprehensive e-learning platform API built with [Nest](https://github.com/nestjs/nest) framework, featuring course management, user authentication, assignments, FAQs, and more.
 
 ## Project setup
 
@@ -61,14 +61,40 @@ $ npm run test:cov
 
 When you're ready to deploy your NestJS application to production, there are some key steps you can take to ensure it runs as efficiently as possible. Check out the [deployment documentation](https://docs.nestjs.com/deployment) for more information.
 
-If you are looking for a cloud-based platform to deploy your NestJS application, check out [Mau](https://mau.nestjs.com), our official platform for deploying NestJS applications on AWS. Mau makes deployment straightforward and fast, requiring just a few simple steps:
+## API Modules
 
-```bash
-$ npm install -g mau
-$ mau deploy
-```
+### Assignments Module
 
-With Mau, you can deploy your application in just a few clicks, allowing you to focus on building features rather than managing infrastructure.
+The Assignments module provides functionality for creating and managing assignment sessions for courses and individual assignments for students.
+
+#### Assignment Sessions
+
+- `GET /assignments/sessions`: Get all assignment sessions (admin only)
+- `POST /assignments/sessions`: Create a new assignment session (admin only)
+- `GET /assignments/sessions/course/:courseId`: Get assignment sessions by course ID
+- `GET /assignments/sessions/:id`: Get an assignment session by ID
+- `PATCH /assignments/sessions/:id`: Update an assignment session (admin only)
+- `DELETE /assignments/sessions/:id`: Delete an assignment session (admin only)
+
+#### Assignments
+
+- `GET /assignments`: Get all assignments (admin only)
+- `POST /assignments`: Create a new assignment (admin only)
+- `GET /assignments/session/:sessionId`: Get assignments by session ID
+- `GET /assignments/:id`: Get an assignment by ID
+- `PATCH /assignments/:id`: Update an assignment (admin only)
+- `DELETE /assignments/:id`: Delete an assignment (admin only)
+
+### FAQs Module
+
+The FAQs module provides functionality for managing frequently asked questions for courses.
+
+- `GET /faqs`: Get all FAQs (admin only)
+- `POST /faqs`: Create a new FAQ (admin only)
+- `GET /faqs/course/:courseId`: Get FAQs by course ID
+- `GET /faqs/:id`: Get a FAQ by ID
+- `PATCH /faqs/:id`: Update a FAQ (admin only)
+- `DELETE /faqs/:id`: Delete a FAQ (admin only)
 
 ## Resources
 

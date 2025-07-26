@@ -123,13 +123,13 @@ exports.Prisma.TransactionIsolationLevel = makeStrictEnum({
 exports.Prisma.OrganizationMemberScalarFieldEnum = {
   id: 'id',
   userId: 'userId',
+  role: 'role',
   organizationId: 'organizationId',
-  role: 'role'
+  instructorId: 'instructorId'
 };
 
 exports.Prisma.OrganizationScalarFieldEnum = {
   id: 'id',
-  userId: 'userId',
   name: 'name',
   type: 'type',
   logo: 'logo',
@@ -178,8 +178,8 @@ exports.Prisma.ContactScalarFieldEnum = {
 
 exports.Prisma.ReviewScalarFieldEnum = {
   id: 'id',
-  userName: 'userName',
-  userAvatar: 'userAvatar',
+  username: 'username',
+  avatar: 'avatar',
   rating: 'rating',
   comment: 'comment',
   createdAt: 'createdAt',
@@ -189,7 +189,6 @@ exports.Prisma.ReviewScalarFieldEnum = {
 
 exports.Prisma.InstructorScalarFieldEnum = {
   id: 'id',
-  userId: 'userId',
   name: 'name',
   title: 'title',
   avatar: 'avatar',
@@ -200,13 +199,11 @@ exports.Prisma.InstructorScalarFieldEnum = {
   rating: 'rating',
   totalStudents: 'totalStudents',
   totalCourses: 'totalCourses',
-  experience: 'experience',
-  location: 'location',
-  joinedDate: 'joinedDate',
   specialties: 'specialties',
   achievements: 'achievements',
   education: 'education',
   social: 'social',
+  memberId: 'memberId',
   organizationId: 'organizationId'
 };
 
@@ -240,20 +237,22 @@ exports.Prisma.QueryMode = {
   insensitive: 'insensitive'
 };
 
+exports.Prisma.NullsOrder = {
+  first: 'first',
+  last: 'last'
+};
+
 exports.Prisma.JsonNullValueFilter = {
   DbNull: Prisma.DbNull,
   JsonNull: Prisma.JsonNull,
   AnyNull: Prisma.AnyNull
 };
-
-exports.Prisma.NullsOrder = {
-  first: 'first',
-  last: 'last'
-};
-exports.OrgRole = exports.$Enums.OrgRole = {
-  ORG_ADMIN: 'ORG_ADMIN',
+exports.Role = exports.$Enums.Role = {
+  STUDENT: 'STUDENT',
   INSTRUCTOR: 'INSTRUCTOR',
-  STAFF: 'STAFF'
+  ORG_ADMIN: 'ORG_ADMIN',
+  ORG_STAFF: 'ORG_STAFF',
+  INDIVIDUAL_INSTRUCTOR: 'INDIVIDUAL_INSTRUCTOR'
 };
 
 exports.OrgType = exports.$Enums.OrgType = {
