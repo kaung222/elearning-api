@@ -1,34 +1,93 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { CreateCategoryDto } from './dto/create-category.dto';
 import { UpdateCategoryDto } from './dto/update-category.dto';
+import { PrismaCourseService } from 'src/prisma/prisma-course.service';
 
 @Injectable()
 export class CategoriesService {
-  create(createCategoryDto: CreateCategoryDto) {
-    return 'This action adds a new category';
+  constructor(private prisma: PrismaCourseService) {}
+
+  async create(createCategoryDto: CreateCategoryDto) {
+    console.log(createCategoryDto, 'payload');
+    return await this.prisma.category.create({
+      data: createCategoryDto,
+    });
   }
 
-  findAll() {
-    const categories = [
-      { name: 'Web Development', id: 'test1', image: null },
-      {
-        name: 'Technology',
-        id: 'test2',
-        image: null,
+  async findAll() {
+    return await this.prisma.category.findMany({
+      include: {
+        parent: true,
+        children: true,
+        _count: {
+          select: {
+            courses: true,
+          },
+        },
       },
-    ];
-    return categories;
+    });
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} category`;
+  async findOne(id: string) {
+    const category = await this.prisma.category.findUnique({
+      where: { id },
+      include: {
+        parent: true,
+        children: true,
+        // courses: true,
+      },
+    });
+
+    if (!category) {
+      throw new NotFoundException(`Category with ID ${id} not found`);
+    }
+
+    return category;
   }
 
-  update(id: number, updateCategoryDto: UpdateCategoryDto) {
-    return `This action updates a #${id} category`;
+  async update(id: string, updateCategoryDto: UpdateCategoryDto) {
+    try {
+      return await this.prisma.category.update({
+        where: { id },
+        data: updateCategoryDto,
+      });
+    } catch (error) {
+      throw new NotFoundException(`Category with ID ${id} not found`);
+    }
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} category`;
+  async remove(id: string) {
+    try {
+      // First check if the category has children
+      const categoryWithChildren = await this.prisma.category.findUnique({
+        where: { id },
+        include: { children: true },
+      });
+
+      if (categoryWithChildren?.children?.length ?? 0 > 0) {
+        throw new Error('Cannot delete a category that has child categories');
+      }
+
+      // Then check if the category is associated with any courses
+      const categoryWithCourses = await this.prisma.category.findUnique({
+        where: { id },
+        include: { courses: true },
+      });
+
+      if (categoryWithCourses?.courses.length ?? 0 > 0) {
+        throw new Error(
+          'Cannot delete a category that is associated with courses',
+        );
+      }
+
+      return await this.prisma.category.delete({
+        where: { id },
+      });
+    } catch (error) {
+      if (error.message.includes('Cannot delete')) {
+        throw error;
+      }
+      throw new NotFoundException(`Category with ID ${id} not found`);
+    }
   }
 }

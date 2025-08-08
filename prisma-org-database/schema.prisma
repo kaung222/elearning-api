@@ -27,6 +27,7 @@ model OrganizationMember {
   id             String       @id @default(uuid())
   userId         String
   role           Role 
+  status         MemberStatus @default(PENDING)
   // relations
   organizationId String?
   instructorId   String?
@@ -34,6 +35,13 @@ model OrganizationMember {
   instructor     Instructor?
   @@unique([userId, organizationId])
 }
+
+enum MemberStatus {
+  PENDING
+  ACTIVE
+  INACTIVE
+}
+
 
 enum Role {
   STUDENT
@@ -53,7 +61,7 @@ model Organization {
   description      String
   longDescription  String
   location         String
-  website          String
+  website          String?
   email            String
   phone            String
   founded          String

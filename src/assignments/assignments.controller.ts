@@ -32,7 +32,6 @@ export class AssignmentsController {
     description: 'Assignment session created successfully',
   })
   @ApiResponse({ status: 400, description: 'Bad request' })
-  @ApiResponse({ status: 403, description: 'Forbidden - Admin role required' })
   createAssignmentSession(
     @Body() createAssignmentSessionDto: CreateAssignmentSessionDto,
     @User() user: SignedUser,
@@ -83,7 +82,6 @@ export class AssignmentsController {
     description: 'Assignment session deleted successfully',
   })
   @ApiResponse({ status: 404, description: 'Assignment session not found' })
-  @ApiResponse({ status: 403, description: 'Forbidden - Admin role required' })
   removeAssignmentSession(@Param('id') id: string, @User() user: SignedUser) {
     return this.assignmentsService.removeAssignmentSession(id, user);
   }
@@ -118,7 +116,6 @@ export class AssignmentsController {
   @ApiParam({ name: 'id', description: 'Assignment ID' })
   @ApiResponse({ status: 200, description: 'Assignment deleted successfully' })
   @ApiResponse({ status: 404, description: 'Assignment not found' })
-  @ApiResponse({ status: 403, description: 'Forbidden - Admin role required' })
   removeAssignment(@Param('id') id: string, user: SignedUser) {
     return this.assignmentsService.removeAssignment(id, user);
   }

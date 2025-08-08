@@ -1,5 +1,6 @@
 import {
   BadRequestException,
+  ConflictException,
   Injectable,
   NotFoundException,
   UnauthorizedException,
@@ -25,17 +26,23 @@ export class InstructorsService {
         where: { organizationId: user.orgId, userId },
       });
 
-      if (!member) {
-        throw new NotFoundException(`User with ID ${userId} not found`);
+      if (member) {
+        throw new ConflictException(
+          `User with ID ${userId} is already an instructor`,
+        );
       }
+      const newMember = await this.orgService.organizationMember.create({
+        data: {
+          organizationId: user.orgId,
+          userId,
+          role: Role.INSTRUCTOR,
+        },
+      });
 
-      if (member?.role !== Role.INSTRUCTOR) {
-        throw new NotFoundException(`Instructor role is required`);
-      }
       return await this.orgService.instructor.create({
         data: {
           ...createInstructorDto,
-          memberId: member.id,
+          memberId: newMember.id,
         },
       });
     } catch (error) {

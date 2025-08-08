@@ -34,7 +34,7 @@ export class OrganizationsService {
     });
     if (existName)
       throw new NotFoundException('Organization name already exists');
-    return await this.orgService.organization.create({
+    const organization = await this.orgService.organization.create({
       data: {
         ...createOrganizationDto,
         featured: false,
@@ -42,6 +42,14 @@ export class OrganizationsService {
         rating: 0,
         reviewCount: 0,
       },
+    });
+    return await this.orgService.organizationMember.create({
+      data: {
+        organizationId: organization.id,
+        userId: signedUser.sub,
+        role: Role.ORG_ADMIN,
+      },
+      include: { organization: true },
     });
   }
 

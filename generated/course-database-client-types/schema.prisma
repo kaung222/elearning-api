@@ -29,15 +29,16 @@ model Course {
 
   // pricing and duration
   duration       String
-  students       Int     @default(0)
-  totalReviews   Int     @default(0)
-  rating         Float   @default(0)
+  startDate      DateTime?
+  endDate        DateTime?
+  students       Int       @default(0)
+  totalReviews   Int       @default(0)
+  rating         Float     @default(0)
   price          Float
   salePrice      Float?
   thumbnail      String
   maxStudents    Int?
   language       String?
-  category       String?
   organizationId String?
 
   // course details
@@ -45,17 +46,33 @@ model Course {
   whatYouWillLearn String[]
   requirements     String[]
   includes         String[]
+  previewVideo     String?
 
   // course relationships
   modules     Module[]
   reviews     Review[]
   faqs        FAQ[]
+  category    Category? @relation(fields: [categoryId], references: [id])
+  categoryId  String?
   status      Status
   level       Level
   type        Type
   createdAt   DateTime  @default(now())
   updatedAt   DateTime  @updatedAt
   publishedAt DateTime?
+}
+
+model Category {
+  id      String   @id @default(uuid())
+  name    String
+  courses Course[] // many-to-many or one-to-many depending on design
+
+  // Self-referencing relationship
+  parentId String?
+  parent   Category?  @relation("CategoryHierarchy", fields: [parentId], references: [id])
+  children Category[] @relation("CategoryHierarchy")
+
+  createdAt DateTime @default(now())
 }
 
 model FAQ {

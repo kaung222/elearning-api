@@ -131,6 +131,8 @@ exports.Prisma.CourseScalarFieldEnum = {
   instructorBio: 'instructorBio',
   instructorId: 'instructorId',
   duration: 'duration',
+  startDate: 'startDate',
+  endDate: 'endDate',
   students: 'students',
   totalReviews: 'totalReviews',
   rating: 'rating',
@@ -139,18 +141,26 @@ exports.Prisma.CourseScalarFieldEnum = {
   thumbnail: 'thumbnail',
   maxStudents: 'maxStudents',
   language: 'language',
-  category: 'category',
   organizationId: 'organizationId',
   tags: 'tags',
   whatYouWillLearn: 'whatYouWillLearn',
   requirements: 'requirements',
   includes: 'includes',
+  previewVideo: 'previewVideo',
+  categoryId: 'categoryId',
   status: 'status',
   level: 'level',
   type: 'type',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt',
   publishedAt: 'publishedAt'
+};
+
+exports.Prisma.CategoryScalarFieldEnum = {
+  id: 'id',
+  name: 'name',
+  parentId: 'parentId',
+  createdAt: 'createdAt'
 };
 
 exports.Prisma.FAQScalarFieldEnum = {
@@ -234,6 +244,7 @@ exports.LessonType = exports.$Enums.LessonType = {
 
 exports.Prisma.ModelName = {
   Course: 'Course',
+  Category: 'Category',
   FAQ: 'FAQ',
   Review: 'Review',
   Module: 'Module',

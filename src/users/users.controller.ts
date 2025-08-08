@@ -16,6 +16,12 @@ export class UsersController {
     return this.usersService.getProfile(id);
   }
 
+  @Get('search')
+  searchUser(@Query('q') search: string) {
+    console.log(search);
+    return this.usersService.searchUser(search);
+  }
+
   @Delete('account/me')
   deleteAccount(@User('sub') id: string) {
     return this.usersService.remove(id);

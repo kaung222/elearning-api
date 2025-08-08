@@ -19,6 +19,11 @@ export type PrismaPromise<T> = $Public.PrismaPromise<T>
  */
 export type Course = $Result.DefaultSelection<Prisma.$CoursePayload>
 /**
+ * Model Category
+ * 
+ */
+export type Category = $Result.DefaultSelection<Prisma.$CategoryPayload>
+/**
  * Model FAQ
  * 
  */
@@ -232,6 +237,16 @@ export class PrismaClient<
     * ```
     */
   get course(): Prisma.CourseDelegate<ExtArgs, ClientOptions>;
+
+  /**
+   * `prisma.category`: Exposes CRUD operations for the **Category** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more Categories
+    * const categories = await prisma.category.findMany()
+    * ```
+    */
+  get category(): Prisma.CategoryDelegate<ExtArgs, ClientOptions>;
 
   /**
    * `prisma.fAQ`: Exposes CRUD operations for the **FAQ** model.
@@ -713,6 +728,7 @@ export namespace Prisma {
 
   export const ModelName: {
     Course: 'Course',
+    Category: 'Category',
     FAQ: 'FAQ',
     Review: 'Review',
     Module: 'Module',
@@ -735,7 +751,7 @@ export namespace Prisma {
       omit: GlobalOmitOptions
     }
     meta: {
-      modelProps: "course" | "fAQ" | "review" | "module" | "lesson"
+      modelProps: "course" | "category" | "fAQ" | "review" | "module" | "lesson"
       txIsolationLevel: Prisma.TransactionIsolationLevel
     }
     model: {
@@ -810,6 +826,80 @@ export namespace Prisma {
           count: {
             args: Prisma.CourseCountArgs<ExtArgs>
             result: $Utils.Optional<CourseCountAggregateOutputType> | number
+          }
+        }
+      }
+      Category: {
+        payload: Prisma.$CategoryPayload<ExtArgs>
+        fields: Prisma.CategoryFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.CategoryFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$CategoryPayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.CategoryFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$CategoryPayload>
+          }
+          findFirst: {
+            args: Prisma.CategoryFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$CategoryPayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.CategoryFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$CategoryPayload>
+          }
+          findMany: {
+            args: Prisma.CategoryFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$CategoryPayload>[]
+          }
+          create: {
+            args: Prisma.CategoryCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$CategoryPayload>
+          }
+          createMany: {
+            args: Prisma.CategoryCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.CategoryCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$CategoryPayload>[]
+          }
+          delete: {
+            args: Prisma.CategoryDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$CategoryPayload>
+          }
+          update: {
+            args: Prisma.CategoryUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$CategoryPayload>
+          }
+          deleteMany: {
+            args: Prisma.CategoryDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.CategoryUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateManyAndReturn: {
+            args: Prisma.CategoryUpdateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$CategoryPayload>[]
+          }
+          upsert: {
+            args: Prisma.CategoryUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$CategoryPayload>
+          }
+          aggregate: {
+            args: Prisma.CategoryAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateCategory>
+          }
+          groupBy: {
+            args: Prisma.CategoryGroupByArgs<ExtArgs>
+            result: $Utils.Optional<CategoryGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.CategoryCountArgs<ExtArgs>
+            result: $Utils.Optional<CategoryCountAggregateOutputType> | number
           }
         }
       }
@@ -1194,6 +1284,7 @@ export namespace Prisma {
   }
   export type GlobalOmitConfig = {
     course?: CourseOmit
+    category?: CategoryOmit
     fAQ?: FAQOmit
     review?: ReviewOmit
     module?: ModuleOmit
@@ -1337,6 +1428,46 @@ export namespace Prisma {
 
 
   /**
+   * Count Type CategoryCountOutputType
+   */
+
+  export type CategoryCountOutputType = {
+    courses: number
+    children: number
+  }
+
+  export type CategoryCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    courses?: boolean | CategoryCountOutputTypeCountCoursesArgs
+    children?: boolean | CategoryCountOutputTypeCountChildrenArgs
+  }
+
+  // Custom InputTypes
+  /**
+   * CategoryCountOutputType without action
+   */
+  export type CategoryCountOutputTypeDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the CategoryCountOutputType
+     */
+    select?: CategoryCountOutputTypeSelect<ExtArgs> | null
+  }
+
+  /**
+   * CategoryCountOutputType without action
+   */
+  export type CategoryCountOutputTypeCountCoursesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: CourseWhereInput
+  }
+
+  /**
+   * CategoryCountOutputType without action
+   */
+  export type CategoryCountOutputTypeCountChildrenArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: CategoryWhereInput
+  }
+
+
+  /**
    * Count Type ModuleCountOutputType
    */
 
@@ -1412,6 +1543,8 @@ export namespace Prisma {
     instructorBio: string | null
     instructorId: string | null
     duration: string | null
+    startDate: Date | null
+    endDate: Date | null
     students: number | null
     totalReviews: number | null
     rating: number | null
@@ -1420,8 +1553,9 @@ export namespace Prisma {
     thumbnail: string | null
     maxStudents: number | null
     language: string | null
-    category: string | null
     organizationId: string | null
+    previewVideo: string | null
+    categoryId: string | null
     status: $Enums.Status | null
     level: $Enums.Level | null
     type: $Enums.Type | null
@@ -1441,6 +1575,8 @@ export namespace Prisma {
     instructorBio: string | null
     instructorId: string | null
     duration: string | null
+    startDate: Date | null
+    endDate: Date | null
     students: number | null
     totalReviews: number | null
     rating: number | null
@@ -1449,8 +1585,9 @@ export namespace Prisma {
     thumbnail: string | null
     maxStudents: number | null
     language: string | null
-    category: string | null
     organizationId: string | null
+    previewVideo: string | null
+    categoryId: string | null
     status: $Enums.Status | null
     level: $Enums.Level | null
     type: $Enums.Type | null
@@ -1470,6 +1607,8 @@ export namespace Prisma {
     instructorBio: number
     instructorId: number
     duration: number
+    startDate: number
+    endDate: number
     students: number
     totalReviews: number
     rating: number
@@ -1478,12 +1617,13 @@ export namespace Prisma {
     thumbnail: number
     maxStudents: number
     language: number
-    category: number
     organizationId: number
     tags: number
     whatYouWillLearn: number
     requirements: number
     includes: number
+    previewVideo: number
+    categoryId: number
     status: number
     level: number
     type: number
@@ -1523,6 +1663,8 @@ export namespace Prisma {
     instructorBio?: true
     instructorId?: true
     duration?: true
+    startDate?: true
+    endDate?: true
     students?: true
     totalReviews?: true
     rating?: true
@@ -1531,8 +1673,9 @@ export namespace Prisma {
     thumbnail?: true
     maxStudents?: true
     language?: true
-    category?: true
     organizationId?: true
+    previewVideo?: true
+    categoryId?: true
     status?: true
     level?: true
     type?: true
@@ -1552,6 +1695,8 @@ export namespace Prisma {
     instructorBio?: true
     instructorId?: true
     duration?: true
+    startDate?: true
+    endDate?: true
     students?: true
     totalReviews?: true
     rating?: true
@@ -1560,8 +1705,9 @@ export namespace Prisma {
     thumbnail?: true
     maxStudents?: true
     language?: true
-    category?: true
     organizationId?: true
+    previewVideo?: true
+    categoryId?: true
     status?: true
     level?: true
     type?: true
@@ -1581,6 +1727,8 @@ export namespace Prisma {
     instructorBio?: true
     instructorId?: true
     duration?: true
+    startDate?: true
+    endDate?: true
     students?: true
     totalReviews?: true
     rating?: true
@@ -1589,12 +1737,13 @@ export namespace Prisma {
     thumbnail?: true
     maxStudents?: true
     language?: true
-    category?: true
     organizationId?: true
     tags?: true
     whatYouWillLearn?: true
     requirements?: true
     includes?: true
+    previewVideo?: true
+    categoryId?: true
     status?: true
     level?: true
     type?: true
@@ -1701,6 +1850,8 @@ export namespace Prisma {
     instructorBio: string | null
     instructorId: string
     duration: string
+    startDate: Date | null
+    endDate: Date | null
     students: number
     totalReviews: number
     rating: number
@@ -1709,12 +1860,13 @@ export namespace Prisma {
     thumbnail: string
     maxStudents: number | null
     language: string | null
-    category: string | null
     organizationId: string | null
     tags: string[]
     whatYouWillLearn: string[]
     requirements: string[]
     includes: string[]
+    previewVideo: string | null
+    categoryId: string | null
     status: $Enums.Status
     level: $Enums.Level
     type: $Enums.Type
@@ -1753,6 +1905,8 @@ export namespace Prisma {
     instructorBio?: boolean
     instructorId?: boolean
     duration?: boolean
+    startDate?: boolean
+    endDate?: boolean
     students?: boolean
     totalReviews?: boolean
     rating?: boolean
@@ -1761,12 +1915,13 @@ export namespace Prisma {
     thumbnail?: boolean
     maxStudents?: boolean
     language?: boolean
-    category?: boolean
     organizationId?: boolean
     tags?: boolean
     whatYouWillLearn?: boolean
     requirements?: boolean
     includes?: boolean
+    previewVideo?: boolean
+    categoryId?: boolean
     status?: boolean
     level?: boolean
     type?: boolean
@@ -1776,6 +1931,7 @@ export namespace Prisma {
     modules?: boolean | Course$modulesArgs<ExtArgs>
     reviews?: boolean | Course$reviewsArgs<ExtArgs>
     faqs?: boolean | Course$faqsArgs<ExtArgs>
+    category?: boolean | Course$categoryArgs<ExtArgs>
     _count?: boolean | CourseCountOutputTypeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["course"]>
 
@@ -1790,6 +1946,8 @@ export namespace Prisma {
     instructorBio?: boolean
     instructorId?: boolean
     duration?: boolean
+    startDate?: boolean
+    endDate?: boolean
     students?: boolean
     totalReviews?: boolean
     rating?: boolean
@@ -1798,18 +1956,20 @@ export namespace Prisma {
     thumbnail?: boolean
     maxStudents?: boolean
     language?: boolean
-    category?: boolean
     organizationId?: boolean
     tags?: boolean
     whatYouWillLearn?: boolean
     requirements?: boolean
     includes?: boolean
+    previewVideo?: boolean
+    categoryId?: boolean
     status?: boolean
     level?: boolean
     type?: boolean
     createdAt?: boolean
     updatedAt?: boolean
     publishedAt?: boolean
+    category?: boolean | Course$categoryArgs<ExtArgs>
   }, ExtArgs["result"]["course"]>
 
   export type CourseSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
@@ -1823,6 +1983,8 @@ export namespace Prisma {
     instructorBio?: boolean
     instructorId?: boolean
     duration?: boolean
+    startDate?: boolean
+    endDate?: boolean
     students?: boolean
     totalReviews?: boolean
     rating?: boolean
@@ -1831,18 +1993,20 @@ export namespace Prisma {
     thumbnail?: boolean
     maxStudents?: boolean
     language?: boolean
-    category?: boolean
     organizationId?: boolean
     tags?: boolean
     whatYouWillLearn?: boolean
     requirements?: boolean
     includes?: boolean
+    previewVideo?: boolean
+    categoryId?: boolean
     status?: boolean
     level?: boolean
     type?: boolean
     createdAt?: boolean
     updatedAt?: boolean
     publishedAt?: boolean
+    category?: boolean | Course$categoryArgs<ExtArgs>
   }, ExtArgs["result"]["course"]>
 
   export type CourseSelectScalar = {
@@ -1856,6 +2020,8 @@ export namespace Prisma {
     instructorBio?: boolean
     instructorId?: boolean
     duration?: boolean
+    startDate?: boolean
+    endDate?: boolean
     students?: boolean
     totalReviews?: boolean
     rating?: boolean
@@ -1864,12 +2030,13 @@ export namespace Prisma {
     thumbnail?: boolean
     maxStudents?: boolean
     language?: boolean
-    category?: boolean
     organizationId?: boolean
     tags?: boolean
     whatYouWillLearn?: boolean
     requirements?: boolean
     includes?: boolean
+    previewVideo?: boolean
+    categoryId?: boolean
     status?: boolean
     level?: boolean
     type?: boolean
@@ -1878,15 +2045,20 @@ export namespace Prisma {
     publishedAt?: boolean
   }
 
-  export type CourseOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "title" | "description" | "longDescription" | "instructor" | "instructorAvatar" | "instructorTitle" | "instructorBio" | "instructorId" | "duration" | "students" | "totalReviews" | "rating" | "price" | "salePrice" | "thumbnail" | "maxStudents" | "language" | "category" | "organizationId" | "tags" | "whatYouWillLearn" | "requirements" | "includes" | "status" | "level" | "type" | "createdAt" | "updatedAt" | "publishedAt", ExtArgs["result"]["course"]>
+  export type CourseOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "title" | "description" | "longDescription" | "instructor" | "instructorAvatar" | "instructorTitle" | "instructorBio" | "instructorId" | "duration" | "startDate" | "endDate" | "students" | "totalReviews" | "rating" | "price" | "salePrice" | "thumbnail" | "maxStudents" | "language" | "organizationId" | "tags" | "whatYouWillLearn" | "requirements" | "includes" | "previewVideo" | "categoryId" | "status" | "level" | "type" | "createdAt" | "updatedAt" | "publishedAt", ExtArgs["result"]["course"]>
   export type CourseInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     modules?: boolean | Course$modulesArgs<ExtArgs>
     reviews?: boolean | Course$reviewsArgs<ExtArgs>
     faqs?: boolean | Course$faqsArgs<ExtArgs>
+    category?: boolean | Course$categoryArgs<ExtArgs>
     _count?: boolean | CourseCountOutputTypeDefaultArgs<ExtArgs>
   }
-  export type CourseIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {}
-  export type CourseIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {}
+  export type CourseIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    category?: boolean | Course$categoryArgs<ExtArgs>
+  }
+  export type CourseIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    category?: boolean | Course$categoryArgs<ExtArgs>
+  }
 
   export type $CoursePayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     name: "Course"
@@ -1894,6 +2066,7 @@ export namespace Prisma {
       modules: Prisma.$ModulePayload<ExtArgs>[]
       reviews: Prisma.$ReviewPayload<ExtArgs>[]
       faqs: Prisma.$FAQPayload<ExtArgs>[]
+      category: Prisma.$CategoryPayload<ExtArgs> | null
     }
     scalars: $Extensions.GetPayloadResult<{
       id: string
@@ -1906,6 +2079,8 @@ export namespace Prisma {
       instructorBio: string | null
       instructorId: string
       duration: string
+      startDate: Date | null
+      endDate: Date | null
       students: number
       totalReviews: number
       rating: number
@@ -1914,12 +2089,13 @@ export namespace Prisma {
       thumbnail: string
       maxStudents: number | null
       language: string | null
-      category: string | null
       organizationId: string | null
       tags: string[]
       whatYouWillLearn: string[]
       requirements: string[]
       includes: string[]
+      previewVideo: string | null
+      categoryId: string | null
       status: $Enums.Status
       level: $Enums.Level
       type: $Enums.Type
@@ -2323,6 +2499,7 @@ export namespace Prisma {
     modules<T extends Course$modulesArgs<ExtArgs> = {}>(args?: Subset<T, Course$modulesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ModulePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     reviews<T extends Course$reviewsArgs<ExtArgs> = {}>(args?: Subset<T, Course$reviewsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ReviewPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     faqs<T extends Course$faqsArgs<ExtArgs> = {}>(args?: Subset<T, Course$faqsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$FAQPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    category<T extends Course$categoryArgs<ExtArgs> = {}>(args?: Subset<T, Course$categoryArgs<ExtArgs>>): Prisma__CategoryClient<$Result.GetResult<Prisma.$CategoryPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -2362,6 +2539,8 @@ export namespace Prisma {
     readonly instructorBio: FieldRef<"Course", 'String'>
     readonly instructorId: FieldRef<"Course", 'String'>
     readonly duration: FieldRef<"Course", 'String'>
+    readonly startDate: FieldRef<"Course", 'DateTime'>
+    readonly endDate: FieldRef<"Course", 'DateTime'>
     readonly students: FieldRef<"Course", 'Int'>
     readonly totalReviews: FieldRef<"Course", 'Int'>
     readonly rating: FieldRef<"Course", 'Float'>
@@ -2370,12 +2549,13 @@ export namespace Prisma {
     readonly thumbnail: FieldRef<"Course", 'String'>
     readonly maxStudents: FieldRef<"Course", 'Int'>
     readonly language: FieldRef<"Course", 'String'>
-    readonly category: FieldRef<"Course", 'String'>
     readonly organizationId: FieldRef<"Course", 'String'>
     readonly tags: FieldRef<"Course", 'String[]'>
     readonly whatYouWillLearn: FieldRef<"Course", 'String[]'>
     readonly requirements: FieldRef<"Course", 'String[]'>
     readonly includes: FieldRef<"Course", 'String[]'>
+    readonly previewVideo: FieldRef<"Course", 'String'>
+    readonly categoryId: FieldRef<"Course", 'String'>
     readonly status: FieldRef<"Course", 'Status'>
     readonly level: FieldRef<"Course", 'Level'>
     readonly type: FieldRef<"Course", 'Type'>
@@ -2631,6 +2811,10 @@ export namespace Prisma {
      */
     data: CourseCreateManyInput | CourseCreateManyInput[]
     skipDuplicates?: boolean
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: CourseIncludeCreateManyAndReturn<ExtArgs> | null
   }
 
   /**
@@ -2701,6 +2885,10 @@ export namespace Prisma {
      * Limit how many Courses to update.
      */
     limit?: number
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: CourseIncludeUpdateManyAndReturn<ExtArgs> | null
   }
 
   /**
@@ -2842,6 +3030,25 @@ export namespace Prisma {
   }
 
   /**
+   * Course.category
+   */
+  export type Course$categoryArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Category
+     */
+    select?: CategorySelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Category
+     */
+    omit?: CategoryOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: CategoryInclude<ExtArgs> | null
+    where?: CategoryWhereInput
+  }
+
+  /**
    * Course without action
    */
   export type CourseDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -2857,6 +3064,1128 @@ export namespace Prisma {
      * Choose, which related nodes to fetch as well
      */
     include?: CourseInclude<ExtArgs> | null
+  }
+
+
+  /**
+   * Model Category
+   */
+
+  export type AggregateCategory = {
+    _count: CategoryCountAggregateOutputType | null
+    _min: CategoryMinAggregateOutputType | null
+    _max: CategoryMaxAggregateOutputType | null
+  }
+
+  export type CategoryMinAggregateOutputType = {
+    id: string | null
+    name: string | null
+    parentId: string | null
+    createdAt: Date | null
+  }
+
+  export type CategoryMaxAggregateOutputType = {
+    id: string | null
+    name: string | null
+    parentId: string | null
+    createdAt: Date | null
+  }
+
+  export type CategoryCountAggregateOutputType = {
+    id: number
+    name: number
+    parentId: number
+    createdAt: number
+    _all: number
+  }
+
+
+  export type CategoryMinAggregateInputType = {
+    id?: true
+    name?: true
+    parentId?: true
+    createdAt?: true
+  }
+
+  export type CategoryMaxAggregateInputType = {
+    id?: true
+    name?: true
+    parentId?: true
+    createdAt?: true
+  }
+
+  export type CategoryCountAggregateInputType = {
+    id?: true
+    name?: true
+    parentId?: true
+    createdAt?: true
+    _all?: true
+  }
+
+  export type CategoryAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which Category to aggregate.
+     */
+    where?: CategoryWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Categories to fetch.
+     */
+    orderBy?: CategoryOrderByWithRelationInput | CategoryOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: CategoryWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Categories from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Categories.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned Categories
+    **/
+    _count?: true | CategoryCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: CategoryMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: CategoryMaxAggregateInputType
+  }
+
+  export type GetCategoryAggregateType<T extends CategoryAggregateArgs> = {
+        [P in keyof T & keyof AggregateCategory]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateCategory[P]>
+      : GetScalarType<T[P], AggregateCategory[P]>
+  }
+
+
+
+
+  export type CategoryGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: CategoryWhereInput
+    orderBy?: CategoryOrderByWithAggregationInput | CategoryOrderByWithAggregationInput[]
+    by: CategoryScalarFieldEnum[] | CategoryScalarFieldEnum
+    having?: CategoryScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: CategoryCountAggregateInputType | true
+    _min?: CategoryMinAggregateInputType
+    _max?: CategoryMaxAggregateInputType
+  }
+
+  export type CategoryGroupByOutputType = {
+    id: string
+    name: string
+    parentId: string | null
+    createdAt: Date
+    _count: CategoryCountAggregateOutputType | null
+    _min: CategoryMinAggregateOutputType | null
+    _max: CategoryMaxAggregateOutputType | null
+  }
+
+  type GetCategoryGroupByPayload<T extends CategoryGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<CategoryGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof CategoryGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], CategoryGroupByOutputType[P]>
+            : GetScalarType<T[P], CategoryGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type CategorySelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    name?: boolean
+    parentId?: boolean
+    createdAt?: boolean
+    courses?: boolean | Category$coursesArgs<ExtArgs>
+    parent?: boolean | Category$parentArgs<ExtArgs>
+    children?: boolean | Category$childrenArgs<ExtArgs>
+    _count?: boolean | CategoryCountOutputTypeDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["category"]>
+
+  export type CategorySelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    name?: boolean
+    parentId?: boolean
+    createdAt?: boolean
+    parent?: boolean | Category$parentArgs<ExtArgs>
+  }, ExtArgs["result"]["category"]>
+
+  export type CategorySelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    name?: boolean
+    parentId?: boolean
+    createdAt?: boolean
+    parent?: boolean | Category$parentArgs<ExtArgs>
+  }, ExtArgs["result"]["category"]>
+
+  export type CategorySelectScalar = {
+    id?: boolean
+    name?: boolean
+    parentId?: boolean
+    createdAt?: boolean
+  }
+
+  export type CategoryOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "name" | "parentId" | "createdAt", ExtArgs["result"]["category"]>
+  export type CategoryInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    courses?: boolean | Category$coursesArgs<ExtArgs>
+    parent?: boolean | Category$parentArgs<ExtArgs>
+    children?: boolean | Category$childrenArgs<ExtArgs>
+    _count?: boolean | CategoryCountOutputTypeDefaultArgs<ExtArgs>
+  }
+  export type CategoryIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    parent?: boolean | Category$parentArgs<ExtArgs>
+  }
+  export type CategoryIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    parent?: boolean | Category$parentArgs<ExtArgs>
+  }
+
+  export type $CategoryPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "Category"
+    objects: {
+      courses: Prisma.$CoursePayload<ExtArgs>[]
+      parent: Prisma.$CategoryPayload<ExtArgs> | null
+      children: Prisma.$CategoryPayload<ExtArgs>[]
+    }
+    scalars: $Extensions.GetPayloadResult<{
+      id: string
+      name: string
+      parentId: string | null
+      createdAt: Date
+    }, ExtArgs["result"]["category"]>
+    composites: {}
+  }
+
+  type CategoryGetPayload<S extends boolean | null | undefined | CategoryDefaultArgs> = $Result.GetResult<Prisma.$CategoryPayload, S>
+
+  type CategoryCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<CategoryFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: CategoryCountAggregateInputType | true
+    }
+
+  export interface CategoryDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['Category'], meta: { name: 'Category' } }
+    /**
+     * Find zero or one Category that matches the filter.
+     * @param {CategoryFindUniqueArgs} args - Arguments to find a Category
+     * @example
+     * // Get one Category
+     * const category = await prisma.category.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends CategoryFindUniqueArgs>(args: SelectSubset<T, CategoryFindUniqueArgs<ExtArgs>>): Prisma__CategoryClient<$Result.GetResult<Prisma.$CategoryPayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find one Category that matches the filter or throw an error with `error.code='P2025'`
+     * if no matches were found.
+     * @param {CategoryFindUniqueOrThrowArgs} args - Arguments to find a Category
+     * @example
+     * // Get one Category
+     * const category = await prisma.category.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends CategoryFindUniqueOrThrowArgs>(args: SelectSubset<T, CategoryFindUniqueOrThrowArgs<ExtArgs>>): Prisma__CategoryClient<$Result.GetResult<Prisma.$CategoryPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first Category that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {CategoryFindFirstArgs} args - Arguments to find a Category
+     * @example
+     * // Get one Category
+     * const category = await prisma.category.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends CategoryFindFirstArgs>(args?: SelectSubset<T, CategoryFindFirstArgs<ExtArgs>>): Prisma__CategoryClient<$Result.GetResult<Prisma.$CategoryPayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first Category that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {CategoryFindFirstOrThrowArgs} args - Arguments to find a Category
+     * @example
+     * // Get one Category
+     * const category = await prisma.category.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends CategoryFindFirstOrThrowArgs>(args?: SelectSubset<T, CategoryFindFirstOrThrowArgs<ExtArgs>>): Prisma__CategoryClient<$Result.GetResult<Prisma.$CategoryPayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more Categories that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {CategoryFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all Categories
+     * const categories = await prisma.category.findMany()
+     * 
+     * // Get first 10 Categories
+     * const categories = await prisma.category.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const categoryWithIdOnly = await prisma.category.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends CategoryFindManyArgs>(args?: SelectSubset<T, CategoryFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$CategoryPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+
+    /**
+     * Create a Category.
+     * @param {CategoryCreateArgs} args - Arguments to create a Category.
+     * @example
+     * // Create one Category
+     * const Category = await prisma.category.create({
+     *   data: {
+     *     // ... data to create a Category
+     *   }
+     * })
+     * 
+     */
+    create<T extends CategoryCreateArgs>(args: SelectSubset<T, CategoryCreateArgs<ExtArgs>>): Prisma__CategoryClient<$Result.GetResult<Prisma.$CategoryPayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Create many Categories.
+     * @param {CategoryCreateManyArgs} args - Arguments to create many Categories.
+     * @example
+     * // Create many Categories
+     * const category = await prisma.category.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends CategoryCreateManyArgs>(args?: SelectSubset<T, CategoryCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many Categories and returns the data saved in the database.
+     * @param {CategoryCreateManyAndReturnArgs} args - Arguments to create many Categories.
+     * @example
+     * // Create many Categories
+     * const category = await prisma.category.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many Categories and only return the `id`
+     * const categoryWithIdOnly = await prisma.category.createManyAndReturn({
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends CategoryCreateManyAndReturnArgs>(args?: SelectSubset<T, CategoryCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$CategoryPayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Delete a Category.
+     * @param {CategoryDeleteArgs} args - Arguments to delete one Category.
+     * @example
+     * // Delete one Category
+     * const Category = await prisma.category.delete({
+     *   where: {
+     *     // ... filter to delete one Category
+     *   }
+     * })
+     * 
+     */
+    delete<T extends CategoryDeleteArgs>(args: SelectSubset<T, CategoryDeleteArgs<ExtArgs>>): Prisma__CategoryClient<$Result.GetResult<Prisma.$CategoryPayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Update one Category.
+     * @param {CategoryUpdateArgs} args - Arguments to update one Category.
+     * @example
+     * // Update one Category
+     * const category = await prisma.category.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends CategoryUpdateArgs>(args: SelectSubset<T, CategoryUpdateArgs<ExtArgs>>): Prisma__CategoryClient<$Result.GetResult<Prisma.$CategoryPayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Delete zero or more Categories.
+     * @param {CategoryDeleteManyArgs} args - Arguments to filter Categories to delete.
+     * @example
+     * // Delete a few Categories
+     * const { count } = await prisma.category.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends CategoryDeleteManyArgs>(args?: SelectSubset<T, CategoryDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more Categories.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {CategoryUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many Categories
+     * const category = await prisma.category.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends CategoryUpdateManyArgs>(args: SelectSubset<T, CategoryUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more Categories and returns the data updated in the database.
+     * @param {CategoryUpdateManyAndReturnArgs} args - Arguments to update many Categories.
+     * @example
+     * // Update many Categories
+     * const category = await prisma.category.updateManyAndReturn({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Update zero or more Categories and only return the `id`
+     * const categoryWithIdOnly = await prisma.category.updateManyAndReturn({
+     *   select: { id: true },
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    updateManyAndReturn<T extends CategoryUpdateManyAndReturnArgs>(args: SelectSubset<T, CategoryUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$CategoryPayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Create or update one Category.
+     * @param {CategoryUpsertArgs} args - Arguments to update or create a Category.
+     * @example
+     * // Update or create a Category
+     * const category = await prisma.category.upsert({
+     *   create: {
+     *     // ... data to create a Category
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the Category we want to update
+     *   }
+     * })
+     */
+    upsert<T extends CategoryUpsertArgs>(args: SelectSubset<T, CategoryUpsertArgs<ExtArgs>>): Prisma__CategoryClient<$Result.GetResult<Prisma.$CategoryPayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+
+    /**
+     * Count the number of Categories.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {CategoryCountArgs} args - Arguments to filter Categories to count.
+     * @example
+     * // Count the number of Categories
+     * const count = await prisma.category.count({
+     *   where: {
+     *     // ... the filter for the Categories we want to count
+     *   }
+     * })
+    **/
+    count<T extends CategoryCountArgs>(
+      args?: Subset<T, CategoryCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], CategoryCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a Category.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {CategoryAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends CategoryAggregateArgs>(args: Subset<T, CategoryAggregateArgs>): Prisma.PrismaPromise<GetCategoryAggregateType<T>>
+
+    /**
+     * Group by Category.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {CategoryGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends CategoryGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: CategoryGroupByArgs['orderBy'] }
+        : { orderBy?: CategoryGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, CategoryGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetCategoryGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the Category model
+   */
+  readonly fields: CategoryFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for Category.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__CategoryClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    courses<T extends Category$coursesArgs<ExtArgs> = {}>(args?: Subset<T, Category$coursesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$CoursePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    parent<T extends Category$parentArgs<ExtArgs> = {}>(args?: Subset<T, Category$parentArgs<ExtArgs>>): Prisma__CategoryClient<$Result.GetResult<Prisma.$CategoryPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+    children<T extends Category$childrenArgs<ExtArgs> = {}>(args?: Subset<T, Category$childrenArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$CategoryPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the Category model
+   */
+  interface CategoryFieldRefs {
+    readonly id: FieldRef<"Category", 'String'>
+    readonly name: FieldRef<"Category", 'String'>
+    readonly parentId: FieldRef<"Category", 'String'>
+    readonly createdAt: FieldRef<"Category", 'DateTime'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * Category findUnique
+   */
+  export type CategoryFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Category
+     */
+    select?: CategorySelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Category
+     */
+    omit?: CategoryOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: CategoryInclude<ExtArgs> | null
+    /**
+     * Filter, which Category to fetch.
+     */
+    where: CategoryWhereUniqueInput
+  }
+
+  /**
+   * Category findUniqueOrThrow
+   */
+  export type CategoryFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Category
+     */
+    select?: CategorySelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Category
+     */
+    omit?: CategoryOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: CategoryInclude<ExtArgs> | null
+    /**
+     * Filter, which Category to fetch.
+     */
+    where: CategoryWhereUniqueInput
+  }
+
+  /**
+   * Category findFirst
+   */
+  export type CategoryFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Category
+     */
+    select?: CategorySelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Category
+     */
+    omit?: CategoryOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: CategoryInclude<ExtArgs> | null
+    /**
+     * Filter, which Category to fetch.
+     */
+    where?: CategoryWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Categories to fetch.
+     */
+    orderBy?: CategoryOrderByWithRelationInput | CategoryOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for Categories.
+     */
+    cursor?: CategoryWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Categories from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Categories.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of Categories.
+     */
+    distinct?: CategoryScalarFieldEnum | CategoryScalarFieldEnum[]
+  }
+
+  /**
+   * Category findFirstOrThrow
+   */
+  export type CategoryFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Category
+     */
+    select?: CategorySelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Category
+     */
+    omit?: CategoryOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: CategoryInclude<ExtArgs> | null
+    /**
+     * Filter, which Category to fetch.
+     */
+    where?: CategoryWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Categories to fetch.
+     */
+    orderBy?: CategoryOrderByWithRelationInput | CategoryOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for Categories.
+     */
+    cursor?: CategoryWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Categories from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Categories.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of Categories.
+     */
+    distinct?: CategoryScalarFieldEnum | CategoryScalarFieldEnum[]
+  }
+
+  /**
+   * Category findMany
+   */
+  export type CategoryFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Category
+     */
+    select?: CategorySelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Category
+     */
+    omit?: CategoryOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: CategoryInclude<ExtArgs> | null
+    /**
+     * Filter, which Categories to fetch.
+     */
+    where?: CategoryWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Categories to fetch.
+     */
+    orderBy?: CategoryOrderByWithRelationInput | CategoryOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing Categories.
+     */
+    cursor?: CategoryWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Categories from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Categories.
+     */
+    skip?: number
+    distinct?: CategoryScalarFieldEnum | CategoryScalarFieldEnum[]
+  }
+
+  /**
+   * Category create
+   */
+  export type CategoryCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Category
+     */
+    select?: CategorySelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Category
+     */
+    omit?: CategoryOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: CategoryInclude<ExtArgs> | null
+    /**
+     * The data needed to create a Category.
+     */
+    data: XOR<CategoryCreateInput, CategoryUncheckedCreateInput>
+  }
+
+  /**
+   * Category createMany
+   */
+  export type CategoryCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many Categories.
+     */
+    data: CategoryCreateManyInput | CategoryCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * Category createManyAndReturn
+   */
+  export type CategoryCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Category
+     */
+    select?: CategorySelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the Category
+     */
+    omit?: CategoryOmit<ExtArgs> | null
+    /**
+     * The data used to create many Categories.
+     */
+    data: CategoryCreateManyInput | CategoryCreateManyInput[]
+    skipDuplicates?: boolean
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: CategoryIncludeCreateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * Category update
+   */
+  export type CategoryUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Category
+     */
+    select?: CategorySelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Category
+     */
+    omit?: CategoryOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: CategoryInclude<ExtArgs> | null
+    /**
+     * The data needed to update a Category.
+     */
+    data: XOR<CategoryUpdateInput, CategoryUncheckedUpdateInput>
+    /**
+     * Choose, which Category to update.
+     */
+    where: CategoryWhereUniqueInput
+  }
+
+  /**
+   * Category updateMany
+   */
+  export type CategoryUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update Categories.
+     */
+    data: XOR<CategoryUpdateManyMutationInput, CategoryUncheckedUpdateManyInput>
+    /**
+     * Filter which Categories to update
+     */
+    where?: CategoryWhereInput
+    /**
+     * Limit how many Categories to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * Category updateManyAndReturn
+   */
+  export type CategoryUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Category
+     */
+    select?: CategorySelectUpdateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the Category
+     */
+    omit?: CategoryOmit<ExtArgs> | null
+    /**
+     * The data used to update Categories.
+     */
+    data: XOR<CategoryUpdateManyMutationInput, CategoryUncheckedUpdateManyInput>
+    /**
+     * Filter which Categories to update
+     */
+    where?: CategoryWhereInput
+    /**
+     * Limit how many Categories to update.
+     */
+    limit?: number
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: CategoryIncludeUpdateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * Category upsert
+   */
+  export type CategoryUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Category
+     */
+    select?: CategorySelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Category
+     */
+    omit?: CategoryOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: CategoryInclude<ExtArgs> | null
+    /**
+     * The filter to search for the Category to update in case it exists.
+     */
+    where: CategoryWhereUniqueInput
+    /**
+     * In case the Category found by the `where` argument doesn't exist, create a new Category with this data.
+     */
+    create: XOR<CategoryCreateInput, CategoryUncheckedCreateInput>
+    /**
+     * In case the Category was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<CategoryUpdateInput, CategoryUncheckedUpdateInput>
+  }
+
+  /**
+   * Category delete
+   */
+  export type CategoryDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Category
+     */
+    select?: CategorySelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Category
+     */
+    omit?: CategoryOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: CategoryInclude<ExtArgs> | null
+    /**
+     * Filter which Category to delete.
+     */
+    where: CategoryWhereUniqueInput
+  }
+
+  /**
+   * Category deleteMany
+   */
+  export type CategoryDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which Categories to delete
+     */
+    where?: CategoryWhereInput
+    /**
+     * Limit how many Categories to delete.
+     */
+    limit?: number
+  }
+
+  /**
+   * Category.courses
+   */
+  export type Category$coursesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Course
+     */
+    select?: CourseSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Course
+     */
+    omit?: CourseOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: CourseInclude<ExtArgs> | null
+    where?: CourseWhereInput
+    orderBy?: CourseOrderByWithRelationInput | CourseOrderByWithRelationInput[]
+    cursor?: CourseWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: CourseScalarFieldEnum | CourseScalarFieldEnum[]
+  }
+
+  /**
+   * Category.parent
+   */
+  export type Category$parentArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Category
+     */
+    select?: CategorySelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Category
+     */
+    omit?: CategoryOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: CategoryInclude<ExtArgs> | null
+    where?: CategoryWhereInput
+  }
+
+  /**
+   * Category.children
+   */
+  export type Category$childrenArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Category
+     */
+    select?: CategorySelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Category
+     */
+    omit?: CategoryOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: CategoryInclude<ExtArgs> | null
+    where?: CategoryWhereInput
+    orderBy?: CategoryOrderByWithRelationInput | CategoryOrderByWithRelationInput[]
+    cursor?: CategoryWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: CategoryScalarFieldEnum | CategoryScalarFieldEnum[]
+  }
+
+  /**
+   * Category without action
+   */
+  export type CategoryDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Category
+     */
+    select?: CategorySelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Category
+     */
+    omit?: CategoryOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: CategoryInclude<ExtArgs> | null
   }
 
 
@@ -7363,6 +8692,8 @@ export namespace Prisma {
     instructorBio: 'instructorBio',
     instructorId: 'instructorId',
     duration: 'duration',
+    startDate: 'startDate',
+    endDate: 'endDate',
     students: 'students',
     totalReviews: 'totalReviews',
     rating: 'rating',
@@ -7371,12 +8702,13 @@ export namespace Prisma {
     thumbnail: 'thumbnail',
     maxStudents: 'maxStudents',
     language: 'language',
-    category: 'category',
     organizationId: 'organizationId',
     tags: 'tags',
     whatYouWillLearn: 'whatYouWillLearn',
     requirements: 'requirements',
     includes: 'includes',
+    previewVideo: 'previewVideo',
+    categoryId: 'categoryId',
     status: 'status',
     level: 'level',
     type: 'type',
@@ -7386,6 +8718,16 @@ export namespace Prisma {
   };
 
   export type CourseScalarFieldEnum = (typeof CourseScalarFieldEnum)[keyof typeof CourseScalarFieldEnum]
+
+
+  export const CategoryScalarFieldEnum: {
+    id: 'id',
+    name: 'name',
+    parentId: 'parentId',
+    createdAt: 'createdAt'
+  };
+
+  export type CategoryScalarFieldEnum = (typeof CategoryScalarFieldEnum)[keyof typeof CategoryScalarFieldEnum]
 
 
   export const FAQScalarFieldEnum: {
@@ -7483,6 +8825,20 @@ export namespace Prisma {
 
 
   /**
+   * Reference to a field of type 'DateTime'
+   */
+  export type DateTimeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'DateTime'>
+    
+
+
+  /**
+   * Reference to a field of type 'DateTime[]'
+   */
+  export type ListDateTimeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'DateTime[]'>
+    
+
+
+  /**
    * Reference to a field of type 'Int'
    */
   export type IntFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Int'>
@@ -7553,20 +8909,6 @@ export namespace Prisma {
 
 
   /**
-   * Reference to a field of type 'DateTime'
-   */
-  export type DateTimeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'DateTime'>
-    
-
-
-  /**
-   * Reference to a field of type 'DateTime[]'
-   */
-  export type ListDateTimeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'DateTime[]'>
-    
-
-
-  /**
    * Reference to a field of type 'LessonType'
    */
   export type EnumLessonTypeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'LessonType'>
@@ -7604,6 +8946,8 @@ export namespace Prisma {
     instructorBio?: StringNullableFilter<"Course"> | string | null
     instructorId?: StringFilter<"Course"> | string
     duration?: StringFilter<"Course"> | string
+    startDate?: DateTimeNullableFilter<"Course"> | Date | string | null
+    endDate?: DateTimeNullableFilter<"Course"> | Date | string | null
     students?: IntFilter<"Course"> | number
     totalReviews?: IntFilter<"Course"> | number
     rating?: FloatFilter<"Course"> | number
@@ -7612,12 +8956,13 @@ export namespace Prisma {
     thumbnail?: StringFilter<"Course"> | string
     maxStudents?: IntNullableFilter<"Course"> | number | null
     language?: StringNullableFilter<"Course"> | string | null
-    category?: StringNullableFilter<"Course"> | string | null
     organizationId?: StringNullableFilter<"Course"> | string | null
     tags?: StringNullableListFilter<"Course">
     whatYouWillLearn?: StringNullableListFilter<"Course">
     requirements?: StringNullableListFilter<"Course">
     includes?: StringNullableListFilter<"Course">
+    previewVideo?: StringNullableFilter<"Course"> | string | null
+    categoryId?: StringNullableFilter<"Course"> | string | null
     status?: EnumStatusFilter<"Course"> | $Enums.Status
     level?: EnumLevelFilter<"Course"> | $Enums.Level
     type?: EnumTypeFilter<"Course"> | $Enums.Type
@@ -7627,6 +8972,7 @@ export namespace Prisma {
     modules?: ModuleListRelationFilter
     reviews?: ReviewListRelationFilter
     faqs?: FAQListRelationFilter
+    category?: XOR<CategoryNullableScalarRelationFilter, CategoryWhereInput> | null
   }
 
   export type CourseOrderByWithRelationInput = {
@@ -7640,6 +8986,8 @@ export namespace Prisma {
     instructorBio?: SortOrderInput | SortOrder
     instructorId?: SortOrder
     duration?: SortOrder
+    startDate?: SortOrderInput | SortOrder
+    endDate?: SortOrderInput | SortOrder
     students?: SortOrder
     totalReviews?: SortOrder
     rating?: SortOrder
@@ -7648,12 +8996,13 @@ export namespace Prisma {
     thumbnail?: SortOrder
     maxStudents?: SortOrderInput | SortOrder
     language?: SortOrderInput | SortOrder
-    category?: SortOrderInput | SortOrder
     organizationId?: SortOrderInput | SortOrder
     tags?: SortOrder
     whatYouWillLearn?: SortOrder
     requirements?: SortOrder
     includes?: SortOrder
+    previewVideo?: SortOrderInput | SortOrder
+    categoryId?: SortOrderInput | SortOrder
     status?: SortOrder
     level?: SortOrder
     type?: SortOrder
@@ -7663,6 +9012,7 @@ export namespace Prisma {
     modules?: ModuleOrderByRelationAggregateInput
     reviews?: ReviewOrderByRelationAggregateInput
     faqs?: FAQOrderByRelationAggregateInput
+    category?: CategoryOrderByWithRelationInput
   }
 
   export type CourseWhereUniqueInput = Prisma.AtLeast<{
@@ -7679,6 +9029,8 @@ export namespace Prisma {
     instructorBio?: StringNullableFilter<"Course"> | string | null
     instructorId?: StringFilter<"Course"> | string
     duration?: StringFilter<"Course"> | string
+    startDate?: DateTimeNullableFilter<"Course"> | Date | string | null
+    endDate?: DateTimeNullableFilter<"Course"> | Date | string | null
     students?: IntFilter<"Course"> | number
     totalReviews?: IntFilter<"Course"> | number
     rating?: FloatFilter<"Course"> | number
@@ -7687,12 +9039,13 @@ export namespace Prisma {
     thumbnail?: StringFilter<"Course"> | string
     maxStudents?: IntNullableFilter<"Course"> | number | null
     language?: StringNullableFilter<"Course"> | string | null
-    category?: StringNullableFilter<"Course"> | string | null
     organizationId?: StringNullableFilter<"Course"> | string | null
     tags?: StringNullableListFilter<"Course">
     whatYouWillLearn?: StringNullableListFilter<"Course">
     requirements?: StringNullableListFilter<"Course">
     includes?: StringNullableListFilter<"Course">
+    previewVideo?: StringNullableFilter<"Course"> | string | null
+    categoryId?: StringNullableFilter<"Course"> | string | null
     status?: EnumStatusFilter<"Course"> | $Enums.Status
     level?: EnumLevelFilter<"Course"> | $Enums.Level
     type?: EnumTypeFilter<"Course"> | $Enums.Type
@@ -7702,6 +9055,7 @@ export namespace Prisma {
     modules?: ModuleListRelationFilter
     reviews?: ReviewListRelationFilter
     faqs?: FAQListRelationFilter
+    category?: XOR<CategoryNullableScalarRelationFilter, CategoryWhereInput> | null
   }, "id">
 
   export type CourseOrderByWithAggregationInput = {
@@ -7715,6 +9069,8 @@ export namespace Prisma {
     instructorBio?: SortOrderInput | SortOrder
     instructorId?: SortOrder
     duration?: SortOrder
+    startDate?: SortOrderInput | SortOrder
+    endDate?: SortOrderInput | SortOrder
     students?: SortOrder
     totalReviews?: SortOrder
     rating?: SortOrder
@@ -7723,12 +9079,13 @@ export namespace Prisma {
     thumbnail?: SortOrder
     maxStudents?: SortOrderInput | SortOrder
     language?: SortOrderInput | SortOrder
-    category?: SortOrderInput | SortOrder
     organizationId?: SortOrderInput | SortOrder
     tags?: SortOrder
     whatYouWillLearn?: SortOrder
     requirements?: SortOrder
     includes?: SortOrder
+    previewVideo?: SortOrderInput | SortOrder
+    categoryId?: SortOrderInput | SortOrder
     status?: SortOrder
     level?: SortOrder
     type?: SortOrder
@@ -7756,6 +9113,8 @@ export namespace Prisma {
     instructorBio?: StringNullableWithAggregatesFilter<"Course"> | string | null
     instructorId?: StringWithAggregatesFilter<"Course"> | string
     duration?: StringWithAggregatesFilter<"Course"> | string
+    startDate?: DateTimeNullableWithAggregatesFilter<"Course"> | Date | string | null
+    endDate?: DateTimeNullableWithAggregatesFilter<"Course"> | Date | string | null
     students?: IntWithAggregatesFilter<"Course"> | number
     totalReviews?: IntWithAggregatesFilter<"Course"> | number
     rating?: FloatWithAggregatesFilter<"Course"> | number
@@ -7764,18 +9123,75 @@ export namespace Prisma {
     thumbnail?: StringWithAggregatesFilter<"Course"> | string
     maxStudents?: IntNullableWithAggregatesFilter<"Course"> | number | null
     language?: StringNullableWithAggregatesFilter<"Course"> | string | null
-    category?: StringNullableWithAggregatesFilter<"Course"> | string | null
     organizationId?: StringNullableWithAggregatesFilter<"Course"> | string | null
     tags?: StringNullableListFilter<"Course">
     whatYouWillLearn?: StringNullableListFilter<"Course">
     requirements?: StringNullableListFilter<"Course">
     includes?: StringNullableListFilter<"Course">
+    previewVideo?: StringNullableWithAggregatesFilter<"Course"> | string | null
+    categoryId?: StringNullableWithAggregatesFilter<"Course"> | string | null
     status?: EnumStatusWithAggregatesFilter<"Course"> | $Enums.Status
     level?: EnumLevelWithAggregatesFilter<"Course"> | $Enums.Level
     type?: EnumTypeWithAggregatesFilter<"Course"> | $Enums.Type
     createdAt?: DateTimeWithAggregatesFilter<"Course"> | Date | string
     updatedAt?: DateTimeWithAggregatesFilter<"Course"> | Date | string
     publishedAt?: DateTimeNullableWithAggregatesFilter<"Course"> | Date | string | null
+  }
+
+  export type CategoryWhereInput = {
+    AND?: CategoryWhereInput | CategoryWhereInput[]
+    OR?: CategoryWhereInput[]
+    NOT?: CategoryWhereInput | CategoryWhereInput[]
+    id?: StringFilter<"Category"> | string
+    name?: StringFilter<"Category"> | string
+    parentId?: StringNullableFilter<"Category"> | string | null
+    createdAt?: DateTimeFilter<"Category"> | Date | string
+    courses?: CourseListRelationFilter
+    parent?: XOR<CategoryNullableScalarRelationFilter, CategoryWhereInput> | null
+    children?: CategoryListRelationFilter
+  }
+
+  export type CategoryOrderByWithRelationInput = {
+    id?: SortOrder
+    name?: SortOrder
+    parentId?: SortOrderInput | SortOrder
+    createdAt?: SortOrder
+    courses?: CourseOrderByRelationAggregateInput
+    parent?: CategoryOrderByWithRelationInput
+    children?: CategoryOrderByRelationAggregateInput
+  }
+
+  export type CategoryWhereUniqueInput = Prisma.AtLeast<{
+    id?: string
+    AND?: CategoryWhereInput | CategoryWhereInput[]
+    OR?: CategoryWhereInput[]
+    NOT?: CategoryWhereInput | CategoryWhereInput[]
+    name?: StringFilter<"Category"> | string
+    parentId?: StringNullableFilter<"Category"> | string | null
+    createdAt?: DateTimeFilter<"Category"> | Date | string
+    courses?: CourseListRelationFilter
+    parent?: XOR<CategoryNullableScalarRelationFilter, CategoryWhereInput> | null
+    children?: CategoryListRelationFilter
+  }, "id">
+
+  export type CategoryOrderByWithAggregationInput = {
+    id?: SortOrder
+    name?: SortOrder
+    parentId?: SortOrderInput | SortOrder
+    createdAt?: SortOrder
+    _count?: CategoryCountOrderByAggregateInput
+    _max?: CategoryMaxOrderByAggregateInput
+    _min?: CategoryMinOrderByAggregateInput
+  }
+
+  export type CategoryScalarWhereWithAggregatesInput = {
+    AND?: CategoryScalarWhereWithAggregatesInput | CategoryScalarWhereWithAggregatesInput[]
+    OR?: CategoryScalarWhereWithAggregatesInput[]
+    NOT?: CategoryScalarWhereWithAggregatesInput | CategoryScalarWhereWithAggregatesInput[]
+    id?: StringWithAggregatesFilter<"Category"> | string
+    name?: StringWithAggregatesFilter<"Category"> | string
+    parentId?: StringNullableWithAggregatesFilter<"Category"> | string | null
+    createdAt?: DateTimeWithAggregatesFilter<"Category"> | Date | string
   }
 
   export type FAQWhereInput = {
@@ -8053,6 +9469,8 @@ export namespace Prisma {
     instructorBio?: string | null
     instructorId: string
     duration: string
+    startDate?: Date | string | null
+    endDate?: Date | string | null
     students?: number
     totalReviews?: number
     rating?: number
@@ -8061,12 +9479,12 @@ export namespace Prisma {
     thumbnail: string
     maxStudents?: number | null
     language?: string | null
-    category?: string | null
     organizationId?: string | null
     tags?: CourseCreatetagsInput | string[]
     whatYouWillLearn?: CourseCreatewhatYouWillLearnInput | string[]
     requirements?: CourseCreaterequirementsInput | string[]
     includes?: CourseCreateincludesInput | string[]
+    previewVideo?: string | null
     status: $Enums.Status
     level: $Enums.Level
     type: $Enums.Type
@@ -8076,6 +9494,7 @@ export namespace Prisma {
     modules?: ModuleCreateNestedManyWithoutCourseInput
     reviews?: ReviewCreateNestedManyWithoutCourseInput
     faqs?: FAQCreateNestedManyWithoutCourseInput
+    category?: CategoryCreateNestedOneWithoutCoursesInput
   }
 
   export type CourseUncheckedCreateInput = {
@@ -8089,6 +9508,8 @@ export namespace Prisma {
     instructorBio?: string | null
     instructorId: string
     duration: string
+    startDate?: Date | string | null
+    endDate?: Date | string | null
     students?: number
     totalReviews?: number
     rating?: number
@@ -8097,12 +9518,13 @@ export namespace Prisma {
     thumbnail: string
     maxStudents?: number | null
     language?: string | null
-    category?: string | null
     organizationId?: string | null
     tags?: CourseCreatetagsInput | string[]
     whatYouWillLearn?: CourseCreatewhatYouWillLearnInput | string[]
     requirements?: CourseCreaterequirementsInput | string[]
     includes?: CourseCreateincludesInput | string[]
+    previewVideo?: string | null
+    categoryId?: string | null
     status: $Enums.Status
     level: $Enums.Level
     type: $Enums.Type
@@ -8125,6 +9547,8 @@ export namespace Prisma {
     instructorBio?: NullableStringFieldUpdateOperationsInput | string | null
     instructorId?: StringFieldUpdateOperationsInput | string
     duration?: StringFieldUpdateOperationsInput | string
+    startDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    endDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     students?: IntFieldUpdateOperationsInput | number
     totalReviews?: IntFieldUpdateOperationsInput | number
     rating?: FloatFieldUpdateOperationsInput | number
@@ -8133,12 +9557,12 @@ export namespace Prisma {
     thumbnail?: StringFieldUpdateOperationsInput | string
     maxStudents?: NullableIntFieldUpdateOperationsInput | number | null
     language?: NullableStringFieldUpdateOperationsInput | string | null
-    category?: NullableStringFieldUpdateOperationsInput | string | null
     organizationId?: NullableStringFieldUpdateOperationsInput | string | null
     tags?: CourseUpdatetagsInput | string[]
     whatYouWillLearn?: CourseUpdatewhatYouWillLearnInput | string[]
     requirements?: CourseUpdaterequirementsInput | string[]
     includes?: CourseUpdateincludesInput | string[]
+    previewVideo?: NullableStringFieldUpdateOperationsInput | string | null
     status?: EnumStatusFieldUpdateOperationsInput | $Enums.Status
     level?: EnumLevelFieldUpdateOperationsInput | $Enums.Level
     type?: EnumTypeFieldUpdateOperationsInput | $Enums.Type
@@ -8148,6 +9572,7 @@ export namespace Prisma {
     modules?: ModuleUpdateManyWithoutCourseNestedInput
     reviews?: ReviewUpdateManyWithoutCourseNestedInput
     faqs?: FAQUpdateManyWithoutCourseNestedInput
+    category?: CategoryUpdateOneWithoutCoursesNestedInput
   }
 
   export type CourseUncheckedUpdateInput = {
@@ -8161,6 +9586,8 @@ export namespace Prisma {
     instructorBio?: NullableStringFieldUpdateOperationsInput | string | null
     instructorId?: StringFieldUpdateOperationsInput | string
     duration?: StringFieldUpdateOperationsInput | string
+    startDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    endDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     students?: IntFieldUpdateOperationsInput | number
     totalReviews?: IntFieldUpdateOperationsInput | number
     rating?: FloatFieldUpdateOperationsInput | number
@@ -8169,12 +9596,13 @@ export namespace Prisma {
     thumbnail?: StringFieldUpdateOperationsInput | string
     maxStudents?: NullableIntFieldUpdateOperationsInput | number | null
     language?: NullableStringFieldUpdateOperationsInput | string | null
-    category?: NullableStringFieldUpdateOperationsInput | string | null
     organizationId?: NullableStringFieldUpdateOperationsInput | string | null
     tags?: CourseUpdatetagsInput | string[]
     whatYouWillLearn?: CourseUpdatewhatYouWillLearnInput | string[]
     requirements?: CourseUpdaterequirementsInput | string[]
     includes?: CourseUpdateincludesInput | string[]
+    previewVideo?: NullableStringFieldUpdateOperationsInput | string | null
+    categoryId?: NullableStringFieldUpdateOperationsInput | string | null
     status?: EnumStatusFieldUpdateOperationsInput | $Enums.Status
     level?: EnumLevelFieldUpdateOperationsInput | $Enums.Level
     type?: EnumTypeFieldUpdateOperationsInput | $Enums.Type
@@ -8197,6 +9625,8 @@ export namespace Prisma {
     instructorBio?: string | null
     instructorId: string
     duration: string
+    startDate?: Date | string | null
+    endDate?: Date | string | null
     students?: number
     totalReviews?: number
     rating?: number
@@ -8205,12 +9635,13 @@ export namespace Prisma {
     thumbnail: string
     maxStudents?: number | null
     language?: string | null
-    category?: string | null
     organizationId?: string | null
     tags?: CourseCreatetagsInput | string[]
     whatYouWillLearn?: CourseCreatewhatYouWillLearnInput | string[]
     requirements?: CourseCreaterequirementsInput | string[]
     includes?: CourseCreateincludesInput | string[]
+    previewVideo?: string | null
+    categoryId?: string | null
     status: $Enums.Status
     level: $Enums.Level
     type: $Enums.Type
@@ -8230,6 +9661,8 @@ export namespace Prisma {
     instructorBio?: NullableStringFieldUpdateOperationsInput | string | null
     instructorId?: StringFieldUpdateOperationsInput | string
     duration?: StringFieldUpdateOperationsInput | string
+    startDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    endDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     students?: IntFieldUpdateOperationsInput | number
     totalReviews?: IntFieldUpdateOperationsInput | number
     rating?: FloatFieldUpdateOperationsInput | number
@@ -8238,12 +9671,12 @@ export namespace Prisma {
     thumbnail?: StringFieldUpdateOperationsInput | string
     maxStudents?: NullableIntFieldUpdateOperationsInput | number | null
     language?: NullableStringFieldUpdateOperationsInput | string | null
-    category?: NullableStringFieldUpdateOperationsInput | string | null
     organizationId?: NullableStringFieldUpdateOperationsInput | string | null
     tags?: CourseUpdatetagsInput | string[]
     whatYouWillLearn?: CourseUpdatewhatYouWillLearnInput | string[]
     requirements?: CourseUpdaterequirementsInput | string[]
     includes?: CourseUpdateincludesInput | string[]
+    previewVideo?: NullableStringFieldUpdateOperationsInput | string | null
     status?: EnumStatusFieldUpdateOperationsInput | $Enums.Status
     level?: EnumLevelFieldUpdateOperationsInput | $Enums.Level
     type?: EnumTypeFieldUpdateOperationsInput | $Enums.Type
@@ -8263,6 +9696,8 @@ export namespace Prisma {
     instructorBio?: NullableStringFieldUpdateOperationsInput | string | null
     instructorId?: StringFieldUpdateOperationsInput | string
     duration?: StringFieldUpdateOperationsInput | string
+    startDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    endDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     students?: IntFieldUpdateOperationsInput | number
     totalReviews?: IntFieldUpdateOperationsInput | number
     rating?: FloatFieldUpdateOperationsInput | number
@@ -8271,18 +9706,75 @@ export namespace Prisma {
     thumbnail?: StringFieldUpdateOperationsInput | string
     maxStudents?: NullableIntFieldUpdateOperationsInput | number | null
     language?: NullableStringFieldUpdateOperationsInput | string | null
-    category?: NullableStringFieldUpdateOperationsInput | string | null
     organizationId?: NullableStringFieldUpdateOperationsInput | string | null
     tags?: CourseUpdatetagsInput | string[]
     whatYouWillLearn?: CourseUpdatewhatYouWillLearnInput | string[]
     requirements?: CourseUpdaterequirementsInput | string[]
     includes?: CourseUpdateincludesInput | string[]
+    previewVideo?: NullableStringFieldUpdateOperationsInput | string | null
+    categoryId?: NullableStringFieldUpdateOperationsInput | string | null
     status?: EnumStatusFieldUpdateOperationsInput | $Enums.Status
     level?: EnumLevelFieldUpdateOperationsInput | $Enums.Level
     type?: EnumTypeFieldUpdateOperationsInput | $Enums.Type
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     publishedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  }
+
+  export type CategoryCreateInput = {
+    id?: string
+    name: string
+    createdAt?: Date | string
+    courses?: CourseCreateNestedManyWithoutCategoryInput
+    parent?: CategoryCreateNestedOneWithoutChildrenInput
+    children?: CategoryCreateNestedManyWithoutParentInput
+  }
+
+  export type CategoryUncheckedCreateInput = {
+    id?: string
+    name: string
+    parentId?: string | null
+    createdAt?: Date | string
+    courses?: CourseUncheckedCreateNestedManyWithoutCategoryInput
+    children?: CategoryUncheckedCreateNestedManyWithoutParentInput
+  }
+
+  export type CategoryUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    courses?: CourseUpdateManyWithoutCategoryNestedInput
+    parent?: CategoryUpdateOneWithoutChildrenNestedInput
+    children?: CategoryUpdateManyWithoutParentNestedInput
+  }
+
+  export type CategoryUncheckedUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    parentId?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    courses?: CourseUncheckedUpdateManyWithoutCategoryNestedInput
+    children?: CategoryUncheckedUpdateManyWithoutParentNestedInput
+  }
+
+  export type CategoryCreateManyInput = {
+    id?: string
+    name: string
+    parentId?: string | null
+    createdAt?: Date | string
+  }
+
+  export type CategoryUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type CategoryUncheckedUpdateManyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    parentId?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type FAQCreateInput = {
@@ -8588,6 +10080,17 @@ export namespace Prisma {
     not?: NestedStringNullableFilter<$PrismaModel> | string | null
   }
 
+  export type DateTimeNullableFilter<$PrismaModel = never> = {
+    equals?: Date | string | DateTimeFieldRefInput<$PrismaModel> | null
+    in?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel> | null
+    notIn?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel> | null
+    lt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    lte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    gt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    gte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    not?: NestedDateTimeNullableFilter<$PrismaModel> | Date | string | null
+  }
+
   export type IntFilter<$PrismaModel = never> = {
     equals?: number | IntFieldRefInput<$PrismaModel>
     in?: number[] | ListIntFieldRefInput<$PrismaModel>
@@ -8672,17 +10175,6 @@ export namespace Prisma {
     not?: NestedDateTimeFilter<$PrismaModel> | Date | string
   }
 
-  export type DateTimeNullableFilter<$PrismaModel = never> = {
-    equals?: Date | string | DateTimeFieldRefInput<$PrismaModel> | null
-    in?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel> | null
-    notIn?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel> | null
-    lt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    lte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    gt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    gte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    not?: NestedDateTimeNullableFilter<$PrismaModel> | Date | string | null
-  }
-
   export type ModuleListRelationFilter = {
     every?: ModuleWhereInput
     some?: ModuleWhereInput
@@ -8699,6 +10191,11 @@ export namespace Prisma {
     every?: FAQWhereInput
     some?: FAQWhereInput
     none?: FAQWhereInput
+  }
+
+  export type CategoryNullableScalarRelationFilter = {
+    is?: CategoryWhereInput | null
+    isNot?: CategoryWhereInput | null
   }
 
   export type SortOrderInput = {
@@ -8729,6 +10226,8 @@ export namespace Prisma {
     instructorBio?: SortOrder
     instructorId?: SortOrder
     duration?: SortOrder
+    startDate?: SortOrder
+    endDate?: SortOrder
     students?: SortOrder
     totalReviews?: SortOrder
     rating?: SortOrder
@@ -8737,12 +10236,13 @@ export namespace Prisma {
     thumbnail?: SortOrder
     maxStudents?: SortOrder
     language?: SortOrder
-    category?: SortOrder
     organizationId?: SortOrder
     tags?: SortOrder
     whatYouWillLearn?: SortOrder
     requirements?: SortOrder
     includes?: SortOrder
+    previewVideo?: SortOrder
+    categoryId?: SortOrder
     status?: SortOrder
     level?: SortOrder
     type?: SortOrder
@@ -8771,6 +10271,8 @@ export namespace Prisma {
     instructorBio?: SortOrder
     instructorId?: SortOrder
     duration?: SortOrder
+    startDate?: SortOrder
+    endDate?: SortOrder
     students?: SortOrder
     totalReviews?: SortOrder
     rating?: SortOrder
@@ -8779,8 +10281,9 @@ export namespace Prisma {
     thumbnail?: SortOrder
     maxStudents?: SortOrder
     language?: SortOrder
-    category?: SortOrder
     organizationId?: SortOrder
+    previewVideo?: SortOrder
+    categoryId?: SortOrder
     status?: SortOrder
     level?: SortOrder
     type?: SortOrder
@@ -8800,6 +10303,8 @@ export namespace Prisma {
     instructorBio?: SortOrder
     instructorId?: SortOrder
     duration?: SortOrder
+    startDate?: SortOrder
+    endDate?: SortOrder
     students?: SortOrder
     totalReviews?: SortOrder
     rating?: SortOrder
@@ -8808,8 +10313,9 @@ export namespace Prisma {
     thumbnail?: SortOrder
     maxStudents?: SortOrder
     language?: SortOrder
-    category?: SortOrder
     organizationId?: SortOrder
+    previewVideo?: SortOrder
+    categoryId?: SortOrder
     status?: SortOrder
     level?: SortOrder
     type?: SortOrder
@@ -8861,6 +10367,20 @@ export namespace Prisma {
     _count?: NestedIntNullableFilter<$PrismaModel>
     _min?: NestedStringNullableFilter<$PrismaModel>
     _max?: NestedStringNullableFilter<$PrismaModel>
+  }
+
+  export type DateTimeNullableWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: Date | string | DateTimeFieldRefInput<$PrismaModel> | null
+    in?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel> | null
+    notIn?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel> | null
+    lt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    lte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    gt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    gte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    not?: NestedDateTimeNullableWithAggregatesFilter<$PrismaModel> | Date | string | null
+    _count?: NestedIntNullableFilter<$PrismaModel>
+    _min?: NestedDateTimeNullableFilter<$PrismaModel>
+    _max?: NestedDateTimeNullableFilter<$PrismaModel>
   }
 
   export type IntWithAggregatesFilter<$PrismaModel = never> = {
@@ -8971,18 +10491,45 @@ export namespace Prisma {
     _max?: NestedDateTimeFilter<$PrismaModel>
   }
 
-  export type DateTimeNullableWithAggregatesFilter<$PrismaModel = never> = {
-    equals?: Date | string | DateTimeFieldRefInput<$PrismaModel> | null
-    in?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel> | null
-    notIn?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel> | null
-    lt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    lte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    gt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    gte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    not?: NestedDateTimeNullableWithAggregatesFilter<$PrismaModel> | Date | string | null
-    _count?: NestedIntNullableFilter<$PrismaModel>
-    _min?: NestedDateTimeNullableFilter<$PrismaModel>
-    _max?: NestedDateTimeNullableFilter<$PrismaModel>
+  export type CourseListRelationFilter = {
+    every?: CourseWhereInput
+    some?: CourseWhereInput
+    none?: CourseWhereInput
+  }
+
+  export type CategoryListRelationFilter = {
+    every?: CategoryWhereInput
+    some?: CategoryWhereInput
+    none?: CategoryWhereInput
+  }
+
+  export type CourseOrderByRelationAggregateInput = {
+    _count?: SortOrder
+  }
+
+  export type CategoryOrderByRelationAggregateInput = {
+    _count?: SortOrder
+  }
+
+  export type CategoryCountOrderByAggregateInput = {
+    id?: SortOrder
+    name?: SortOrder
+    parentId?: SortOrder
+    createdAt?: SortOrder
+  }
+
+  export type CategoryMaxOrderByAggregateInput = {
+    id?: SortOrder
+    name?: SortOrder
+    parentId?: SortOrder
+    createdAt?: SortOrder
+  }
+
+  export type CategoryMinOrderByAggregateInput = {
+    id?: SortOrder
+    name?: SortOrder
+    parentId?: SortOrder
+    createdAt?: SortOrder
   }
 
   export type CourseScalarRelationFilter = {
@@ -9220,6 +10767,12 @@ export namespace Prisma {
     connect?: FAQWhereUniqueInput | FAQWhereUniqueInput[]
   }
 
+  export type CategoryCreateNestedOneWithoutCoursesInput = {
+    create?: XOR<CategoryCreateWithoutCoursesInput, CategoryUncheckedCreateWithoutCoursesInput>
+    connectOrCreate?: CategoryCreateOrConnectWithoutCoursesInput
+    connect?: CategoryWhereUniqueInput
+  }
+
   export type ModuleUncheckedCreateNestedManyWithoutCourseInput = {
     create?: XOR<ModuleCreateWithoutCourseInput, ModuleUncheckedCreateWithoutCourseInput> | ModuleCreateWithoutCourseInput[] | ModuleUncheckedCreateWithoutCourseInput[]
     connectOrCreate?: ModuleCreateOrConnectWithoutCourseInput | ModuleCreateOrConnectWithoutCourseInput[]
@@ -9247,6 +10800,10 @@ export namespace Prisma {
 
   export type NullableStringFieldUpdateOperationsInput = {
     set?: string | null
+  }
+
+  export type NullableDateTimeFieldUpdateOperationsInput = {
+    set?: Date | string | null
   }
 
   export type IntFieldUpdateOperationsInput = {
@@ -9317,10 +10874,6 @@ export namespace Prisma {
     set?: Date | string
   }
 
-  export type NullableDateTimeFieldUpdateOperationsInput = {
-    set?: Date | string | null
-  }
-
   export type ModuleUpdateManyWithoutCourseNestedInput = {
     create?: XOR<ModuleCreateWithoutCourseInput, ModuleUncheckedCreateWithoutCourseInput> | ModuleCreateWithoutCourseInput[] | ModuleUncheckedCreateWithoutCourseInput[]
     connectOrCreate?: ModuleCreateOrConnectWithoutCourseInput | ModuleCreateOrConnectWithoutCourseInput[]
@@ -9363,6 +10916,16 @@ export namespace Prisma {
     deleteMany?: FAQScalarWhereInput | FAQScalarWhereInput[]
   }
 
+  export type CategoryUpdateOneWithoutCoursesNestedInput = {
+    create?: XOR<CategoryCreateWithoutCoursesInput, CategoryUncheckedCreateWithoutCoursesInput>
+    connectOrCreate?: CategoryCreateOrConnectWithoutCoursesInput
+    upsert?: CategoryUpsertWithoutCoursesInput
+    disconnect?: CategoryWhereInput | boolean
+    delete?: CategoryWhereInput | boolean
+    connect?: CategoryWhereUniqueInput
+    update?: XOR<XOR<CategoryUpdateToOneWithWhereWithoutCoursesInput, CategoryUpdateWithoutCoursesInput>, CategoryUncheckedUpdateWithoutCoursesInput>
+  }
+
   export type ModuleUncheckedUpdateManyWithoutCourseNestedInput = {
     create?: XOR<ModuleCreateWithoutCourseInput, ModuleUncheckedCreateWithoutCourseInput> | ModuleCreateWithoutCourseInput[] | ModuleUncheckedCreateWithoutCourseInput[]
     connectOrCreate?: ModuleCreateOrConnectWithoutCourseInput | ModuleCreateOrConnectWithoutCourseInput[]
@@ -9403,6 +10966,106 @@ export namespace Prisma {
     update?: FAQUpdateWithWhereUniqueWithoutCourseInput | FAQUpdateWithWhereUniqueWithoutCourseInput[]
     updateMany?: FAQUpdateManyWithWhereWithoutCourseInput | FAQUpdateManyWithWhereWithoutCourseInput[]
     deleteMany?: FAQScalarWhereInput | FAQScalarWhereInput[]
+  }
+
+  export type CourseCreateNestedManyWithoutCategoryInput = {
+    create?: XOR<CourseCreateWithoutCategoryInput, CourseUncheckedCreateWithoutCategoryInput> | CourseCreateWithoutCategoryInput[] | CourseUncheckedCreateWithoutCategoryInput[]
+    connectOrCreate?: CourseCreateOrConnectWithoutCategoryInput | CourseCreateOrConnectWithoutCategoryInput[]
+    createMany?: CourseCreateManyCategoryInputEnvelope
+    connect?: CourseWhereUniqueInput | CourseWhereUniqueInput[]
+  }
+
+  export type CategoryCreateNestedOneWithoutChildrenInput = {
+    create?: XOR<CategoryCreateWithoutChildrenInput, CategoryUncheckedCreateWithoutChildrenInput>
+    connectOrCreate?: CategoryCreateOrConnectWithoutChildrenInput
+    connect?: CategoryWhereUniqueInput
+  }
+
+  export type CategoryCreateNestedManyWithoutParentInput = {
+    create?: XOR<CategoryCreateWithoutParentInput, CategoryUncheckedCreateWithoutParentInput> | CategoryCreateWithoutParentInput[] | CategoryUncheckedCreateWithoutParentInput[]
+    connectOrCreate?: CategoryCreateOrConnectWithoutParentInput | CategoryCreateOrConnectWithoutParentInput[]
+    createMany?: CategoryCreateManyParentInputEnvelope
+    connect?: CategoryWhereUniqueInput | CategoryWhereUniqueInput[]
+  }
+
+  export type CourseUncheckedCreateNestedManyWithoutCategoryInput = {
+    create?: XOR<CourseCreateWithoutCategoryInput, CourseUncheckedCreateWithoutCategoryInput> | CourseCreateWithoutCategoryInput[] | CourseUncheckedCreateWithoutCategoryInput[]
+    connectOrCreate?: CourseCreateOrConnectWithoutCategoryInput | CourseCreateOrConnectWithoutCategoryInput[]
+    createMany?: CourseCreateManyCategoryInputEnvelope
+    connect?: CourseWhereUniqueInput | CourseWhereUniqueInput[]
+  }
+
+  export type CategoryUncheckedCreateNestedManyWithoutParentInput = {
+    create?: XOR<CategoryCreateWithoutParentInput, CategoryUncheckedCreateWithoutParentInput> | CategoryCreateWithoutParentInput[] | CategoryUncheckedCreateWithoutParentInput[]
+    connectOrCreate?: CategoryCreateOrConnectWithoutParentInput | CategoryCreateOrConnectWithoutParentInput[]
+    createMany?: CategoryCreateManyParentInputEnvelope
+    connect?: CategoryWhereUniqueInput | CategoryWhereUniqueInput[]
+  }
+
+  export type CourseUpdateManyWithoutCategoryNestedInput = {
+    create?: XOR<CourseCreateWithoutCategoryInput, CourseUncheckedCreateWithoutCategoryInput> | CourseCreateWithoutCategoryInput[] | CourseUncheckedCreateWithoutCategoryInput[]
+    connectOrCreate?: CourseCreateOrConnectWithoutCategoryInput | CourseCreateOrConnectWithoutCategoryInput[]
+    upsert?: CourseUpsertWithWhereUniqueWithoutCategoryInput | CourseUpsertWithWhereUniqueWithoutCategoryInput[]
+    createMany?: CourseCreateManyCategoryInputEnvelope
+    set?: CourseWhereUniqueInput | CourseWhereUniqueInput[]
+    disconnect?: CourseWhereUniqueInput | CourseWhereUniqueInput[]
+    delete?: CourseWhereUniqueInput | CourseWhereUniqueInput[]
+    connect?: CourseWhereUniqueInput | CourseWhereUniqueInput[]
+    update?: CourseUpdateWithWhereUniqueWithoutCategoryInput | CourseUpdateWithWhereUniqueWithoutCategoryInput[]
+    updateMany?: CourseUpdateManyWithWhereWithoutCategoryInput | CourseUpdateManyWithWhereWithoutCategoryInput[]
+    deleteMany?: CourseScalarWhereInput | CourseScalarWhereInput[]
+  }
+
+  export type CategoryUpdateOneWithoutChildrenNestedInput = {
+    create?: XOR<CategoryCreateWithoutChildrenInput, CategoryUncheckedCreateWithoutChildrenInput>
+    connectOrCreate?: CategoryCreateOrConnectWithoutChildrenInput
+    upsert?: CategoryUpsertWithoutChildrenInput
+    disconnect?: CategoryWhereInput | boolean
+    delete?: CategoryWhereInput | boolean
+    connect?: CategoryWhereUniqueInput
+    update?: XOR<XOR<CategoryUpdateToOneWithWhereWithoutChildrenInput, CategoryUpdateWithoutChildrenInput>, CategoryUncheckedUpdateWithoutChildrenInput>
+  }
+
+  export type CategoryUpdateManyWithoutParentNestedInput = {
+    create?: XOR<CategoryCreateWithoutParentInput, CategoryUncheckedCreateWithoutParentInput> | CategoryCreateWithoutParentInput[] | CategoryUncheckedCreateWithoutParentInput[]
+    connectOrCreate?: CategoryCreateOrConnectWithoutParentInput | CategoryCreateOrConnectWithoutParentInput[]
+    upsert?: CategoryUpsertWithWhereUniqueWithoutParentInput | CategoryUpsertWithWhereUniqueWithoutParentInput[]
+    createMany?: CategoryCreateManyParentInputEnvelope
+    set?: CategoryWhereUniqueInput | CategoryWhereUniqueInput[]
+    disconnect?: CategoryWhereUniqueInput | CategoryWhereUniqueInput[]
+    delete?: CategoryWhereUniqueInput | CategoryWhereUniqueInput[]
+    connect?: CategoryWhereUniqueInput | CategoryWhereUniqueInput[]
+    update?: CategoryUpdateWithWhereUniqueWithoutParentInput | CategoryUpdateWithWhereUniqueWithoutParentInput[]
+    updateMany?: CategoryUpdateManyWithWhereWithoutParentInput | CategoryUpdateManyWithWhereWithoutParentInput[]
+    deleteMany?: CategoryScalarWhereInput | CategoryScalarWhereInput[]
+  }
+
+  export type CourseUncheckedUpdateManyWithoutCategoryNestedInput = {
+    create?: XOR<CourseCreateWithoutCategoryInput, CourseUncheckedCreateWithoutCategoryInput> | CourseCreateWithoutCategoryInput[] | CourseUncheckedCreateWithoutCategoryInput[]
+    connectOrCreate?: CourseCreateOrConnectWithoutCategoryInput | CourseCreateOrConnectWithoutCategoryInput[]
+    upsert?: CourseUpsertWithWhereUniqueWithoutCategoryInput | CourseUpsertWithWhereUniqueWithoutCategoryInput[]
+    createMany?: CourseCreateManyCategoryInputEnvelope
+    set?: CourseWhereUniqueInput | CourseWhereUniqueInput[]
+    disconnect?: CourseWhereUniqueInput | CourseWhereUniqueInput[]
+    delete?: CourseWhereUniqueInput | CourseWhereUniqueInput[]
+    connect?: CourseWhereUniqueInput | CourseWhereUniqueInput[]
+    update?: CourseUpdateWithWhereUniqueWithoutCategoryInput | CourseUpdateWithWhereUniqueWithoutCategoryInput[]
+    updateMany?: CourseUpdateManyWithWhereWithoutCategoryInput | CourseUpdateManyWithWhereWithoutCategoryInput[]
+    deleteMany?: CourseScalarWhereInput | CourseScalarWhereInput[]
+  }
+
+  export type CategoryUncheckedUpdateManyWithoutParentNestedInput = {
+    create?: XOR<CategoryCreateWithoutParentInput, CategoryUncheckedCreateWithoutParentInput> | CategoryCreateWithoutParentInput[] | CategoryUncheckedCreateWithoutParentInput[]
+    connectOrCreate?: CategoryCreateOrConnectWithoutParentInput | CategoryCreateOrConnectWithoutParentInput[]
+    upsert?: CategoryUpsertWithWhereUniqueWithoutParentInput | CategoryUpsertWithWhereUniqueWithoutParentInput[]
+    createMany?: CategoryCreateManyParentInputEnvelope
+    set?: CategoryWhereUniqueInput | CategoryWhereUniqueInput[]
+    disconnect?: CategoryWhereUniqueInput | CategoryWhereUniqueInput[]
+    delete?: CategoryWhereUniqueInput | CategoryWhereUniqueInput[]
+    connect?: CategoryWhereUniqueInput | CategoryWhereUniqueInput[]
+    update?: CategoryUpdateWithWhereUniqueWithoutParentInput | CategoryUpdateWithWhereUniqueWithoutParentInput[]
+    updateMany?: CategoryUpdateManyWithWhereWithoutParentInput | CategoryUpdateManyWithWhereWithoutParentInput[]
+    deleteMany?: CategoryScalarWhereInput | CategoryScalarWhereInput[]
   }
 
   export type CourseCreateNestedOneWithoutFaqsInput = {
@@ -9541,6 +11204,17 @@ export namespace Prisma {
     not?: NestedStringNullableFilter<$PrismaModel> | string | null
   }
 
+  export type NestedDateTimeNullableFilter<$PrismaModel = never> = {
+    equals?: Date | string | DateTimeFieldRefInput<$PrismaModel> | null
+    in?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel> | null
+    notIn?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel> | null
+    lt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    lte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    gt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    gte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    not?: NestedDateTimeNullableFilter<$PrismaModel> | Date | string | null
+  }
+
   export type NestedIntFilter<$PrismaModel = never> = {
     equals?: number | IntFieldRefInput<$PrismaModel>
     in?: number[] | ListIntFieldRefInput<$PrismaModel>
@@ -9617,17 +11291,6 @@ export namespace Prisma {
     not?: NestedDateTimeFilter<$PrismaModel> | Date | string
   }
 
-  export type NestedDateTimeNullableFilter<$PrismaModel = never> = {
-    equals?: Date | string | DateTimeFieldRefInput<$PrismaModel> | null
-    in?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel> | null
-    notIn?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel> | null
-    lt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    lte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    gt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    gte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    not?: NestedDateTimeNullableFilter<$PrismaModel> | Date | string | null
-  }
-
   export type NestedStringWithAggregatesFilter<$PrismaModel = never> = {
     equals?: string | StringFieldRefInput<$PrismaModel>
     in?: string[] | ListStringFieldRefInput<$PrismaModel>
@@ -9660,6 +11323,20 @@ export namespace Prisma {
     _count?: NestedIntNullableFilter<$PrismaModel>
     _min?: NestedStringNullableFilter<$PrismaModel>
     _max?: NestedStringNullableFilter<$PrismaModel>
+  }
+
+  export type NestedDateTimeNullableWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: Date | string | DateTimeFieldRefInput<$PrismaModel> | null
+    in?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel> | null
+    notIn?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel> | null
+    lt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    lte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    gt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    gte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    not?: NestedDateTimeNullableWithAggregatesFilter<$PrismaModel> | Date | string | null
+    _count?: NestedIntNullableFilter<$PrismaModel>
+    _min?: NestedDateTimeNullableFilter<$PrismaModel>
+    _max?: NestedDateTimeNullableFilter<$PrismaModel>
   }
 
   export type NestedIntWithAggregatesFilter<$PrismaModel = never> = {
@@ -9770,20 +11447,6 @@ export namespace Prisma {
     _max?: NestedDateTimeFilter<$PrismaModel>
   }
 
-  export type NestedDateTimeNullableWithAggregatesFilter<$PrismaModel = never> = {
-    equals?: Date | string | DateTimeFieldRefInput<$PrismaModel> | null
-    in?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel> | null
-    notIn?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel> | null
-    lt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    lte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    gt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    gte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    not?: NestedDateTimeNullableWithAggregatesFilter<$PrismaModel> | Date | string | null
-    _count?: NestedIntNullableFilter<$PrismaModel>
-    _min?: NestedDateTimeNullableFilter<$PrismaModel>
-    _max?: NestedDateTimeNullableFilter<$PrismaModel>
-  }
-
   export type NestedEnumLessonTypeFilter<$PrismaModel = never> = {
     equals?: $Enums.LessonType | EnumLessonTypeFieldRefInput<$PrismaModel>
     in?: $Enums.LessonType[] | ListEnumLessonTypeFieldRefInput<$PrismaModel>
@@ -9892,6 +11555,27 @@ export namespace Prisma {
     skipDuplicates?: boolean
   }
 
+  export type CategoryCreateWithoutCoursesInput = {
+    id?: string
+    name: string
+    createdAt?: Date | string
+    parent?: CategoryCreateNestedOneWithoutChildrenInput
+    children?: CategoryCreateNestedManyWithoutParentInput
+  }
+
+  export type CategoryUncheckedCreateWithoutCoursesInput = {
+    id?: string
+    name: string
+    parentId?: string | null
+    createdAt?: Date | string
+    children?: CategoryUncheckedCreateNestedManyWithoutParentInput
+  }
+
+  export type CategoryCreateOrConnectWithoutCoursesInput = {
+    where: CategoryWhereUniqueInput
+    create: XOR<CategoryCreateWithoutCoursesInput, CategoryUncheckedCreateWithoutCoursesInput>
+  }
+
   export type ModuleUpsertWithWhereUniqueWithoutCourseInput = {
     where: ModuleWhereUniqueInput
     update: XOR<ModuleUpdateWithoutCourseInput, ModuleUncheckedUpdateWithoutCourseInput>
@@ -9975,6 +11659,274 @@ export namespace Prisma {
     courseId?: StringFilter<"FAQ"> | string
   }
 
+  export type CategoryUpsertWithoutCoursesInput = {
+    update: XOR<CategoryUpdateWithoutCoursesInput, CategoryUncheckedUpdateWithoutCoursesInput>
+    create: XOR<CategoryCreateWithoutCoursesInput, CategoryUncheckedCreateWithoutCoursesInput>
+    where?: CategoryWhereInput
+  }
+
+  export type CategoryUpdateToOneWithWhereWithoutCoursesInput = {
+    where?: CategoryWhereInput
+    data: XOR<CategoryUpdateWithoutCoursesInput, CategoryUncheckedUpdateWithoutCoursesInput>
+  }
+
+  export type CategoryUpdateWithoutCoursesInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    parent?: CategoryUpdateOneWithoutChildrenNestedInput
+    children?: CategoryUpdateManyWithoutParentNestedInput
+  }
+
+  export type CategoryUncheckedUpdateWithoutCoursesInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    parentId?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    children?: CategoryUncheckedUpdateManyWithoutParentNestedInput
+  }
+
+  export type CourseCreateWithoutCategoryInput = {
+    id?: string
+    title: string
+    description: string
+    longDescription?: string | null
+    instructor: string
+    instructorAvatar: string
+    instructorTitle?: string | null
+    instructorBio?: string | null
+    instructorId: string
+    duration: string
+    startDate?: Date | string | null
+    endDate?: Date | string | null
+    students?: number
+    totalReviews?: number
+    rating?: number
+    price: number
+    salePrice?: number | null
+    thumbnail: string
+    maxStudents?: number | null
+    language?: string | null
+    organizationId?: string | null
+    tags?: CourseCreatetagsInput | string[]
+    whatYouWillLearn?: CourseCreatewhatYouWillLearnInput | string[]
+    requirements?: CourseCreaterequirementsInput | string[]
+    includes?: CourseCreateincludesInput | string[]
+    previewVideo?: string | null
+    status: $Enums.Status
+    level: $Enums.Level
+    type: $Enums.Type
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    publishedAt?: Date | string | null
+    modules?: ModuleCreateNestedManyWithoutCourseInput
+    reviews?: ReviewCreateNestedManyWithoutCourseInput
+    faqs?: FAQCreateNestedManyWithoutCourseInput
+  }
+
+  export type CourseUncheckedCreateWithoutCategoryInput = {
+    id?: string
+    title: string
+    description: string
+    longDescription?: string | null
+    instructor: string
+    instructorAvatar: string
+    instructorTitle?: string | null
+    instructorBio?: string | null
+    instructorId: string
+    duration: string
+    startDate?: Date | string | null
+    endDate?: Date | string | null
+    students?: number
+    totalReviews?: number
+    rating?: number
+    price: number
+    salePrice?: number | null
+    thumbnail: string
+    maxStudents?: number | null
+    language?: string | null
+    organizationId?: string | null
+    tags?: CourseCreatetagsInput | string[]
+    whatYouWillLearn?: CourseCreatewhatYouWillLearnInput | string[]
+    requirements?: CourseCreaterequirementsInput | string[]
+    includes?: CourseCreateincludesInput | string[]
+    previewVideo?: string | null
+    status: $Enums.Status
+    level: $Enums.Level
+    type: $Enums.Type
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    publishedAt?: Date | string | null
+    modules?: ModuleUncheckedCreateNestedManyWithoutCourseInput
+    reviews?: ReviewUncheckedCreateNestedManyWithoutCourseInput
+    faqs?: FAQUncheckedCreateNestedManyWithoutCourseInput
+  }
+
+  export type CourseCreateOrConnectWithoutCategoryInput = {
+    where: CourseWhereUniqueInput
+    create: XOR<CourseCreateWithoutCategoryInput, CourseUncheckedCreateWithoutCategoryInput>
+  }
+
+  export type CourseCreateManyCategoryInputEnvelope = {
+    data: CourseCreateManyCategoryInput | CourseCreateManyCategoryInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type CategoryCreateWithoutChildrenInput = {
+    id?: string
+    name: string
+    createdAt?: Date | string
+    courses?: CourseCreateNestedManyWithoutCategoryInput
+    parent?: CategoryCreateNestedOneWithoutChildrenInput
+  }
+
+  export type CategoryUncheckedCreateWithoutChildrenInput = {
+    id?: string
+    name: string
+    parentId?: string | null
+    createdAt?: Date | string
+    courses?: CourseUncheckedCreateNestedManyWithoutCategoryInput
+  }
+
+  export type CategoryCreateOrConnectWithoutChildrenInput = {
+    where: CategoryWhereUniqueInput
+    create: XOR<CategoryCreateWithoutChildrenInput, CategoryUncheckedCreateWithoutChildrenInput>
+  }
+
+  export type CategoryCreateWithoutParentInput = {
+    id?: string
+    name: string
+    createdAt?: Date | string
+    courses?: CourseCreateNestedManyWithoutCategoryInput
+    children?: CategoryCreateNestedManyWithoutParentInput
+  }
+
+  export type CategoryUncheckedCreateWithoutParentInput = {
+    id?: string
+    name: string
+    createdAt?: Date | string
+    courses?: CourseUncheckedCreateNestedManyWithoutCategoryInput
+    children?: CategoryUncheckedCreateNestedManyWithoutParentInput
+  }
+
+  export type CategoryCreateOrConnectWithoutParentInput = {
+    where: CategoryWhereUniqueInput
+    create: XOR<CategoryCreateWithoutParentInput, CategoryUncheckedCreateWithoutParentInput>
+  }
+
+  export type CategoryCreateManyParentInputEnvelope = {
+    data: CategoryCreateManyParentInput | CategoryCreateManyParentInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type CourseUpsertWithWhereUniqueWithoutCategoryInput = {
+    where: CourseWhereUniqueInput
+    update: XOR<CourseUpdateWithoutCategoryInput, CourseUncheckedUpdateWithoutCategoryInput>
+    create: XOR<CourseCreateWithoutCategoryInput, CourseUncheckedCreateWithoutCategoryInput>
+  }
+
+  export type CourseUpdateWithWhereUniqueWithoutCategoryInput = {
+    where: CourseWhereUniqueInput
+    data: XOR<CourseUpdateWithoutCategoryInput, CourseUncheckedUpdateWithoutCategoryInput>
+  }
+
+  export type CourseUpdateManyWithWhereWithoutCategoryInput = {
+    where: CourseScalarWhereInput
+    data: XOR<CourseUpdateManyMutationInput, CourseUncheckedUpdateManyWithoutCategoryInput>
+  }
+
+  export type CourseScalarWhereInput = {
+    AND?: CourseScalarWhereInput | CourseScalarWhereInput[]
+    OR?: CourseScalarWhereInput[]
+    NOT?: CourseScalarWhereInput | CourseScalarWhereInput[]
+    id?: StringFilter<"Course"> | string
+    title?: StringFilter<"Course"> | string
+    description?: StringFilter<"Course"> | string
+    longDescription?: StringNullableFilter<"Course"> | string | null
+    instructor?: StringFilter<"Course"> | string
+    instructorAvatar?: StringFilter<"Course"> | string
+    instructorTitle?: StringNullableFilter<"Course"> | string | null
+    instructorBio?: StringNullableFilter<"Course"> | string | null
+    instructorId?: StringFilter<"Course"> | string
+    duration?: StringFilter<"Course"> | string
+    startDate?: DateTimeNullableFilter<"Course"> | Date | string | null
+    endDate?: DateTimeNullableFilter<"Course"> | Date | string | null
+    students?: IntFilter<"Course"> | number
+    totalReviews?: IntFilter<"Course"> | number
+    rating?: FloatFilter<"Course"> | number
+    price?: FloatFilter<"Course"> | number
+    salePrice?: FloatNullableFilter<"Course"> | number | null
+    thumbnail?: StringFilter<"Course"> | string
+    maxStudents?: IntNullableFilter<"Course"> | number | null
+    language?: StringNullableFilter<"Course"> | string | null
+    organizationId?: StringNullableFilter<"Course"> | string | null
+    tags?: StringNullableListFilter<"Course">
+    whatYouWillLearn?: StringNullableListFilter<"Course">
+    requirements?: StringNullableListFilter<"Course">
+    includes?: StringNullableListFilter<"Course">
+    previewVideo?: StringNullableFilter<"Course"> | string | null
+    categoryId?: StringNullableFilter<"Course"> | string | null
+    status?: EnumStatusFilter<"Course"> | $Enums.Status
+    level?: EnumLevelFilter<"Course"> | $Enums.Level
+    type?: EnumTypeFilter<"Course"> | $Enums.Type
+    createdAt?: DateTimeFilter<"Course"> | Date | string
+    updatedAt?: DateTimeFilter<"Course"> | Date | string
+    publishedAt?: DateTimeNullableFilter<"Course"> | Date | string | null
+  }
+
+  export type CategoryUpsertWithoutChildrenInput = {
+    update: XOR<CategoryUpdateWithoutChildrenInput, CategoryUncheckedUpdateWithoutChildrenInput>
+    create: XOR<CategoryCreateWithoutChildrenInput, CategoryUncheckedCreateWithoutChildrenInput>
+    where?: CategoryWhereInput
+  }
+
+  export type CategoryUpdateToOneWithWhereWithoutChildrenInput = {
+    where?: CategoryWhereInput
+    data: XOR<CategoryUpdateWithoutChildrenInput, CategoryUncheckedUpdateWithoutChildrenInput>
+  }
+
+  export type CategoryUpdateWithoutChildrenInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    courses?: CourseUpdateManyWithoutCategoryNestedInput
+    parent?: CategoryUpdateOneWithoutChildrenNestedInput
+  }
+
+  export type CategoryUncheckedUpdateWithoutChildrenInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    parentId?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    courses?: CourseUncheckedUpdateManyWithoutCategoryNestedInput
+  }
+
+  export type CategoryUpsertWithWhereUniqueWithoutParentInput = {
+    where: CategoryWhereUniqueInput
+    update: XOR<CategoryUpdateWithoutParentInput, CategoryUncheckedUpdateWithoutParentInput>
+    create: XOR<CategoryCreateWithoutParentInput, CategoryUncheckedCreateWithoutParentInput>
+  }
+
+  export type CategoryUpdateWithWhereUniqueWithoutParentInput = {
+    where: CategoryWhereUniqueInput
+    data: XOR<CategoryUpdateWithoutParentInput, CategoryUncheckedUpdateWithoutParentInput>
+  }
+
+  export type CategoryUpdateManyWithWhereWithoutParentInput = {
+    where: CategoryScalarWhereInput
+    data: XOR<CategoryUpdateManyMutationInput, CategoryUncheckedUpdateManyWithoutParentInput>
+  }
+
+  export type CategoryScalarWhereInput = {
+    AND?: CategoryScalarWhereInput | CategoryScalarWhereInput[]
+    OR?: CategoryScalarWhereInput[]
+    NOT?: CategoryScalarWhereInput | CategoryScalarWhereInput[]
+    id?: StringFilter<"Category"> | string
+    name?: StringFilter<"Category"> | string
+    parentId?: StringNullableFilter<"Category"> | string | null
+    createdAt?: DateTimeFilter<"Category"> | Date | string
+  }
+
   export type CourseCreateWithoutFaqsInput = {
     id?: string
     title: string
@@ -9986,6 +11938,8 @@ export namespace Prisma {
     instructorBio?: string | null
     instructorId: string
     duration: string
+    startDate?: Date | string | null
+    endDate?: Date | string | null
     students?: number
     totalReviews?: number
     rating?: number
@@ -9994,12 +11948,12 @@ export namespace Prisma {
     thumbnail: string
     maxStudents?: number | null
     language?: string | null
-    category?: string | null
     organizationId?: string | null
     tags?: CourseCreatetagsInput | string[]
     whatYouWillLearn?: CourseCreatewhatYouWillLearnInput | string[]
     requirements?: CourseCreaterequirementsInput | string[]
     includes?: CourseCreateincludesInput | string[]
+    previewVideo?: string | null
     status: $Enums.Status
     level: $Enums.Level
     type: $Enums.Type
@@ -10008,6 +11962,7 @@ export namespace Prisma {
     publishedAt?: Date | string | null
     modules?: ModuleCreateNestedManyWithoutCourseInput
     reviews?: ReviewCreateNestedManyWithoutCourseInput
+    category?: CategoryCreateNestedOneWithoutCoursesInput
   }
 
   export type CourseUncheckedCreateWithoutFaqsInput = {
@@ -10021,6 +11976,8 @@ export namespace Prisma {
     instructorBio?: string | null
     instructorId: string
     duration: string
+    startDate?: Date | string | null
+    endDate?: Date | string | null
     students?: number
     totalReviews?: number
     rating?: number
@@ -10029,12 +11986,13 @@ export namespace Prisma {
     thumbnail: string
     maxStudents?: number | null
     language?: string | null
-    category?: string | null
     organizationId?: string | null
     tags?: CourseCreatetagsInput | string[]
     whatYouWillLearn?: CourseCreatewhatYouWillLearnInput | string[]
     requirements?: CourseCreaterequirementsInput | string[]
     includes?: CourseCreateincludesInput | string[]
+    previewVideo?: string | null
+    categoryId?: string | null
     status: $Enums.Status
     level: $Enums.Level
     type: $Enums.Type
@@ -10072,6 +12030,8 @@ export namespace Prisma {
     instructorBio?: NullableStringFieldUpdateOperationsInput | string | null
     instructorId?: StringFieldUpdateOperationsInput | string
     duration?: StringFieldUpdateOperationsInput | string
+    startDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    endDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     students?: IntFieldUpdateOperationsInput | number
     totalReviews?: IntFieldUpdateOperationsInput | number
     rating?: FloatFieldUpdateOperationsInput | number
@@ -10080,12 +12040,12 @@ export namespace Prisma {
     thumbnail?: StringFieldUpdateOperationsInput | string
     maxStudents?: NullableIntFieldUpdateOperationsInput | number | null
     language?: NullableStringFieldUpdateOperationsInput | string | null
-    category?: NullableStringFieldUpdateOperationsInput | string | null
     organizationId?: NullableStringFieldUpdateOperationsInput | string | null
     tags?: CourseUpdatetagsInput | string[]
     whatYouWillLearn?: CourseUpdatewhatYouWillLearnInput | string[]
     requirements?: CourseUpdaterequirementsInput | string[]
     includes?: CourseUpdateincludesInput | string[]
+    previewVideo?: NullableStringFieldUpdateOperationsInput | string | null
     status?: EnumStatusFieldUpdateOperationsInput | $Enums.Status
     level?: EnumLevelFieldUpdateOperationsInput | $Enums.Level
     type?: EnumTypeFieldUpdateOperationsInput | $Enums.Type
@@ -10094,6 +12054,7 @@ export namespace Prisma {
     publishedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     modules?: ModuleUpdateManyWithoutCourseNestedInput
     reviews?: ReviewUpdateManyWithoutCourseNestedInput
+    category?: CategoryUpdateOneWithoutCoursesNestedInput
   }
 
   export type CourseUncheckedUpdateWithoutFaqsInput = {
@@ -10107,6 +12068,8 @@ export namespace Prisma {
     instructorBio?: NullableStringFieldUpdateOperationsInput | string | null
     instructorId?: StringFieldUpdateOperationsInput | string
     duration?: StringFieldUpdateOperationsInput | string
+    startDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    endDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     students?: IntFieldUpdateOperationsInput | number
     totalReviews?: IntFieldUpdateOperationsInput | number
     rating?: FloatFieldUpdateOperationsInput | number
@@ -10115,12 +12078,13 @@ export namespace Prisma {
     thumbnail?: StringFieldUpdateOperationsInput | string
     maxStudents?: NullableIntFieldUpdateOperationsInput | number | null
     language?: NullableStringFieldUpdateOperationsInput | string | null
-    category?: NullableStringFieldUpdateOperationsInput | string | null
     organizationId?: NullableStringFieldUpdateOperationsInput | string | null
     tags?: CourseUpdatetagsInput | string[]
     whatYouWillLearn?: CourseUpdatewhatYouWillLearnInput | string[]
     requirements?: CourseUpdaterequirementsInput | string[]
     includes?: CourseUpdateincludesInput | string[]
+    previewVideo?: NullableStringFieldUpdateOperationsInput | string | null
+    categoryId?: NullableStringFieldUpdateOperationsInput | string | null
     status?: EnumStatusFieldUpdateOperationsInput | $Enums.Status
     level?: EnumLevelFieldUpdateOperationsInput | $Enums.Level
     type?: EnumTypeFieldUpdateOperationsInput | $Enums.Type
@@ -10142,6 +12106,8 @@ export namespace Prisma {
     instructorBio?: string | null
     instructorId: string
     duration: string
+    startDate?: Date | string | null
+    endDate?: Date | string | null
     students?: number
     totalReviews?: number
     rating?: number
@@ -10150,12 +12116,12 @@ export namespace Prisma {
     thumbnail: string
     maxStudents?: number | null
     language?: string | null
-    category?: string | null
     organizationId?: string | null
     tags?: CourseCreatetagsInput | string[]
     whatYouWillLearn?: CourseCreatewhatYouWillLearnInput | string[]
     requirements?: CourseCreaterequirementsInput | string[]
     includes?: CourseCreateincludesInput | string[]
+    previewVideo?: string | null
     status: $Enums.Status
     level: $Enums.Level
     type: $Enums.Type
@@ -10164,6 +12130,7 @@ export namespace Prisma {
     publishedAt?: Date | string | null
     modules?: ModuleCreateNestedManyWithoutCourseInput
     faqs?: FAQCreateNestedManyWithoutCourseInput
+    category?: CategoryCreateNestedOneWithoutCoursesInput
   }
 
   export type CourseUncheckedCreateWithoutReviewsInput = {
@@ -10177,6 +12144,8 @@ export namespace Prisma {
     instructorBio?: string | null
     instructorId: string
     duration: string
+    startDate?: Date | string | null
+    endDate?: Date | string | null
     students?: number
     totalReviews?: number
     rating?: number
@@ -10185,12 +12154,13 @@ export namespace Prisma {
     thumbnail: string
     maxStudents?: number | null
     language?: string | null
-    category?: string | null
     organizationId?: string | null
     tags?: CourseCreatetagsInput | string[]
     whatYouWillLearn?: CourseCreatewhatYouWillLearnInput | string[]
     requirements?: CourseCreaterequirementsInput | string[]
     includes?: CourseCreateincludesInput | string[]
+    previewVideo?: string | null
+    categoryId?: string | null
     status: $Enums.Status
     level: $Enums.Level
     type: $Enums.Type
@@ -10228,6 +12198,8 @@ export namespace Prisma {
     instructorBio?: NullableStringFieldUpdateOperationsInput | string | null
     instructorId?: StringFieldUpdateOperationsInput | string
     duration?: StringFieldUpdateOperationsInput | string
+    startDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    endDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     students?: IntFieldUpdateOperationsInput | number
     totalReviews?: IntFieldUpdateOperationsInput | number
     rating?: FloatFieldUpdateOperationsInput | number
@@ -10236,12 +12208,12 @@ export namespace Prisma {
     thumbnail?: StringFieldUpdateOperationsInput | string
     maxStudents?: NullableIntFieldUpdateOperationsInput | number | null
     language?: NullableStringFieldUpdateOperationsInput | string | null
-    category?: NullableStringFieldUpdateOperationsInput | string | null
     organizationId?: NullableStringFieldUpdateOperationsInput | string | null
     tags?: CourseUpdatetagsInput | string[]
     whatYouWillLearn?: CourseUpdatewhatYouWillLearnInput | string[]
     requirements?: CourseUpdaterequirementsInput | string[]
     includes?: CourseUpdateincludesInput | string[]
+    previewVideo?: NullableStringFieldUpdateOperationsInput | string | null
     status?: EnumStatusFieldUpdateOperationsInput | $Enums.Status
     level?: EnumLevelFieldUpdateOperationsInput | $Enums.Level
     type?: EnumTypeFieldUpdateOperationsInput | $Enums.Type
@@ -10250,6 +12222,7 @@ export namespace Prisma {
     publishedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     modules?: ModuleUpdateManyWithoutCourseNestedInput
     faqs?: FAQUpdateManyWithoutCourseNestedInput
+    category?: CategoryUpdateOneWithoutCoursesNestedInput
   }
 
   export type CourseUncheckedUpdateWithoutReviewsInput = {
@@ -10263,6 +12236,8 @@ export namespace Prisma {
     instructorBio?: NullableStringFieldUpdateOperationsInput | string | null
     instructorId?: StringFieldUpdateOperationsInput | string
     duration?: StringFieldUpdateOperationsInput | string
+    startDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    endDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     students?: IntFieldUpdateOperationsInput | number
     totalReviews?: IntFieldUpdateOperationsInput | number
     rating?: FloatFieldUpdateOperationsInput | number
@@ -10271,12 +12246,13 @@ export namespace Prisma {
     thumbnail?: StringFieldUpdateOperationsInput | string
     maxStudents?: NullableIntFieldUpdateOperationsInput | number | null
     language?: NullableStringFieldUpdateOperationsInput | string | null
-    category?: NullableStringFieldUpdateOperationsInput | string | null
     organizationId?: NullableStringFieldUpdateOperationsInput | string | null
     tags?: CourseUpdatetagsInput | string[]
     whatYouWillLearn?: CourseUpdatewhatYouWillLearnInput | string[]
     requirements?: CourseUpdaterequirementsInput | string[]
     includes?: CourseUpdateincludesInput | string[]
+    previewVideo?: NullableStringFieldUpdateOperationsInput | string | null
+    categoryId?: NullableStringFieldUpdateOperationsInput | string | null
     status?: EnumStatusFieldUpdateOperationsInput | $Enums.Status
     level?: EnumLevelFieldUpdateOperationsInput | $Enums.Level
     type?: EnumTypeFieldUpdateOperationsInput | $Enums.Type
@@ -10298,6 +12274,8 @@ export namespace Prisma {
     instructorBio?: string | null
     instructorId: string
     duration: string
+    startDate?: Date | string | null
+    endDate?: Date | string | null
     students?: number
     totalReviews?: number
     rating?: number
@@ -10306,12 +12284,12 @@ export namespace Prisma {
     thumbnail: string
     maxStudents?: number | null
     language?: string | null
-    category?: string | null
     organizationId?: string | null
     tags?: CourseCreatetagsInput | string[]
     whatYouWillLearn?: CourseCreatewhatYouWillLearnInput | string[]
     requirements?: CourseCreaterequirementsInput | string[]
     includes?: CourseCreateincludesInput | string[]
+    previewVideo?: string | null
     status: $Enums.Status
     level: $Enums.Level
     type: $Enums.Type
@@ -10320,6 +12298,7 @@ export namespace Prisma {
     publishedAt?: Date | string | null
     reviews?: ReviewCreateNestedManyWithoutCourseInput
     faqs?: FAQCreateNestedManyWithoutCourseInput
+    category?: CategoryCreateNestedOneWithoutCoursesInput
   }
 
   export type CourseUncheckedCreateWithoutModulesInput = {
@@ -10333,6 +12312,8 @@ export namespace Prisma {
     instructorBio?: string | null
     instructorId: string
     duration: string
+    startDate?: Date | string | null
+    endDate?: Date | string | null
     students?: number
     totalReviews?: number
     rating?: number
@@ -10341,12 +12322,13 @@ export namespace Prisma {
     thumbnail: string
     maxStudents?: number | null
     language?: string | null
-    category?: string | null
     organizationId?: string | null
     tags?: CourseCreatetagsInput | string[]
     whatYouWillLearn?: CourseCreatewhatYouWillLearnInput | string[]
     requirements?: CourseCreaterequirementsInput | string[]
     includes?: CourseCreateincludesInput | string[]
+    previewVideo?: string | null
+    categoryId?: string | null
     status: $Enums.Status
     level: $Enums.Level
     type: $Enums.Type
@@ -10418,6 +12400,8 @@ export namespace Prisma {
     instructorBio?: NullableStringFieldUpdateOperationsInput | string | null
     instructorId?: StringFieldUpdateOperationsInput | string
     duration?: StringFieldUpdateOperationsInput | string
+    startDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    endDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     students?: IntFieldUpdateOperationsInput | number
     totalReviews?: IntFieldUpdateOperationsInput | number
     rating?: FloatFieldUpdateOperationsInput | number
@@ -10426,12 +12410,12 @@ export namespace Prisma {
     thumbnail?: StringFieldUpdateOperationsInput | string
     maxStudents?: NullableIntFieldUpdateOperationsInput | number | null
     language?: NullableStringFieldUpdateOperationsInput | string | null
-    category?: NullableStringFieldUpdateOperationsInput | string | null
     organizationId?: NullableStringFieldUpdateOperationsInput | string | null
     tags?: CourseUpdatetagsInput | string[]
     whatYouWillLearn?: CourseUpdatewhatYouWillLearnInput | string[]
     requirements?: CourseUpdaterequirementsInput | string[]
     includes?: CourseUpdateincludesInput | string[]
+    previewVideo?: NullableStringFieldUpdateOperationsInput | string | null
     status?: EnumStatusFieldUpdateOperationsInput | $Enums.Status
     level?: EnumLevelFieldUpdateOperationsInput | $Enums.Level
     type?: EnumTypeFieldUpdateOperationsInput | $Enums.Type
@@ -10440,6 +12424,7 @@ export namespace Prisma {
     publishedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     reviews?: ReviewUpdateManyWithoutCourseNestedInput
     faqs?: FAQUpdateManyWithoutCourseNestedInput
+    category?: CategoryUpdateOneWithoutCoursesNestedInput
   }
 
   export type CourseUncheckedUpdateWithoutModulesInput = {
@@ -10453,6 +12438,8 @@ export namespace Prisma {
     instructorBio?: NullableStringFieldUpdateOperationsInput | string | null
     instructorId?: StringFieldUpdateOperationsInput | string
     duration?: StringFieldUpdateOperationsInput | string
+    startDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    endDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     students?: IntFieldUpdateOperationsInput | number
     totalReviews?: IntFieldUpdateOperationsInput | number
     rating?: FloatFieldUpdateOperationsInput | number
@@ -10461,12 +12448,13 @@ export namespace Prisma {
     thumbnail?: StringFieldUpdateOperationsInput | string
     maxStudents?: NullableIntFieldUpdateOperationsInput | number | null
     language?: NullableStringFieldUpdateOperationsInput | string | null
-    category?: NullableStringFieldUpdateOperationsInput | string | null
     organizationId?: NullableStringFieldUpdateOperationsInput | string | null
     tags?: CourseUpdatetagsInput | string[]
     whatYouWillLearn?: CourseUpdatewhatYouWillLearnInput | string[]
     requirements?: CourseUpdaterequirementsInput | string[]
     includes?: CourseUpdateincludesInput | string[]
+    previewVideo?: NullableStringFieldUpdateOperationsInput | string | null
+    categoryId?: NullableStringFieldUpdateOperationsInput | string | null
     status?: EnumStatusFieldUpdateOperationsInput | $Enums.Status
     level?: EnumLevelFieldUpdateOperationsInput | $Enums.Level
     type?: EnumTypeFieldUpdateOperationsInput | $Enums.Type
@@ -10653,6 +12641,180 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     question?: StringFieldUpdateOperationsInput | string
     answer?: StringFieldUpdateOperationsInput | string
+  }
+
+  export type CourseCreateManyCategoryInput = {
+    id?: string
+    title: string
+    description: string
+    longDescription?: string | null
+    instructor: string
+    instructorAvatar: string
+    instructorTitle?: string | null
+    instructorBio?: string | null
+    instructorId: string
+    duration: string
+    startDate?: Date | string | null
+    endDate?: Date | string | null
+    students?: number
+    totalReviews?: number
+    rating?: number
+    price: number
+    salePrice?: number | null
+    thumbnail: string
+    maxStudents?: number | null
+    language?: string | null
+    organizationId?: string | null
+    tags?: CourseCreatetagsInput | string[]
+    whatYouWillLearn?: CourseCreatewhatYouWillLearnInput | string[]
+    requirements?: CourseCreaterequirementsInput | string[]
+    includes?: CourseCreateincludesInput | string[]
+    previewVideo?: string | null
+    status: $Enums.Status
+    level: $Enums.Level
+    type: $Enums.Type
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    publishedAt?: Date | string | null
+  }
+
+  export type CategoryCreateManyParentInput = {
+    id?: string
+    name: string
+    createdAt?: Date | string
+  }
+
+  export type CourseUpdateWithoutCategoryInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    description?: StringFieldUpdateOperationsInput | string
+    longDescription?: NullableStringFieldUpdateOperationsInput | string | null
+    instructor?: StringFieldUpdateOperationsInput | string
+    instructorAvatar?: StringFieldUpdateOperationsInput | string
+    instructorTitle?: NullableStringFieldUpdateOperationsInput | string | null
+    instructorBio?: NullableStringFieldUpdateOperationsInput | string | null
+    instructorId?: StringFieldUpdateOperationsInput | string
+    duration?: StringFieldUpdateOperationsInput | string
+    startDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    endDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    students?: IntFieldUpdateOperationsInput | number
+    totalReviews?: IntFieldUpdateOperationsInput | number
+    rating?: FloatFieldUpdateOperationsInput | number
+    price?: FloatFieldUpdateOperationsInput | number
+    salePrice?: NullableFloatFieldUpdateOperationsInput | number | null
+    thumbnail?: StringFieldUpdateOperationsInput | string
+    maxStudents?: NullableIntFieldUpdateOperationsInput | number | null
+    language?: NullableStringFieldUpdateOperationsInput | string | null
+    organizationId?: NullableStringFieldUpdateOperationsInput | string | null
+    tags?: CourseUpdatetagsInput | string[]
+    whatYouWillLearn?: CourseUpdatewhatYouWillLearnInput | string[]
+    requirements?: CourseUpdaterequirementsInput | string[]
+    includes?: CourseUpdateincludesInput | string[]
+    previewVideo?: NullableStringFieldUpdateOperationsInput | string | null
+    status?: EnumStatusFieldUpdateOperationsInput | $Enums.Status
+    level?: EnumLevelFieldUpdateOperationsInput | $Enums.Level
+    type?: EnumTypeFieldUpdateOperationsInput | $Enums.Type
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    publishedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    modules?: ModuleUpdateManyWithoutCourseNestedInput
+    reviews?: ReviewUpdateManyWithoutCourseNestedInput
+    faqs?: FAQUpdateManyWithoutCourseNestedInput
+  }
+
+  export type CourseUncheckedUpdateWithoutCategoryInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    description?: StringFieldUpdateOperationsInput | string
+    longDescription?: NullableStringFieldUpdateOperationsInput | string | null
+    instructor?: StringFieldUpdateOperationsInput | string
+    instructorAvatar?: StringFieldUpdateOperationsInput | string
+    instructorTitle?: NullableStringFieldUpdateOperationsInput | string | null
+    instructorBio?: NullableStringFieldUpdateOperationsInput | string | null
+    instructorId?: StringFieldUpdateOperationsInput | string
+    duration?: StringFieldUpdateOperationsInput | string
+    startDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    endDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    students?: IntFieldUpdateOperationsInput | number
+    totalReviews?: IntFieldUpdateOperationsInput | number
+    rating?: FloatFieldUpdateOperationsInput | number
+    price?: FloatFieldUpdateOperationsInput | number
+    salePrice?: NullableFloatFieldUpdateOperationsInput | number | null
+    thumbnail?: StringFieldUpdateOperationsInput | string
+    maxStudents?: NullableIntFieldUpdateOperationsInput | number | null
+    language?: NullableStringFieldUpdateOperationsInput | string | null
+    organizationId?: NullableStringFieldUpdateOperationsInput | string | null
+    tags?: CourseUpdatetagsInput | string[]
+    whatYouWillLearn?: CourseUpdatewhatYouWillLearnInput | string[]
+    requirements?: CourseUpdaterequirementsInput | string[]
+    includes?: CourseUpdateincludesInput | string[]
+    previewVideo?: NullableStringFieldUpdateOperationsInput | string | null
+    status?: EnumStatusFieldUpdateOperationsInput | $Enums.Status
+    level?: EnumLevelFieldUpdateOperationsInput | $Enums.Level
+    type?: EnumTypeFieldUpdateOperationsInput | $Enums.Type
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    publishedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    modules?: ModuleUncheckedUpdateManyWithoutCourseNestedInput
+    reviews?: ReviewUncheckedUpdateManyWithoutCourseNestedInput
+    faqs?: FAQUncheckedUpdateManyWithoutCourseNestedInput
+  }
+
+  export type CourseUncheckedUpdateManyWithoutCategoryInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    description?: StringFieldUpdateOperationsInput | string
+    longDescription?: NullableStringFieldUpdateOperationsInput | string | null
+    instructor?: StringFieldUpdateOperationsInput | string
+    instructorAvatar?: StringFieldUpdateOperationsInput | string
+    instructorTitle?: NullableStringFieldUpdateOperationsInput | string | null
+    instructorBio?: NullableStringFieldUpdateOperationsInput | string | null
+    instructorId?: StringFieldUpdateOperationsInput | string
+    duration?: StringFieldUpdateOperationsInput | string
+    startDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    endDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    students?: IntFieldUpdateOperationsInput | number
+    totalReviews?: IntFieldUpdateOperationsInput | number
+    rating?: FloatFieldUpdateOperationsInput | number
+    price?: FloatFieldUpdateOperationsInput | number
+    salePrice?: NullableFloatFieldUpdateOperationsInput | number | null
+    thumbnail?: StringFieldUpdateOperationsInput | string
+    maxStudents?: NullableIntFieldUpdateOperationsInput | number | null
+    language?: NullableStringFieldUpdateOperationsInput | string | null
+    organizationId?: NullableStringFieldUpdateOperationsInput | string | null
+    tags?: CourseUpdatetagsInput | string[]
+    whatYouWillLearn?: CourseUpdatewhatYouWillLearnInput | string[]
+    requirements?: CourseUpdaterequirementsInput | string[]
+    includes?: CourseUpdateincludesInput | string[]
+    previewVideo?: NullableStringFieldUpdateOperationsInput | string | null
+    status?: EnumStatusFieldUpdateOperationsInput | $Enums.Status
+    level?: EnumLevelFieldUpdateOperationsInput | $Enums.Level
+    type?: EnumTypeFieldUpdateOperationsInput | $Enums.Type
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    publishedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  }
+
+  export type CategoryUpdateWithoutParentInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    courses?: CourseUpdateManyWithoutCategoryNestedInput
+    children?: CategoryUpdateManyWithoutParentNestedInput
+  }
+
+  export type CategoryUncheckedUpdateWithoutParentInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    courses?: CourseUncheckedUpdateManyWithoutCategoryNestedInput
+    children?: CategoryUncheckedUpdateManyWithoutParentNestedInput
+  }
+
+  export type CategoryUncheckedUpdateManyWithoutParentInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type LessonCreateManyModuleInput = {

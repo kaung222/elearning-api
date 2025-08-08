@@ -15,6 +15,25 @@ export class UsersService {
     });
   }
 
+  searchUser(search: string) {
+    return this.userService.user.findMany({
+      where: {
+        OR: [
+          {
+            email: {
+              contains: search,
+            },
+          },
+          {
+            username: {
+              contains: search,
+            },
+          },
+        ],
+      },
+    });
+  }
+
   getProfile(id: string) {
     return this.userService.user.findFirst({
       where: { id },

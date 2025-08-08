@@ -61,30 +61,10 @@ export class CreateOrganizationDto {
   @IsString()
   founded: string;
 
-  @ApiProperty({ description: 'Total number of courses offered' })
-  @IsInt()
-  totalCourses: number;
-
-  @ApiProperty({ description: 'Total number of students enrolled' })
-  @IsInt()
-  totalStudents: number;
-
-  @ApiProperty({ description: 'Total number of instructors' })
-  @IsInt()
-  totalInstructors: number;
-
   @ApiProperty({ description: 'Organization specialties' })
   @IsArray()
   @IsString({ each: true })
   specialties: string[];
-
-  @ApiProperty({ description: 'Whether the organization is featured' })
-  @IsBoolean()
-  featured: boolean;
-
-  @ApiProperty({ description: 'Whether the organization is verified' })
-  @IsBoolean()
-  verified: boolean;
 
   @ApiProperty({ description: 'Organization accreditations' })
   @IsArray()

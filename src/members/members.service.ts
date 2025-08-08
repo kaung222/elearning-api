@@ -45,7 +45,7 @@ export class MembersService {
           : { userId: signedUser.sub };
       const members = await this.orgService.organizationMember.findMany({
         where: whereClause,
-        include: { instructor: true },
+        include: { instructor: true, organization: true },
       });
       const users = await this.userService.user.findMany({
         where: { id: { in: members.map((item) => item.userId) } },

@@ -49,7 +49,7 @@ export class MembersController {
 
   @Get()
   @ROLE_USER(Role.ORG_ADMIN, Role.STUDENT)
-  @ApiOperation({ summary: 'Get all organization members' })
+  @ApiOperation({ summary: 'Get all organization members or profiles' })
   @ApiResponse({
     status: HttpStatus.OK,
     description: 'Members retrieved successfully',

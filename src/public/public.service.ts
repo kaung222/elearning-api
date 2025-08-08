@@ -70,18 +70,17 @@ export class PublicService {
       take: 20,
       where: { courseId },
     });
-    const modules = await this.courseService.module.findMany({
-      where: { courseId },
-      include: { lessons: true },
+    const course = await this.courseService.course.findMany({
+      where: { id: courseId },
+      include: { modules: { include: { lessons: true } } },
     });
 
     const faqs = await this.courseService.fAQ.findMany({
       where: { courseId },
     });
     return {
-      courseId,
       faqs,
-      modules,
+      course,
       reviews,
     };
   }
@@ -91,10 +90,12 @@ export class PublicService {
       where: { organizationId },
       take: 20,
     });
-    const instructors = await this.orgService.organizationMember.findMany({
-      where: {
-        organizationId,
-        role: Role.INSTRUCTOR,
+    const organization = await this.orgService.organization.findUnique({
+      where: { id: organizationId },
+      include: {
+        instructors: true,
+        contact: true,
+        stats: true,
       },
     });
     const courses = await this.courseService.course.findMany({
@@ -103,22 +104,38 @@ export class PublicService {
       },
     });
     return {
-      organizationId,
-      instructors,
+      organization,
+
       courses,
       reviews,
     };
   }
 
+  async getInstructorsByOrgId(orgId: string) {
+    return this.orgService.instructor.findMany({
+      where: { organizationId: orgId },
+    });
+  }
+
+  async getCoursesByOrgId(orgId: string) {
+    return this.courseService.course.findMany({
+      where: { organizationId: orgId },
+      include: { modules: { include: { lessons: true } } },
+    });
+  }
+
+  async getReviewsByOrgId(orgId: string, page = 1) {
+    return await this.orgService.review.findMany({
+      skip: 10 * (page - 1),
+      take: 10,
+      where: { organizationId: orgId },
+    });
+  }
+
   getCategories() {
-    const categories = [
-      { name: 'Web Development', id: 'test1', image: null },
-      {
-        name: 'Technology',
-        id: 'test2',
-        image: null,
-      },
-    ];
-    return categories;
+    return this.courseService.category.findMany({
+      include: { children: true },
+      where: { parentId: null },
+    });
   }
 }
