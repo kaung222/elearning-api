@@ -10,10 +10,6 @@ import {
 import { OrganizationsService } from './organizations.service';
 import { CreateOrganizationDto } from './dto/create-organization.dto';
 import { UpdateOrganizationDto } from './dto/update-organization.dto';
-import { CreateContactDto } from './dto/create-contact.dto';
-import { UpdateContactDto } from './dto/update-contact.dto';
-import { CreateOrgStatsDto } from './dto/create-org-stats.dto';
-import { UpdateOrgStatsDto } from './dto/update-org-stats.dto';
 import { ApiTags, ApiOperation, ApiResponse, ApiParam } from '@nestjs/swagger';
 import { SignedUser, User } from 'src/security/user.decorator';
 import { Role } from 'generated/org-database-client-types';
@@ -25,7 +21,7 @@ export class OrganizationsController {
   constructor(private readonly organizationsService: OrganizationsService) {}
 
   @Post()
-  @ROLE_USER(Role.STUDENT)
+  @ROLE_USER(Role.Student)
   @ApiOperation({ summary: 'Create a new organization' })
   @ApiResponse({
     status: 201,
@@ -40,18 +36,18 @@ export class OrganizationsController {
   }
 
   @Get()
-  @ROLE_USER(Role.STUDENT)
-  @ApiOperation({ summary: 'Get all organizations' })
+  @ROLE_USER(Role.Student, Role.Instructor, Role.Admin, Role.Manager)
+  @ApiOperation({ summary: 'Get all associated organizations' })
   @ApiResponse({
     status: 200,
     description: 'Organizations retrieved successfully',
   })
-  findAll(signedUser: SignedUser) {
+  findAll(@User() signedUser: SignedUser) {
     return this.organizationsService.findAll(signedUser);
   }
 
   @Get(':id')
-  @ROLE_USER(Role.ORG_ADMIN)
+  @ROLE_USER(Role.Admin, Role.Instructor, Role.Student, Role.Manager)
   @ApiOperation({ summary: 'Get an organization by ID' })
   @ApiParam({ name: 'id', description: 'Organization ID' })
   @ApiResponse({
@@ -64,7 +60,7 @@ export class OrganizationsController {
   }
 
   @Patch(':id')
-  @ROLE_USER(Role.ORG_ADMIN)
+  @ROLE_USER(Role.Admin)
   @ApiOperation({ summary: 'Update an organization' })
   @ApiParam({ name: 'id', description: 'Organization ID' })
   @ApiResponse({
@@ -81,79 +77,11 @@ export class OrganizationsController {
   }
 
   @Delete(':id')
-  @ROLE_USER(Role.ORG_ADMIN)
+  @ROLE_USER(Role.Admin)
   @ApiOperation({ summary: 'Delete an organization' })
   @ApiParam({ name: 'id', description: 'Organization ID' })
   @ApiResponse({ status: 404, description: 'Organization not found' })
   remove(@Param('id') id: string, @User() signedUser: SignedUser) {
     return this.organizationsService.remove(id, signedUser);
-  }
-
-  // Contact endpoints
-  @Post(':id/contact')
-  @ROLE_USER(Role.ORG_ADMIN)
-  @ApiOperation({ summary: 'Create contact information for an organization' })
-  @ApiParam({ name: 'id', description: 'Organization ID' })
-  @ApiResponse({ status: 201, description: 'Contact created successfully' })
-  createContact(
-    @Param('id') id: string,
-    @Body() createContactDto: CreateContactDto,
-  ) {
-    return this.organizationsService.createContact(id, createContactDto);
-  }
-
-  @Get(':id/contact')
-  @ROLE_USER(Role.ORG_ADMIN)
-  @ApiOperation({ summary: 'Get contact information for an organization' })
-  @ApiParam({ name: 'id', description: 'Organization ID' })
-  @ApiResponse({ status: 200, description: 'Contact retrieved successfully' })
-  findContact(@Param('id') id: string) {
-    return this.organizationsService.findContact(id);
-  }
-
-  @Patch(':id/contact')
-  @ROLE_USER(Role.ORG_ADMIN)
-  @ApiOperation({ summary: 'Update contact information for an organization' })
-  @ApiParam({ name: 'id', description: 'Organization ID' })
-  @ApiResponse({ status: 200, description: 'Contact updated successfully' })
-  updateContact(
-    @Param('id') id: string,
-    @Body() updateContactDto: UpdateContactDto,
-  ) {
-    return this.organizationsService.updateContact(id, updateContactDto);
-  }
-
-  // Stats endpoints
-  @Post(':id/stats')
-  @ROLE_USER(Role.ORG_ADMIN)
-  @ApiOperation({ summary: 'Create stats for an organization' })
-  @ApiParam({ name: 'id', description: 'Organization ID' })
-  @ApiResponse({ status: 201, description: 'Stats created successfully' })
-  createStats(
-    @Param('id') id: string,
-    @Body() createOrgStatsDto: CreateOrgStatsDto,
-  ) {
-    return this.organizationsService.createStats(id, createOrgStatsDto);
-  }
-
-  @Get(':id/stats')
-  @ROLE_USER(Role.ORG_ADMIN)
-  @ApiOperation({ summary: 'Get stats for an organization' })
-  @ApiParam({ name: 'id', description: 'Organization ID' })
-  @ApiResponse({ status: 200, description: 'Stats retrieved successfully' })
-  findStats(@Param('id') id: string) {
-    return this.organizationsService.findStats(id);
-  }
-
-  @Patch(':id/stats')
-  @ROLE_USER(Role.ORG_ADMIN)
-  @ApiOperation({ summary: 'Update stats for an organization' })
-  @ApiParam({ name: 'id', description: 'Organization ID' })
-  @ApiResponse({ status: 200, description: 'Stats updated successfully' })
-  updateStats(
-    @Param('id') id: string,
-    @Body() updateOrgStatsDto: UpdateOrgStatsDto,
-  ) {
-    return this.organizationsService.updateStats(id, updateOrgStatsDto);
   }
 }

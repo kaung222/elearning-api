@@ -11,13 +11,12 @@ import { FaqsService } from './faqs.service';
 import { CreateFaqDto } from './dto/create-faq.dto';
 import { UpdateFaqDto } from './dto/update-faq.dto';
 import { ApiTags, ApiOperation, ApiResponse, ApiParam } from '@nestjs/swagger';
-import { SignedUser, User } from '../security/user.decorator';
 import { ROLE_USER } from 'src/security/role.decorator';
 import { Role } from 'generated/org-database-client-types';
 
 @Controller('faqs')
 @ApiTags('faqs')
-@ROLE_USER(Role.ORG_ADMIN, Role.ORG_STAFF, Role.INSTRUCTOR)
+@ROLE_USER(Role.Admin, Role.Manager, Role.Instructor)
 export class FaqsController {
   constructor(private readonly faqsService: FaqsService) {}
 
@@ -30,29 +29,12 @@ export class FaqsController {
     return this.faqsService.create(createFaqDto);
   }
 
-  @Get()
-  @ApiOperation({ summary: 'Get all FAQs for organization' })
-  @ApiResponse({ status: 200, description: 'FAQs retrieved successfully' })
-  @ApiResponse({ status: 403, description: 'Forbidden - Admin role required' })
-  findAll(@User() user: SignedUser) {
-    return this.faqsService.findAll(user);
-  }
-
   @Get('course/:courseId')
   @ApiOperation({ summary: 'Get all FAQs for a course' })
   @ApiParam({ name: 'courseId', description: 'Course ID' })
   @ApiResponse({ status: 200, description: 'FAQs retrieved successfully' })
   findByCourse(@Param('courseId') courseId: string) {
     return this.faqsService.findByCourse(courseId);
-  }
-
-  @Get(':id')
-  @ApiOperation({ summary: 'Get a FAQ by ID' })
-  @ApiParam({ name: 'id', description: 'FAQ ID' })
-  @ApiResponse({ status: 200, description: 'FAQ retrieved successfully' })
-  @ApiResponse({ status: 404, description: 'FAQ not found' })
-  findOne(@Param('id') id: string) {
-    return this.faqsService.findOne(id);
   }
 
   @Patch(':id')

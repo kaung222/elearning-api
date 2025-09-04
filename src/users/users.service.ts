@@ -4,6 +4,7 @@ import { PrismaUserService } from 'src/prisma/prisma-user.service';
 @Injectable()
 export class UsersService {
   constructor(private userService: PrismaUserService) {}
+
   // get users by admins
   findAll(page = 1) {
     return this.userService.user.findMany({ take: 10, skip: 10 * (page - 1) });

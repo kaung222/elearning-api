@@ -21,7 +21,7 @@ export class CategoriesController {
   constructor(private readonly categoriesService: CategoriesService) {}
 
   @Post()
-  // @ROLE_USER(Role.ORG_ADMIN)
+  // @ROLE_USER(Role.Admin)
   @ApiOperation({ summary: 'Create a new category' })
   @ApiResponse({
     status: HttpStatus.CREATED,
@@ -59,7 +59,7 @@ export class CategoriesController {
   }
 
   @Patch(':id')
-  @ROLE_USER(Role.ORG_ADMIN)
+  // @ROLE_USER(Role.Admin)
   @ApiOperation({ summary: 'Update a category' })
   @ApiParam({ name: 'id', description: 'Category ID' })
   @ApiResponse({
@@ -80,7 +80,7 @@ export class CategoriesController {
   }
 
   @Delete(':id')
-  @ROLE_USER(Role.ORG_ADMIN)
+  @ROLE_USER(Role.Admin)
   @ApiOperation({ summary: 'Delete a category' })
   @ApiParam({ name: 'id', description: 'Category ID' })
   @ApiResponse({

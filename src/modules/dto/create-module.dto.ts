@@ -15,10 +15,6 @@ export class CreateModuleDto {
   @IsInt()
   order: number;
 
-  @ApiProperty({ description: 'Organization ID' })
-  @IsUUID()
-  organizationId: string;
-
   @ApiProperty({ description: 'Course ID this module belongs to' })
   @IsUUID()
   courseId: string;

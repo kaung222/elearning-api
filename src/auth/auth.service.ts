@@ -16,9 +16,11 @@ export class AuthService {
   constructor(
     private userService: PrismaUserService,
     private readonly orgService: PrismaOrgService,
-
     private readonly jwtService: JwtService,
   ) {}
+
+  // Check if the password matches the hash
+
   async checkPassword(password: string, hash: string): Promise<boolean> {
     return await bcryptjs.compare(password, hash);
   }
@@ -42,9 +44,8 @@ export class AuthService {
     const jwtPayload: SignedUser = {
       sub: user.id,
       username: user.username,
-      role: Role.STUDENT,
+      role: Role.Student,
       avatar: user.avatar || undefined,
-      email: user.email,
     };
 
     const accessToken = this.jwtService.sign(jwtPayload, { expiresIn: '1d' });
@@ -81,15 +82,15 @@ export class AuthService {
     return newUser;
   }
 
-  async loginToDashboard(signedUser: SignedUser, memberId: string) {
+  async loginToDashboard(signedUser: SignedUser, orgId: string) {
     const user = await this.userService.user.findUnique({
       where: {
         id: signedUser.sub,
       },
     });
     if (!user) throw new NotFoundException('User not found');
-    const member = await this.orgService.organizationMember.findFirst({
-      where: { userId: user.id, id: memberId },
+    const member = await this.orgService.profile.findFirst({
+      where: { userId: user.id, organizationId: orgId },
     });
 
     if (!member) {
@@ -97,10 +98,10 @@ export class AuthService {
     }
     const jwtPayload: SignedUser = {
       sub: user.id,
-      email: user.email,
       avatar: user.avatar || undefined,
       role: member.role,
       username: user.username,
+      orgId: member.organizationId || '',
     };
     const accessToken = this.jwtService.sign(jwtPayload, { expiresIn: '1d' });
     const refreshToken = this.jwtService.sign(jwtPayload, {

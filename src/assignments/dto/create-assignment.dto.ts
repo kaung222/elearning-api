@@ -5,6 +5,7 @@ import {
   IsUUID,
   IsOptional,
   IsNotEmpty,
+  IsInt,
 } from 'class-validator';
 import { ApiProperty } from '@nestjs/swagger';
 
@@ -29,21 +30,21 @@ export class CreateAssignmentDto {
     required: false,
   })
   @IsOptional()
-  @IsBoolean()
-  isCompleted?: boolean;
+  @IsInt()
+  maxPoints: number;
 
   @ApiProperty({
     description: 'ID of the assignment session this assignment belongs to',
   })
   @IsNotEmpty()
   @IsUUID()
-  assignmentSessionId: string;
-
-  @ApiProperty({
-    description: 'ID of the user this assignment is assigned to',
-    required: false,
-  })
-  @IsOptional()
-  @IsString()
-  userId: string;
+  courseId: string;
 }
+
+// assignmentId String
+// userId       String // userId
+// title        String
+// notes        String?
+// url          String?
+// submittedAt  DateTime   @default(now())
+// enrollmentId String

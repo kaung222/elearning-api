@@ -1,10 +1,10 @@
 import { createParamDecorator, ExecutionContext } from '@nestjs/common';
 import { Role } from 'generated/org-database-client-types';
+
 export class SignedUser {
   sub: string;
-  role: Role; // STUDENT , INSTRUCTOR , ORG_ADMIN , ORG_STAFF
+  role: Role;
   username: string;
-  email: string;
   avatar?: string;
   orgId?: string;
   instructorId?: string;

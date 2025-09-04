@@ -20,17 +20,18 @@ export class PublicService {
         skip: 10 * (page - 1),
         take: 10,
         select: {
+          id: true,
           title: true,
           type: true,
           tags: true,
-          category: true,
-          instructor: true,
-          instructorAvatar: true,
-          description: true,
+          // category: true,
+          shortDescription: true,
           duration: true,
           price: true,
+          level: true,
           thumbnail: true,
-          instructorTitle: true,
+          categoryId: true,
+          stats: true,
         },
       }),
       this.courseService.course.count({ where: { status: Status.PUBLISHED } }),
@@ -39,6 +40,9 @@ export class PublicService {
   }
 
   async getOrganizations(page: number) {
+    return await this.orgService.organization.findMany({
+      include: { stats: true, contact: true },
+    });
     const [data, total] = await this.orgService.$transaction([
       this.orgService.organization.findMany({
         take: 10,
@@ -46,14 +50,12 @@ export class PublicService {
         select: {
           logo: true,
           name: true,
-          featured: true,
           verified: true,
-          founded: true,
-          website: true,
           specialties: true,
           location: true,
           description: true,
           type: true,
+          stats: true,
         },
       }),
       this.orgService.organization.count(),
@@ -66,23 +68,20 @@ export class PublicService {
   }
 
   async getCourseDetails(courseId: string) {
-    const reviews = await this.courseService.review.findMany({
-      take: 20,
-      where: { courseId },
-    });
-    const course = await this.courseService.course.findMany({
+    // const reviews = await this.courseService.review.findMany({
+    //   take: 20,
+    //   where: { courseId },
+    // });
+    const course = await this.courseService.course.findUnique({
       where: { id: courseId },
-      include: { modules: { include: { lessons: true } } },
+      include: {
+        modules: { include: { lessons: true } },
+        stats: true,
+        category: true,
+        faqs: true,
+      },
     });
-
-    const faqs = await this.courseService.fAQ.findMany({
-      where: { courseId },
-    });
-    return {
-      faqs,
-      course,
-      reviews,
-    };
+    return course;
   }
 
   async getOrganizationDetails(organizationId: string) {

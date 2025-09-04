@@ -4,9 +4,6 @@ export class CreateEnrollmentDto {
   @IsNotEmpty()
   courseId: string;
 
-  @IsNotEmpty()
-  userId: string;
-
   @IsOptional()
   @IsString()
   description?: string;

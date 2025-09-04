@@ -11,11 +11,12 @@ import { ModulesModule } from './modules/modules.module';
 import { LessonsModule } from './lessons/lessons.module';
 import { FaqsModule } from './faqs/faqs.module';
 import { InstructorsModule } from './instructors/instructors.module';
-import { MembersModule } from './members/members.module';
 import { GlobalModule } from './global/global.module';
 import { AssignmentsModule } from './assignments/assignments.module';
 import { PublicModule } from './public/public.module';
 import { CategoriesModule } from './categories/categories.module';
+import { ManagersModule } from './managers/managers.module';
+import { SubmissionModule } from './submission/submission.module';
 
 @Module({
   imports: [
@@ -34,12 +35,13 @@ import { CategoriesModule } from './categories/categories.module';
     LessonsModule,
     FaqsModule,
     InstructorsModule,
-    MembersModule,
     GlobalModule,
     AssignmentsModule,
     PublicModule,
     CoursesModule,
     CategoriesModule,
+    ManagersModule,
+    SubmissionModule,
   ],
   controllers: [],
   providers: [{ provide: 'APP_GUARD', useClass: RolesGuard }],

@@ -9,6 +9,7 @@ import {
   IsPositive,
   IsDateString,
   IsEnum,
+  IsDate,
 } from 'class-validator';
 import { Level, Status, Type } from 'generated/course-database-client-types';
 
@@ -20,30 +21,6 @@ export class CreateCourseDto {
   @IsString()
   @ApiProperty()
   description: string;
-
-  @IsOptional()
-  @ApiProperty()
-  @IsString()
-  longDescription?: string;
-
-  // Instructor info
-  @IsString()
-  @ApiProperty()
-  instructor: string;
-
-  @IsString()
-  @ApiProperty()
-  instructorAvatar: string;
-
-  @IsOptional()
-  @IsString()
-  @ApiProperty()
-  instructorTitle?: string;
-
-  @IsOptional()
-  @ApiProperty()
-  @IsString()
-  instructorBio?: string;
 
   @IsUUID()
   @ApiProperty()
@@ -70,12 +47,27 @@ export class CreateCourseDto {
   @IsOptional()
   @ApiProperty()
   @IsInt()
-  maxStudents?: number;
+  maxStudent?: number;
 
   @IsOptional()
   @ApiProperty()
   @IsString()
   language?: string;
+
+  @IsOptional()
+  @ApiProperty()
+  @IsString()
+  shortDescription: string;
+
+  @IsDate()
+  @IsOptional()
+  @ApiProperty()
+  startDate: Date;
+
+  @ApiProperty()
+  @IsOptional()
+  @IsDate()
+  endDate: Date;
 
   @IsString()
   @ApiProperty()
@@ -120,9 +112,4 @@ export class CreateCourseDto {
   @ApiProperty()
   @IsDateString()
   publishedAt?: string;
-
-  @IsOptional()
-  @ApiProperty()
-  @IsString()
-  previewVideo?: string;
 }

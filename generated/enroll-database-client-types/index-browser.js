@@ -126,9 +126,46 @@ exports.Prisma.EnrollmentScalarFieldEnum = {
   userId: 'userId',
   organizationId: 'organizationId',
   description: 'description',
+  expiredDate: 'expiredDate',
+  price: 'price',
+  progress: 'progress',
+  assignments: 'assignments',
+  attendance: 'attendance',
   status: 'status',
   createdAt: 'createdAt',
-  updatedAt: 'updatedAt'
+  approvedAt: 'approvedAt'
+};
+
+exports.Prisma.AssignmentScalarFieldEnum = {
+  id: 'id',
+  title: 'title',
+  description: 'description',
+  maxPoints: 'maxPoints',
+  courseId: 'courseId',
+  organizationId: 'organizationId',
+  dueDate: 'dueDate',
+  createdAt: 'createdAt'
+};
+
+exports.Prisma.SubmissionScalarFieldEnum = {
+  id: 'id',
+  assignmentId: 'assignmentId',
+  userId: 'userId',
+  title: 'title',
+  notes: 'notes',
+  submittedAt: 'submittedAt',
+  grade: 'grade',
+  feedback: 'feedback',
+  enrollmentId: 'enrollmentId'
+};
+
+exports.Prisma.AttendanceScalarFieldEnum = {
+  id: 'id',
+  enrollmentId: 'enrollmentId',
+  lessonId: 'lessonId',
+  courseId: 'courseId',
+  userId: 'userId',
+  createdAt: 'createdAt'
 };
 
 exports.Prisma.SortOrder = {
@@ -148,11 +185,15 @@ exports.Prisma.NullsOrder = {
 exports.EnrollmentStatus = exports.$Enums.EnrollmentStatus = {
   PENDING: 'PENDING',
   APPROVED: 'APPROVED',
-  REJECTED: 'REJECTED'
+  REJECTED: 'REJECTED',
+  COMPLETED: 'COMPLETED'
 };
 
 exports.Prisma.ModelName = {
-  Enrollment: 'Enrollment'
+  Enrollment: 'Enrollment',
+  Assignment: 'Assignment',
+  Submission: 'Submission',
+  Attendance: 'Attendance'
 };
 
 /**

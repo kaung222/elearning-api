@@ -1,49 +1,100 @@
 import {
+  BadRequestException,
   ForbiddenException,
   Injectable,
   NotFoundException,
+  UnauthorizedException,
 } from '@nestjs/common';
 import { CreateCourseDto } from './dto/create-course.dto';
 import { UpdateCourseDto } from './dto/update-course.dto';
 import { PrismaCourseService } from 'src/prisma/prisma-course.service';
 import { SignedUser } from 'src/security/user.decorator';
 import { Role } from 'generated/org-database-client-types';
+import { PrismaOrgService } from 'src/prisma/prisma-org.service';
+import { PrismaEnrollService } from 'src/prisma/prisma-enroll.service';
+import { Status } from 'generated/course-database-client-types';
 
 @Injectable()
 export class CoursesService {
-  constructor(private prisma: PrismaCourseService) {}
+  constructor(
+    private prisma: PrismaCourseService,
+    private readonly prismaOrgService: PrismaOrgService,
+    private readonly prismaEnrollService: PrismaEnrollService,
+  ) {}
 
   // create a course
   async create(createCourseDto: CreateCourseDto, user: SignedUser) {
+    const {
+      title,
+      description,
+      price,
+      categoryId,
+      instructorId,
+      level,
+      duration,
+      thumbnail,
+      endDate,
+      startDate,
+      type,
+      language,
+      shortDescription,
+      maxStudent,
+      tags,
+      salePrice,
+      requirements,
+      includes,
+      whatYouWillLearn,
+      publishedAt,
+      status,
+    } = createCourseDto;
     return await this.prisma.course.create({
-      data: { ...createCourseDto, organizationId: user.orgId },
+      data: {
+        title,
+        description,
+        price,
+        categoryId,
+        instructorId,
+        organizationId: user.orgId,
+        level,
+        duration,
+        thumbnail,
+        status,
+        endDate,
+        startDate,
+        type,
+        language,
+        shortDescription,
+        maxStudent,
+        tags,
+        salePrice,
+        stats: { create: {} },
+        requirements,
+        includes,
+        whatYouWillLearn,
+        publishedAt,
+      },
     });
   }
 
   async findAll(user: SignedUser) {
-    if (user.role === Role.INSTRUCTOR) {
+    if (user.role === Role.Instructor) {
       return await this.prisma.course.findMany({
         where: { instructorId: user.instructorId },
       });
     }
-    const courses = await this.prisma.course.findMany({
+    return await this.prisma.course.findMany({
       where: { organizationId: user.orgId },
-      include: {
-        _count: {
-          select: {
-            modules: true,
-            reviews: true,
-          },
-        },
-      },
+      include: { stats: true },
     });
-    return courses;
   }
 
   async findOne(id: string) {
-    return await this.prisma.course.findUnique({
+    const course = await this.prisma.course.findUnique({
       where: { id },
       include: {
+        category: true,
+        faqs: true,
+        stats: true,
         modules: {
           orderBy: { order: 'asc' },
           include: {
@@ -52,10 +103,17 @@ export class CoursesService {
             },
           },
         },
-        reviews: true,
-        faqs: true,
       },
     });
+    if (!course) {
+      throw new NotFoundException('Course not found');
+    }
+    // const reviews = await this.prisma.review.findMany({
+    //   where: { courseId: id },
+    //   take: 10,
+    //   orderBy: { createdAt: 'desc' },
+    // });
+    return { ...course };
   }
 
   async findCourseModules(courseId: string) {
@@ -84,23 +142,40 @@ export class CoursesService {
   }
 
   async update(id: string, dto: UpdateCourseDto, user: SignedUser) {
-    // Ensure the user is authorized for this org
+    try {
+      // Ensure the user is authorized for this org
+      const course = await this.prisma.course.findUnique({
+        where: { id },
+        select: { organizationId: true },
+      });
+
+      if (!course) {
+        throw new NotFoundException('Course not found');
+      }
+
+      if (course.organizationId !== user.orgId) {
+        throw new ForbiddenException('You cannot update this course');
+      }
+
+      return this.prisma.course.update({
+        where: { id },
+        data: { ...dto },
+      });
+    } catch (error) {
+      throw new BadRequestException(error.message);
+    }
+  }
+
+  async updateStatus(id: string, status: Status, user: SignedUser) {
     const course = await this.prisma.course.findUnique({
       where: { id },
-      select: { organizationId: true },
+      select: { id: true, organizationId: true },
     });
-
-    if (!course) {
-      throw new NotFoundException('Course not found');
-    }
-
-    if (course.organizationId !== user.orgId) {
-      throw new ForbiddenException('You cannot update this course');
-    }
-
-    return this.prisma.course.update({
+    if (!course) throw new NotFoundException('Course not found');
+    if (course.organizationId !== user.orgId) throw new UnauthorizedException();
+    return await this.prisma.course.update({
       where: { id },
-      data: dto,
+      data: { status: status },
     });
   }
 

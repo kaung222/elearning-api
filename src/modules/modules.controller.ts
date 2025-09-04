@@ -6,6 +6,7 @@ import {
   Patch,
   Param,
   Delete,
+  Put,
 } from '@nestjs/common';
 import { ModulesService } from './modules.service';
 import { CreateModuleDto } from './dto/create-module.dto';
@@ -14,10 +15,11 @@ import { ApiTags, ApiOperation, ApiResponse, ApiParam } from '@nestjs/swagger';
 import { SignedUser, User } from 'src/security/user.decorator';
 import { ROLE_USER } from 'src/security/role.decorator';
 import { Role } from 'generated/org-database-client-types';
+import { CreateManyModuleDto } from './dto/update-many.dto';
 
 @Controller('modules')
 @ApiTags('modules')
-@ROLE_USER(Role.INSTRUCTOR, Role.ORG_ADMIN)
+@ROLE_USER(Role.Instructor, Role.Admin, Role.Manager)
 export class ModulesController {
   constructor(private readonly modulesService: ModulesService) {}
 
@@ -29,28 +31,12 @@ export class ModulesController {
     return this.modulesService.create(createModuleDto, user);
   }
 
-  @Get()
-  @ApiOperation({ summary: 'Get all modules for organization' })
-  @ApiResponse({ status: 200, description: 'Modules retrieved successfully' })
-  findAll(@User() user: SignedUser) {
-    return this.modulesService.findAll(user);
-  }
-
-  @Get(':id')
-  @ApiOperation({ summary: 'Get a module by ID' })
-  @ApiParam({ name: 'id', description: 'Module ID' })
-  @ApiResponse({ status: 200, description: 'Module retrieved successfully' })
-  @ApiResponse({ status: 404, description: 'Module not found' })
-  findOne(@Param('id') id: string) {
-    return this.modulesService.findOne(id);
-  }
-
-  @Get(':id/lessons')
-  @ApiOperation({ summary: 'Get all lessons for a module' })
-  @ApiParam({ name: 'id', description: 'Module ID' })
-  @ApiResponse({ status: 200, description: 'Lessons retrieved successfully' })
-  findModuleLessons(@Param('id') id: string) {
-    return this.modulesService.findModuleLessons(id);
+  @Put('update/many')
+  @ApiOperation({ summary: 'Create many modules' })
+  @ApiResponse({ status: 201, description: 'Modules created successfully' })
+  @ApiResponse({ status: 400, description: 'Bad request' })
+  createMany(@Body() dto: CreateManyModuleDto, @User() user: SignedUser) {
+    return this.modulesService.createMany(dto, user);
   }
 
   @Patch(':id')

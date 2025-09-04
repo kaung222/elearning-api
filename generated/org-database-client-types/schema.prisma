@@ -14,86 +14,78 @@ datasource db {
   url      = env("ORG_DATABASE_URL")
 }
 
-enum OrgType {
-  University
-  Company
-  Institute
-  Academy
-  BootCamp
-  NonProfit
+enum Role {
+  Admin
+  Instructor
+  Student
+  Manager
 }
 
-model OrganizationMember {
+model Profile {
   id             String        @id @default(uuid())
   userId         String
   role           Role
+  username       String
+  password       String?
+  status         ProfileStatus @default(PENDING)
+  access_lms     Boolean       @default(true)
   // relations
   organizationId String?
   instructorId   String?
   organization   Organization? @relation(fields: [organizationId], references: [id])
   instructor     Instructor?
+  createdAt      DateTime      @default(now())
 
   @@unique([userId, organizationId])
 }
 
-enum Role {
-  STUDENT
-  INSTRUCTOR
-  ORG_ADMIN
-  ORG_STAFF
-  INDIVIDUAL_INSTRUCTOR
+enum ProfileStatus {
+  PENDING
+  ACTIVE
+  INACTIVE
 }
 
 model Organization {
-  id               String               @id @default(uuid())
+  id               String       @id @default(uuid())
   name             String
-  type             OrgType
+  type             String // university, company, institute, academy, boot camp, nonprofit
   logo             String
   coverImage       String
   description      String
-  longDescription  String
-  location         String
-  website          String
-  email            String
-  phone            String
-  founded          String
-  totalCourses     Int                  @default(0)
-  totalStudents    Int                  @default(0)
-  totalInstructors Int                  @default(0)
-  rating           Float                @default(0)
-  reviewCount      Int                  @default(0)
+  shortDescription String
+  location         String?
+  verified         Boolean      @default(false)
+  // mission vision 
   specialties      String[]
-  featured         Boolean              @default(false)
-  verified         Boolean              @default(false)
-  accreditation    String[]
   mission          String?
   vision           String?
-  achievements     String[]
-  partnerships     String[]
+  social           Json
+  // relations 
   reviews          Review[]
   stats            OrgStats?
   contact          Contact?
-  social           Json
   instructors      Instructor[]
-  members          OrganizationMember[]
+  profiles         Profile[]
 }
 
 model OrgStats {
-  id                  String       @id @default(uuid())
-  graduationRate      String?
-  employmentRate      String?
-  averageSalary       String?
-  studentSatisfaction String
-  organization        Organization @relation(fields: [organizationId], references: [id])
-  organizationId      String       @unique
+  id               String       @id @default(uuid())
+  totalCourses     Int          @default(0)
+  totalStudents    Int          @default(0)
+  totalInstructors Int          @default(0)
+  rating           Float        @default(0)
+  reviewCount      Int          @default(0)
+  organization     Organization @relation(fields: [organizationId], references: [id])
+  organizationId   String       @unique
 }
 
 model Contact {
   id             String       @id @default(uuid())
+  website        String?
+  email          String
+  phone          String
   address        String
   city           String
-  state          String
-  zipCode        String
   country        String
   organization   Organization @relation(fields: [organizationId], references: [id])
   organizationId String       @unique
@@ -115,45 +107,36 @@ model Review {
 }
 
 model Instructor {
-  id                 String             @id @default(uuid())
-  name               String
-  title              String
-  avatar             String
-  coverImage         String?
-  bio                String
-  featured           Boolean?           @default(false)
-  longBio            String?
-  rating             Float              @default(0)
-  totalStudents      Int                @default(0)
-  totalCourses       Int                @default(0)
-  specialties        String[]
-  achievements       String[]
-  education          String[]
-  social             Json
-  // relationships 
-  workExperience     WorkExperience[]
-  reviews            Review[]
-  stats              InstructorStats?
-  organizationMember OrganizationMember @relation(fields: [memberId], references: [id])
-  memberId           String             @unique
-  organizationId     String?
-  organization       Organization?      @relation(fields: [organizationId], references: [id])
-}
+  id           String           @id @default(uuid())
+  name         String
+  title        String
+  avatar       String
+  coverImage   String?
+  bio          String?
+  shortBio     String
+  specialties  String[]
+  achievements String[]
+  education    String[]
+  social       Json
+  stats        InstructorStats?
 
-model WorkExperience {
-  id           String     @id @default(uuid())
-  company      String
-  position     String
-  duration     String
-  instructor   Instructor @relation(fields: [instructorId], references: [id])
-  instructorId String
+  // relationships 
+  reviews        Review[]
+  profileId      String        @unique
+  profile        Profile       @relation(fields: [profileId], references: [id])
+  organizationId String?
+  organization   Organization? @relation(fields: [organizationId], references: [id])
+
+  createdAt DateTime @default(now())
 }
 
 model InstructorStats {
-  id              String     @id @default(uuid())
-  totalReviews    Int
-  responseRate    String
-  avgResponseTime String
-  instructor      Instructor @relation(fields: [instructorId], references: [id])
-  instructorId    String     @unique
+  // stats 
+  rating        Float      @default(0)
+  reviewCount   Int        @default(0)
+  totalStudents Int        @default(0)
+  totalCourses  Int        @default(0)
+  id            String     @id @default(uuid())
+  instructor    Instructor @relation(fields: [instructorId], references: [id])
+  instructorId  String     @unique
 }

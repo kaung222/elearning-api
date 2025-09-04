@@ -52,4 +52,8 @@ export class CreateLessonDto {
   @ApiProperty({ description: 'Module ID this lesson belongs to' })
   @IsUUID()
   moduleId: string;
+
+  @ApiProperty({ description: 'Course ID this lesson belongs to' })
+  @IsUUID()
+  courseId: string;
 }

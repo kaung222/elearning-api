@@ -17,49 +17,52 @@ datasource db {
 model Course {
   id                String      @id @default(uuid())
   title             String
-  description       String
-  longDescription   String?
+  shortDescription  String
+  description       String?
 
-  // instructor info
-  instructor        String
-  instructorAvatar  String
-  instructorTitle   String?
-  instructorBio     String?
   instructorId      String
-  
+  organizationId    String?
   // pricing and duration
   duration          String
   startDate         DateTime?
   endDate           DateTime?
-  students          Int      @default(0)
-  totalReviews      Int      @default(0)
-  rating            Float    @default(0)
   price             Float
   salePrice         Float?   
   thumbnail         String
-  maxStudents       Int?
+  maxStudent       Int?
   language          String?
-  organizationId    String?
 
   // course details
   tags              String[]
   whatYouWillLearn  String[]
   requirements      String[]
   includes          String[]
-  previewVideo      String?
-
+ 
+  status            Status
+  level             Level
+  type              Type
+   // category
+  category          Category? @relation(fields: [categoryId], references: [id],onDelete: Restrict)
+  categoryId        String?
+  stats             CourseStats?
   // course relationships
   modules           Module[]
   reviews           Review[]
   faqs              FAQ[]
-  category          Category? @relation(fields: [categoryId], references: [id])
-  categoryId        String?
-  status            Status
-  level             Level
-  type              Type
+
   createdAt         DateTime     @default(now())
   updatedAt         DateTime     @updatedAt
   publishedAt       DateTime?
+}
+
+model CourseStats{
+  id                String      @id @default(uuid())
+    students          Int      @default(0)
+  totalReviews      Int      @default(0)
+  rating            Float    @default(0)
+  completionRate    Float    @default(0)
+  courseId          String   @unique
+  course            Course    @relation(fields: [courseId], references: [id],onDelete: Cascade)
 }
 
 model Category {
@@ -80,7 +83,7 @@ model FAQ {
   id        String   @id @default(uuid())
   question  String
   answer    String
-  course    Course   @relation(fields: [courseId], references: [id])
+  course    Course   @relation(fields: [courseId], references: [id],onDelete: Cascade)
   courseId  String
 }
 
@@ -92,7 +95,7 @@ model Review {
   comment   String
   createdAt DateTime    @default(now())
   // course reviews
-  course    Course?     @relation(fields: [courseId], references: [id])
+  course    Course?     @relation(fields: [courseId], references: [id],onDelete: Cascade)
   courseId  String?
   }
 
@@ -103,8 +106,9 @@ model Module {
   order          Int
   organizationId String
   courseId       String
-  course         Course    @relation(fields: [courseId], references: [id])
+  course         Course    @relation(fields: [courseId], references: [id],onDelete: Cascade) 
   lessons        Lesson[]
+  
 }
 
 model Lesson {
@@ -112,12 +116,13 @@ model Lesson {
   title          String
   description    String?   // Nullable field
   url            String?   // Nullable field
-  type           LessonType
+  type           String   @default("video")
   duration       Int       @default(0) // Duration in minutes
   order          Int
   isPreview      Boolean   @default(false)
+  startTime      DateTime?
   organizationId String
-  module    Module      @relation(fields: [moduleId], references: [id])
+  module    Module      @relation(fields: [moduleId], references: [id],onDelete: Cascade)
   moduleId  String
 
 }
@@ -128,16 +133,9 @@ enum Level {
   ADVANCED
 }
 
-enum LessonType {
-  video
-  quiz
-  assignment
-  reading
-}
-
 enum Type {
   ONLINE
-  ONCAMPUS
+  CAMPUS
   HYBRID
   VIDEO
 }

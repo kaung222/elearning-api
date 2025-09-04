@@ -120,12 +120,17 @@ exports.Prisma.TransactionIsolationLevel = makeStrictEnum({
   Serializable: 'Serializable'
 });
 
-exports.Prisma.OrganizationMemberScalarFieldEnum = {
+exports.Prisma.ProfileScalarFieldEnum = {
   id: 'id',
   userId: 'userId',
   role: 'role',
+  username: 'username',
+  password: 'password',
+  status: 'status',
+  access_lms: 'access_lms',
   organizationId: 'organizationId',
-  instructorId: 'instructorId'
+  instructorId: 'instructorId',
+  createdAt: 'createdAt'
 };
 
 exports.Prisma.OrganizationScalarFieldEnum = {
@@ -135,43 +140,32 @@ exports.Prisma.OrganizationScalarFieldEnum = {
   logo: 'logo',
   coverImage: 'coverImage',
   description: 'description',
-  longDescription: 'longDescription',
+  shortDescription: 'shortDescription',
   location: 'location',
-  website: 'website',
-  email: 'email',
-  phone: 'phone',
-  founded: 'founded',
-  totalCourses: 'totalCourses',
-  totalStudents: 'totalStudents',
-  totalInstructors: 'totalInstructors',
-  rating: 'rating',
-  reviewCount: 'reviewCount',
-  specialties: 'specialties',
-  featured: 'featured',
   verified: 'verified',
-  accreditation: 'accreditation',
+  specialties: 'specialties',
   mission: 'mission',
   vision: 'vision',
-  achievements: 'achievements',
-  partnerships: 'partnerships',
   social: 'social'
 };
 
 exports.Prisma.OrgStatsScalarFieldEnum = {
   id: 'id',
-  graduationRate: 'graduationRate',
-  employmentRate: 'employmentRate',
-  averageSalary: 'averageSalary',
-  studentSatisfaction: 'studentSatisfaction',
+  totalCourses: 'totalCourses',
+  totalStudents: 'totalStudents',
+  totalInstructors: 'totalInstructors',
+  rating: 'rating',
+  reviewCount: 'reviewCount',
   organizationId: 'organizationId'
 };
 
 exports.Prisma.ContactScalarFieldEnum = {
   id: 'id',
+  website: 'website',
+  email: 'email',
+  phone: 'phone',
   address: 'address',
   city: 'city',
-  state: 'state',
-  zipCode: 'zipCode',
   country: 'country',
   organizationId: 'organizationId'
 };
@@ -194,32 +188,22 @@ exports.Prisma.InstructorScalarFieldEnum = {
   avatar: 'avatar',
   coverImage: 'coverImage',
   bio: 'bio',
-  featured: 'featured',
-  longBio: 'longBio',
-  rating: 'rating',
-  totalStudents: 'totalStudents',
-  totalCourses: 'totalCourses',
+  shortBio: 'shortBio',
   specialties: 'specialties',
   achievements: 'achievements',
   education: 'education',
   social: 'social',
-  memberId: 'memberId',
-  organizationId: 'organizationId'
-};
-
-exports.Prisma.WorkExperienceScalarFieldEnum = {
-  id: 'id',
-  company: 'company',
-  position: 'position',
-  duration: 'duration',
-  instructorId: 'instructorId'
+  profileId: 'profileId',
+  organizationId: 'organizationId',
+  createdAt: 'createdAt'
 };
 
 exports.Prisma.InstructorStatsScalarFieldEnum = {
+  rating: 'rating',
+  reviewCount: 'reviewCount',
+  totalStudents: 'totalStudents',
+  totalCourses: 'totalCourses',
   id: 'id',
-  totalReviews: 'totalReviews',
-  responseRate: 'responseRate',
-  avgResponseTime: 'avgResponseTime',
   instructorId: 'instructorId'
 };
 
@@ -248,30 +232,25 @@ exports.Prisma.JsonNullValueFilter = {
   AnyNull: Prisma.AnyNull
 };
 exports.Role = exports.$Enums.Role = {
-  STUDENT: 'STUDENT',
-  INSTRUCTOR: 'INSTRUCTOR',
-  ORG_ADMIN: 'ORG_ADMIN',
-  ORG_STAFF: 'ORG_STAFF',
-  INDIVIDUAL_INSTRUCTOR: 'INDIVIDUAL_INSTRUCTOR'
+  Admin: 'Admin',
+  Instructor: 'Instructor',
+  Student: 'Student',
+  Manager: 'Manager'
 };
 
-exports.OrgType = exports.$Enums.OrgType = {
-  University: 'University',
-  Company: 'Company',
-  Institute: 'Institute',
-  Academy: 'Academy',
-  BootCamp: 'BootCamp',
-  NonProfit: 'NonProfit'
+exports.ProfileStatus = exports.$Enums.ProfileStatus = {
+  PENDING: 'PENDING',
+  ACTIVE: 'ACTIVE',
+  INACTIVE: 'INACTIVE'
 };
 
 exports.Prisma.ModelName = {
-  OrganizationMember: 'OrganizationMember',
+  Profile: 'Profile',
   Organization: 'Organization',
   OrgStats: 'OrgStats',
   Contact: 'Contact',
   Review: 'Review',
   Instructor: 'Instructor',
-  WorkExperience: 'WorkExperience',
   InstructorStats: 'InstructorStats'
 };
 

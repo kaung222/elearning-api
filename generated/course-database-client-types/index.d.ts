@@ -19,6 +19,11 @@ export type PrismaPromise<T> = $Public.PrismaPromise<T>
  */
 export type Course = $Result.DefaultSelection<Prisma.$CoursePayload>
 /**
+ * Model CourseStats
+ * 
+ */
+export type CourseStats = $Result.DefaultSelection<Prisma.$CourseStatsPayload>
+/**
  * Model Category
  * 
  */
@@ -69,7 +74,7 @@ export type LessonType = (typeof LessonType)[keyof typeof LessonType]
 
 export const Type: {
   ONLINE: 'ONLINE',
-  ONCAMPUS: 'ONCAMPUS',
+  CAMPUS: 'CAMPUS',
   HYBRID: 'HYBRID',
   VIDEO: 'VIDEO'
 };
@@ -237,6 +242,16 @@ export class PrismaClient<
     * ```
     */
   get course(): Prisma.CourseDelegate<ExtArgs, ClientOptions>;
+
+  /**
+   * `prisma.courseStats`: Exposes CRUD operations for the **CourseStats** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more CourseStats
+    * const courseStats = await prisma.courseStats.findMany()
+    * ```
+    */
+  get courseStats(): Prisma.CourseStatsDelegate<ExtArgs, ClientOptions>;
 
   /**
    * `prisma.category`: Exposes CRUD operations for the **Category** model.
@@ -728,6 +743,7 @@ export namespace Prisma {
 
   export const ModelName: {
     Course: 'Course',
+    CourseStats: 'CourseStats',
     Category: 'Category',
     FAQ: 'FAQ',
     Review: 'Review',
@@ -751,7 +767,7 @@ export namespace Prisma {
       omit: GlobalOmitOptions
     }
     meta: {
-      modelProps: "course" | "category" | "fAQ" | "review" | "module" | "lesson"
+      modelProps: "course" | "courseStats" | "category" | "fAQ" | "review" | "module" | "lesson"
       txIsolationLevel: Prisma.TransactionIsolationLevel
     }
     model: {
@@ -826,6 +842,80 @@ export namespace Prisma {
           count: {
             args: Prisma.CourseCountArgs<ExtArgs>
             result: $Utils.Optional<CourseCountAggregateOutputType> | number
+          }
+        }
+      }
+      CourseStats: {
+        payload: Prisma.$CourseStatsPayload<ExtArgs>
+        fields: Prisma.CourseStatsFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.CourseStatsFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$CourseStatsPayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.CourseStatsFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$CourseStatsPayload>
+          }
+          findFirst: {
+            args: Prisma.CourseStatsFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$CourseStatsPayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.CourseStatsFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$CourseStatsPayload>
+          }
+          findMany: {
+            args: Prisma.CourseStatsFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$CourseStatsPayload>[]
+          }
+          create: {
+            args: Prisma.CourseStatsCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$CourseStatsPayload>
+          }
+          createMany: {
+            args: Prisma.CourseStatsCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.CourseStatsCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$CourseStatsPayload>[]
+          }
+          delete: {
+            args: Prisma.CourseStatsDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$CourseStatsPayload>
+          }
+          update: {
+            args: Prisma.CourseStatsUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$CourseStatsPayload>
+          }
+          deleteMany: {
+            args: Prisma.CourseStatsDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.CourseStatsUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateManyAndReturn: {
+            args: Prisma.CourseStatsUpdateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$CourseStatsPayload>[]
+          }
+          upsert: {
+            args: Prisma.CourseStatsUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$CourseStatsPayload>
+          }
+          aggregate: {
+            args: Prisma.CourseStatsAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateCourseStats>
+          }
+          groupBy: {
+            args: Prisma.CourseStatsGroupByArgs<ExtArgs>
+            result: $Utils.Optional<CourseStatsGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.CourseStatsCountArgs<ExtArgs>
+            result: $Utils.Optional<CourseStatsCountAggregateOutputType> | number
           }
         }
       }
@@ -1284,6 +1374,7 @@ export namespace Prisma {
   }
   export type GlobalOmitConfig = {
     course?: CourseOmit
+    courseStats?: CourseStatsOmit
     category?: CategoryOmit
     fAQ?: FAQOmit
     review?: ReviewOmit
@@ -1515,50 +1606,36 @@ export namespace Prisma {
   }
 
   export type CourseAvgAggregateOutputType = {
-    students: number | null
-    totalReviews: number | null
-    rating: number | null
     price: number | null
     salePrice: number | null
-    maxStudents: number | null
+    maxStudent: number | null
   }
 
   export type CourseSumAggregateOutputType = {
-    students: number | null
-    totalReviews: number | null
-    rating: number | null
     price: number | null
     salePrice: number | null
-    maxStudents: number | null
+    maxStudent: number | null
   }
 
   export type CourseMinAggregateOutputType = {
     id: string | null
     title: string | null
+    shortDescription: string | null
     description: string | null
-    longDescription: string | null
-    instructor: string | null
-    instructorAvatar: string | null
-    instructorTitle: string | null
-    instructorBio: string | null
     instructorId: string | null
+    organizationId: string | null
     duration: string | null
     startDate: Date | null
     endDate: Date | null
-    students: number | null
-    totalReviews: number | null
-    rating: number | null
     price: number | null
     salePrice: number | null
     thumbnail: string | null
-    maxStudents: number | null
+    maxStudent: number | null
     language: string | null
-    organizationId: string | null
-    previewVideo: string | null
-    categoryId: string | null
     status: $Enums.Status | null
     level: $Enums.Level | null
     type: $Enums.Type | null
+    categoryId: string | null
     createdAt: Date | null
     updatedAt: Date | null
     publishedAt: Date | null
@@ -1567,30 +1644,22 @@ export namespace Prisma {
   export type CourseMaxAggregateOutputType = {
     id: string | null
     title: string | null
+    shortDescription: string | null
     description: string | null
-    longDescription: string | null
-    instructor: string | null
-    instructorAvatar: string | null
-    instructorTitle: string | null
-    instructorBio: string | null
     instructorId: string | null
+    organizationId: string | null
     duration: string | null
     startDate: Date | null
     endDate: Date | null
-    students: number | null
-    totalReviews: number | null
-    rating: number | null
     price: number | null
     salePrice: number | null
     thumbnail: string | null
-    maxStudents: number | null
+    maxStudent: number | null
     language: string | null
-    organizationId: string | null
-    previewVideo: string | null
-    categoryId: string | null
     status: $Enums.Status | null
     level: $Enums.Level | null
     type: $Enums.Type | null
+    categoryId: string | null
     createdAt: Date | null
     updatedAt: Date | null
     publishedAt: Date | null
@@ -1599,34 +1668,26 @@ export namespace Prisma {
   export type CourseCountAggregateOutputType = {
     id: number
     title: number
+    shortDescription: number
     description: number
-    longDescription: number
-    instructor: number
-    instructorAvatar: number
-    instructorTitle: number
-    instructorBio: number
     instructorId: number
+    organizationId: number
     duration: number
     startDate: number
     endDate: number
-    students: number
-    totalReviews: number
-    rating: number
     price: number
     salePrice: number
     thumbnail: number
-    maxStudents: number
+    maxStudent: number
     language: number
-    organizationId: number
     tags: number
     whatYouWillLearn: number
     requirements: number
     includes: number
-    previewVideo: number
-    categoryId: number
     status: number
     level: number
     type: number
+    categoryId: number
     createdAt: number
     updatedAt: number
     publishedAt: number
@@ -1635,50 +1696,36 @@ export namespace Prisma {
 
 
   export type CourseAvgAggregateInputType = {
-    students?: true
-    totalReviews?: true
-    rating?: true
     price?: true
     salePrice?: true
-    maxStudents?: true
+    maxStudent?: true
   }
 
   export type CourseSumAggregateInputType = {
-    students?: true
-    totalReviews?: true
-    rating?: true
     price?: true
     salePrice?: true
-    maxStudents?: true
+    maxStudent?: true
   }
 
   export type CourseMinAggregateInputType = {
     id?: true
     title?: true
+    shortDescription?: true
     description?: true
-    longDescription?: true
-    instructor?: true
-    instructorAvatar?: true
-    instructorTitle?: true
-    instructorBio?: true
     instructorId?: true
+    organizationId?: true
     duration?: true
     startDate?: true
     endDate?: true
-    students?: true
-    totalReviews?: true
-    rating?: true
     price?: true
     salePrice?: true
     thumbnail?: true
-    maxStudents?: true
+    maxStudent?: true
     language?: true
-    organizationId?: true
-    previewVideo?: true
-    categoryId?: true
     status?: true
     level?: true
     type?: true
+    categoryId?: true
     createdAt?: true
     updatedAt?: true
     publishedAt?: true
@@ -1687,30 +1734,22 @@ export namespace Prisma {
   export type CourseMaxAggregateInputType = {
     id?: true
     title?: true
+    shortDescription?: true
     description?: true
-    longDescription?: true
-    instructor?: true
-    instructorAvatar?: true
-    instructorTitle?: true
-    instructorBio?: true
     instructorId?: true
+    organizationId?: true
     duration?: true
     startDate?: true
     endDate?: true
-    students?: true
-    totalReviews?: true
-    rating?: true
     price?: true
     salePrice?: true
     thumbnail?: true
-    maxStudents?: true
+    maxStudent?: true
     language?: true
-    organizationId?: true
-    previewVideo?: true
-    categoryId?: true
     status?: true
     level?: true
     type?: true
+    categoryId?: true
     createdAt?: true
     updatedAt?: true
     publishedAt?: true
@@ -1719,34 +1758,26 @@ export namespace Prisma {
   export type CourseCountAggregateInputType = {
     id?: true
     title?: true
+    shortDescription?: true
     description?: true
-    longDescription?: true
-    instructor?: true
-    instructorAvatar?: true
-    instructorTitle?: true
-    instructorBio?: true
     instructorId?: true
+    organizationId?: true
     duration?: true
     startDate?: true
     endDate?: true
-    students?: true
-    totalReviews?: true
-    rating?: true
     price?: true
     salePrice?: true
     thumbnail?: true
-    maxStudents?: true
+    maxStudent?: true
     language?: true
-    organizationId?: true
     tags?: true
     whatYouWillLearn?: true
     requirements?: true
     includes?: true
-    previewVideo?: true
-    categoryId?: true
     status?: true
     level?: true
     type?: true
+    categoryId?: true
     createdAt?: true
     updatedAt?: true
     publishedAt?: true
@@ -1842,34 +1873,26 @@ export namespace Prisma {
   export type CourseGroupByOutputType = {
     id: string
     title: string
-    description: string
-    longDescription: string | null
-    instructor: string
-    instructorAvatar: string
-    instructorTitle: string | null
-    instructorBio: string | null
+    shortDescription: string
+    description: string | null
     instructorId: string
+    organizationId: string | null
     duration: string
     startDate: Date | null
     endDate: Date | null
-    students: number
-    totalReviews: number
-    rating: number
     price: number
     salePrice: number | null
     thumbnail: string
-    maxStudents: number | null
+    maxStudent: number | null
     language: string | null
-    organizationId: string | null
     tags: string[]
     whatYouWillLearn: string[]
     requirements: string[]
     includes: string[]
-    previewVideo: string | null
-    categoryId: string | null
     status: $Enums.Status
     level: $Enums.Level
     type: $Enums.Type
+    categoryId: string | null
     createdAt: Date
     updatedAt: Date
     publishedAt: Date | null
@@ -1897,75 +1920,60 @@ export namespace Prisma {
   export type CourseSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     id?: boolean
     title?: boolean
+    shortDescription?: boolean
     description?: boolean
-    longDescription?: boolean
-    instructor?: boolean
-    instructorAvatar?: boolean
-    instructorTitle?: boolean
-    instructorBio?: boolean
     instructorId?: boolean
+    organizationId?: boolean
     duration?: boolean
     startDate?: boolean
     endDate?: boolean
-    students?: boolean
-    totalReviews?: boolean
-    rating?: boolean
     price?: boolean
     salePrice?: boolean
     thumbnail?: boolean
-    maxStudents?: boolean
+    maxStudent?: boolean
     language?: boolean
-    organizationId?: boolean
     tags?: boolean
     whatYouWillLearn?: boolean
     requirements?: boolean
     includes?: boolean
-    previewVideo?: boolean
-    categoryId?: boolean
     status?: boolean
     level?: boolean
     type?: boolean
+    categoryId?: boolean
     createdAt?: boolean
     updatedAt?: boolean
     publishedAt?: boolean
+    category?: boolean | Course$categoryArgs<ExtArgs>
+    stats?: boolean | Course$statsArgs<ExtArgs>
     modules?: boolean | Course$modulesArgs<ExtArgs>
     reviews?: boolean | Course$reviewsArgs<ExtArgs>
     faqs?: boolean | Course$faqsArgs<ExtArgs>
-    category?: boolean | Course$categoryArgs<ExtArgs>
     _count?: boolean | CourseCountOutputTypeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["course"]>
 
   export type CourseSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     id?: boolean
     title?: boolean
+    shortDescription?: boolean
     description?: boolean
-    longDescription?: boolean
-    instructor?: boolean
-    instructorAvatar?: boolean
-    instructorTitle?: boolean
-    instructorBio?: boolean
     instructorId?: boolean
+    organizationId?: boolean
     duration?: boolean
     startDate?: boolean
     endDate?: boolean
-    students?: boolean
-    totalReviews?: boolean
-    rating?: boolean
     price?: boolean
     salePrice?: boolean
     thumbnail?: boolean
-    maxStudents?: boolean
+    maxStudent?: boolean
     language?: boolean
-    organizationId?: boolean
     tags?: boolean
     whatYouWillLearn?: boolean
     requirements?: boolean
     includes?: boolean
-    previewVideo?: boolean
-    categoryId?: boolean
     status?: boolean
     level?: boolean
     type?: boolean
+    categoryId?: boolean
     createdAt?: boolean
     updatedAt?: boolean
     publishedAt?: boolean
@@ -1975,34 +1983,26 @@ export namespace Prisma {
   export type CourseSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     id?: boolean
     title?: boolean
+    shortDescription?: boolean
     description?: boolean
-    longDescription?: boolean
-    instructor?: boolean
-    instructorAvatar?: boolean
-    instructorTitle?: boolean
-    instructorBio?: boolean
     instructorId?: boolean
+    organizationId?: boolean
     duration?: boolean
     startDate?: boolean
     endDate?: boolean
-    students?: boolean
-    totalReviews?: boolean
-    rating?: boolean
     price?: boolean
     salePrice?: boolean
     thumbnail?: boolean
-    maxStudents?: boolean
+    maxStudent?: boolean
     language?: boolean
-    organizationId?: boolean
     tags?: boolean
     whatYouWillLearn?: boolean
     requirements?: boolean
     includes?: boolean
-    previewVideo?: boolean
-    categoryId?: boolean
     status?: boolean
     level?: boolean
     type?: boolean
+    categoryId?: boolean
     createdAt?: boolean
     updatedAt?: boolean
     publishedAt?: boolean
@@ -2012,45 +2012,38 @@ export namespace Prisma {
   export type CourseSelectScalar = {
     id?: boolean
     title?: boolean
+    shortDescription?: boolean
     description?: boolean
-    longDescription?: boolean
-    instructor?: boolean
-    instructorAvatar?: boolean
-    instructorTitle?: boolean
-    instructorBio?: boolean
     instructorId?: boolean
+    organizationId?: boolean
     duration?: boolean
     startDate?: boolean
     endDate?: boolean
-    students?: boolean
-    totalReviews?: boolean
-    rating?: boolean
     price?: boolean
     salePrice?: boolean
     thumbnail?: boolean
-    maxStudents?: boolean
+    maxStudent?: boolean
     language?: boolean
-    organizationId?: boolean
     tags?: boolean
     whatYouWillLearn?: boolean
     requirements?: boolean
     includes?: boolean
-    previewVideo?: boolean
-    categoryId?: boolean
     status?: boolean
     level?: boolean
     type?: boolean
+    categoryId?: boolean
     createdAt?: boolean
     updatedAt?: boolean
     publishedAt?: boolean
   }
 
-  export type CourseOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "title" | "description" | "longDescription" | "instructor" | "instructorAvatar" | "instructorTitle" | "instructorBio" | "instructorId" | "duration" | "startDate" | "endDate" | "students" | "totalReviews" | "rating" | "price" | "salePrice" | "thumbnail" | "maxStudents" | "language" | "organizationId" | "tags" | "whatYouWillLearn" | "requirements" | "includes" | "previewVideo" | "categoryId" | "status" | "level" | "type" | "createdAt" | "updatedAt" | "publishedAt", ExtArgs["result"]["course"]>
+  export type CourseOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "title" | "shortDescription" | "description" | "instructorId" | "organizationId" | "duration" | "startDate" | "endDate" | "price" | "salePrice" | "thumbnail" | "maxStudent" | "language" | "tags" | "whatYouWillLearn" | "requirements" | "includes" | "status" | "level" | "type" | "categoryId" | "createdAt" | "updatedAt" | "publishedAt", ExtArgs["result"]["course"]>
   export type CourseInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    category?: boolean | Course$categoryArgs<ExtArgs>
+    stats?: boolean | Course$statsArgs<ExtArgs>
     modules?: boolean | Course$modulesArgs<ExtArgs>
     reviews?: boolean | Course$reviewsArgs<ExtArgs>
     faqs?: boolean | Course$faqsArgs<ExtArgs>
-    category?: boolean | Course$categoryArgs<ExtArgs>
     _count?: boolean | CourseCountOutputTypeDefaultArgs<ExtArgs>
   }
   export type CourseIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -2063,42 +2056,35 @@ export namespace Prisma {
   export type $CoursePayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     name: "Course"
     objects: {
+      category: Prisma.$CategoryPayload<ExtArgs> | null
+      stats: Prisma.$CourseStatsPayload<ExtArgs> | null
       modules: Prisma.$ModulePayload<ExtArgs>[]
       reviews: Prisma.$ReviewPayload<ExtArgs>[]
       faqs: Prisma.$FAQPayload<ExtArgs>[]
-      category: Prisma.$CategoryPayload<ExtArgs> | null
     }
     scalars: $Extensions.GetPayloadResult<{
       id: string
       title: string
-      description: string
-      longDescription: string | null
-      instructor: string
-      instructorAvatar: string
-      instructorTitle: string | null
-      instructorBio: string | null
+      shortDescription: string
+      description: string | null
       instructorId: string
+      organizationId: string | null
       duration: string
       startDate: Date | null
       endDate: Date | null
-      students: number
-      totalReviews: number
-      rating: number
       price: number
       salePrice: number | null
       thumbnail: string
-      maxStudents: number | null
+      maxStudent: number | null
       language: string | null
-      organizationId: string | null
       tags: string[]
       whatYouWillLearn: string[]
       requirements: string[]
       includes: string[]
-      previewVideo: string | null
-      categoryId: string | null
       status: $Enums.Status
       level: $Enums.Level
       type: $Enums.Type
+      categoryId: string | null
       createdAt: Date
       updatedAt: Date
       publishedAt: Date | null
@@ -2496,10 +2482,11 @@ export namespace Prisma {
    */
   export interface Prisma__CourseClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
     readonly [Symbol.toStringTag]: "PrismaPromise"
+    category<T extends Course$categoryArgs<ExtArgs> = {}>(args?: Subset<T, Course$categoryArgs<ExtArgs>>): Prisma__CategoryClient<$Result.GetResult<Prisma.$CategoryPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+    stats<T extends Course$statsArgs<ExtArgs> = {}>(args?: Subset<T, Course$statsArgs<ExtArgs>>): Prisma__CourseStatsClient<$Result.GetResult<Prisma.$CourseStatsPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
     modules<T extends Course$modulesArgs<ExtArgs> = {}>(args?: Subset<T, Course$modulesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ModulePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     reviews<T extends Course$reviewsArgs<ExtArgs> = {}>(args?: Subset<T, Course$reviewsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ReviewPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     faqs<T extends Course$faqsArgs<ExtArgs> = {}>(args?: Subset<T, Course$faqsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$FAQPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
-    category<T extends Course$categoryArgs<ExtArgs> = {}>(args?: Subset<T, Course$categoryArgs<ExtArgs>>): Prisma__CategoryClient<$Result.GetResult<Prisma.$CategoryPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -2531,34 +2518,26 @@ export namespace Prisma {
   interface CourseFieldRefs {
     readonly id: FieldRef<"Course", 'String'>
     readonly title: FieldRef<"Course", 'String'>
+    readonly shortDescription: FieldRef<"Course", 'String'>
     readonly description: FieldRef<"Course", 'String'>
-    readonly longDescription: FieldRef<"Course", 'String'>
-    readonly instructor: FieldRef<"Course", 'String'>
-    readonly instructorAvatar: FieldRef<"Course", 'String'>
-    readonly instructorTitle: FieldRef<"Course", 'String'>
-    readonly instructorBio: FieldRef<"Course", 'String'>
     readonly instructorId: FieldRef<"Course", 'String'>
+    readonly organizationId: FieldRef<"Course", 'String'>
     readonly duration: FieldRef<"Course", 'String'>
     readonly startDate: FieldRef<"Course", 'DateTime'>
     readonly endDate: FieldRef<"Course", 'DateTime'>
-    readonly students: FieldRef<"Course", 'Int'>
-    readonly totalReviews: FieldRef<"Course", 'Int'>
-    readonly rating: FieldRef<"Course", 'Float'>
     readonly price: FieldRef<"Course", 'Float'>
     readonly salePrice: FieldRef<"Course", 'Float'>
     readonly thumbnail: FieldRef<"Course", 'String'>
-    readonly maxStudents: FieldRef<"Course", 'Int'>
+    readonly maxStudent: FieldRef<"Course", 'Int'>
     readonly language: FieldRef<"Course", 'String'>
-    readonly organizationId: FieldRef<"Course", 'String'>
     readonly tags: FieldRef<"Course", 'String[]'>
     readonly whatYouWillLearn: FieldRef<"Course", 'String[]'>
     readonly requirements: FieldRef<"Course", 'String[]'>
     readonly includes: FieldRef<"Course", 'String[]'>
-    readonly previewVideo: FieldRef<"Course", 'String'>
-    readonly categoryId: FieldRef<"Course", 'String'>
     readonly status: FieldRef<"Course", 'Status'>
     readonly level: FieldRef<"Course", 'Level'>
     readonly type: FieldRef<"Course", 'Type'>
+    readonly categoryId: FieldRef<"Course", 'String'>
     readonly createdAt: FieldRef<"Course", 'DateTime'>
     readonly updatedAt: FieldRef<"Course", 'DateTime'>
     readonly publishedAt: FieldRef<"Course", 'DateTime'>
@@ -2958,6 +2937,44 @@ export namespace Prisma {
   }
 
   /**
+   * Course.category
+   */
+  export type Course$categoryArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Category
+     */
+    select?: CategorySelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Category
+     */
+    omit?: CategoryOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: CategoryInclude<ExtArgs> | null
+    where?: CategoryWhereInput
+  }
+
+  /**
+   * Course.stats
+   */
+  export type Course$statsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the CourseStats
+     */
+    select?: CourseStatsSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the CourseStats
+     */
+    omit?: CourseStatsOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: CourseStatsInclude<ExtArgs> | null
+    where?: CourseStatsWhereInput
+  }
+
+  /**
    * Course.modules
    */
   export type Course$modulesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -3030,25 +3047,6 @@ export namespace Prisma {
   }
 
   /**
-   * Course.category
-   */
-  export type Course$categoryArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the Category
-     */
-    select?: CategorySelect<ExtArgs> | null
-    /**
-     * Omit specific fields from the Category
-     */
-    omit?: CategoryOmit<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: CategoryInclude<ExtArgs> | null
-    where?: CategoryWhereInput
-  }
-
-  /**
    * Course without action
    */
   export type CourseDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -3064,6 +3062,1123 @@ export namespace Prisma {
      * Choose, which related nodes to fetch as well
      */
     include?: CourseInclude<ExtArgs> | null
+  }
+
+
+  /**
+   * Model CourseStats
+   */
+
+  export type AggregateCourseStats = {
+    _count: CourseStatsCountAggregateOutputType | null
+    _avg: CourseStatsAvgAggregateOutputType | null
+    _sum: CourseStatsSumAggregateOutputType | null
+    _min: CourseStatsMinAggregateOutputType | null
+    _max: CourseStatsMaxAggregateOutputType | null
+  }
+
+  export type CourseStatsAvgAggregateOutputType = {
+    students: number | null
+    totalReviews: number | null
+    rating: number | null
+    completionRate: number | null
+  }
+
+  export type CourseStatsSumAggregateOutputType = {
+    students: number | null
+    totalReviews: number | null
+    rating: number | null
+    completionRate: number | null
+  }
+
+  export type CourseStatsMinAggregateOutputType = {
+    id: string | null
+    students: number | null
+    totalReviews: number | null
+    rating: number | null
+    completionRate: number | null
+    courseId: string | null
+  }
+
+  export type CourseStatsMaxAggregateOutputType = {
+    id: string | null
+    students: number | null
+    totalReviews: number | null
+    rating: number | null
+    completionRate: number | null
+    courseId: string | null
+  }
+
+  export type CourseStatsCountAggregateOutputType = {
+    id: number
+    students: number
+    totalReviews: number
+    rating: number
+    completionRate: number
+    courseId: number
+    _all: number
+  }
+
+
+  export type CourseStatsAvgAggregateInputType = {
+    students?: true
+    totalReviews?: true
+    rating?: true
+    completionRate?: true
+  }
+
+  export type CourseStatsSumAggregateInputType = {
+    students?: true
+    totalReviews?: true
+    rating?: true
+    completionRate?: true
+  }
+
+  export type CourseStatsMinAggregateInputType = {
+    id?: true
+    students?: true
+    totalReviews?: true
+    rating?: true
+    completionRate?: true
+    courseId?: true
+  }
+
+  export type CourseStatsMaxAggregateInputType = {
+    id?: true
+    students?: true
+    totalReviews?: true
+    rating?: true
+    completionRate?: true
+    courseId?: true
+  }
+
+  export type CourseStatsCountAggregateInputType = {
+    id?: true
+    students?: true
+    totalReviews?: true
+    rating?: true
+    completionRate?: true
+    courseId?: true
+    _all?: true
+  }
+
+  export type CourseStatsAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which CourseStats to aggregate.
+     */
+    where?: CourseStatsWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of CourseStats to fetch.
+     */
+    orderBy?: CourseStatsOrderByWithRelationInput | CourseStatsOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: CourseStatsWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` CourseStats from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` CourseStats.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned CourseStats
+    **/
+    _count?: true | CourseStatsCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to average
+    **/
+    _avg?: CourseStatsAvgAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to sum
+    **/
+    _sum?: CourseStatsSumAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: CourseStatsMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: CourseStatsMaxAggregateInputType
+  }
+
+  export type GetCourseStatsAggregateType<T extends CourseStatsAggregateArgs> = {
+        [P in keyof T & keyof AggregateCourseStats]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateCourseStats[P]>
+      : GetScalarType<T[P], AggregateCourseStats[P]>
+  }
+
+
+
+
+  export type CourseStatsGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: CourseStatsWhereInput
+    orderBy?: CourseStatsOrderByWithAggregationInput | CourseStatsOrderByWithAggregationInput[]
+    by: CourseStatsScalarFieldEnum[] | CourseStatsScalarFieldEnum
+    having?: CourseStatsScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: CourseStatsCountAggregateInputType | true
+    _avg?: CourseStatsAvgAggregateInputType
+    _sum?: CourseStatsSumAggregateInputType
+    _min?: CourseStatsMinAggregateInputType
+    _max?: CourseStatsMaxAggregateInputType
+  }
+
+  export type CourseStatsGroupByOutputType = {
+    id: string
+    students: number
+    totalReviews: number
+    rating: number
+    completionRate: number
+    courseId: string
+    _count: CourseStatsCountAggregateOutputType | null
+    _avg: CourseStatsAvgAggregateOutputType | null
+    _sum: CourseStatsSumAggregateOutputType | null
+    _min: CourseStatsMinAggregateOutputType | null
+    _max: CourseStatsMaxAggregateOutputType | null
+  }
+
+  type GetCourseStatsGroupByPayload<T extends CourseStatsGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<CourseStatsGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof CourseStatsGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], CourseStatsGroupByOutputType[P]>
+            : GetScalarType<T[P], CourseStatsGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type CourseStatsSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    students?: boolean
+    totalReviews?: boolean
+    rating?: boolean
+    completionRate?: boolean
+    courseId?: boolean
+    course?: boolean | CourseDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["courseStats"]>
+
+  export type CourseStatsSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    students?: boolean
+    totalReviews?: boolean
+    rating?: boolean
+    completionRate?: boolean
+    courseId?: boolean
+    course?: boolean | CourseDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["courseStats"]>
+
+  export type CourseStatsSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    students?: boolean
+    totalReviews?: boolean
+    rating?: boolean
+    completionRate?: boolean
+    courseId?: boolean
+    course?: boolean | CourseDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["courseStats"]>
+
+  export type CourseStatsSelectScalar = {
+    id?: boolean
+    students?: boolean
+    totalReviews?: boolean
+    rating?: boolean
+    completionRate?: boolean
+    courseId?: boolean
+  }
+
+  export type CourseStatsOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "students" | "totalReviews" | "rating" | "completionRate" | "courseId", ExtArgs["result"]["courseStats"]>
+  export type CourseStatsInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    course?: boolean | CourseDefaultArgs<ExtArgs>
+  }
+  export type CourseStatsIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    course?: boolean | CourseDefaultArgs<ExtArgs>
+  }
+  export type CourseStatsIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    course?: boolean | CourseDefaultArgs<ExtArgs>
+  }
+
+  export type $CourseStatsPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "CourseStats"
+    objects: {
+      course: Prisma.$CoursePayload<ExtArgs>
+    }
+    scalars: $Extensions.GetPayloadResult<{
+      id: string
+      students: number
+      totalReviews: number
+      rating: number
+      completionRate: number
+      courseId: string
+    }, ExtArgs["result"]["courseStats"]>
+    composites: {}
+  }
+
+  type CourseStatsGetPayload<S extends boolean | null | undefined | CourseStatsDefaultArgs> = $Result.GetResult<Prisma.$CourseStatsPayload, S>
+
+  type CourseStatsCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<CourseStatsFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: CourseStatsCountAggregateInputType | true
+    }
+
+  export interface CourseStatsDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['CourseStats'], meta: { name: 'CourseStats' } }
+    /**
+     * Find zero or one CourseStats that matches the filter.
+     * @param {CourseStatsFindUniqueArgs} args - Arguments to find a CourseStats
+     * @example
+     * // Get one CourseStats
+     * const courseStats = await prisma.courseStats.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends CourseStatsFindUniqueArgs>(args: SelectSubset<T, CourseStatsFindUniqueArgs<ExtArgs>>): Prisma__CourseStatsClient<$Result.GetResult<Prisma.$CourseStatsPayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find one CourseStats that matches the filter or throw an error with `error.code='P2025'`
+     * if no matches were found.
+     * @param {CourseStatsFindUniqueOrThrowArgs} args - Arguments to find a CourseStats
+     * @example
+     * // Get one CourseStats
+     * const courseStats = await prisma.courseStats.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends CourseStatsFindUniqueOrThrowArgs>(args: SelectSubset<T, CourseStatsFindUniqueOrThrowArgs<ExtArgs>>): Prisma__CourseStatsClient<$Result.GetResult<Prisma.$CourseStatsPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first CourseStats that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {CourseStatsFindFirstArgs} args - Arguments to find a CourseStats
+     * @example
+     * // Get one CourseStats
+     * const courseStats = await prisma.courseStats.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends CourseStatsFindFirstArgs>(args?: SelectSubset<T, CourseStatsFindFirstArgs<ExtArgs>>): Prisma__CourseStatsClient<$Result.GetResult<Prisma.$CourseStatsPayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first CourseStats that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {CourseStatsFindFirstOrThrowArgs} args - Arguments to find a CourseStats
+     * @example
+     * // Get one CourseStats
+     * const courseStats = await prisma.courseStats.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends CourseStatsFindFirstOrThrowArgs>(args?: SelectSubset<T, CourseStatsFindFirstOrThrowArgs<ExtArgs>>): Prisma__CourseStatsClient<$Result.GetResult<Prisma.$CourseStatsPayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more CourseStats that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {CourseStatsFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all CourseStats
+     * const courseStats = await prisma.courseStats.findMany()
+     * 
+     * // Get first 10 CourseStats
+     * const courseStats = await prisma.courseStats.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const courseStatsWithIdOnly = await prisma.courseStats.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends CourseStatsFindManyArgs>(args?: SelectSubset<T, CourseStatsFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$CourseStatsPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+
+    /**
+     * Create a CourseStats.
+     * @param {CourseStatsCreateArgs} args - Arguments to create a CourseStats.
+     * @example
+     * // Create one CourseStats
+     * const CourseStats = await prisma.courseStats.create({
+     *   data: {
+     *     // ... data to create a CourseStats
+     *   }
+     * })
+     * 
+     */
+    create<T extends CourseStatsCreateArgs>(args: SelectSubset<T, CourseStatsCreateArgs<ExtArgs>>): Prisma__CourseStatsClient<$Result.GetResult<Prisma.$CourseStatsPayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Create many CourseStats.
+     * @param {CourseStatsCreateManyArgs} args - Arguments to create many CourseStats.
+     * @example
+     * // Create many CourseStats
+     * const courseStats = await prisma.courseStats.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends CourseStatsCreateManyArgs>(args?: SelectSubset<T, CourseStatsCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many CourseStats and returns the data saved in the database.
+     * @param {CourseStatsCreateManyAndReturnArgs} args - Arguments to create many CourseStats.
+     * @example
+     * // Create many CourseStats
+     * const courseStats = await prisma.courseStats.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many CourseStats and only return the `id`
+     * const courseStatsWithIdOnly = await prisma.courseStats.createManyAndReturn({
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends CourseStatsCreateManyAndReturnArgs>(args?: SelectSubset<T, CourseStatsCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$CourseStatsPayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Delete a CourseStats.
+     * @param {CourseStatsDeleteArgs} args - Arguments to delete one CourseStats.
+     * @example
+     * // Delete one CourseStats
+     * const CourseStats = await prisma.courseStats.delete({
+     *   where: {
+     *     // ... filter to delete one CourseStats
+     *   }
+     * })
+     * 
+     */
+    delete<T extends CourseStatsDeleteArgs>(args: SelectSubset<T, CourseStatsDeleteArgs<ExtArgs>>): Prisma__CourseStatsClient<$Result.GetResult<Prisma.$CourseStatsPayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Update one CourseStats.
+     * @param {CourseStatsUpdateArgs} args - Arguments to update one CourseStats.
+     * @example
+     * // Update one CourseStats
+     * const courseStats = await prisma.courseStats.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends CourseStatsUpdateArgs>(args: SelectSubset<T, CourseStatsUpdateArgs<ExtArgs>>): Prisma__CourseStatsClient<$Result.GetResult<Prisma.$CourseStatsPayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Delete zero or more CourseStats.
+     * @param {CourseStatsDeleteManyArgs} args - Arguments to filter CourseStats to delete.
+     * @example
+     * // Delete a few CourseStats
+     * const { count } = await prisma.courseStats.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends CourseStatsDeleteManyArgs>(args?: SelectSubset<T, CourseStatsDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more CourseStats.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {CourseStatsUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many CourseStats
+     * const courseStats = await prisma.courseStats.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends CourseStatsUpdateManyArgs>(args: SelectSubset<T, CourseStatsUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more CourseStats and returns the data updated in the database.
+     * @param {CourseStatsUpdateManyAndReturnArgs} args - Arguments to update many CourseStats.
+     * @example
+     * // Update many CourseStats
+     * const courseStats = await prisma.courseStats.updateManyAndReturn({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Update zero or more CourseStats and only return the `id`
+     * const courseStatsWithIdOnly = await prisma.courseStats.updateManyAndReturn({
+     *   select: { id: true },
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    updateManyAndReturn<T extends CourseStatsUpdateManyAndReturnArgs>(args: SelectSubset<T, CourseStatsUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$CourseStatsPayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Create or update one CourseStats.
+     * @param {CourseStatsUpsertArgs} args - Arguments to update or create a CourseStats.
+     * @example
+     * // Update or create a CourseStats
+     * const courseStats = await prisma.courseStats.upsert({
+     *   create: {
+     *     // ... data to create a CourseStats
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the CourseStats we want to update
+     *   }
+     * })
+     */
+    upsert<T extends CourseStatsUpsertArgs>(args: SelectSubset<T, CourseStatsUpsertArgs<ExtArgs>>): Prisma__CourseStatsClient<$Result.GetResult<Prisma.$CourseStatsPayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+
+    /**
+     * Count the number of CourseStats.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {CourseStatsCountArgs} args - Arguments to filter CourseStats to count.
+     * @example
+     * // Count the number of CourseStats
+     * const count = await prisma.courseStats.count({
+     *   where: {
+     *     // ... the filter for the CourseStats we want to count
+     *   }
+     * })
+    **/
+    count<T extends CourseStatsCountArgs>(
+      args?: Subset<T, CourseStatsCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], CourseStatsCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a CourseStats.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {CourseStatsAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends CourseStatsAggregateArgs>(args: Subset<T, CourseStatsAggregateArgs>): Prisma.PrismaPromise<GetCourseStatsAggregateType<T>>
+
+    /**
+     * Group by CourseStats.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {CourseStatsGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends CourseStatsGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: CourseStatsGroupByArgs['orderBy'] }
+        : { orderBy?: CourseStatsGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, CourseStatsGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetCourseStatsGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the CourseStats model
+   */
+  readonly fields: CourseStatsFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for CourseStats.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__CourseStatsClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    course<T extends CourseDefaultArgs<ExtArgs> = {}>(args?: Subset<T, CourseDefaultArgs<ExtArgs>>): Prisma__CourseClient<$Result.GetResult<Prisma.$CoursePayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the CourseStats model
+   */
+  interface CourseStatsFieldRefs {
+    readonly id: FieldRef<"CourseStats", 'String'>
+    readonly students: FieldRef<"CourseStats", 'Int'>
+    readonly totalReviews: FieldRef<"CourseStats", 'Int'>
+    readonly rating: FieldRef<"CourseStats", 'Float'>
+    readonly completionRate: FieldRef<"CourseStats", 'Float'>
+    readonly courseId: FieldRef<"CourseStats", 'String'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * CourseStats findUnique
+   */
+  export type CourseStatsFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the CourseStats
+     */
+    select?: CourseStatsSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the CourseStats
+     */
+    omit?: CourseStatsOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: CourseStatsInclude<ExtArgs> | null
+    /**
+     * Filter, which CourseStats to fetch.
+     */
+    where: CourseStatsWhereUniqueInput
+  }
+
+  /**
+   * CourseStats findUniqueOrThrow
+   */
+  export type CourseStatsFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the CourseStats
+     */
+    select?: CourseStatsSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the CourseStats
+     */
+    omit?: CourseStatsOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: CourseStatsInclude<ExtArgs> | null
+    /**
+     * Filter, which CourseStats to fetch.
+     */
+    where: CourseStatsWhereUniqueInput
+  }
+
+  /**
+   * CourseStats findFirst
+   */
+  export type CourseStatsFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the CourseStats
+     */
+    select?: CourseStatsSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the CourseStats
+     */
+    omit?: CourseStatsOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: CourseStatsInclude<ExtArgs> | null
+    /**
+     * Filter, which CourseStats to fetch.
+     */
+    where?: CourseStatsWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of CourseStats to fetch.
+     */
+    orderBy?: CourseStatsOrderByWithRelationInput | CourseStatsOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for CourseStats.
+     */
+    cursor?: CourseStatsWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` CourseStats from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` CourseStats.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of CourseStats.
+     */
+    distinct?: CourseStatsScalarFieldEnum | CourseStatsScalarFieldEnum[]
+  }
+
+  /**
+   * CourseStats findFirstOrThrow
+   */
+  export type CourseStatsFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the CourseStats
+     */
+    select?: CourseStatsSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the CourseStats
+     */
+    omit?: CourseStatsOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: CourseStatsInclude<ExtArgs> | null
+    /**
+     * Filter, which CourseStats to fetch.
+     */
+    where?: CourseStatsWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of CourseStats to fetch.
+     */
+    orderBy?: CourseStatsOrderByWithRelationInput | CourseStatsOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for CourseStats.
+     */
+    cursor?: CourseStatsWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` CourseStats from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` CourseStats.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of CourseStats.
+     */
+    distinct?: CourseStatsScalarFieldEnum | CourseStatsScalarFieldEnum[]
+  }
+
+  /**
+   * CourseStats findMany
+   */
+  export type CourseStatsFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the CourseStats
+     */
+    select?: CourseStatsSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the CourseStats
+     */
+    omit?: CourseStatsOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: CourseStatsInclude<ExtArgs> | null
+    /**
+     * Filter, which CourseStats to fetch.
+     */
+    where?: CourseStatsWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of CourseStats to fetch.
+     */
+    orderBy?: CourseStatsOrderByWithRelationInput | CourseStatsOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing CourseStats.
+     */
+    cursor?: CourseStatsWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` CourseStats from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` CourseStats.
+     */
+    skip?: number
+    distinct?: CourseStatsScalarFieldEnum | CourseStatsScalarFieldEnum[]
+  }
+
+  /**
+   * CourseStats create
+   */
+  export type CourseStatsCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the CourseStats
+     */
+    select?: CourseStatsSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the CourseStats
+     */
+    omit?: CourseStatsOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: CourseStatsInclude<ExtArgs> | null
+    /**
+     * The data needed to create a CourseStats.
+     */
+    data: XOR<CourseStatsCreateInput, CourseStatsUncheckedCreateInput>
+  }
+
+  /**
+   * CourseStats createMany
+   */
+  export type CourseStatsCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many CourseStats.
+     */
+    data: CourseStatsCreateManyInput | CourseStatsCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * CourseStats createManyAndReturn
+   */
+  export type CourseStatsCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the CourseStats
+     */
+    select?: CourseStatsSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the CourseStats
+     */
+    omit?: CourseStatsOmit<ExtArgs> | null
+    /**
+     * The data used to create many CourseStats.
+     */
+    data: CourseStatsCreateManyInput | CourseStatsCreateManyInput[]
+    skipDuplicates?: boolean
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: CourseStatsIncludeCreateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * CourseStats update
+   */
+  export type CourseStatsUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the CourseStats
+     */
+    select?: CourseStatsSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the CourseStats
+     */
+    omit?: CourseStatsOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: CourseStatsInclude<ExtArgs> | null
+    /**
+     * The data needed to update a CourseStats.
+     */
+    data: XOR<CourseStatsUpdateInput, CourseStatsUncheckedUpdateInput>
+    /**
+     * Choose, which CourseStats to update.
+     */
+    where: CourseStatsWhereUniqueInput
+  }
+
+  /**
+   * CourseStats updateMany
+   */
+  export type CourseStatsUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update CourseStats.
+     */
+    data: XOR<CourseStatsUpdateManyMutationInput, CourseStatsUncheckedUpdateManyInput>
+    /**
+     * Filter which CourseStats to update
+     */
+    where?: CourseStatsWhereInput
+    /**
+     * Limit how many CourseStats to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * CourseStats updateManyAndReturn
+   */
+  export type CourseStatsUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the CourseStats
+     */
+    select?: CourseStatsSelectUpdateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the CourseStats
+     */
+    omit?: CourseStatsOmit<ExtArgs> | null
+    /**
+     * The data used to update CourseStats.
+     */
+    data: XOR<CourseStatsUpdateManyMutationInput, CourseStatsUncheckedUpdateManyInput>
+    /**
+     * Filter which CourseStats to update
+     */
+    where?: CourseStatsWhereInput
+    /**
+     * Limit how many CourseStats to update.
+     */
+    limit?: number
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: CourseStatsIncludeUpdateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * CourseStats upsert
+   */
+  export type CourseStatsUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the CourseStats
+     */
+    select?: CourseStatsSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the CourseStats
+     */
+    omit?: CourseStatsOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: CourseStatsInclude<ExtArgs> | null
+    /**
+     * The filter to search for the CourseStats to update in case it exists.
+     */
+    where: CourseStatsWhereUniqueInput
+    /**
+     * In case the CourseStats found by the `where` argument doesn't exist, create a new CourseStats with this data.
+     */
+    create: XOR<CourseStatsCreateInput, CourseStatsUncheckedCreateInput>
+    /**
+     * In case the CourseStats was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<CourseStatsUpdateInput, CourseStatsUncheckedUpdateInput>
+  }
+
+  /**
+   * CourseStats delete
+   */
+  export type CourseStatsDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the CourseStats
+     */
+    select?: CourseStatsSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the CourseStats
+     */
+    omit?: CourseStatsOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: CourseStatsInclude<ExtArgs> | null
+    /**
+     * Filter which CourseStats to delete.
+     */
+    where: CourseStatsWhereUniqueInput
+  }
+
+  /**
+   * CourseStats deleteMany
+   */
+  export type CourseStatsDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which CourseStats to delete
+     */
+    where?: CourseStatsWhereInput
+    /**
+     * Limit how many CourseStats to delete.
+     */
+    limit?: number
+  }
+
+  /**
+   * CourseStats without action
+   */
+  export type CourseStatsDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the CourseStats
+     */
+    select?: CourseStatsSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the CourseStats
+     */
+    omit?: CourseStatsOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: CourseStatsInclude<ExtArgs> | null
   }
 
 
@@ -8684,40 +9799,44 @@ export namespace Prisma {
   export const CourseScalarFieldEnum: {
     id: 'id',
     title: 'title',
+    shortDescription: 'shortDescription',
     description: 'description',
-    longDescription: 'longDescription',
-    instructor: 'instructor',
-    instructorAvatar: 'instructorAvatar',
-    instructorTitle: 'instructorTitle',
-    instructorBio: 'instructorBio',
     instructorId: 'instructorId',
+    organizationId: 'organizationId',
     duration: 'duration',
     startDate: 'startDate',
     endDate: 'endDate',
-    students: 'students',
-    totalReviews: 'totalReviews',
-    rating: 'rating',
     price: 'price',
     salePrice: 'salePrice',
     thumbnail: 'thumbnail',
-    maxStudents: 'maxStudents',
+    maxStudent: 'maxStudent',
     language: 'language',
-    organizationId: 'organizationId',
     tags: 'tags',
     whatYouWillLearn: 'whatYouWillLearn',
     requirements: 'requirements',
     includes: 'includes',
-    previewVideo: 'previewVideo',
-    categoryId: 'categoryId',
     status: 'status',
     level: 'level',
     type: 'type',
+    categoryId: 'categoryId',
     createdAt: 'createdAt',
     updatedAt: 'updatedAt',
     publishedAt: 'publishedAt'
   };
 
   export type CourseScalarFieldEnum = (typeof CourseScalarFieldEnum)[keyof typeof CourseScalarFieldEnum]
+
+
+  export const CourseStatsScalarFieldEnum: {
+    id: 'id',
+    students: 'students',
+    totalReviews: 'totalReviews',
+    rating: 'rating',
+    completionRate: 'completionRate',
+    courseId: 'courseId'
+  };
+
+  export type CourseStatsScalarFieldEnum = (typeof CourseStatsScalarFieldEnum)[keyof typeof CourseStatsScalarFieldEnum]
 
 
   export const CategoryScalarFieldEnum: {
@@ -8839,20 +9958,6 @@ export namespace Prisma {
 
 
   /**
-   * Reference to a field of type 'Int'
-   */
-  export type IntFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Int'>
-    
-
-
-  /**
-   * Reference to a field of type 'Int[]'
-   */
-  export type ListIntFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Int[]'>
-    
-
-
-  /**
    * Reference to a field of type 'Float'
    */
   export type FloatFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Float'>
@@ -8863,6 +9968,20 @@ export namespace Prisma {
    * Reference to a field of type 'Float[]'
    */
   export type ListFloatFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Float[]'>
+    
+
+
+  /**
+   * Reference to a field of type 'Int'
+   */
+  export type IntFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Int'>
+    
+
+
+  /**
+   * Reference to a field of type 'Int[]'
+   */
+  export type ListIntFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Int[]'>
     
 
 
@@ -8938,81 +10057,67 @@ export namespace Prisma {
     NOT?: CourseWhereInput | CourseWhereInput[]
     id?: StringFilter<"Course"> | string
     title?: StringFilter<"Course"> | string
-    description?: StringFilter<"Course"> | string
-    longDescription?: StringNullableFilter<"Course"> | string | null
-    instructor?: StringFilter<"Course"> | string
-    instructorAvatar?: StringFilter<"Course"> | string
-    instructorTitle?: StringNullableFilter<"Course"> | string | null
-    instructorBio?: StringNullableFilter<"Course"> | string | null
+    shortDescription?: StringFilter<"Course"> | string
+    description?: StringNullableFilter<"Course"> | string | null
     instructorId?: StringFilter<"Course"> | string
+    organizationId?: StringNullableFilter<"Course"> | string | null
     duration?: StringFilter<"Course"> | string
     startDate?: DateTimeNullableFilter<"Course"> | Date | string | null
     endDate?: DateTimeNullableFilter<"Course"> | Date | string | null
-    students?: IntFilter<"Course"> | number
-    totalReviews?: IntFilter<"Course"> | number
-    rating?: FloatFilter<"Course"> | number
     price?: FloatFilter<"Course"> | number
     salePrice?: FloatNullableFilter<"Course"> | number | null
     thumbnail?: StringFilter<"Course"> | string
-    maxStudents?: IntNullableFilter<"Course"> | number | null
+    maxStudent?: IntNullableFilter<"Course"> | number | null
     language?: StringNullableFilter<"Course"> | string | null
-    organizationId?: StringNullableFilter<"Course"> | string | null
     tags?: StringNullableListFilter<"Course">
     whatYouWillLearn?: StringNullableListFilter<"Course">
     requirements?: StringNullableListFilter<"Course">
     includes?: StringNullableListFilter<"Course">
-    previewVideo?: StringNullableFilter<"Course"> | string | null
-    categoryId?: StringNullableFilter<"Course"> | string | null
     status?: EnumStatusFilter<"Course"> | $Enums.Status
     level?: EnumLevelFilter<"Course"> | $Enums.Level
     type?: EnumTypeFilter<"Course"> | $Enums.Type
+    categoryId?: StringNullableFilter<"Course"> | string | null
     createdAt?: DateTimeFilter<"Course"> | Date | string
     updatedAt?: DateTimeFilter<"Course"> | Date | string
     publishedAt?: DateTimeNullableFilter<"Course"> | Date | string | null
+    category?: XOR<CategoryNullableScalarRelationFilter, CategoryWhereInput> | null
+    stats?: XOR<CourseStatsNullableScalarRelationFilter, CourseStatsWhereInput> | null
     modules?: ModuleListRelationFilter
     reviews?: ReviewListRelationFilter
     faqs?: FAQListRelationFilter
-    category?: XOR<CategoryNullableScalarRelationFilter, CategoryWhereInput> | null
   }
 
   export type CourseOrderByWithRelationInput = {
     id?: SortOrder
     title?: SortOrder
-    description?: SortOrder
-    longDescription?: SortOrderInput | SortOrder
-    instructor?: SortOrder
-    instructorAvatar?: SortOrder
-    instructorTitle?: SortOrderInput | SortOrder
-    instructorBio?: SortOrderInput | SortOrder
+    shortDescription?: SortOrder
+    description?: SortOrderInput | SortOrder
     instructorId?: SortOrder
+    organizationId?: SortOrderInput | SortOrder
     duration?: SortOrder
     startDate?: SortOrderInput | SortOrder
     endDate?: SortOrderInput | SortOrder
-    students?: SortOrder
-    totalReviews?: SortOrder
-    rating?: SortOrder
     price?: SortOrder
     salePrice?: SortOrderInput | SortOrder
     thumbnail?: SortOrder
-    maxStudents?: SortOrderInput | SortOrder
+    maxStudent?: SortOrderInput | SortOrder
     language?: SortOrderInput | SortOrder
-    organizationId?: SortOrderInput | SortOrder
     tags?: SortOrder
     whatYouWillLearn?: SortOrder
     requirements?: SortOrder
     includes?: SortOrder
-    previewVideo?: SortOrderInput | SortOrder
-    categoryId?: SortOrderInput | SortOrder
     status?: SortOrder
     level?: SortOrder
     type?: SortOrder
+    categoryId?: SortOrderInput | SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
     publishedAt?: SortOrderInput | SortOrder
+    category?: CategoryOrderByWithRelationInput
+    stats?: CourseStatsOrderByWithRelationInput
     modules?: ModuleOrderByRelationAggregateInput
     reviews?: ReviewOrderByRelationAggregateInput
     faqs?: FAQOrderByRelationAggregateInput
-    category?: CategoryOrderByWithRelationInput
   }
 
   export type CourseWhereUniqueInput = Prisma.AtLeast<{
@@ -9021,74 +10126,59 @@ export namespace Prisma {
     OR?: CourseWhereInput[]
     NOT?: CourseWhereInput | CourseWhereInput[]
     title?: StringFilter<"Course"> | string
-    description?: StringFilter<"Course"> | string
-    longDescription?: StringNullableFilter<"Course"> | string | null
-    instructor?: StringFilter<"Course"> | string
-    instructorAvatar?: StringFilter<"Course"> | string
-    instructorTitle?: StringNullableFilter<"Course"> | string | null
-    instructorBio?: StringNullableFilter<"Course"> | string | null
+    shortDescription?: StringFilter<"Course"> | string
+    description?: StringNullableFilter<"Course"> | string | null
     instructorId?: StringFilter<"Course"> | string
+    organizationId?: StringNullableFilter<"Course"> | string | null
     duration?: StringFilter<"Course"> | string
     startDate?: DateTimeNullableFilter<"Course"> | Date | string | null
     endDate?: DateTimeNullableFilter<"Course"> | Date | string | null
-    students?: IntFilter<"Course"> | number
-    totalReviews?: IntFilter<"Course"> | number
-    rating?: FloatFilter<"Course"> | number
     price?: FloatFilter<"Course"> | number
     salePrice?: FloatNullableFilter<"Course"> | number | null
     thumbnail?: StringFilter<"Course"> | string
-    maxStudents?: IntNullableFilter<"Course"> | number | null
+    maxStudent?: IntNullableFilter<"Course"> | number | null
     language?: StringNullableFilter<"Course"> | string | null
-    organizationId?: StringNullableFilter<"Course"> | string | null
     tags?: StringNullableListFilter<"Course">
     whatYouWillLearn?: StringNullableListFilter<"Course">
     requirements?: StringNullableListFilter<"Course">
     includes?: StringNullableListFilter<"Course">
-    previewVideo?: StringNullableFilter<"Course"> | string | null
-    categoryId?: StringNullableFilter<"Course"> | string | null
     status?: EnumStatusFilter<"Course"> | $Enums.Status
     level?: EnumLevelFilter<"Course"> | $Enums.Level
     type?: EnumTypeFilter<"Course"> | $Enums.Type
+    categoryId?: StringNullableFilter<"Course"> | string | null
     createdAt?: DateTimeFilter<"Course"> | Date | string
     updatedAt?: DateTimeFilter<"Course"> | Date | string
     publishedAt?: DateTimeNullableFilter<"Course"> | Date | string | null
+    category?: XOR<CategoryNullableScalarRelationFilter, CategoryWhereInput> | null
+    stats?: XOR<CourseStatsNullableScalarRelationFilter, CourseStatsWhereInput> | null
     modules?: ModuleListRelationFilter
     reviews?: ReviewListRelationFilter
     faqs?: FAQListRelationFilter
-    category?: XOR<CategoryNullableScalarRelationFilter, CategoryWhereInput> | null
   }, "id">
 
   export type CourseOrderByWithAggregationInput = {
     id?: SortOrder
     title?: SortOrder
-    description?: SortOrder
-    longDescription?: SortOrderInput | SortOrder
-    instructor?: SortOrder
-    instructorAvatar?: SortOrder
-    instructorTitle?: SortOrderInput | SortOrder
-    instructorBio?: SortOrderInput | SortOrder
+    shortDescription?: SortOrder
+    description?: SortOrderInput | SortOrder
     instructorId?: SortOrder
+    organizationId?: SortOrderInput | SortOrder
     duration?: SortOrder
     startDate?: SortOrderInput | SortOrder
     endDate?: SortOrderInput | SortOrder
-    students?: SortOrder
-    totalReviews?: SortOrder
-    rating?: SortOrder
     price?: SortOrder
     salePrice?: SortOrderInput | SortOrder
     thumbnail?: SortOrder
-    maxStudents?: SortOrderInput | SortOrder
+    maxStudent?: SortOrderInput | SortOrder
     language?: SortOrderInput | SortOrder
-    organizationId?: SortOrderInput | SortOrder
     tags?: SortOrder
     whatYouWillLearn?: SortOrder
     requirements?: SortOrder
     includes?: SortOrder
-    previewVideo?: SortOrderInput | SortOrder
-    categoryId?: SortOrderInput | SortOrder
     status?: SortOrder
     level?: SortOrder
     type?: SortOrder
+    categoryId?: SortOrderInput | SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
     publishedAt?: SortOrderInput | SortOrder
@@ -9105,37 +10195,91 @@ export namespace Prisma {
     NOT?: CourseScalarWhereWithAggregatesInput | CourseScalarWhereWithAggregatesInput[]
     id?: StringWithAggregatesFilter<"Course"> | string
     title?: StringWithAggregatesFilter<"Course"> | string
-    description?: StringWithAggregatesFilter<"Course"> | string
-    longDescription?: StringNullableWithAggregatesFilter<"Course"> | string | null
-    instructor?: StringWithAggregatesFilter<"Course"> | string
-    instructorAvatar?: StringWithAggregatesFilter<"Course"> | string
-    instructorTitle?: StringNullableWithAggregatesFilter<"Course"> | string | null
-    instructorBio?: StringNullableWithAggregatesFilter<"Course"> | string | null
+    shortDescription?: StringWithAggregatesFilter<"Course"> | string
+    description?: StringNullableWithAggregatesFilter<"Course"> | string | null
     instructorId?: StringWithAggregatesFilter<"Course"> | string
+    organizationId?: StringNullableWithAggregatesFilter<"Course"> | string | null
     duration?: StringWithAggregatesFilter<"Course"> | string
     startDate?: DateTimeNullableWithAggregatesFilter<"Course"> | Date | string | null
     endDate?: DateTimeNullableWithAggregatesFilter<"Course"> | Date | string | null
-    students?: IntWithAggregatesFilter<"Course"> | number
-    totalReviews?: IntWithAggregatesFilter<"Course"> | number
-    rating?: FloatWithAggregatesFilter<"Course"> | number
     price?: FloatWithAggregatesFilter<"Course"> | number
     salePrice?: FloatNullableWithAggregatesFilter<"Course"> | number | null
     thumbnail?: StringWithAggregatesFilter<"Course"> | string
-    maxStudents?: IntNullableWithAggregatesFilter<"Course"> | number | null
+    maxStudent?: IntNullableWithAggregatesFilter<"Course"> | number | null
     language?: StringNullableWithAggregatesFilter<"Course"> | string | null
-    organizationId?: StringNullableWithAggregatesFilter<"Course"> | string | null
     tags?: StringNullableListFilter<"Course">
     whatYouWillLearn?: StringNullableListFilter<"Course">
     requirements?: StringNullableListFilter<"Course">
     includes?: StringNullableListFilter<"Course">
-    previewVideo?: StringNullableWithAggregatesFilter<"Course"> | string | null
-    categoryId?: StringNullableWithAggregatesFilter<"Course"> | string | null
     status?: EnumStatusWithAggregatesFilter<"Course"> | $Enums.Status
     level?: EnumLevelWithAggregatesFilter<"Course"> | $Enums.Level
     type?: EnumTypeWithAggregatesFilter<"Course"> | $Enums.Type
+    categoryId?: StringNullableWithAggregatesFilter<"Course"> | string | null
     createdAt?: DateTimeWithAggregatesFilter<"Course"> | Date | string
     updatedAt?: DateTimeWithAggregatesFilter<"Course"> | Date | string
     publishedAt?: DateTimeNullableWithAggregatesFilter<"Course"> | Date | string | null
+  }
+
+  export type CourseStatsWhereInput = {
+    AND?: CourseStatsWhereInput | CourseStatsWhereInput[]
+    OR?: CourseStatsWhereInput[]
+    NOT?: CourseStatsWhereInput | CourseStatsWhereInput[]
+    id?: StringFilter<"CourseStats"> | string
+    students?: IntFilter<"CourseStats"> | number
+    totalReviews?: IntFilter<"CourseStats"> | number
+    rating?: FloatFilter<"CourseStats"> | number
+    completionRate?: FloatFilter<"CourseStats"> | number
+    courseId?: StringFilter<"CourseStats"> | string
+    course?: XOR<CourseScalarRelationFilter, CourseWhereInput>
+  }
+
+  export type CourseStatsOrderByWithRelationInput = {
+    id?: SortOrder
+    students?: SortOrder
+    totalReviews?: SortOrder
+    rating?: SortOrder
+    completionRate?: SortOrder
+    courseId?: SortOrder
+    course?: CourseOrderByWithRelationInput
+  }
+
+  export type CourseStatsWhereUniqueInput = Prisma.AtLeast<{
+    id?: string
+    courseId?: string
+    AND?: CourseStatsWhereInput | CourseStatsWhereInput[]
+    OR?: CourseStatsWhereInput[]
+    NOT?: CourseStatsWhereInput | CourseStatsWhereInput[]
+    students?: IntFilter<"CourseStats"> | number
+    totalReviews?: IntFilter<"CourseStats"> | number
+    rating?: FloatFilter<"CourseStats"> | number
+    completionRate?: FloatFilter<"CourseStats"> | number
+    course?: XOR<CourseScalarRelationFilter, CourseWhereInput>
+  }, "id" | "courseId">
+
+  export type CourseStatsOrderByWithAggregationInput = {
+    id?: SortOrder
+    students?: SortOrder
+    totalReviews?: SortOrder
+    rating?: SortOrder
+    completionRate?: SortOrder
+    courseId?: SortOrder
+    _count?: CourseStatsCountOrderByAggregateInput
+    _avg?: CourseStatsAvgOrderByAggregateInput
+    _max?: CourseStatsMaxOrderByAggregateInput
+    _min?: CourseStatsMinOrderByAggregateInput
+    _sum?: CourseStatsSumOrderByAggregateInput
+  }
+
+  export type CourseStatsScalarWhereWithAggregatesInput = {
+    AND?: CourseStatsScalarWhereWithAggregatesInput | CourseStatsScalarWhereWithAggregatesInput[]
+    OR?: CourseStatsScalarWhereWithAggregatesInput[]
+    NOT?: CourseStatsScalarWhereWithAggregatesInput | CourseStatsScalarWhereWithAggregatesInput[]
+    id?: StringWithAggregatesFilter<"CourseStats"> | string
+    students?: IntWithAggregatesFilter<"CourseStats"> | number
+    totalReviews?: IntWithAggregatesFilter<"CourseStats"> | number
+    rating?: FloatWithAggregatesFilter<"CourseStats"> | number
+    completionRate?: FloatWithAggregatesFilter<"CourseStats"> | number
+    courseId?: StringWithAggregatesFilter<"CourseStats"> | string
   }
 
   export type CategoryWhereInput = {
@@ -9461,76 +10605,62 @@ export namespace Prisma {
   export type CourseCreateInput = {
     id?: string
     title: string
-    description: string
-    longDescription?: string | null
-    instructor: string
-    instructorAvatar: string
-    instructorTitle?: string | null
-    instructorBio?: string | null
+    shortDescription: string
+    description?: string | null
     instructorId: string
+    organizationId?: string | null
     duration: string
     startDate?: Date | string | null
     endDate?: Date | string | null
-    students?: number
-    totalReviews?: number
-    rating?: number
     price: number
     salePrice?: number | null
     thumbnail: string
-    maxStudents?: number | null
+    maxStudent?: number | null
     language?: string | null
-    organizationId?: string | null
     tags?: CourseCreatetagsInput | string[]
     whatYouWillLearn?: CourseCreatewhatYouWillLearnInput | string[]
     requirements?: CourseCreaterequirementsInput | string[]
     includes?: CourseCreateincludesInput | string[]
-    previewVideo?: string | null
     status: $Enums.Status
     level: $Enums.Level
     type: $Enums.Type
     createdAt?: Date | string
     updatedAt?: Date | string
     publishedAt?: Date | string | null
+    category?: CategoryCreateNestedOneWithoutCoursesInput
+    stats?: CourseStatsCreateNestedOneWithoutCourseInput
     modules?: ModuleCreateNestedManyWithoutCourseInput
     reviews?: ReviewCreateNestedManyWithoutCourseInput
     faqs?: FAQCreateNestedManyWithoutCourseInput
-    category?: CategoryCreateNestedOneWithoutCoursesInput
   }
 
   export type CourseUncheckedCreateInput = {
     id?: string
     title: string
-    description: string
-    longDescription?: string | null
-    instructor: string
-    instructorAvatar: string
-    instructorTitle?: string | null
-    instructorBio?: string | null
+    shortDescription: string
+    description?: string | null
     instructorId: string
+    organizationId?: string | null
     duration: string
     startDate?: Date | string | null
     endDate?: Date | string | null
-    students?: number
-    totalReviews?: number
-    rating?: number
     price: number
     salePrice?: number | null
     thumbnail: string
-    maxStudents?: number | null
+    maxStudent?: number | null
     language?: string | null
-    organizationId?: string | null
     tags?: CourseCreatetagsInput | string[]
     whatYouWillLearn?: CourseCreatewhatYouWillLearnInput | string[]
     requirements?: CourseCreaterequirementsInput | string[]
     includes?: CourseCreateincludesInput | string[]
-    previewVideo?: string | null
-    categoryId?: string | null
     status: $Enums.Status
     level: $Enums.Level
     type: $Enums.Type
+    categoryId?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     publishedAt?: Date | string | null
+    stats?: CourseStatsUncheckedCreateNestedOneWithoutCourseInput
     modules?: ModuleUncheckedCreateNestedManyWithoutCourseInput
     reviews?: ReviewUncheckedCreateNestedManyWithoutCourseInput
     faqs?: FAQUncheckedCreateNestedManyWithoutCourseInput
@@ -9539,76 +10669,62 @@ export namespace Prisma {
   export type CourseUpdateInput = {
     id?: StringFieldUpdateOperationsInput | string
     title?: StringFieldUpdateOperationsInput | string
-    description?: StringFieldUpdateOperationsInput | string
-    longDescription?: NullableStringFieldUpdateOperationsInput | string | null
-    instructor?: StringFieldUpdateOperationsInput | string
-    instructorAvatar?: StringFieldUpdateOperationsInput | string
-    instructorTitle?: NullableStringFieldUpdateOperationsInput | string | null
-    instructorBio?: NullableStringFieldUpdateOperationsInput | string | null
+    shortDescription?: StringFieldUpdateOperationsInput | string
+    description?: NullableStringFieldUpdateOperationsInput | string | null
     instructorId?: StringFieldUpdateOperationsInput | string
+    organizationId?: NullableStringFieldUpdateOperationsInput | string | null
     duration?: StringFieldUpdateOperationsInput | string
     startDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     endDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    students?: IntFieldUpdateOperationsInput | number
-    totalReviews?: IntFieldUpdateOperationsInput | number
-    rating?: FloatFieldUpdateOperationsInput | number
     price?: FloatFieldUpdateOperationsInput | number
     salePrice?: NullableFloatFieldUpdateOperationsInput | number | null
     thumbnail?: StringFieldUpdateOperationsInput | string
-    maxStudents?: NullableIntFieldUpdateOperationsInput | number | null
+    maxStudent?: NullableIntFieldUpdateOperationsInput | number | null
     language?: NullableStringFieldUpdateOperationsInput | string | null
-    organizationId?: NullableStringFieldUpdateOperationsInput | string | null
     tags?: CourseUpdatetagsInput | string[]
     whatYouWillLearn?: CourseUpdatewhatYouWillLearnInput | string[]
     requirements?: CourseUpdaterequirementsInput | string[]
     includes?: CourseUpdateincludesInput | string[]
-    previewVideo?: NullableStringFieldUpdateOperationsInput | string | null
     status?: EnumStatusFieldUpdateOperationsInput | $Enums.Status
     level?: EnumLevelFieldUpdateOperationsInput | $Enums.Level
     type?: EnumTypeFieldUpdateOperationsInput | $Enums.Type
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     publishedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    category?: CategoryUpdateOneWithoutCoursesNestedInput
+    stats?: CourseStatsUpdateOneWithoutCourseNestedInput
     modules?: ModuleUpdateManyWithoutCourseNestedInput
     reviews?: ReviewUpdateManyWithoutCourseNestedInput
     faqs?: FAQUpdateManyWithoutCourseNestedInput
-    category?: CategoryUpdateOneWithoutCoursesNestedInput
   }
 
   export type CourseUncheckedUpdateInput = {
     id?: StringFieldUpdateOperationsInput | string
     title?: StringFieldUpdateOperationsInput | string
-    description?: StringFieldUpdateOperationsInput | string
-    longDescription?: NullableStringFieldUpdateOperationsInput | string | null
-    instructor?: StringFieldUpdateOperationsInput | string
-    instructorAvatar?: StringFieldUpdateOperationsInput | string
-    instructorTitle?: NullableStringFieldUpdateOperationsInput | string | null
-    instructorBio?: NullableStringFieldUpdateOperationsInput | string | null
+    shortDescription?: StringFieldUpdateOperationsInput | string
+    description?: NullableStringFieldUpdateOperationsInput | string | null
     instructorId?: StringFieldUpdateOperationsInput | string
+    organizationId?: NullableStringFieldUpdateOperationsInput | string | null
     duration?: StringFieldUpdateOperationsInput | string
     startDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     endDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    students?: IntFieldUpdateOperationsInput | number
-    totalReviews?: IntFieldUpdateOperationsInput | number
-    rating?: FloatFieldUpdateOperationsInput | number
     price?: FloatFieldUpdateOperationsInput | number
     salePrice?: NullableFloatFieldUpdateOperationsInput | number | null
     thumbnail?: StringFieldUpdateOperationsInput | string
-    maxStudents?: NullableIntFieldUpdateOperationsInput | number | null
+    maxStudent?: NullableIntFieldUpdateOperationsInput | number | null
     language?: NullableStringFieldUpdateOperationsInput | string | null
-    organizationId?: NullableStringFieldUpdateOperationsInput | string | null
     tags?: CourseUpdatetagsInput | string[]
     whatYouWillLearn?: CourseUpdatewhatYouWillLearnInput | string[]
     requirements?: CourseUpdaterequirementsInput | string[]
     includes?: CourseUpdateincludesInput | string[]
-    previewVideo?: NullableStringFieldUpdateOperationsInput | string | null
-    categoryId?: NullableStringFieldUpdateOperationsInput | string | null
     status?: EnumStatusFieldUpdateOperationsInput | $Enums.Status
     level?: EnumLevelFieldUpdateOperationsInput | $Enums.Level
     type?: EnumTypeFieldUpdateOperationsInput | $Enums.Type
+    categoryId?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     publishedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    stats?: CourseStatsUncheckedUpdateOneWithoutCourseNestedInput
     modules?: ModuleUncheckedUpdateManyWithoutCourseNestedInput
     reviews?: ReviewUncheckedUpdateManyWithoutCourseNestedInput
     faqs?: FAQUncheckedUpdateManyWithoutCourseNestedInput
@@ -9617,34 +10733,26 @@ export namespace Prisma {
   export type CourseCreateManyInput = {
     id?: string
     title: string
-    description: string
-    longDescription?: string | null
-    instructor: string
-    instructorAvatar: string
-    instructorTitle?: string | null
-    instructorBio?: string | null
+    shortDescription: string
+    description?: string | null
     instructorId: string
+    organizationId?: string | null
     duration: string
     startDate?: Date | string | null
     endDate?: Date | string | null
-    students?: number
-    totalReviews?: number
-    rating?: number
     price: number
     salePrice?: number | null
     thumbnail: string
-    maxStudents?: number | null
+    maxStudent?: number | null
     language?: string | null
-    organizationId?: string | null
     tags?: CourseCreatetagsInput | string[]
     whatYouWillLearn?: CourseCreatewhatYouWillLearnInput | string[]
     requirements?: CourseCreaterequirementsInput | string[]
     includes?: CourseCreateincludesInput | string[]
-    previewVideo?: string | null
-    categoryId?: string | null
     status: $Enums.Status
     level: $Enums.Level
     type: $Enums.Type
+    categoryId?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     publishedAt?: Date | string | null
@@ -9653,30 +10761,22 @@ export namespace Prisma {
   export type CourseUpdateManyMutationInput = {
     id?: StringFieldUpdateOperationsInput | string
     title?: StringFieldUpdateOperationsInput | string
-    description?: StringFieldUpdateOperationsInput | string
-    longDescription?: NullableStringFieldUpdateOperationsInput | string | null
-    instructor?: StringFieldUpdateOperationsInput | string
-    instructorAvatar?: StringFieldUpdateOperationsInput | string
-    instructorTitle?: NullableStringFieldUpdateOperationsInput | string | null
-    instructorBio?: NullableStringFieldUpdateOperationsInput | string | null
+    shortDescription?: StringFieldUpdateOperationsInput | string
+    description?: NullableStringFieldUpdateOperationsInput | string | null
     instructorId?: StringFieldUpdateOperationsInput | string
+    organizationId?: NullableStringFieldUpdateOperationsInput | string | null
     duration?: StringFieldUpdateOperationsInput | string
     startDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     endDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    students?: IntFieldUpdateOperationsInput | number
-    totalReviews?: IntFieldUpdateOperationsInput | number
-    rating?: FloatFieldUpdateOperationsInput | number
     price?: FloatFieldUpdateOperationsInput | number
     salePrice?: NullableFloatFieldUpdateOperationsInput | number | null
     thumbnail?: StringFieldUpdateOperationsInput | string
-    maxStudents?: NullableIntFieldUpdateOperationsInput | number | null
+    maxStudent?: NullableIntFieldUpdateOperationsInput | number | null
     language?: NullableStringFieldUpdateOperationsInput | string | null
-    organizationId?: NullableStringFieldUpdateOperationsInput | string | null
     tags?: CourseUpdatetagsInput | string[]
     whatYouWillLearn?: CourseUpdatewhatYouWillLearnInput | string[]
     requirements?: CourseUpdaterequirementsInput | string[]
     includes?: CourseUpdateincludesInput | string[]
-    previewVideo?: NullableStringFieldUpdateOperationsInput | string | null
     status?: EnumStatusFieldUpdateOperationsInput | $Enums.Status
     level?: EnumLevelFieldUpdateOperationsInput | $Enums.Level
     type?: EnumTypeFieldUpdateOperationsInput | $Enums.Type
@@ -9688,37 +10788,91 @@ export namespace Prisma {
   export type CourseUncheckedUpdateManyInput = {
     id?: StringFieldUpdateOperationsInput | string
     title?: StringFieldUpdateOperationsInput | string
-    description?: StringFieldUpdateOperationsInput | string
-    longDescription?: NullableStringFieldUpdateOperationsInput | string | null
-    instructor?: StringFieldUpdateOperationsInput | string
-    instructorAvatar?: StringFieldUpdateOperationsInput | string
-    instructorTitle?: NullableStringFieldUpdateOperationsInput | string | null
-    instructorBio?: NullableStringFieldUpdateOperationsInput | string | null
+    shortDescription?: StringFieldUpdateOperationsInput | string
+    description?: NullableStringFieldUpdateOperationsInput | string | null
     instructorId?: StringFieldUpdateOperationsInput | string
+    organizationId?: NullableStringFieldUpdateOperationsInput | string | null
     duration?: StringFieldUpdateOperationsInput | string
     startDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     endDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    students?: IntFieldUpdateOperationsInput | number
-    totalReviews?: IntFieldUpdateOperationsInput | number
-    rating?: FloatFieldUpdateOperationsInput | number
     price?: FloatFieldUpdateOperationsInput | number
     salePrice?: NullableFloatFieldUpdateOperationsInput | number | null
     thumbnail?: StringFieldUpdateOperationsInput | string
-    maxStudents?: NullableIntFieldUpdateOperationsInput | number | null
+    maxStudent?: NullableIntFieldUpdateOperationsInput | number | null
     language?: NullableStringFieldUpdateOperationsInput | string | null
-    organizationId?: NullableStringFieldUpdateOperationsInput | string | null
     tags?: CourseUpdatetagsInput | string[]
     whatYouWillLearn?: CourseUpdatewhatYouWillLearnInput | string[]
     requirements?: CourseUpdaterequirementsInput | string[]
     includes?: CourseUpdateincludesInput | string[]
-    previewVideo?: NullableStringFieldUpdateOperationsInput | string | null
-    categoryId?: NullableStringFieldUpdateOperationsInput | string | null
     status?: EnumStatusFieldUpdateOperationsInput | $Enums.Status
     level?: EnumLevelFieldUpdateOperationsInput | $Enums.Level
     type?: EnumTypeFieldUpdateOperationsInput | $Enums.Type
+    categoryId?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     publishedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  }
+
+  export type CourseStatsCreateInput = {
+    id?: string
+    students?: number
+    totalReviews?: number
+    rating?: number
+    completionRate?: number
+    course: CourseCreateNestedOneWithoutStatsInput
+  }
+
+  export type CourseStatsUncheckedCreateInput = {
+    id?: string
+    students?: number
+    totalReviews?: number
+    rating?: number
+    completionRate?: number
+    courseId: string
+  }
+
+  export type CourseStatsUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    students?: IntFieldUpdateOperationsInput | number
+    totalReviews?: IntFieldUpdateOperationsInput | number
+    rating?: FloatFieldUpdateOperationsInput | number
+    completionRate?: FloatFieldUpdateOperationsInput | number
+    course?: CourseUpdateOneRequiredWithoutStatsNestedInput
+  }
+
+  export type CourseStatsUncheckedUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    students?: IntFieldUpdateOperationsInput | number
+    totalReviews?: IntFieldUpdateOperationsInput | number
+    rating?: FloatFieldUpdateOperationsInput | number
+    completionRate?: FloatFieldUpdateOperationsInput | number
+    courseId?: StringFieldUpdateOperationsInput | string
+  }
+
+  export type CourseStatsCreateManyInput = {
+    id?: string
+    students?: number
+    totalReviews?: number
+    rating?: number
+    completionRate?: number
+    courseId: string
+  }
+
+  export type CourseStatsUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    students?: IntFieldUpdateOperationsInput | number
+    totalReviews?: IntFieldUpdateOperationsInput | number
+    rating?: FloatFieldUpdateOperationsInput | number
+    completionRate?: FloatFieldUpdateOperationsInput | number
+  }
+
+  export type CourseStatsUncheckedUpdateManyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    students?: IntFieldUpdateOperationsInput | number
+    totalReviews?: IntFieldUpdateOperationsInput | number
+    rating?: FloatFieldUpdateOperationsInput | number
+    completionRate?: FloatFieldUpdateOperationsInput | number
+    courseId?: StringFieldUpdateOperationsInput | string
   }
 
   export type CategoryCreateInput = {
@@ -10091,17 +11245,6 @@ export namespace Prisma {
     not?: NestedDateTimeNullableFilter<$PrismaModel> | Date | string | null
   }
 
-  export type IntFilter<$PrismaModel = never> = {
-    equals?: number | IntFieldRefInput<$PrismaModel>
-    in?: number[] | ListIntFieldRefInput<$PrismaModel>
-    notIn?: number[] | ListIntFieldRefInput<$PrismaModel>
-    lt?: number | IntFieldRefInput<$PrismaModel>
-    lte?: number | IntFieldRefInput<$PrismaModel>
-    gt?: number | IntFieldRefInput<$PrismaModel>
-    gte?: number | IntFieldRefInput<$PrismaModel>
-    not?: NestedIntFilter<$PrismaModel> | number
-  }
-
   export type FloatFilter<$PrismaModel = never> = {
     equals?: number | FloatFieldRefInput<$PrismaModel>
     in?: number[] | ListFloatFieldRefInput<$PrismaModel>
@@ -10175,6 +11318,16 @@ export namespace Prisma {
     not?: NestedDateTimeFilter<$PrismaModel> | Date | string
   }
 
+  export type CategoryNullableScalarRelationFilter = {
+    is?: CategoryWhereInput | null
+    isNot?: CategoryWhereInput | null
+  }
+
+  export type CourseStatsNullableScalarRelationFilter = {
+    is?: CourseStatsWhereInput | null
+    isNot?: CourseStatsWhereInput | null
+  }
+
   export type ModuleListRelationFilter = {
     every?: ModuleWhereInput
     some?: ModuleWhereInput
@@ -10191,11 +11344,6 @@ export namespace Prisma {
     every?: FAQWhereInput
     some?: FAQWhereInput
     none?: FAQWhereInput
-  }
-
-  export type CategoryNullableScalarRelationFilter = {
-    is?: CategoryWhereInput | null
-    isNot?: CategoryWhereInput | null
   }
 
   export type SortOrderInput = {
@@ -10218,75 +11366,56 @@ export namespace Prisma {
   export type CourseCountOrderByAggregateInput = {
     id?: SortOrder
     title?: SortOrder
+    shortDescription?: SortOrder
     description?: SortOrder
-    longDescription?: SortOrder
-    instructor?: SortOrder
-    instructorAvatar?: SortOrder
-    instructorTitle?: SortOrder
-    instructorBio?: SortOrder
     instructorId?: SortOrder
+    organizationId?: SortOrder
     duration?: SortOrder
     startDate?: SortOrder
     endDate?: SortOrder
-    students?: SortOrder
-    totalReviews?: SortOrder
-    rating?: SortOrder
     price?: SortOrder
     salePrice?: SortOrder
     thumbnail?: SortOrder
-    maxStudents?: SortOrder
+    maxStudent?: SortOrder
     language?: SortOrder
-    organizationId?: SortOrder
     tags?: SortOrder
     whatYouWillLearn?: SortOrder
     requirements?: SortOrder
     includes?: SortOrder
-    previewVideo?: SortOrder
-    categoryId?: SortOrder
     status?: SortOrder
     level?: SortOrder
     type?: SortOrder
+    categoryId?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
     publishedAt?: SortOrder
   }
 
   export type CourseAvgOrderByAggregateInput = {
-    students?: SortOrder
-    totalReviews?: SortOrder
-    rating?: SortOrder
     price?: SortOrder
     salePrice?: SortOrder
-    maxStudents?: SortOrder
+    maxStudent?: SortOrder
   }
 
   export type CourseMaxOrderByAggregateInput = {
     id?: SortOrder
     title?: SortOrder
+    shortDescription?: SortOrder
     description?: SortOrder
-    longDescription?: SortOrder
-    instructor?: SortOrder
-    instructorAvatar?: SortOrder
-    instructorTitle?: SortOrder
-    instructorBio?: SortOrder
     instructorId?: SortOrder
+    organizationId?: SortOrder
     duration?: SortOrder
     startDate?: SortOrder
     endDate?: SortOrder
-    students?: SortOrder
-    totalReviews?: SortOrder
-    rating?: SortOrder
     price?: SortOrder
     salePrice?: SortOrder
     thumbnail?: SortOrder
-    maxStudents?: SortOrder
+    maxStudent?: SortOrder
     language?: SortOrder
-    organizationId?: SortOrder
-    previewVideo?: SortOrder
-    categoryId?: SortOrder
     status?: SortOrder
     level?: SortOrder
     type?: SortOrder
+    categoryId?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
     publishedAt?: SortOrder
@@ -10295,42 +11424,31 @@ export namespace Prisma {
   export type CourseMinOrderByAggregateInput = {
     id?: SortOrder
     title?: SortOrder
+    shortDescription?: SortOrder
     description?: SortOrder
-    longDescription?: SortOrder
-    instructor?: SortOrder
-    instructorAvatar?: SortOrder
-    instructorTitle?: SortOrder
-    instructorBio?: SortOrder
     instructorId?: SortOrder
+    organizationId?: SortOrder
     duration?: SortOrder
     startDate?: SortOrder
     endDate?: SortOrder
-    students?: SortOrder
-    totalReviews?: SortOrder
-    rating?: SortOrder
     price?: SortOrder
     salePrice?: SortOrder
     thumbnail?: SortOrder
-    maxStudents?: SortOrder
+    maxStudent?: SortOrder
     language?: SortOrder
-    organizationId?: SortOrder
-    previewVideo?: SortOrder
-    categoryId?: SortOrder
     status?: SortOrder
     level?: SortOrder
     type?: SortOrder
+    categoryId?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
     publishedAt?: SortOrder
   }
 
   export type CourseSumOrderByAggregateInput = {
-    students?: SortOrder
-    totalReviews?: SortOrder
-    rating?: SortOrder
     price?: SortOrder
     salePrice?: SortOrder
-    maxStudents?: SortOrder
+    maxStudent?: SortOrder
   }
 
   export type StringWithAggregatesFilter<$PrismaModel = never> = {
@@ -10381,22 +11499,6 @@ export namespace Prisma {
     _count?: NestedIntNullableFilter<$PrismaModel>
     _min?: NestedDateTimeNullableFilter<$PrismaModel>
     _max?: NestedDateTimeNullableFilter<$PrismaModel>
-  }
-
-  export type IntWithAggregatesFilter<$PrismaModel = never> = {
-    equals?: number | IntFieldRefInput<$PrismaModel>
-    in?: number[] | ListIntFieldRefInput<$PrismaModel>
-    notIn?: number[] | ListIntFieldRefInput<$PrismaModel>
-    lt?: number | IntFieldRefInput<$PrismaModel>
-    lte?: number | IntFieldRefInput<$PrismaModel>
-    gt?: number | IntFieldRefInput<$PrismaModel>
-    gte?: number | IntFieldRefInput<$PrismaModel>
-    not?: NestedIntWithAggregatesFilter<$PrismaModel> | number
-    _count?: NestedIntFilter<$PrismaModel>
-    _avg?: NestedFloatFilter<$PrismaModel>
-    _sum?: NestedIntFilter<$PrismaModel>
-    _min?: NestedIntFilter<$PrismaModel>
-    _max?: NestedIntFilter<$PrismaModel>
   }
 
   export type FloatWithAggregatesFilter<$PrismaModel = never> = {
@@ -10491,6 +11593,79 @@ export namespace Prisma {
     _max?: NestedDateTimeFilter<$PrismaModel>
   }
 
+  export type IntFilter<$PrismaModel = never> = {
+    equals?: number | IntFieldRefInput<$PrismaModel>
+    in?: number[] | ListIntFieldRefInput<$PrismaModel>
+    notIn?: number[] | ListIntFieldRefInput<$PrismaModel>
+    lt?: number | IntFieldRefInput<$PrismaModel>
+    lte?: number | IntFieldRefInput<$PrismaModel>
+    gt?: number | IntFieldRefInput<$PrismaModel>
+    gte?: number | IntFieldRefInput<$PrismaModel>
+    not?: NestedIntFilter<$PrismaModel> | number
+  }
+
+  export type CourseScalarRelationFilter = {
+    is?: CourseWhereInput
+    isNot?: CourseWhereInput
+  }
+
+  export type CourseStatsCountOrderByAggregateInput = {
+    id?: SortOrder
+    students?: SortOrder
+    totalReviews?: SortOrder
+    rating?: SortOrder
+    completionRate?: SortOrder
+    courseId?: SortOrder
+  }
+
+  export type CourseStatsAvgOrderByAggregateInput = {
+    students?: SortOrder
+    totalReviews?: SortOrder
+    rating?: SortOrder
+    completionRate?: SortOrder
+  }
+
+  export type CourseStatsMaxOrderByAggregateInput = {
+    id?: SortOrder
+    students?: SortOrder
+    totalReviews?: SortOrder
+    rating?: SortOrder
+    completionRate?: SortOrder
+    courseId?: SortOrder
+  }
+
+  export type CourseStatsMinOrderByAggregateInput = {
+    id?: SortOrder
+    students?: SortOrder
+    totalReviews?: SortOrder
+    rating?: SortOrder
+    completionRate?: SortOrder
+    courseId?: SortOrder
+  }
+
+  export type CourseStatsSumOrderByAggregateInput = {
+    students?: SortOrder
+    totalReviews?: SortOrder
+    rating?: SortOrder
+    completionRate?: SortOrder
+  }
+
+  export type IntWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: number | IntFieldRefInput<$PrismaModel>
+    in?: number[] | ListIntFieldRefInput<$PrismaModel>
+    notIn?: number[] | ListIntFieldRefInput<$PrismaModel>
+    lt?: number | IntFieldRefInput<$PrismaModel>
+    lte?: number | IntFieldRefInput<$PrismaModel>
+    gt?: number | IntFieldRefInput<$PrismaModel>
+    gte?: number | IntFieldRefInput<$PrismaModel>
+    not?: NestedIntWithAggregatesFilter<$PrismaModel> | number
+    _count?: NestedIntFilter<$PrismaModel>
+    _avg?: NestedFloatFilter<$PrismaModel>
+    _sum?: NestedIntFilter<$PrismaModel>
+    _min?: NestedIntFilter<$PrismaModel>
+    _max?: NestedIntFilter<$PrismaModel>
+  }
+
   export type CourseListRelationFilter = {
     every?: CourseWhereInput
     some?: CourseWhereInput
@@ -10530,11 +11705,6 @@ export namespace Prisma {
     name?: SortOrder
     parentId?: SortOrder
     createdAt?: SortOrder
-  }
-
-  export type CourseScalarRelationFilter = {
-    is?: CourseWhereInput
-    isNot?: CourseWhereInput
   }
 
   export type FAQCountOrderByAggregateInput = {
@@ -10746,6 +11916,18 @@ export namespace Prisma {
     set: string[]
   }
 
+  export type CategoryCreateNestedOneWithoutCoursesInput = {
+    create?: XOR<CategoryCreateWithoutCoursesInput, CategoryUncheckedCreateWithoutCoursesInput>
+    connectOrCreate?: CategoryCreateOrConnectWithoutCoursesInput
+    connect?: CategoryWhereUniqueInput
+  }
+
+  export type CourseStatsCreateNestedOneWithoutCourseInput = {
+    create?: XOR<CourseStatsCreateWithoutCourseInput, CourseStatsUncheckedCreateWithoutCourseInput>
+    connectOrCreate?: CourseStatsCreateOrConnectWithoutCourseInput
+    connect?: CourseStatsWhereUniqueInput
+  }
+
   export type ModuleCreateNestedManyWithoutCourseInput = {
     create?: XOR<ModuleCreateWithoutCourseInput, ModuleUncheckedCreateWithoutCourseInput> | ModuleCreateWithoutCourseInput[] | ModuleUncheckedCreateWithoutCourseInput[]
     connectOrCreate?: ModuleCreateOrConnectWithoutCourseInput | ModuleCreateOrConnectWithoutCourseInput[]
@@ -10767,10 +11949,10 @@ export namespace Prisma {
     connect?: FAQWhereUniqueInput | FAQWhereUniqueInput[]
   }
 
-  export type CategoryCreateNestedOneWithoutCoursesInput = {
-    create?: XOR<CategoryCreateWithoutCoursesInput, CategoryUncheckedCreateWithoutCoursesInput>
-    connectOrCreate?: CategoryCreateOrConnectWithoutCoursesInput
-    connect?: CategoryWhereUniqueInput
+  export type CourseStatsUncheckedCreateNestedOneWithoutCourseInput = {
+    create?: XOR<CourseStatsCreateWithoutCourseInput, CourseStatsUncheckedCreateWithoutCourseInput>
+    connectOrCreate?: CourseStatsCreateOrConnectWithoutCourseInput
+    connect?: CourseStatsWhereUniqueInput
   }
 
   export type ModuleUncheckedCreateNestedManyWithoutCourseInput = {
@@ -10804,14 +11986,6 @@ export namespace Prisma {
 
   export type NullableDateTimeFieldUpdateOperationsInput = {
     set?: Date | string | null
-  }
-
-  export type IntFieldUpdateOperationsInput = {
-    set?: number
-    increment?: number
-    decrement?: number
-    multiply?: number
-    divide?: number
   }
 
   export type FloatFieldUpdateOperationsInput = {
@@ -10874,6 +12048,26 @@ export namespace Prisma {
     set?: Date | string
   }
 
+  export type CategoryUpdateOneWithoutCoursesNestedInput = {
+    create?: XOR<CategoryCreateWithoutCoursesInput, CategoryUncheckedCreateWithoutCoursesInput>
+    connectOrCreate?: CategoryCreateOrConnectWithoutCoursesInput
+    upsert?: CategoryUpsertWithoutCoursesInput
+    disconnect?: CategoryWhereInput | boolean
+    delete?: CategoryWhereInput | boolean
+    connect?: CategoryWhereUniqueInput
+    update?: XOR<XOR<CategoryUpdateToOneWithWhereWithoutCoursesInput, CategoryUpdateWithoutCoursesInput>, CategoryUncheckedUpdateWithoutCoursesInput>
+  }
+
+  export type CourseStatsUpdateOneWithoutCourseNestedInput = {
+    create?: XOR<CourseStatsCreateWithoutCourseInput, CourseStatsUncheckedCreateWithoutCourseInput>
+    connectOrCreate?: CourseStatsCreateOrConnectWithoutCourseInput
+    upsert?: CourseStatsUpsertWithoutCourseInput
+    disconnect?: CourseStatsWhereInput | boolean
+    delete?: CourseStatsWhereInput | boolean
+    connect?: CourseStatsWhereUniqueInput
+    update?: XOR<XOR<CourseStatsUpdateToOneWithWhereWithoutCourseInput, CourseStatsUpdateWithoutCourseInput>, CourseStatsUncheckedUpdateWithoutCourseInput>
+  }
+
   export type ModuleUpdateManyWithoutCourseNestedInput = {
     create?: XOR<ModuleCreateWithoutCourseInput, ModuleUncheckedCreateWithoutCourseInput> | ModuleCreateWithoutCourseInput[] | ModuleUncheckedCreateWithoutCourseInput[]
     connectOrCreate?: ModuleCreateOrConnectWithoutCourseInput | ModuleCreateOrConnectWithoutCourseInput[]
@@ -10916,14 +12110,14 @@ export namespace Prisma {
     deleteMany?: FAQScalarWhereInput | FAQScalarWhereInput[]
   }
 
-  export type CategoryUpdateOneWithoutCoursesNestedInput = {
-    create?: XOR<CategoryCreateWithoutCoursesInput, CategoryUncheckedCreateWithoutCoursesInput>
-    connectOrCreate?: CategoryCreateOrConnectWithoutCoursesInput
-    upsert?: CategoryUpsertWithoutCoursesInput
-    disconnect?: CategoryWhereInput | boolean
-    delete?: CategoryWhereInput | boolean
-    connect?: CategoryWhereUniqueInput
-    update?: XOR<XOR<CategoryUpdateToOneWithWhereWithoutCoursesInput, CategoryUpdateWithoutCoursesInput>, CategoryUncheckedUpdateWithoutCoursesInput>
+  export type CourseStatsUncheckedUpdateOneWithoutCourseNestedInput = {
+    create?: XOR<CourseStatsCreateWithoutCourseInput, CourseStatsUncheckedCreateWithoutCourseInput>
+    connectOrCreate?: CourseStatsCreateOrConnectWithoutCourseInput
+    upsert?: CourseStatsUpsertWithoutCourseInput
+    disconnect?: CourseStatsWhereInput | boolean
+    delete?: CourseStatsWhereInput | boolean
+    connect?: CourseStatsWhereUniqueInput
+    update?: XOR<XOR<CourseStatsUpdateToOneWithWhereWithoutCourseInput, CourseStatsUpdateWithoutCourseInput>, CourseStatsUncheckedUpdateWithoutCourseInput>
   }
 
   export type ModuleUncheckedUpdateManyWithoutCourseNestedInput = {
@@ -10966,6 +12160,28 @@ export namespace Prisma {
     update?: FAQUpdateWithWhereUniqueWithoutCourseInput | FAQUpdateWithWhereUniqueWithoutCourseInput[]
     updateMany?: FAQUpdateManyWithWhereWithoutCourseInput | FAQUpdateManyWithWhereWithoutCourseInput[]
     deleteMany?: FAQScalarWhereInput | FAQScalarWhereInput[]
+  }
+
+  export type CourseCreateNestedOneWithoutStatsInput = {
+    create?: XOR<CourseCreateWithoutStatsInput, CourseUncheckedCreateWithoutStatsInput>
+    connectOrCreate?: CourseCreateOrConnectWithoutStatsInput
+    connect?: CourseWhereUniqueInput
+  }
+
+  export type IntFieldUpdateOperationsInput = {
+    set?: number
+    increment?: number
+    decrement?: number
+    multiply?: number
+    divide?: number
+  }
+
+  export type CourseUpdateOneRequiredWithoutStatsNestedInput = {
+    create?: XOR<CourseCreateWithoutStatsInput, CourseUncheckedCreateWithoutStatsInput>
+    connectOrCreate?: CourseCreateOrConnectWithoutStatsInput
+    upsert?: CourseUpsertWithoutStatsInput
+    connect?: CourseWhereUniqueInput
+    update?: XOR<XOR<CourseUpdateToOneWithWhereWithoutStatsInput, CourseUpdateWithoutStatsInput>, CourseUncheckedUpdateWithoutStatsInput>
   }
 
   export type CourseCreateNestedManyWithoutCategoryInput = {
@@ -11215,17 +12431,6 @@ export namespace Prisma {
     not?: NestedDateTimeNullableFilter<$PrismaModel> | Date | string | null
   }
 
-  export type NestedIntFilter<$PrismaModel = never> = {
-    equals?: number | IntFieldRefInput<$PrismaModel>
-    in?: number[] | ListIntFieldRefInput<$PrismaModel>
-    notIn?: number[] | ListIntFieldRefInput<$PrismaModel>
-    lt?: number | IntFieldRefInput<$PrismaModel>
-    lte?: number | IntFieldRefInput<$PrismaModel>
-    gt?: number | IntFieldRefInput<$PrismaModel>
-    gte?: number | IntFieldRefInput<$PrismaModel>
-    not?: NestedIntFilter<$PrismaModel> | number
-  }
-
   export type NestedFloatFilter<$PrismaModel = never> = {
     equals?: number | FloatFieldRefInput<$PrismaModel>
     in?: number[] | ListFloatFieldRefInput<$PrismaModel>
@@ -11308,6 +12513,17 @@ export namespace Prisma {
     _max?: NestedStringFilter<$PrismaModel>
   }
 
+  export type NestedIntFilter<$PrismaModel = never> = {
+    equals?: number | IntFieldRefInput<$PrismaModel>
+    in?: number[] | ListIntFieldRefInput<$PrismaModel>
+    notIn?: number[] | ListIntFieldRefInput<$PrismaModel>
+    lt?: number | IntFieldRefInput<$PrismaModel>
+    lte?: number | IntFieldRefInput<$PrismaModel>
+    gt?: number | IntFieldRefInput<$PrismaModel>
+    gte?: number | IntFieldRefInput<$PrismaModel>
+    not?: NestedIntFilter<$PrismaModel> | number
+  }
+
   export type NestedStringNullableWithAggregatesFilter<$PrismaModel = never> = {
     equals?: string | StringFieldRefInput<$PrismaModel> | null
     in?: string[] | ListStringFieldRefInput<$PrismaModel> | null
@@ -11337,22 +12553,6 @@ export namespace Prisma {
     _count?: NestedIntNullableFilter<$PrismaModel>
     _min?: NestedDateTimeNullableFilter<$PrismaModel>
     _max?: NestedDateTimeNullableFilter<$PrismaModel>
-  }
-
-  export type NestedIntWithAggregatesFilter<$PrismaModel = never> = {
-    equals?: number | IntFieldRefInput<$PrismaModel>
-    in?: number[] | ListIntFieldRefInput<$PrismaModel>
-    notIn?: number[] | ListIntFieldRefInput<$PrismaModel>
-    lt?: number | IntFieldRefInput<$PrismaModel>
-    lte?: number | IntFieldRefInput<$PrismaModel>
-    gt?: number | IntFieldRefInput<$PrismaModel>
-    gte?: number | IntFieldRefInput<$PrismaModel>
-    not?: NestedIntWithAggregatesFilter<$PrismaModel> | number
-    _count?: NestedIntFilter<$PrismaModel>
-    _avg?: NestedFloatFilter<$PrismaModel>
-    _sum?: NestedIntFilter<$PrismaModel>
-    _min?: NestedIntFilter<$PrismaModel>
-    _max?: NestedIntFilter<$PrismaModel>
   }
 
   export type NestedFloatWithAggregatesFilter<$PrismaModel = never> = {
@@ -11447,6 +12647,22 @@ export namespace Prisma {
     _max?: NestedDateTimeFilter<$PrismaModel>
   }
 
+  export type NestedIntWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: number | IntFieldRefInput<$PrismaModel>
+    in?: number[] | ListIntFieldRefInput<$PrismaModel>
+    notIn?: number[] | ListIntFieldRefInput<$PrismaModel>
+    lt?: number | IntFieldRefInput<$PrismaModel>
+    lte?: number | IntFieldRefInput<$PrismaModel>
+    gt?: number | IntFieldRefInput<$PrismaModel>
+    gte?: number | IntFieldRefInput<$PrismaModel>
+    not?: NestedIntWithAggregatesFilter<$PrismaModel> | number
+    _count?: NestedIntFilter<$PrismaModel>
+    _avg?: NestedFloatFilter<$PrismaModel>
+    _sum?: NestedIntFilter<$PrismaModel>
+    _min?: NestedIntFilter<$PrismaModel>
+    _max?: NestedIntFilter<$PrismaModel>
+  }
+
   export type NestedEnumLessonTypeFilter<$PrismaModel = never> = {
     equals?: $Enums.LessonType | EnumLessonTypeFieldRefInput<$PrismaModel>
     in?: $Enums.LessonType[] | ListEnumLessonTypeFieldRefInput<$PrismaModel>
@@ -11475,6 +12691,48 @@ export namespace Prisma {
     _count?: NestedIntFilter<$PrismaModel>
     _min?: NestedBoolFilter<$PrismaModel>
     _max?: NestedBoolFilter<$PrismaModel>
+  }
+
+  export type CategoryCreateWithoutCoursesInput = {
+    id?: string
+    name: string
+    createdAt?: Date | string
+    parent?: CategoryCreateNestedOneWithoutChildrenInput
+    children?: CategoryCreateNestedManyWithoutParentInput
+  }
+
+  export type CategoryUncheckedCreateWithoutCoursesInput = {
+    id?: string
+    name: string
+    parentId?: string | null
+    createdAt?: Date | string
+    children?: CategoryUncheckedCreateNestedManyWithoutParentInput
+  }
+
+  export type CategoryCreateOrConnectWithoutCoursesInput = {
+    where: CategoryWhereUniqueInput
+    create: XOR<CategoryCreateWithoutCoursesInput, CategoryUncheckedCreateWithoutCoursesInput>
+  }
+
+  export type CourseStatsCreateWithoutCourseInput = {
+    id?: string
+    students?: number
+    totalReviews?: number
+    rating?: number
+    completionRate?: number
+  }
+
+  export type CourseStatsUncheckedCreateWithoutCourseInput = {
+    id?: string
+    students?: number
+    totalReviews?: number
+    rating?: number
+    completionRate?: number
+  }
+
+  export type CourseStatsCreateOrConnectWithoutCourseInput = {
+    where: CourseStatsWhereUniqueInput
+    create: XOR<CourseStatsCreateWithoutCourseInput, CourseStatsUncheckedCreateWithoutCourseInput>
   }
 
   export type ModuleCreateWithoutCourseInput = {
@@ -11555,25 +12813,58 @@ export namespace Prisma {
     skipDuplicates?: boolean
   }
 
-  export type CategoryCreateWithoutCoursesInput = {
-    id?: string
-    name: string
-    createdAt?: Date | string
-    parent?: CategoryCreateNestedOneWithoutChildrenInput
-    children?: CategoryCreateNestedManyWithoutParentInput
-  }
-
-  export type CategoryUncheckedCreateWithoutCoursesInput = {
-    id?: string
-    name: string
-    parentId?: string | null
-    createdAt?: Date | string
-    children?: CategoryUncheckedCreateNestedManyWithoutParentInput
-  }
-
-  export type CategoryCreateOrConnectWithoutCoursesInput = {
-    where: CategoryWhereUniqueInput
+  export type CategoryUpsertWithoutCoursesInput = {
+    update: XOR<CategoryUpdateWithoutCoursesInput, CategoryUncheckedUpdateWithoutCoursesInput>
     create: XOR<CategoryCreateWithoutCoursesInput, CategoryUncheckedCreateWithoutCoursesInput>
+    where?: CategoryWhereInput
+  }
+
+  export type CategoryUpdateToOneWithWhereWithoutCoursesInput = {
+    where?: CategoryWhereInput
+    data: XOR<CategoryUpdateWithoutCoursesInput, CategoryUncheckedUpdateWithoutCoursesInput>
+  }
+
+  export type CategoryUpdateWithoutCoursesInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    parent?: CategoryUpdateOneWithoutChildrenNestedInput
+    children?: CategoryUpdateManyWithoutParentNestedInput
+  }
+
+  export type CategoryUncheckedUpdateWithoutCoursesInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    parentId?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    children?: CategoryUncheckedUpdateManyWithoutParentNestedInput
+  }
+
+  export type CourseStatsUpsertWithoutCourseInput = {
+    update: XOR<CourseStatsUpdateWithoutCourseInput, CourseStatsUncheckedUpdateWithoutCourseInput>
+    create: XOR<CourseStatsCreateWithoutCourseInput, CourseStatsUncheckedCreateWithoutCourseInput>
+    where?: CourseStatsWhereInput
+  }
+
+  export type CourseStatsUpdateToOneWithWhereWithoutCourseInput = {
+    where?: CourseStatsWhereInput
+    data: XOR<CourseStatsUpdateWithoutCourseInput, CourseStatsUncheckedUpdateWithoutCourseInput>
+  }
+
+  export type CourseStatsUpdateWithoutCourseInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    students?: IntFieldUpdateOperationsInput | number
+    totalReviews?: IntFieldUpdateOperationsInput | number
+    rating?: FloatFieldUpdateOperationsInput | number
+    completionRate?: FloatFieldUpdateOperationsInput | number
+  }
+
+  export type CourseStatsUncheckedUpdateWithoutCourseInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    students?: IntFieldUpdateOperationsInput | number
+    totalReviews?: IntFieldUpdateOperationsInput | number
+    rating?: FloatFieldUpdateOperationsInput | number
+    completionRate?: FloatFieldUpdateOperationsInput | number
   }
 
   export type ModuleUpsertWithWhereUniqueWithoutCourseInput = {
@@ -11659,66 +12950,172 @@ export namespace Prisma {
     courseId?: StringFilter<"FAQ"> | string
   }
 
-  export type CategoryUpsertWithoutCoursesInput = {
-    update: XOR<CategoryUpdateWithoutCoursesInput, CategoryUncheckedUpdateWithoutCoursesInput>
-    create: XOR<CategoryCreateWithoutCoursesInput, CategoryUncheckedCreateWithoutCoursesInput>
-    where?: CategoryWhereInput
-  }
-
-  export type CategoryUpdateToOneWithWhereWithoutCoursesInput = {
-    where?: CategoryWhereInput
-    data: XOR<CategoryUpdateWithoutCoursesInput, CategoryUncheckedUpdateWithoutCoursesInput>
-  }
-
-  export type CategoryUpdateWithoutCoursesInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    name?: StringFieldUpdateOperationsInput | string
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    parent?: CategoryUpdateOneWithoutChildrenNestedInput
-    children?: CategoryUpdateManyWithoutParentNestedInput
-  }
-
-  export type CategoryUncheckedUpdateWithoutCoursesInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    name?: StringFieldUpdateOperationsInput | string
-    parentId?: NullableStringFieldUpdateOperationsInput | string | null
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    children?: CategoryUncheckedUpdateManyWithoutParentNestedInput
-  }
-
-  export type CourseCreateWithoutCategoryInput = {
+  export type CourseCreateWithoutStatsInput = {
     id?: string
     title: string
-    description: string
-    longDescription?: string | null
-    instructor: string
-    instructorAvatar: string
-    instructorTitle?: string | null
-    instructorBio?: string | null
+    shortDescription: string
+    description?: string | null
     instructorId: string
+    organizationId?: string | null
     duration: string
     startDate?: Date | string | null
     endDate?: Date | string | null
-    students?: number
-    totalReviews?: number
-    rating?: number
     price: number
     salePrice?: number | null
     thumbnail: string
-    maxStudents?: number | null
+    maxStudent?: number | null
     language?: string | null
-    organizationId?: string | null
     tags?: CourseCreatetagsInput | string[]
     whatYouWillLearn?: CourseCreatewhatYouWillLearnInput | string[]
     requirements?: CourseCreaterequirementsInput | string[]
     includes?: CourseCreateincludesInput | string[]
-    previewVideo?: string | null
     status: $Enums.Status
     level: $Enums.Level
     type: $Enums.Type
     createdAt?: Date | string
     updatedAt?: Date | string
     publishedAt?: Date | string | null
+    category?: CategoryCreateNestedOneWithoutCoursesInput
+    modules?: ModuleCreateNestedManyWithoutCourseInput
+    reviews?: ReviewCreateNestedManyWithoutCourseInput
+    faqs?: FAQCreateNestedManyWithoutCourseInput
+  }
+
+  export type CourseUncheckedCreateWithoutStatsInput = {
+    id?: string
+    title: string
+    shortDescription: string
+    description?: string | null
+    instructorId: string
+    organizationId?: string | null
+    duration: string
+    startDate?: Date | string | null
+    endDate?: Date | string | null
+    price: number
+    salePrice?: number | null
+    thumbnail: string
+    maxStudent?: number | null
+    language?: string | null
+    tags?: CourseCreatetagsInput | string[]
+    whatYouWillLearn?: CourseCreatewhatYouWillLearnInput | string[]
+    requirements?: CourseCreaterequirementsInput | string[]
+    includes?: CourseCreateincludesInput | string[]
+    status: $Enums.Status
+    level: $Enums.Level
+    type: $Enums.Type
+    categoryId?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    publishedAt?: Date | string | null
+    modules?: ModuleUncheckedCreateNestedManyWithoutCourseInput
+    reviews?: ReviewUncheckedCreateNestedManyWithoutCourseInput
+    faqs?: FAQUncheckedCreateNestedManyWithoutCourseInput
+  }
+
+  export type CourseCreateOrConnectWithoutStatsInput = {
+    where: CourseWhereUniqueInput
+    create: XOR<CourseCreateWithoutStatsInput, CourseUncheckedCreateWithoutStatsInput>
+  }
+
+  export type CourseUpsertWithoutStatsInput = {
+    update: XOR<CourseUpdateWithoutStatsInput, CourseUncheckedUpdateWithoutStatsInput>
+    create: XOR<CourseCreateWithoutStatsInput, CourseUncheckedCreateWithoutStatsInput>
+    where?: CourseWhereInput
+  }
+
+  export type CourseUpdateToOneWithWhereWithoutStatsInput = {
+    where?: CourseWhereInput
+    data: XOR<CourseUpdateWithoutStatsInput, CourseUncheckedUpdateWithoutStatsInput>
+  }
+
+  export type CourseUpdateWithoutStatsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    shortDescription?: StringFieldUpdateOperationsInput | string
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    instructorId?: StringFieldUpdateOperationsInput | string
+    organizationId?: NullableStringFieldUpdateOperationsInput | string | null
+    duration?: StringFieldUpdateOperationsInput | string
+    startDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    endDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    price?: FloatFieldUpdateOperationsInput | number
+    salePrice?: NullableFloatFieldUpdateOperationsInput | number | null
+    thumbnail?: StringFieldUpdateOperationsInput | string
+    maxStudent?: NullableIntFieldUpdateOperationsInput | number | null
+    language?: NullableStringFieldUpdateOperationsInput | string | null
+    tags?: CourseUpdatetagsInput | string[]
+    whatYouWillLearn?: CourseUpdatewhatYouWillLearnInput | string[]
+    requirements?: CourseUpdaterequirementsInput | string[]
+    includes?: CourseUpdateincludesInput | string[]
+    status?: EnumStatusFieldUpdateOperationsInput | $Enums.Status
+    level?: EnumLevelFieldUpdateOperationsInput | $Enums.Level
+    type?: EnumTypeFieldUpdateOperationsInput | $Enums.Type
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    publishedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    category?: CategoryUpdateOneWithoutCoursesNestedInput
+    modules?: ModuleUpdateManyWithoutCourseNestedInput
+    reviews?: ReviewUpdateManyWithoutCourseNestedInput
+    faqs?: FAQUpdateManyWithoutCourseNestedInput
+  }
+
+  export type CourseUncheckedUpdateWithoutStatsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    shortDescription?: StringFieldUpdateOperationsInput | string
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    instructorId?: StringFieldUpdateOperationsInput | string
+    organizationId?: NullableStringFieldUpdateOperationsInput | string | null
+    duration?: StringFieldUpdateOperationsInput | string
+    startDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    endDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    price?: FloatFieldUpdateOperationsInput | number
+    salePrice?: NullableFloatFieldUpdateOperationsInput | number | null
+    thumbnail?: StringFieldUpdateOperationsInput | string
+    maxStudent?: NullableIntFieldUpdateOperationsInput | number | null
+    language?: NullableStringFieldUpdateOperationsInput | string | null
+    tags?: CourseUpdatetagsInput | string[]
+    whatYouWillLearn?: CourseUpdatewhatYouWillLearnInput | string[]
+    requirements?: CourseUpdaterequirementsInput | string[]
+    includes?: CourseUpdateincludesInput | string[]
+    status?: EnumStatusFieldUpdateOperationsInput | $Enums.Status
+    level?: EnumLevelFieldUpdateOperationsInput | $Enums.Level
+    type?: EnumTypeFieldUpdateOperationsInput | $Enums.Type
+    categoryId?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    publishedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    modules?: ModuleUncheckedUpdateManyWithoutCourseNestedInput
+    reviews?: ReviewUncheckedUpdateManyWithoutCourseNestedInput
+    faqs?: FAQUncheckedUpdateManyWithoutCourseNestedInput
+  }
+
+  export type CourseCreateWithoutCategoryInput = {
+    id?: string
+    title: string
+    shortDescription: string
+    description?: string | null
+    instructorId: string
+    organizationId?: string | null
+    duration: string
+    startDate?: Date | string | null
+    endDate?: Date | string | null
+    price: number
+    salePrice?: number | null
+    thumbnail: string
+    maxStudent?: number | null
+    language?: string | null
+    tags?: CourseCreatetagsInput | string[]
+    whatYouWillLearn?: CourseCreatewhatYouWillLearnInput | string[]
+    requirements?: CourseCreaterequirementsInput | string[]
+    includes?: CourseCreateincludesInput | string[]
+    status: $Enums.Status
+    level: $Enums.Level
+    type: $Enums.Type
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    publishedAt?: Date | string | null
+    stats?: CourseStatsCreateNestedOneWithoutCourseInput
     modules?: ModuleCreateNestedManyWithoutCourseInput
     reviews?: ReviewCreateNestedManyWithoutCourseInput
     faqs?: FAQCreateNestedManyWithoutCourseInput
@@ -11727,36 +13124,29 @@ export namespace Prisma {
   export type CourseUncheckedCreateWithoutCategoryInput = {
     id?: string
     title: string
-    description: string
-    longDescription?: string | null
-    instructor: string
-    instructorAvatar: string
-    instructorTitle?: string | null
-    instructorBio?: string | null
+    shortDescription: string
+    description?: string | null
     instructorId: string
+    organizationId?: string | null
     duration: string
     startDate?: Date | string | null
     endDate?: Date | string | null
-    students?: number
-    totalReviews?: number
-    rating?: number
     price: number
     salePrice?: number | null
     thumbnail: string
-    maxStudents?: number | null
+    maxStudent?: number | null
     language?: string | null
-    organizationId?: string | null
     tags?: CourseCreatetagsInput | string[]
     whatYouWillLearn?: CourseCreatewhatYouWillLearnInput | string[]
     requirements?: CourseCreaterequirementsInput | string[]
     includes?: CourseCreateincludesInput | string[]
-    previewVideo?: string | null
     status: $Enums.Status
     level: $Enums.Level
     type: $Enums.Type
     createdAt?: Date | string
     updatedAt?: Date | string
     publishedAt?: Date | string | null
+    stats?: CourseStatsUncheckedCreateNestedOneWithoutCourseInput
     modules?: ModuleUncheckedCreateNestedManyWithoutCourseInput
     reviews?: ReviewUncheckedCreateNestedManyWithoutCourseInput
     faqs?: FAQUncheckedCreateNestedManyWithoutCourseInput
@@ -11841,34 +13231,26 @@ export namespace Prisma {
     NOT?: CourseScalarWhereInput | CourseScalarWhereInput[]
     id?: StringFilter<"Course"> | string
     title?: StringFilter<"Course"> | string
-    description?: StringFilter<"Course"> | string
-    longDescription?: StringNullableFilter<"Course"> | string | null
-    instructor?: StringFilter<"Course"> | string
-    instructorAvatar?: StringFilter<"Course"> | string
-    instructorTitle?: StringNullableFilter<"Course"> | string | null
-    instructorBio?: StringNullableFilter<"Course"> | string | null
+    shortDescription?: StringFilter<"Course"> | string
+    description?: StringNullableFilter<"Course"> | string | null
     instructorId?: StringFilter<"Course"> | string
+    organizationId?: StringNullableFilter<"Course"> | string | null
     duration?: StringFilter<"Course"> | string
     startDate?: DateTimeNullableFilter<"Course"> | Date | string | null
     endDate?: DateTimeNullableFilter<"Course"> | Date | string | null
-    students?: IntFilter<"Course"> | number
-    totalReviews?: IntFilter<"Course"> | number
-    rating?: FloatFilter<"Course"> | number
     price?: FloatFilter<"Course"> | number
     salePrice?: FloatNullableFilter<"Course"> | number | null
     thumbnail?: StringFilter<"Course"> | string
-    maxStudents?: IntNullableFilter<"Course"> | number | null
+    maxStudent?: IntNullableFilter<"Course"> | number | null
     language?: StringNullableFilter<"Course"> | string | null
-    organizationId?: StringNullableFilter<"Course"> | string | null
     tags?: StringNullableListFilter<"Course">
     whatYouWillLearn?: StringNullableListFilter<"Course">
     requirements?: StringNullableListFilter<"Course">
     includes?: StringNullableListFilter<"Course">
-    previewVideo?: StringNullableFilter<"Course"> | string | null
-    categoryId?: StringNullableFilter<"Course"> | string | null
     status?: EnumStatusFilter<"Course"> | $Enums.Status
     level?: EnumLevelFilter<"Course"> | $Enums.Level
     type?: EnumTypeFilter<"Course"> | $Enums.Type
+    categoryId?: StringNullableFilter<"Course"> | string | null
     createdAt?: DateTimeFilter<"Course"> | Date | string
     updatedAt?: DateTimeFilter<"Course"> | Date | string
     publishedAt?: DateTimeNullableFilter<"Course"> | Date | string | null
@@ -11930,75 +13312,61 @@ export namespace Prisma {
   export type CourseCreateWithoutFaqsInput = {
     id?: string
     title: string
-    description: string
-    longDescription?: string | null
-    instructor: string
-    instructorAvatar: string
-    instructorTitle?: string | null
-    instructorBio?: string | null
+    shortDescription: string
+    description?: string | null
     instructorId: string
+    organizationId?: string | null
     duration: string
     startDate?: Date | string | null
     endDate?: Date | string | null
-    students?: number
-    totalReviews?: number
-    rating?: number
     price: number
     salePrice?: number | null
     thumbnail: string
-    maxStudents?: number | null
+    maxStudent?: number | null
     language?: string | null
-    organizationId?: string | null
     tags?: CourseCreatetagsInput | string[]
     whatYouWillLearn?: CourseCreatewhatYouWillLearnInput | string[]
     requirements?: CourseCreaterequirementsInput | string[]
     includes?: CourseCreateincludesInput | string[]
-    previewVideo?: string | null
     status: $Enums.Status
     level: $Enums.Level
     type: $Enums.Type
     createdAt?: Date | string
     updatedAt?: Date | string
     publishedAt?: Date | string | null
+    category?: CategoryCreateNestedOneWithoutCoursesInput
+    stats?: CourseStatsCreateNestedOneWithoutCourseInput
     modules?: ModuleCreateNestedManyWithoutCourseInput
     reviews?: ReviewCreateNestedManyWithoutCourseInput
-    category?: CategoryCreateNestedOneWithoutCoursesInput
   }
 
   export type CourseUncheckedCreateWithoutFaqsInput = {
     id?: string
     title: string
-    description: string
-    longDescription?: string | null
-    instructor: string
-    instructorAvatar: string
-    instructorTitle?: string | null
-    instructorBio?: string | null
+    shortDescription: string
+    description?: string | null
     instructorId: string
+    organizationId?: string | null
     duration: string
     startDate?: Date | string | null
     endDate?: Date | string | null
-    students?: number
-    totalReviews?: number
-    rating?: number
     price: number
     salePrice?: number | null
     thumbnail: string
-    maxStudents?: number | null
+    maxStudent?: number | null
     language?: string | null
-    organizationId?: string | null
     tags?: CourseCreatetagsInput | string[]
     whatYouWillLearn?: CourseCreatewhatYouWillLearnInput | string[]
     requirements?: CourseCreaterequirementsInput | string[]
     includes?: CourseCreateincludesInput | string[]
-    previewVideo?: string | null
-    categoryId?: string | null
     status: $Enums.Status
     level: $Enums.Level
     type: $Enums.Type
+    categoryId?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     publishedAt?: Date | string | null
+    stats?: CourseStatsUncheckedCreateNestedOneWithoutCourseInput
     modules?: ModuleUncheckedCreateNestedManyWithoutCourseInput
     reviews?: ReviewUncheckedCreateNestedManyWithoutCourseInput
   }
@@ -12022,75 +13390,61 @@ export namespace Prisma {
   export type CourseUpdateWithoutFaqsInput = {
     id?: StringFieldUpdateOperationsInput | string
     title?: StringFieldUpdateOperationsInput | string
-    description?: StringFieldUpdateOperationsInput | string
-    longDescription?: NullableStringFieldUpdateOperationsInput | string | null
-    instructor?: StringFieldUpdateOperationsInput | string
-    instructorAvatar?: StringFieldUpdateOperationsInput | string
-    instructorTitle?: NullableStringFieldUpdateOperationsInput | string | null
-    instructorBio?: NullableStringFieldUpdateOperationsInput | string | null
+    shortDescription?: StringFieldUpdateOperationsInput | string
+    description?: NullableStringFieldUpdateOperationsInput | string | null
     instructorId?: StringFieldUpdateOperationsInput | string
+    organizationId?: NullableStringFieldUpdateOperationsInput | string | null
     duration?: StringFieldUpdateOperationsInput | string
     startDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     endDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    students?: IntFieldUpdateOperationsInput | number
-    totalReviews?: IntFieldUpdateOperationsInput | number
-    rating?: FloatFieldUpdateOperationsInput | number
     price?: FloatFieldUpdateOperationsInput | number
     salePrice?: NullableFloatFieldUpdateOperationsInput | number | null
     thumbnail?: StringFieldUpdateOperationsInput | string
-    maxStudents?: NullableIntFieldUpdateOperationsInput | number | null
+    maxStudent?: NullableIntFieldUpdateOperationsInput | number | null
     language?: NullableStringFieldUpdateOperationsInput | string | null
-    organizationId?: NullableStringFieldUpdateOperationsInput | string | null
     tags?: CourseUpdatetagsInput | string[]
     whatYouWillLearn?: CourseUpdatewhatYouWillLearnInput | string[]
     requirements?: CourseUpdaterequirementsInput | string[]
     includes?: CourseUpdateincludesInput | string[]
-    previewVideo?: NullableStringFieldUpdateOperationsInput | string | null
     status?: EnumStatusFieldUpdateOperationsInput | $Enums.Status
     level?: EnumLevelFieldUpdateOperationsInput | $Enums.Level
     type?: EnumTypeFieldUpdateOperationsInput | $Enums.Type
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     publishedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    category?: CategoryUpdateOneWithoutCoursesNestedInput
+    stats?: CourseStatsUpdateOneWithoutCourseNestedInput
     modules?: ModuleUpdateManyWithoutCourseNestedInput
     reviews?: ReviewUpdateManyWithoutCourseNestedInput
-    category?: CategoryUpdateOneWithoutCoursesNestedInput
   }
 
   export type CourseUncheckedUpdateWithoutFaqsInput = {
     id?: StringFieldUpdateOperationsInput | string
     title?: StringFieldUpdateOperationsInput | string
-    description?: StringFieldUpdateOperationsInput | string
-    longDescription?: NullableStringFieldUpdateOperationsInput | string | null
-    instructor?: StringFieldUpdateOperationsInput | string
-    instructorAvatar?: StringFieldUpdateOperationsInput | string
-    instructorTitle?: NullableStringFieldUpdateOperationsInput | string | null
-    instructorBio?: NullableStringFieldUpdateOperationsInput | string | null
+    shortDescription?: StringFieldUpdateOperationsInput | string
+    description?: NullableStringFieldUpdateOperationsInput | string | null
     instructorId?: StringFieldUpdateOperationsInput | string
+    organizationId?: NullableStringFieldUpdateOperationsInput | string | null
     duration?: StringFieldUpdateOperationsInput | string
     startDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     endDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    students?: IntFieldUpdateOperationsInput | number
-    totalReviews?: IntFieldUpdateOperationsInput | number
-    rating?: FloatFieldUpdateOperationsInput | number
     price?: FloatFieldUpdateOperationsInput | number
     salePrice?: NullableFloatFieldUpdateOperationsInput | number | null
     thumbnail?: StringFieldUpdateOperationsInput | string
-    maxStudents?: NullableIntFieldUpdateOperationsInput | number | null
+    maxStudent?: NullableIntFieldUpdateOperationsInput | number | null
     language?: NullableStringFieldUpdateOperationsInput | string | null
-    organizationId?: NullableStringFieldUpdateOperationsInput | string | null
     tags?: CourseUpdatetagsInput | string[]
     whatYouWillLearn?: CourseUpdatewhatYouWillLearnInput | string[]
     requirements?: CourseUpdaterequirementsInput | string[]
     includes?: CourseUpdateincludesInput | string[]
-    previewVideo?: NullableStringFieldUpdateOperationsInput | string | null
-    categoryId?: NullableStringFieldUpdateOperationsInput | string | null
     status?: EnumStatusFieldUpdateOperationsInput | $Enums.Status
     level?: EnumLevelFieldUpdateOperationsInput | $Enums.Level
     type?: EnumTypeFieldUpdateOperationsInput | $Enums.Type
+    categoryId?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     publishedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    stats?: CourseStatsUncheckedUpdateOneWithoutCourseNestedInput
     modules?: ModuleUncheckedUpdateManyWithoutCourseNestedInput
     reviews?: ReviewUncheckedUpdateManyWithoutCourseNestedInput
   }
@@ -12098,75 +13452,61 @@ export namespace Prisma {
   export type CourseCreateWithoutReviewsInput = {
     id?: string
     title: string
-    description: string
-    longDescription?: string | null
-    instructor: string
-    instructorAvatar: string
-    instructorTitle?: string | null
-    instructorBio?: string | null
+    shortDescription: string
+    description?: string | null
     instructorId: string
+    organizationId?: string | null
     duration: string
     startDate?: Date | string | null
     endDate?: Date | string | null
-    students?: number
-    totalReviews?: number
-    rating?: number
     price: number
     salePrice?: number | null
     thumbnail: string
-    maxStudents?: number | null
+    maxStudent?: number | null
     language?: string | null
-    organizationId?: string | null
     tags?: CourseCreatetagsInput | string[]
     whatYouWillLearn?: CourseCreatewhatYouWillLearnInput | string[]
     requirements?: CourseCreaterequirementsInput | string[]
     includes?: CourseCreateincludesInput | string[]
-    previewVideo?: string | null
     status: $Enums.Status
     level: $Enums.Level
     type: $Enums.Type
     createdAt?: Date | string
     updatedAt?: Date | string
     publishedAt?: Date | string | null
+    category?: CategoryCreateNestedOneWithoutCoursesInput
+    stats?: CourseStatsCreateNestedOneWithoutCourseInput
     modules?: ModuleCreateNestedManyWithoutCourseInput
     faqs?: FAQCreateNestedManyWithoutCourseInput
-    category?: CategoryCreateNestedOneWithoutCoursesInput
   }
 
   export type CourseUncheckedCreateWithoutReviewsInput = {
     id?: string
     title: string
-    description: string
-    longDescription?: string | null
-    instructor: string
-    instructorAvatar: string
-    instructorTitle?: string | null
-    instructorBio?: string | null
+    shortDescription: string
+    description?: string | null
     instructorId: string
+    organizationId?: string | null
     duration: string
     startDate?: Date | string | null
     endDate?: Date | string | null
-    students?: number
-    totalReviews?: number
-    rating?: number
     price: number
     salePrice?: number | null
     thumbnail: string
-    maxStudents?: number | null
+    maxStudent?: number | null
     language?: string | null
-    organizationId?: string | null
     tags?: CourseCreatetagsInput | string[]
     whatYouWillLearn?: CourseCreatewhatYouWillLearnInput | string[]
     requirements?: CourseCreaterequirementsInput | string[]
     includes?: CourseCreateincludesInput | string[]
-    previewVideo?: string | null
-    categoryId?: string | null
     status: $Enums.Status
     level: $Enums.Level
     type: $Enums.Type
+    categoryId?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     publishedAt?: Date | string | null
+    stats?: CourseStatsUncheckedCreateNestedOneWithoutCourseInput
     modules?: ModuleUncheckedCreateNestedManyWithoutCourseInput
     faqs?: FAQUncheckedCreateNestedManyWithoutCourseInput
   }
@@ -12190,75 +13530,61 @@ export namespace Prisma {
   export type CourseUpdateWithoutReviewsInput = {
     id?: StringFieldUpdateOperationsInput | string
     title?: StringFieldUpdateOperationsInput | string
-    description?: StringFieldUpdateOperationsInput | string
-    longDescription?: NullableStringFieldUpdateOperationsInput | string | null
-    instructor?: StringFieldUpdateOperationsInput | string
-    instructorAvatar?: StringFieldUpdateOperationsInput | string
-    instructorTitle?: NullableStringFieldUpdateOperationsInput | string | null
-    instructorBio?: NullableStringFieldUpdateOperationsInput | string | null
+    shortDescription?: StringFieldUpdateOperationsInput | string
+    description?: NullableStringFieldUpdateOperationsInput | string | null
     instructorId?: StringFieldUpdateOperationsInput | string
+    organizationId?: NullableStringFieldUpdateOperationsInput | string | null
     duration?: StringFieldUpdateOperationsInput | string
     startDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     endDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    students?: IntFieldUpdateOperationsInput | number
-    totalReviews?: IntFieldUpdateOperationsInput | number
-    rating?: FloatFieldUpdateOperationsInput | number
     price?: FloatFieldUpdateOperationsInput | number
     salePrice?: NullableFloatFieldUpdateOperationsInput | number | null
     thumbnail?: StringFieldUpdateOperationsInput | string
-    maxStudents?: NullableIntFieldUpdateOperationsInput | number | null
+    maxStudent?: NullableIntFieldUpdateOperationsInput | number | null
     language?: NullableStringFieldUpdateOperationsInput | string | null
-    organizationId?: NullableStringFieldUpdateOperationsInput | string | null
     tags?: CourseUpdatetagsInput | string[]
     whatYouWillLearn?: CourseUpdatewhatYouWillLearnInput | string[]
     requirements?: CourseUpdaterequirementsInput | string[]
     includes?: CourseUpdateincludesInput | string[]
-    previewVideo?: NullableStringFieldUpdateOperationsInput | string | null
     status?: EnumStatusFieldUpdateOperationsInput | $Enums.Status
     level?: EnumLevelFieldUpdateOperationsInput | $Enums.Level
     type?: EnumTypeFieldUpdateOperationsInput | $Enums.Type
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     publishedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    category?: CategoryUpdateOneWithoutCoursesNestedInput
+    stats?: CourseStatsUpdateOneWithoutCourseNestedInput
     modules?: ModuleUpdateManyWithoutCourseNestedInput
     faqs?: FAQUpdateManyWithoutCourseNestedInput
-    category?: CategoryUpdateOneWithoutCoursesNestedInput
   }
 
   export type CourseUncheckedUpdateWithoutReviewsInput = {
     id?: StringFieldUpdateOperationsInput | string
     title?: StringFieldUpdateOperationsInput | string
-    description?: StringFieldUpdateOperationsInput | string
-    longDescription?: NullableStringFieldUpdateOperationsInput | string | null
-    instructor?: StringFieldUpdateOperationsInput | string
-    instructorAvatar?: StringFieldUpdateOperationsInput | string
-    instructorTitle?: NullableStringFieldUpdateOperationsInput | string | null
-    instructorBio?: NullableStringFieldUpdateOperationsInput | string | null
+    shortDescription?: StringFieldUpdateOperationsInput | string
+    description?: NullableStringFieldUpdateOperationsInput | string | null
     instructorId?: StringFieldUpdateOperationsInput | string
+    organizationId?: NullableStringFieldUpdateOperationsInput | string | null
     duration?: StringFieldUpdateOperationsInput | string
     startDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     endDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    students?: IntFieldUpdateOperationsInput | number
-    totalReviews?: IntFieldUpdateOperationsInput | number
-    rating?: FloatFieldUpdateOperationsInput | number
     price?: FloatFieldUpdateOperationsInput | number
     salePrice?: NullableFloatFieldUpdateOperationsInput | number | null
     thumbnail?: StringFieldUpdateOperationsInput | string
-    maxStudents?: NullableIntFieldUpdateOperationsInput | number | null
+    maxStudent?: NullableIntFieldUpdateOperationsInput | number | null
     language?: NullableStringFieldUpdateOperationsInput | string | null
-    organizationId?: NullableStringFieldUpdateOperationsInput | string | null
     tags?: CourseUpdatetagsInput | string[]
     whatYouWillLearn?: CourseUpdatewhatYouWillLearnInput | string[]
     requirements?: CourseUpdaterequirementsInput | string[]
     includes?: CourseUpdateincludesInput | string[]
-    previewVideo?: NullableStringFieldUpdateOperationsInput | string | null
-    categoryId?: NullableStringFieldUpdateOperationsInput | string | null
     status?: EnumStatusFieldUpdateOperationsInput | $Enums.Status
     level?: EnumLevelFieldUpdateOperationsInput | $Enums.Level
     type?: EnumTypeFieldUpdateOperationsInput | $Enums.Type
+    categoryId?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     publishedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    stats?: CourseStatsUncheckedUpdateOneWithoutCourseNestedInput
     modules?: ModuleUncheckedUpdateManyWithoutCourseNestedInput
     faqs?: FAQUncheckedUpdateManyWithoutCourseNestedInput
   }
@@ -12266,75 +13592,61 @@ export namespace Prisma {
   export type CourseCreateWithoutModulesInput = {
     id?: string
     title: string
-    description: string
-    longDescription?: string | null
-    instructor: string
-    instructorAvatar: string
-    instructorTitle?: string | null
-    instructorBio?: string | null
+    shortDescription: string
+    description?: string | null
     instructorId: string
+    organizationId?: string | null
     duration: string
     startDate?: Date | string | null
     endDate?: Date | string | null
-    students?: number
-    totalReviews?: number
-    rating?: number
     price: number
     salePrice?: number | null
     thumbnail: string
-    maxStudents?: number | null
+    maxStudent?: number | null
     language?: string | null
-    organizationId?: string | null
     tags?: CourseCreatetagsInput | string[]
     whatYouWillLearn?: CourseCreatewhatYouWillLearnInput | string[]
     requirements?: CourseCreaterequirementsInput | string[]
     includes?: CourseCreateincludesInput | string[]
-    previewVideo?: string | null
     status: $Enums.Status
     level: $Enums.Level
     type: $Enums.Type
     createdAt?: Date | string
     updatedAt?: Date | string
     publishedAt?: Date | string | null
+    category?: CategoryCreateNestedOneWithoutCoursesInput
+    stats?: CourseStatsCreateNestedOneWithoutCourseInput
     reviews?: ReviewCreateNestedManyWithoutCourseInput
     faqs?: FAQCreateNestedManyWithoutCourseInput
-    category?: CategoryCreateNestedOneWithoutCoursesInput
   }
 
   export type CourseUncheckedCreateWithoutModulesInput = {
     id?: string
     title: string
-    description: string
-    longDescription?: string | null
-    instructor: string
-    instructorAvatar: string
-    instructorTitle?: string | null
-    instructorBio?: string | null
+    shortDescription: string
+    description?: string | null
     instructorId: string
+    organizationId?: string | null
     duration: string
     startDate?: Date | string | null
     endDate?: Date | string | null
-    students?: number
-    totalReviews?: number
-    rating?: number
     price: number
     salePrice?: number | null
     thumbnail: string
-    maxStudents?: number | null
+    maxStudent?: number | null
     language?: string | null
-    organizationId?: string | null
     tags?: CourseCreatetagsInput | string[]
     whatYouWillLearn?: CourseCreatewhatYouWillLearnInput | string[]
     requirements?: CourseCreaterequirementsInput | string[]
     includes?: CourseCreateincludesInput | string[]
-    previewVideo?: string | null
-    categoryId?: string | null
     status: $Enums.Status
     level: $Enums.Level
     type: $Enums.Type
+    categoryId?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     publishedAt?: Date | string | null
+    stats?: CourseStatsUncheckedCreateNestedOneWithoutCourseInput
     reviews?: ReviewUncheckedCreateNestedManyWithoutCourseInput
     faqs?: FAQUncheckedCreateNestedManyWithoutCourseInput
   }
@@ -12392,75 +13704,61 @@ export namespace Prisma {
   export type CourseUpdateWithoutModulesInput = {
     id?: StringFieldUpdateOperationsInput | string
     title?: StringFieldUpdateOperationsInput | string
-    description?: StringFieldUpdateOperationsInput | string
-    longDescription?: NullableStringFieldUpdateOperationsInput | string | null
-    instructor?: StringFieldUpdateOperationsInput | string
-    instructorAvatar?: StringFieldUpdateOperationsInput | string
-    instructorTitle?: NullableStringFieldUpdateOperationsInput | string | null
-    instructorBio?: NullableStringFieldUpdateOperationsInput | string | null
+    shortDescription?: StringFieldUpdateOperationsInput | string
+    description?: NullableStringFieldUpdateOperationsInput | string | null
     instructorId?: StringFieldUpdateOperationsInput | string
+    organizationId?: NullableStringFieldUpdateOperationsInput | string | null
     duration?: StringFieldUpdateOperationsInput | string
     startDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     endDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    students?: IntFieldUpdateOperationsInput | number
-    totalReviews?: IntFieldUpdateOperationsInput | number
-    rating?: FloatFieldUpdateOperationsInput | number
     price?: FloatFieldUpdateOperationsInput | number
     salePrice?: NullableFloatFieldUpdateOperationsInput | number | null
     thumbnail?: StringFieldUpdateOperationsInput | string
-    maxStudents?: NullableIntFieldUpdateOperationsInput | number | null
+    maxStudent?: NullableIntFieldUpdateOperationsInput | number | null
     language?: NullableStringFieldUpdateOperationsInput | string | null
-    organizationId?: NullableStringFieldUpdateOperationsInput | string | null
     tags?: CourseUpdatetagsInput | string[]
     whatYouWillLearn?: CourseUpdatewhatYouWillLearnInput | string[]
     requirements?: CourseUpdaterequirementsInput | string[]
     includes?: CourseUpdateincludesInput | string[]
-    previewVideo?: NullableStringFieldUpdateOperationsInput | string | null
     status?: EnumStatusFieldUpdateOperationsInput | $Enums.Status
     level?: EnumLevelFieldUpdateOperationsInput | $Enums.Level
     type?: EnumTypeFieldUpdateOperationsInput | $Enums.Type
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     publishedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    category?: CategoryUpdateOneWithoutCoursesNestedInput
+    stats?: CourseStatsUpdateOneWithoutCourseNestedInput
     reviews?: ReviewUpdateManyWithoutCourseNestedInput
     faqs?: FAQUpdateManyWithoutCourseNestedInput
-    category?: CategoryUpdateOneWithoutCoursesNestedInput
   }
 
   export type CourseUncheckedUpdateWithoutModulesInput = {
     id?: StringFieldUpdateOperationsInput | string
     title?: StringFieldUpdateOperationsInput | string
-    description?: StringFieldUpdateOperationsInput | string
-    longDescription?: NullableStringFieldUpdateOperationsInput | string | null
-    instructor?: StringFieldUpdateOperationsInput | string
-    instructorAvatar?: StringFieldUpdateOperationsInput | string
-    instructorTitle?: NullableStringFieldUpdateOperationsInput | string | null
-    instructorBio?: NullableStringFieldUpdateOperationsInput | string | null
+    shortDescription?: StringFieldUpdateOperationsInput | string
+    description?: NullableStringFieldUpdateOperationsInput | string | null
     instructorId?: StringFieldUpdateOperationsInput | string
+    organizationId?: NullableStringFieldUpdateOperationsInput | string | null
     duration?: StringFieldUpdateOperationsInput | string
     startDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     endDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    students?: IntFieldUpdateOperationsInput | number
-    totalReviews?: IntFieldUpdateOperationsInput | number
-    rating?: FloatFieldUpdateOperationsInput | number
     price?: FloatFieldUpdateOperationsInput | number
     salePrice?: NullableFloatFieldUpdateOperationsInput | number | null
     thumbnail?: StringFieldUpdateOperationsInput | string
-    maxStudents?: NullableIntFieldUpdateOperationsInput | number | null
+    maxStudent?: NullableIntFieldUpdateOperationsInput | number | null
     language?: NullableStringFieldUpdateOperationsInput | string | null
-    organizationId?: NullableStringFieldUpdateOperationsInput | string | null
     tags?: CourseUpdatetagsInput | string[]
     whatYouWillLearn?: CourseUpdatewhatYouWillLearnInput | string[]
     requirements?: CourseUpdaterequirementsInput | string[]
     includes?: CourseUpdateincludesInput | string[]
-    previewVideo?: NullableStringFieldUpdateOperationsInput | string | null
-    categoryId?: NullableStringFieldUpdateOperationsInput | string | null
     status?: EnumStatusFieldUpdateOperationsInput | $Enums.Status
     level?: EnumLevelFieldUpdateOperationsInput | $Enums.Level
     type?: EnumTypeFieldUpdateOperationsInput | $Enums.Type
+    categoryId?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     publishedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    stats?: CourseStatsUncheckedUpdateOneWithoutCourseNestedInput
     reviews?: ReviewUncheckedUpdateManyWithoutCourseNestedInput
     faqs?: FAQUncheckedUpdateManyWithoutCourseNestedInput
   }
@@ -12646,30 +13944,22 @@ export namespace Prisma {
   export type CourseCreateManyCategoryInput = {
     id?: string
     title: string
-    description: string
-    longDescription?: string | null
-    instructor: string
-    instructorAvatar: string
-    instructorTitle?: string | null
-    instructorBio?: string | null
+    shortDescription: string
+    description?: string | null
     instructorId: string
+    organizationId?: string | null
     duration: string
     startDate?: Date | string | null
     endDate?: Date | string | null
-    students?: number
-    totalReviews?: number
-    rating?: number
     price: number
     salePrice?: number | null
     thumbnail: string
-    maxStudents?: number | null
+    maxStudent?: number | null
     language?: string | null
-    organizationId?: string | null
     tags?: CourseCreatetagsInput | string[]
     whatYouWillLearn?: CourseCreatewhatYouWillLearnInput | string[]
     requirements?: CourseCreaterequirementsInput | string[]
     includes?: CourseCreateincludesInput | string[]
-    previewVideo?: string | null
     status: $Enums.Status
     level: $Enums.Level
     type: $Enums.Type
@@ -12687,36 +13977,29 @@ export namespace Prisma {
   export type CourseUpdateWithoutCategoryInput = {
     id?: StringFieldUpdateOperationsInput | string
     title?: StringFieldUpdateOperationsInput | string
-    description?: StringFieldUpdateOperationsInput | string
-    longDescription?: NullableStringFieldUpdateOperationsInput | string | null
-    instructor?: StringFieldUpdateOperationsInput | string
-    instructorAvatar?: StringFieldUpdateOperationsInput | string
-    instructorTitle?: NullableStringFieldUpdateOperationsInput | string | null
-    instructorBio?: NullableStringFieldUpdateOperationsInput | string | null
+    shortDescription?: StringFieldUpdateOperationsInput | string
+    description?: NullableStringFieldUpdateOperationsInput | string | null
     instructorId?: StringFieldUpdateOperationsInput | string
+    organizationId?: NullableStringFieldUpdateOperationsInput | string | null
     duration?: StringFieldUpdateOperationsInput | string
     startDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     endDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    students?: IntFieldUpdateOperationsInput | number
-    totalReviews?: IntFieldUpdateOperationsInput | number
-    rating?: FloatFieldUpdateOperationsInput | number
     price?: FloatFieldUpdateOperationsInput | number
     salePrice?: NullableFloatFieldUpdateOperationsInput | number | null
     thumbnail?: StringFieldUpdateOperationsInput | string
-    maxStudents?: NullableIntFieldUpdateOperationsInput | number | null
+    maxStudent?: NullableIntFieldUpdateOperationsInput | number | null
     language?: NullableStringFieldUpdateOperationsInput | string | null
-    organizationId?: NullableStringFieldUpdateOperationsInput | string | null
     tags?: CourseUpdatetagsInput | string[]
     whatYouWillLearn?: CourseUpdatewhatYouWillLearnInput | string[]
     requirements?: CourseUpdaterequirementsInput | string[]
     includes?: CourseUpdateincludesInput | string[]
-    previewVideo?: NullableStringFieldUpdateOperationsInput | string | null
     status?: EnumStatusFieldUpdateOperationsInput | $Enums.Status
     level?: EnumLevelFieldUpdateOperationsInput | $Enums.Level
     type?: EnumTypeFieldUpdateOperationsInput | $Enums.Type
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     publishedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    stats?: CourseStatsUpdateOneWithoutCourseNestedInput
     modules?: ModuleUpdateManyWithoutCourseNestedInput
     reviews?: ReviewUpdateManyWithoutCourseNestedInput
     faqs?: FAQUpdateManyWithoutCourseNestedInput
@@ -12725,36 +14008,29 @@ export namespace Prisma {
   export type CourseUncheckedUpdateWithoutCategoryInput = {
     id?: StringFieldUpdateOperationsInput | string
     title?: StringFieldUpdateOperationsInput | string
-    description?: StringFieldUpdateOperationsInput | string
-    longDescription?: NullableStringFieldUpdateOperationsInput | string | null
-    instructor?: StringFieldUpdateOperationsInput | string
-    instructorAvatar?: StringFieldUpdateOperationsInput | string
-    instructorTitle?: NullableStringFieldUpdateOperationsInput | string | null
-    instructorBio?: NullableStringFieldUpdateOperationsInput | string | null
+    shortDescription?: StringFieldUpdateOperationsInput | string
+    description?: NullableStringFieldUpdateOperationsInput | string | null
     instructorId?: StringFieldUpdateOperationsInput | string
+    organizationId?: NullableStringFieldUpdateOperationsInput | string | null
     duration?: StringFieldUpdateOperationsInput | string
     startDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     endDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    students?: IntFieldUpdateOperationsInput | number
-    totalReviews?: IntFieldUpdateOperationsInput | number
-    rating?: FloatFieldUpdateOperationsInput | number
     price?: FloatFieldUpdateOperationsInput | number
     salePrice?: NullableFloatFieldUpdateOperationsInput | number | null
     thumbnail?: StringFieldUpdateOperationsInput | string
-    maxStudents?: NullableIntFieldUpdateOperationsInput | number | null
+    maxStudent?: NullableIntFieldUpdateOperationsInput | number | null
     language?: NullableStringFieldUpdateOperationsInput | string | null
-    organizationId?: NullableStringFieldUpdateOperationsInput | string | null
     tags?: CourseUpdatetagsInput | string[]
     whatYouWillLearn?: CourseUpdatewhatYouWillLearnInput | string[]
     requirements?: CourseUpdaterequirementsInput | string[]
     includes?: CourseUpdateincludesInput | string[]
-    previewVideo?: NullableStringFieldUpdateOperationsInput | string | null
     status?: EnumStatusFieldUpdateOperationsInput | $Enums.Status
     level?: EnumLevelFieldUpdateOperationsInput | $Enums.Level
     type?: EnumTypeFieldUpdateOperationsInput | $Enums.Type
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     publishedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    stats?: CourseStatsUncheckedUpdateOneWithoutCourseNestedInput
     modules?: ModuleUncheckedUpdateManyWithoutCourseNestedInput
     reviews?: ReviewUncheckedUpdateManyWithoutCourseNestedInput
     faqs?: FAQUncheckedUpdateManyWithoutCourseNestedInput
@@ -12763,30 +14039,22 @@ export namespace Prisma {
   export type CourseUncheckedUpdateManyWithoutCategoryInput = {
     id?: StringFieldUpdateOperationsInput | string
     title?: StringFieldUpdateOperationsInput | string
-    description?: StringFieldUpdateOperationsInput | string
-    longDescription?: NullableStringFieldUpdateOperationsInput | string | null
-    instructor?: StringFieldUpdateOperationsInput | string
-    instructorAvatar?: StringFieldUpdateOperationsInput | string
-    instructorTitle?: NullableStringFieldUpdateOperationsInput | string | null
-    instructorBio?: NullableStringFieldUpdateOperationsInput | string | null
+    shortDescription?: StringFieldUpdateOperationsInput | string
+    description?: NullableStringFieldUpdateOperationsInput | string | null
     instructorId?: StringFieldUpdateOperationsInput | string
+    organizationId?: NullableStringFieldUpdateOperationsInput | string | null
     duration?: StringFieldUpdateOperationsInput | string
     startDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     endDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    students?: IntFieldUpdateOperationsInput | number
-    totalReviews?: IntFieldUpdateOperationsInput | number
-    rating?: FloatFieldUpdateOperationsInput | number
     price?: FloatFieldUpdateOperationsInput | number
     salePrice?: NullableFloatFieldUpdateOperationsInput | number | null
     thumbnail?: StringFieldUpdateOperationsInput | string
-    maxStudents?: NullableIntFieldUpdateOperationsInput | number | null
+    maxStudent?: NullableIntFieldUpdateOperationsInput | number | null
     language?: NullableStringFieldUpdateOperationsInput | string | null
-    organizationId?: NullableStringFieldUpdateOperationsInput | string | null
     tags?: CourseUpdatetagsInput | string[]
     whatYouWillLearn?: CourseUpdatewhatYouWillLearnInput | string[]
     requirements?: CourseUpdaterequirementsInput | string[]
     includes?: CourseUpdateincludesInput | string[]
-    previewVideo?: NullableStringFieldUpdateOperationsInput | string | null
     status?: EnumStatusFieldUpdateOperationsInput | $Enums.Status
     level?: EnumLevelFieldUpdateOperationsInput | $Enums.Level
     type?: EnumTypeFieldUpdateOperationsInput | $Enums.Type

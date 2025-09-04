@@ -10,7 +10,10 @@ export class CategoriesService {
   async create(createCategoryDto: CreateCategoryDto) {
     console.log(createCategoryDto, 'payload');
     return await this.prisma.category.create({
-      data: createCategoryDto,
+      data: {
+        name: createCategoryDto.name,
+        parentId: createCategoryDto.parentId || undefined,
+      },
     });
   }
 

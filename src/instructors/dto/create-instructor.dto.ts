@@ -1,89 +1,68 @@
+import { ApiProperty } from '@nestjs/swagger';
 import {
   IsString,
   IsOptional,
-  IsInt,
-  IsNumber,
   IsArray,
-  IsUUID,
   IsJSON,
   IsNotEmpty,
+  IsUUID,
+  IsBoolean,
 } from 'class-validator';
-import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
 
 export class CreateInstructorDto {
-  @ApiProperty({ description: 'Instructor name' })
-  @IsString()
-  name: string;
-
-  @ApiProperty({ description: 'Instructor title/position' })
-  @IsString()
-  title: string;
-
-  @ApiProperty({ description: 'Instructor avatar URL' })
-  @IsString()
-  avatar: string;
-
-  @ApiPropertyOptional({ description: 'Instructor cover image URL' })
-  @IsOptional()
-  @IsString()
-  coverImage?: string;
-
   @IsNotEmpty()
   @IsUUID()
   userId: string;
 
-  @ApiProperty({ description: 'Short instructor bio' })
   @IsString()
-  bio: string;
+  @ApiProperty()
+  name: string;
 
-  @ApiPropertyOptional({ description: 'Detailed instructor bio' })
+  @IsString()
+  @ApiProperty()
+  title: string;
+
+  @IsString()
+  @ApiProperty()
+  avatar: string;
+
   @IsOptional()
   @IsString()
-  longBio?: string;
+  @ApiProperty({ required: false })
+  coverImage?: string;
 
-  @ApiProperty({ description: 'Instructor rating' })
-  @IsNumber()
-  rating: number;
-
-  @ApiProperty({ description: 'Total students taught' })
-  @IsInt()
-  totalStudents: number;
-
-  @ApiProperty({ description: 'Total courses created' })
-  @IsInt()
-  totalCourses: number;
-
-  @ApiPropertyOptional({ description: 'Years of experience' })
   @IsOptional()
   @IsString()
-  experience?: string;
+  @ApiProperty({ required: false })
+  bio?: string;
 
-  @ApiPropertyOptional({ description: 'Instructor location' })
-  @IsOptional()
   @IsString()
-  location?: string;
+  @ApiProperty()
+  shortBio: string;
 
-  @ApiPropertyOptional({ description: 'Date joined the platform' })
-  @IsOptional()
-  @IsString()
-  joinedDate?: string;
-
-  @ApiProperty({ description: 'Instructor specialties' })
   @IsArray()
   @IsString({ each: true })
+  @ApiProperty({ type: [String] })
   specialties: string[];
 
-  @ApiProperty({ description: 'Instructor achievements' })
   @IsArray()
   @IsString({ each: true })
+  @ApiProperty({ type: [String] })
   achievements: string[];
 
-  @ApiProperty({ description: 'Instructor education history' })
   @IsArray()
   @IsString({ each: true })
+  @ApiProperty({ type: [String] })
   education: string[];
 
-  @ApiProperty({ description: 'Social media links' })
-  @IsJSON()
-  social: Record<string, string>;
+  @ApiProperty({ type: Object })
+  social: Record<string, any>; // Prisma `Json` maps well to this
+
+  @IsString()
+  @IsOptional()
+  password: string;
+
+  @IsBoolean()
+  @IsNotEmpty()
+  access_lms: boolean;
 }

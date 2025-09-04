@@ -14,48 +14,10 @@ export class FaqsService {
     });
   }
 
-  async findAll(user: SignedUser) {
-    return await this.prisma.fAQ.findMany({
-      where: {
-        course: {
-          organizationId: user.email,
-        },
-      },
-      include: {
-        course: {
-          select: {
-            id: true,
-            title: true,
-          },
-        },
-      },
-    });
-  }
-
   async findByCourse(courseId: string) {
     return await this.prisma.fAQ.findMany({
       where: { courseId },
     });
-  }
-
-  async findOne(id: string) {
-    const faq = await this.prisma.fAQ.findUnique({
-      where: { id },
-      include: {
-        course: {
-          select: {
-            id: true,
-            title: true,
-          },
-        },
-      },
-    });
-
-    if (!faq) {
-      throw new NotFoundException(`FAQ with ID ${id} not found`);
-    }
-
-    return faq;
   }
 
   async update(id: string, updateFaqDto: UpdateFaqDto) {

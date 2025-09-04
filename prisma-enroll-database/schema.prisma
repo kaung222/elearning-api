@@ -15,26 +15,68 @@ datasource db {
 }
 
 model Enrollment {
-  id        String  @id @default(uuid())
-  courseId  String
-  userId    String
+  id             String           @id @default(uuid())
+  courseId       String
+  userId         String
   organizationId String
-  description String?
-  expiredDate DateTime?
-  status    EnrollmentStatus  @default(PENDING)
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+  description    String?
+  expiredDate    DateTime?
+  price          Float            @default(0)
+  progress       Int              @default(0)
+  assignments    Int              @default(0)
+  attendance     Int              @default(0)
+  status         EnrollmentStatus @default(PENDING)
+  createdAt      DateTime         @default(now())
+  approvedAt     DateTime?
+  attendances    Attendance[]
+  submissions    Submission[]
+
+  @@unique([userId, courseId])
 }
 
 enum EnrollmentStatus {
   PENDING
   APPROVED
   REJECTED
+  COMPLETED
 }
 
-model Completency {
-  id        String  @id @default(uuid())
-  userId    String
-  lessonId  String
-  createdAt DateTime @default(now())
+model Assignment {
+  id             String       @id @default(uuid())
+  title          String
+  description    String?
+  maxPoints      Int @default(0)
+  courseId       String
+  organizationId String
+  dueDate        DateTime
+  createdAt      DateTime     @default(now())
+  submissions    Submission[]
+}
+
+model Submission {
+  id           String     @id @default(uuid())
+  assignmentId String
+  userId       String // userId
+  title        String
+  notes        String?
+  submittedAt  DateTime   @default(now())
+  grade        Float? // 1-10
+  feedback     String?
+  assignment   Assignment @relation(fields: [assignmentId], references: [id])
+  enrollmentId String
+  enrollment   Enrollment @relation(references: [id], onDelete: Cascade, fields: [enrollmentId])
+
+  @@unique([userId, assignmentId])
+}
+
+model Attendance {
+  id           String     @id @default(uuid())
+  enrollmentId String
+  lessonId     String
+  courseId     String
+  userId       String
+  createdAt    DateTime   @default(now())
+  enrollment   Enrollment @relation(fields: [enrollmentId], onDelete: Cascade, references: [id])
+
+  @@unique([userId, lessonId])
 }

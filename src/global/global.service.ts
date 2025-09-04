@@ -14,7 +14,8 @@ export class GlobalService {
 
   async featureOrganization(orgId: string) {
     return await this.orgService.organization.update({
-      data: { featured: true },
+      data: { name: 'Featured Organization' },
+
       where: { id: orgId },
     });
   }

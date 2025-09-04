@@ -123,37 +123,38 @@ exports.Prisma.TransactionIsolationLevel = makeStrictEnum({
 exports.Prisma.CourseScalarFieldEnum = {
   id: 'id',
   title: 'title',
+  shortDescription: 'shortDescription',
   description: 'description',
-  longDescription: 'longDescription',
-  instructor: 'instructor',
-  instructorAvatar: 'instructorAvatar',
-  instructorTitle: 'instructorTitle',
-  instructorBio: 'instructorBio',
   instructorId: 'instructorId',
+  organizationId: 'organizationId',
   duration: 'duration',
   startDate: 'startDate',
   endDate: 'endDate',
-  students: 'students',
-  totalReviews: 'totalReviews',
-  rating: 'rating',
   price: 'price',
   salePrice: 'salePrice',
   thumbnail: 'thumbnail',
-  maxStudents: 'maxStudents',
+  maxStudent: 'maxStudent',
   language: 'language',
-  organizationId: 'organizationId',
   tags: 'tags',
   whatYouWillLearn: 'whatYouWillLearn',
   requirements: 'requirements',
   includes: 'includes',
-  previewVideo: 'previewVideo',
-  categoryId: 'categoryId',
   status: 'status',
   level: 'level',
   type: 'type',
+  categoryId: 'categoryId',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt',
   publishedAt: 'publishedAt'
+};
+
+exports.Prisma.CourseStatsScalarFieldEnum = {
+  id: 'id',
+  students: 'students',
+  totalReviews: 'totalReviews',
+  rating: 'rating',
+  completionRate: 'completionRate',
+  courseId: 'courseId'
 };
 
 exports.Prisma.CategoryScalarFieldEnum = {
@@ -230,7 +231,7 @@ exports.Level = exports.$Enums.Level = {
 
 exports.Type = exports.$Enums.Type = {
   ONLINE: 'ONLINE',
-  ONCAMPUS: 'ONCAMPUS',
+  CAMPUS: 'CAMPUS',
   HYBRID: 'HYBRID',
   VIDEO: 'VIDEO'
 };
@@ -244,6 +245,7 @@ exports.LessonType = exports.$Enums.LessonType = {
 
 exports.Prisma.ModelName = {
   Course: 'Course',
+  CourseStats: 'CourseStats',
   Category: 'Category',
   FAQ: 'FAQ',
   Review: 'Review',

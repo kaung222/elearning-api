@@ -14,6 +14,7 @@ import { ApiTags, ApiOperation, ApiResponse, ApiParam } from '@nestjs/swagger';
 import { SignedUser, User } from 'src/security/user.decorator';
 import { ROLE_USER } from 'src/security/role.decorator';
 import { Role } from 'generated/org-database-client-types';
+import { Status } from 'generated/course-database-client-types';
 
 @Controller('courses')
 @ApiTags('courses')
@@ -21,7 +22,7 @@ export class CoursesController {
   constructor(private readonly coursesService: CoursesService) {}
 
   @Post()
-  @ROLE_USER(Role.ORG_ADMIN, Role.INSTRUCTOR)
+  @ROLE_USER(Role.Admin, Role.Instructor)
   @ApiOperation({ summary: 'Create a new course' })
   @ApiResponse({ status: 201, description: 'Course created successfully' })
   create(@Body() createCourseDto: CreateCourseDto, @User() user: SignedUser) {
@@ -29,7 +30,7 @@ export class CoursesController {
   }
 
   @Get()
-  @ROLE_USER(Role.ORG_ADMIN, Role.INSTRUCTOR)
+  @ROLE_USER(Role.Admin, Role.Instructor)
   @ApiOperation({ summary: 'Get all courses for organization' })
   @ApiResponse({ status: 200, description: 'Courses retrieved successfully' })
   @ApiResponse({ status: 403, description: 'Forbidden - Admin role required' })
@@ -61,7 +62,7 @@ export class CoursesController {
   }
 
   @Patch(':id')
-  @ROLE_USER(Role.ORG_ADMIN, Role.INSTRUCTOR)
+  @ROLE_USER(Role.Admin, Role.Instructor)
   @ApiOperation({ summary: 'Update a course' })
   @ApiParam({ name: 'id', description: 'Course ID' })
   update(
@@ -72,8 +73,20 @@ export class CoursesController {
     return this.coursesService.update(id, updateCourseDto, user);
   }
 
+  @Patch(':id/status')
+  @ROLE_USER(Role.Admin)
+  @ApiOperation({ summary: 'Update a course' })
+  @ApiParam({ name: 'id', description: 'Course ID' })
+  updateStatus(
+    @Param('id') id: string,
+    @Body() { status }: { status: Status },
+    @User() user: SignedUser,
+  ) {
+    return this.coursesService.updateStatus(id, status, user);
+  }
+
   @Delete(':id')
-  @ROLE_USER(Role.ORG_ADMIN)
+  @ROLE_USER(Role.Admin)
   @ApiOperation({ summary: 'Delete a course' })
   @ApiParam({ name: 'id', description: 'Course ID' })
   @ApiResponse({ status: 200, description: 'Course deleted successfully' })

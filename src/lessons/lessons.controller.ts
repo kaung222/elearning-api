@@ -17,7 +17,7 @@ import { Role } from 'generated/org-database-client-types';
 
 @Controller('lessons')
 @ApiTags('lessons')
-@ROLE_USER(Role.INSTRUCTOR, Role.ORG_ADMIN)
+@ROLE_USER(Role.Instructor, Role.Admin)
 export class LessonsController {
   constructor(private readonly lessonsService: LessonsService) {}
 
@@ -28,33 +28,6 @@ export class LessonsController {
   @ApiResponse({ status: 403, description: 'Forbidden - Admin role required' })
   create(@Body() createLessonDto: CreateLessonDto, @User() user: SignedUser) {
     return this.lessonsService.create(createLessonDto, user);
-  }
-
-  @Get()
-  @ApiOperation({ summary: 'Get all lessons for organization' })
-  @ApiResponse({ status: 200, description: 'Lessons retrieved successfully' })
-  findAll(@User() user: SignedUser) {
-    return this.lessonsService.findAll(user);
-  }
-
-  @Get(':id')
-  @ApiOperation({ summary: 'Get a lesson by ID' })
-  @ApiParam({ name: 'id', description: 'Lesson ID' })
-  @ApiResponse({ status: 200, description: 'Lesson retrieved successfully' })
-  @ApiResponse({ status: 404, description: 'Lesson not found' })
-  findOne(@Param('id') id: string) {
-    return this.lessonsService.findOne(id);
-  }
-
-  @Get(':id/assignments')
-  @ApiOperation({ summary: 'Get all assignments for a lesson' })
-  @ApiParam({ name: 'id', description: 'Lesson ID' })
-  @ApiResponse({
-    status: 200,
-    description: 'Assignments retrieved successfully',
-  })
-  findLessonAssignments(@Param('id') id: string) {
-    // return this.lessonsService.findLessonAssignments(id);
   }
 
   @Patch(':id')

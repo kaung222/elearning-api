@@ -19,12 +19,12 @@ export class AuthController {
     return this.authService.register(registerDto);
   }
 
-  @Post('login/:memberId')
-  @ROLE_USER(Role.STUDENT)
+  @Post('login/:orgId')
+  @ROLE_USER(Role.Student)
   async loginAsOrganization(
     @User() user: SignedUser,
-    @Param('memberId') memberId: string,
+    @Param('orgId') orgId: string,
   ) {
-    return this.authService.loginToDashboard(user, memberId);
+    return this.authService.loginToDashboard(user, orgId);
   }
 }

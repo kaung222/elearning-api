@@ -15,51 +15,54 @@ datasource db {
 }
 
 model Course {
-  id              String  @id @default(uuid())
-  title           String
-  description     String
-  longDescription String?
+  id               String  @id @default(uuid())
+  title            String
+  shortDescription String
+  description      String?
 
-  // instructor info
-  instructor       String
-  instructorAvatar String
-  instructorTitle  String?
-  instructorBio    String?
-  instructorId     String
-
+  instructorId   String
+  organizationId String?
   // pricing and duration
   duration       String
   startDate      DateTime?
   endDate        DateTime?
-  students       Int       @default(0)
-  totalReviews   Int       @default(0)
-  rating         Float     @default(0)
   price          Float
   salePrice      Float?
   thumbnail      String
-  maxStudents    Int?
+  maxStudent     Int?
   language       String?
-  organizationId String?
 
   // course details
   tags             String[]
   whatYouWillLearn String[]
   requirements     String[]
   includes         String[]
-  previewVideo     String?
 
+  status     Status
+  level      Level
+  type       Type
+  // category
+  category   Category?    @relation(fields: [categoryId], references: [id])
+  categoryId String?
+  stats      CourseStats?
   // course relationships
-  modules     Module[]
-  reviews     Review[]
-  faqs        FAQ[]
-  category    Category? @relation(fields: [categoryId], references: [id])
-  categoryId  String?
-  status      Status
-  level       Level
-  type        Type
+  modules    Module[]
+  reviews    Review[]
+  faqs       FAQ[]
+
   createdAt   DateTime  @default(now())
   updatedAt   DateTime  @updatedAt
   publishedAt DateTime?
+}
+
+model CourseStats {
+  id             String @id @default(uuid())
+  students       Int    @default(0)
+  totalReviews   Int    @default(0)
+  rating         Float  @default(0)
+  completionRate Float  @default(0)
+  courseId       String @unique
+  course         Course @relation(fields: [courseId], references: [id])
 }
 
 model Category {
@@ -135,7 +138,7 @@ enum LessonType {
 
 enum Type {
   ONLINE
-  ONCAMPUS
+  CAMPUS
   HYBRID
   VIDEO
 }
