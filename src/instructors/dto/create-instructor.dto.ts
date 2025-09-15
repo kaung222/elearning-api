@@ -36,10 +36,6 @@ export class CreateInstructorDto {
   @ApiProperty({ required: false })
   bio?: string;
 
-  @IsString()
-  @ApiProperty()
-  shortBio: string;
-
   @IsArray()
   @IsString({ each: true })
   @ApiProperty({ type: [String] })

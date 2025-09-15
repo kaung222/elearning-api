@@ -1,4 +1,8 @@
-import { Injectable } from '@nestjs/common';
+import {
+  BadRequestException,
+  ConflictException,
+  Injectable,
+} from '@nestjs/common';
 import { PrismaEnrollService } from 'src/prisma/prisma-enroll.service';
 import { CreateEnrollmentDto } from './dto/enroll.dto';
 import { PrismaUserService } from 'src/prisma/prisma-user.service';
@@ -19,6 +23,11 @@ export class EnrollmentsService {
     const student = await this.userService.user.findUnique({
       where: { id: user.sub },
     });
+    const existedEnroll = await this.enrollmentService.enrollment.findFirst({
+      where: { userId: user.sub, courseId },
+    });
+    if (existedEnroll)
+      throw new ConflictException('You have already enrolled this course');
     const course = await this.courseService.course.findUnique({
       where: { id: courseId },
       select: {
@@ -26,6 +35,7 @@ export class EnrollmentsService {
         id: true,
         salePrice: true,
         organizationId: true,
+        instructorId: true,
       },
     });
     if (!student || !course) {
@@ -40,6 +50,7 @@ export class EnrollmentsService {
         userId: student.id,
         courseId: course?.id,
         organizationId: course?.organizationId || '',
+        instructorId: course.instructorId,
       },
     });
   }
@@ -62,6 +73,8 @@ export class EnrollmentsService {
         shortDescription: true,
         endDate: true,
         startDate: true,
+        type: true,
+        level: true,
       },
     });
     const activeLessons = await this.courseService.lesson.findMany({
@@ -103,32 +116,42 @@ export class EnrollmentsService {
     return { ...enrollment, course };
   }
 
-  async approved(id: string, user: SignedUser) {
-    const enrollment = await this.enrollmentService.enrollment.findUnique({
-      where: { id },
-    });
+  async updateStatus(id: string, status: EnrollmentStatus, user: SignedUser) {
+    try {
+      const enrollment = await this.enrollmentService.enrollment.findUnique({
+        where: { id },
+      });
 
-    if (!enrollment) {
-      throw new Error('Enrollment not found');
-    }
-    if (enrollment.organizationId !== user.orgId) {
-      throw new Error('You are not authorized to access this enrollment');
-    }
-    return this.enrollmentService.enrollment.update({
-      where: { id },
-      data: { status: EnrollmentStatus.APPROVED },
-    });
-  }
+      if (!enrollment) {
+        throw new Error('Enrollment not found');
+      }
 
-  async rejected(id: string, user: SignedUser) {
-    const enrollment = await this.enrollmentService.enrollment.findUnique({
-      where: { id },
-    });
-    if (!enrollment) {
-      throw new Error('Enrollment not found');
-    }
-    if (enrollment.organizationId !== user.orgId) {
-      throw new Error('You are not authorized to access this enrollment');
+      if (enrollment.organizationId !== user?.orgId) {
+        throw new Error('You are not authorized to access this enrollment');
+      }
+      if (enrollment.status === status) {
+        return {
+          message: 'Status not changed',
+        };
+      }
+      if (status === EnrollmentStatus.APPROVED) {
+        await this.courseService.courseStats.update({
+          where: { courseId: enrollment.courseId },
+          data: { students: { increment: 1 } },
+        });
+      }
+      if (status === EnrollmentStatus.REJECTED) {
+        await this.courseService.courseStats.update({
+          where: { courseId: enrollment.courseId },
+          data: { students: { decrement: 1 } },
+        });
+      }
+      return this.enrollmentService.enrollment.update({
+        where: { id },
+        data: { status },
+      });
+    } catch (error) {
+      throw new BadRequestException(error.message);
     }
   }
 

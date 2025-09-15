@@ -19,6 +19,7 @@ model Enrollment {
   courseId       String
   userId         String
   organizationId String
+  instructorId   String
   description    String?
   expiredDate    DateTime?
   price          Float            @default(0)
@@ -79,4 +80,17 @@ model Attendance {
   enrollment   Enrollment @relation(fields: [enrollmentId], onDelete: Cascade, references: [id])
 
   @@unique([userId, lessonId])
+}
+
+model Review {
+  id        String      @id @default(uuid())
+  username  String
+  avatar    String
+  rating    Float
+  comment   String
+  createdAt DateTime    @default(now())
+
+  instructorId String
+  organizationId String
+  courseId String
 }

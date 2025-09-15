@@ -45,9 +45,9 @@ export class CreateLessonDto {
   @IsBoolean()
   isPreview: boolean = false;
 
-  @ApiProperty({ description: 'Organization ID' })
-  @IsUUID()
-  organizationId: string;
+  // @ApiProperty({ description: 'Organization ID' })
+  // @IsUUID()
+  // organizationId: string;
 
   @ApiProperty({ description: 'Module ID this lesson belongs to' })
   @IsUUID()

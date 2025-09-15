@@ -2,6 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { Status } from 'generated/course-database-client-types';
 import { Role } from 'generated/org-database-client-types';
 import { PrismaCourseService } from 'src/prisma/prisma-course.service';
+import { PrismaEnrollService } from 'src/prisma/prisma-enroll.service';
 import { PrismaOrgService } from 'src/prisma/prisma-org.service';
 
 @Injectable()
@@ -9,6 +10,7 @@ export class PublicService {
   constructor(
     private readonly courseService: PrismaCourseService,
     private readonly orgService: PrismaOrgService,
+    private readonly enrollService: PrismaEnrollService,
   ) {}
 
   async getCourses(page: number) {
@@ -41,7 +43,18 @@ export class PublicService {
 
   async getOrganizations(page: number) {
     return await this.orgService.organization.findMany({
-      include: { stats: true, contact: true },
+      select: {
+        id: true,
+        logo: true,
+        name: true,
+        verified: true,
+        specialties: true,
+        location: true,
+        shortDescription: true,
+        description: true,
+        type: true,
+        stats: true,
+      },
     });
     const [data, total] = await this.orgService.$transaction([
       this.orgService.organization.findMany({
@@ -68,10 +81,10 @@ export class PublicService {
   }
 
   async getCourseDetails(courseId: string) {
-    // const reviews = await this.courseService.review.findMany({
-    //   take: 20,
-    //   where: { courseId },
-    // });
+    const reviews = await this.enrollService.review.findMany({
+      take: 10,
+      where: { courseId },
+    });
     const course = await this.courseService.course.findUnique({
       where: { id: courseId },
       include: {
@@ -81,18 +94,22 @@ export class PublicService {
         faqs: true,
       },
     });
-    return course;
+    const instructor = await this.orgService.instructor.findUnique({
+      where: { id: course?.instructorId },
+      include: { stats: true },
+    });
+    return { ...course, instructor, reviews };
   }
 
   async getOrganizationDetails(organizationId: string) {
-    const reviews = await this.orgService.review.findMany({
+    const reviews = await this.enrollService.review.findMany({
       where: { organizationId },
-      take: 20,
+      take: 10,
     });
     const organization = await this.orgService.organization.findUnique({
       where: { id: organizationId },
       include: {
-        instructors: true,
+        instructors: { include: { stats: true } },
         contact: true,
         stats: true,
       },
@@ -101,10 +118,10 @@ export class PublicService {
       where: {
         organizationId,
       },
+      include: { stats: true },
     });
     return {
       organization,
-
       courses,
       reviews,
     };
@@ -129,6 +146,23 @@ export class PublicService {
       take: 10,
       where: { organizationId: orgId },
     });
+  }
+
+  async getInstructorDetails(instructorId: string) {
+    const courses = await this.courseService.course.findMany({
+      where: { instructorId },
+      include: { stats: true },
+    });
+    const instructor = await this.orgService.instructor.findUnique({
+      where: { id: instructorId },
+      include: { stats: true, organization: true },
+    });
+    const reviews = await this.enrollService.review.findMany({
+      where: { instructorId },
+      take: 20,
+      orderBy: { rating: 'desc' },
+    });
+    return { ...instructor, reviews, courses };
   }
 
   getCategories() {

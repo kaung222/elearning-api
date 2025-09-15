@@ -24,41 +24,16 @@ export class CoursesService {
 
   // create a course
   async create(createCourseDto: CreateCourseDto, user: SignedUser) {
-    const {
-      title,
-      description,
-      price,
-      categoryId,
-      instructorId,
-      level,
-      duration,
-      thumbnail,
-      endDate,
-      startDate,
-      type,
-      language,
-      shortDescription,
-      maxStudent,
-      tags,
-      salePrice,
-      requirements,
-      includes,
-      whatYouWillLearn,
-      publishedAt,
-      status,
-    } = createCourseDto;
-    return await this.prisma.course.create({
-      data: {
+    try {
+      const {
         title,
         description,
         price,
         categoryId,
         instructorId,
-        organizationId: user.orgId,
         level,
         duration,
         thumbnail,
-        status,
         endDate,
         startDate,
         type,
@@ -67,16 +42,59 @@ export class CoursesService {
         maxStudent,
         tags,
         salePrice,
-        stats: { create: {} },
         requirements,
         includes,
         whatYouWillLearn,
         publishedAt,
-      },
-    });
+        status,
+      } = createCourseDto;
+      const course = await this.prisma.course.create({
+        data: {
+          title,
+          description,
+          price,
+          categoryId,
+          instructorId,
+          organizationId: user.orgId,
+          level,
+          duration,
+          thumbnail,
+          status,
+          endDate,
+          startDate,
+          type,
+          language,
+          shortDescription,
+          maxStudent,
+          tags,
+          salePrice,
+          stats: { create: {} },
+          requirements,
+          includes,
+          whatYouWillLearn,
+          publishedAt,
+        },
+      });
+      if (course.organizationId) {
+        await this.prismaOrgService.orgStats.update({
+          where: { organizationId: course.organizationId },
+          data: { totalCourses: { increment: 1 } },
+        });
+      }
+      if (course.instructorId) {
+        await this.prismaOrgService.instructorStats.update({
+          where: { instructorId: course.instructorId },
+          data: { totalCourses: { increment: 1 } },
+        });
+      }
+      return course;
+    } catch (error) {
+      throw new BadRequestException(error.message);
+    }
   }
 
   async findAll(user: SignedUser) {
+    if (!user.orgId) return;
     if (user.role === Role.Instructor) {
       return await this.prisma.course.findMany({
         where: { instructorId: user.instructorId },
@@ -167,29 +185,54 @@ export class CoursesService {
   }
 
   async updateStatus(id: string, status: Status, user: SignedUser) {
-    const course = await this.prisma.course.findUnique({
-      where: { id },
-      select: { id: true, organizationId: true },
-    });
-    if (!course) throw new NotFoundException('Course not found');
-    if (course.organizationId !== user.orgId) throw new UnauthorizedException();
-    return await this.prisma.course.update({
-      where: { id },
-      data: { status: status },
-    });
+    try {
+      const course = await this.prisma.course.findUnique({
+        where: { id },
+        select: { id: true, organizationId: true },
+      });
+      if (!course) throw new NotFoundException('Course not found');
+      if (course.organizationId !== user.orgId)
+        throw new UnauthorizedException();
+      return await this.prisma.course.update({
+        where: { id },
+        data: {
+          status: status,
+          publishedAt: status === Status.PUBLISHED ? new Date() : null,
+        },
+      });
+    } catch (error) {
+      throw new BadRequestException(error.message);
+    }
   }
 
   async remove(id: string, user: SignedUser) {
-    const course = await this.prisma.course.findUnique({
-      where: { id, organizationId: user.orgId },
-    });
-    if (!course) {
-      throw new NotFoundException('Course not found');
-    }
+    try {
+      const course = await this.prisma.course.findUnique({
+        where: { id, organizationId: user.orgId },
+        select: { organizationId: true, instructorId: true, id: true },
+      });
+      if (!course) {
+        throw new NotFoundException('Course not found');
+      }
 
-    if (course.organizationId !== user.orgId) {
-      throw new ForbiddenException('You cannot update this course');
+      if (course.organizationId !== user.orgId) {
+        throw new ForbiddenException('You cannot update this course');
+      }
+      await this.prisma.course.delete({ where: { id } });
+      if (course.organizationId) {
+        await this.prismaOrgService.orgStats.update({
+          where: { organizationId: course.organizationId },
+          data: { totalCourses: { decrement: 1 } },
+        });
+      }
+      if (course.instructorId) {
+        await this.prismaOrgService.instructorStats.update({
+          where: { instructorId: course.instructorId },
+          data: { totalCourses: { decrement: 1 } },
+        });
+      }
+    } catch (error) {
+      throw new BadRequestException(error.message);
     }
-    return this.prisma.course.delete({ where: { id } });
   }
 }

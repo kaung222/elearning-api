@@ -43,4 +43,9 @@ export class PublicController {
   getCategories() {
     return this.publicService.getCategories();
   }
+
+  @Get('instructors/:instructorId')
+  getInstructorDetails(@Param('instructorId') instructorId: string) {
+    return this.publicService.getInstructorDetails(instructorId);
+  }
 }

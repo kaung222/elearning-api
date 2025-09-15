@@ -5,6 +5,7 @@ import { CreateEnrollmentDto } from './dto/enroll.dto';
 import { SignedUser, User } from 'src/security/user.decorator';
 import { ROLE_USER } from 'src/security/role.decorator';
 import { Role } from 'generated/org-database-client-types';
+import { EnrollmentStatus } from 'generated/enroll-database-client-types';
 
 @Controller('enrollments')
 @ApiTags('enrollments')
@@ -33,16 +34,13 @@ export class EnrollmentsController {
     return this.enrollmentService.create(user, createEnrollmentDto);
   }
 
-  @Patch('approved')
+  @Patch(':enrollmentId/status')
   @ROLE_USER(Role.Instructor, Role.Admin, Role.Manager)
-  @ROLE_USER()
-  approved(@Body() id: string, user: SignedUser) {
-    return this.enrollmentService.approved(id, user);
-  }
-
-  @Patch('rejected')
-  @ROLE_USER(Role.Instructor, Role.Admin, Role.Manager)
-  rejected(@Body() id: string, user: SignedUser) {
-    return this.enrollmentService.rejected(id, user);
+  updateStatus(
+    @Param('enrollmentId') id: string,
+    @User() user: SignedUser,
+    @Body() { status }: { status: EnrollmentStatus },
+  ) {
+    return this.enrollmentService.updateStatus(id, status, user);
   }
 }

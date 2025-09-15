@@ -17,6 +17,7 @@ import { PublicModule } from './public/public.module';
 import { CategoriesModule } from './categories/categories.module';
 import { ManagersModule } from './managers/managers.module';
 import { SubmissionModule } from './submission/submission.module';
+import { ReviewModule } from './review/review.module';
 
 @Module({
   imports: [
@@ -42,6 +43,7 @@ import { SubmissionModule } from './submission/submission.module';
     CategoriesModule,
     ManagersModule,
     SubmissionModule,
+    ReviewModule,
   ],
   controllers: [],
   providers: [{ provide: 'APP_GUARD', useClass: RolesGuard }],

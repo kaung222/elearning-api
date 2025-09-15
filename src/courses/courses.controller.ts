@@ -35,6 +35,7 @@ export class CoursesController {
   @ApiResponse({ status: 200, description: 'Courses retrieved successfully' })
   @ApiResponse({ status: 403, description: 'Forbidden - Admin role required' })
   findAll(@User() user: SignedUser) {
+    console.log(user);
     return this.coursesService.findAll(user);
   }
 

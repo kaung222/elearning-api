@@ -30,6 +30,7 @@ export class AssignmentsService {
   }
 
   async findAll(courseId: string, user: SignedUser) {
+    console.log(courseId);
     return await this.prisma.assignment.findMany({
       where: { courseId },
       include: { submissions: true },

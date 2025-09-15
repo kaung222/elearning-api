@@ -91,4 +91,19 @@ export class InstructorsController {
   ) {
     return this.instructorsService.update(id, updateInstructorDto, user);
   }
+
+  @Delete(':id')
+  @ApiOperation({ summary: 'Delete an instructor' })
+  @ApiParam({ name: 'id', description: 'Instructor ID' })
+  @ApiResponse({
+    status: HttpStatus.OK,
+    description: 'Instructor deleted successfully',
+  })
+  @ApiResponse({
+    status: HttpStatus.NOT_FOUND,
+    description: 'Instructor not found',
+  })
+  remove(@Param('id') id: string, @User() user: SignedUser) {
+    return this.instructorsService.remove(id, user);
+  }
 }

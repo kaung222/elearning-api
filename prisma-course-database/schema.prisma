@@ -21,6 +21,8 @@ model Course {
   description       String?
 
   instructorId      String
+  // avatar            String
+  // instructorName    String
   organizationId    String?
   // pricing and duration
   duration          String
@@ -29,7 +31,7 @@ model Course {
   price             Float
   salePrice         Float?   
   thumbnail         String
-  maxStudent       Int?
+  maxStudent        Int?
   language          String?
 
   // course details
@@ -43,7 +45,7 @@ model Course {
   type              Type
    // category
   category          Category? @relation(fields: [categoryId], references: [id],onDelete: Restrict)
-  categoryId        String?
+  categoryId        Int?
   stats             CourseStats?
   // course relationships
   modules           Module[]
@@ -66,12 +68,12 @@ model CourseStats{
 }
 
 model Category {
-  id        String     @id @default(uuid())
+  id        Int     @id @default(autoincrement())
   name      String
   courses   Course[]   // many-to-many or one-to-many depending on design
 
   // Self-referencing relationship
-  parentId  String?
+  parentId  Int?
   parent    Category?  @relation("CategoryHierarchy", fields: [parentId], references: [id])
   children  Category[] @relation("CategoryHierarchy")
 
@@ -124,7 +126,6 @@ model Lesson {
   organizationId String
   module    Module      @relation(fields: [moduleId], references: [id],onDelete: Cascade)
   moduleId  String
-
 }
 
 enum Level {

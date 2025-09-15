@@ -125,6 +125,7 @@ exports.Prisma.EnrollmentScalarFieldEnum = {
   courseId: 'courseId',
   userId: 'userId',
   organizationId: 'organizationId',
+  instructorId: 'instructorId',
   description: 'description',
   expiredDate: 'expiredDate',
   price: 'price',
@@ -168,6 +169,18 @@ exports.Prisma.AttendanceScalarFieldEnum = {
   createdAt: 'createdAt'
 };
 
+exports.Prisma.ReviewScalarFieldEnum = {
+  id: 'id',
+  username: 'username',
+  avatar: 'avatar',
+  rating: 'rating',
+  comment: 'comment',
+  createdAt: 'createdAt',
+  instructorId: 'instructorId',
+  organizationId: 'organizationId',
+  courseId: 'courseId'
+};
+
 exports.Prisma.SortOrder = {
   asc: 'asc',
   desc: 'desc'
@@ -193,7 +206,8 @@ exports.Prisma.ModelName = {
   Enrollment: 'Enrollment',
   Assignment: 'Assignment',
   Submission: 'Submission',
-  Attendance: 'Attendance'
+  Attendance: 'Attendance',
+  Review: 'Review'
 };
 
 /**
