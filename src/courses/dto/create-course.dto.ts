@@ -1,4 +1,5 @@
 import { ApiProperty } from '@nestjs/swagger';
+import { Transform } from 'class-transformer';
 import {
   IsString,
   IsOptional,
@@ -69,9 +70,9 @@ export class CreateCourseDto {
   @IsDate()
   endDate: Date;
 
-  @IsString()
   @ApiProperty()
-  categoryId: string;
+  @Transform(({ value }) => Number(value))
+  categoryId: number;
 
   // Course details
   @IsArray()

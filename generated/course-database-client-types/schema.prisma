@@ -21,6 +21,8 @@ model Course {
   description      String?
 
   instructorId   String
+  // avatar            String
+  // instructorName    String
   organizationId String?
   // pricing and duration
   duration       String
@@ -38,21 +40,26 @@ model Course {
   requirements     String[]
   includes         String[]
 
-  status     Status
-  level      Level
-  type       Type
+  status       Status
+  level        Level
+  type         Type
   // category
-  category   Category?    @relation(fields: [categoryId], references: [id])
-  categoryId String?
-  stats      CourseStats?
+  category     Category?     @relation(fields: [categoryId], references: [id], onDelete: Restrict)
+  categoryId   Int?
+  stats        CourseStats?
   // course relationships
-  modules    Module[]
-  reviews    Review[]
-  faqs       FAQ[]
+  modules      Module[]
+  reviews      Review[]
+  faqs         FAQ[]
+  certificates Certificate[] // Relation to certificates issued for this course
 
   createdAt   DateTime  @default(now())
   updatedAt   DateTime  @updatedAt
   publishedAt DateTime?
+
+  // Certificate settings
+  enableCertificates  Boolean @default(true)
+  certificateTemplate String? // Template ID to use for this course
 }
 
 model CourseStats {
@@ -62,16 +69,16 @@ model CourseStats {
   rating         Float  @default(0)
   completionRate Float  @default(0)
   courseId       String @unique
-  course         Course @relation(fields: [courseId], references: [id])
+  course         Course @relation(fields: [courseId], references: [id], onDelete: Cascade)
 }
 
 model Category {
-  id      String   @id @default(uuid())
+  id      Int      @id @default(autoincrement())
   name    String
   courses Course[] // many-to-many or one-to-many depending on design
 
   // Self-referencing relationship
-  parentId String?
+  parentId Int?
   parent   Category?  @relation("CategoryHierarchy", fields: [parentId], references: [id])
   children Category[] @relation("CategoryHierarchy")
 
@@ -82,7 +89,7 @@ model FAQ {
   id       String @id @default(uuid())
   question String
   answer   String
-  course   Course @relation(fields: [courseId], references: [id])
+  course   Course @relation(fields: [courseId], references: [id], onDelete: Cascade)
   courseId String
 }
 
@@ -94,7 +101,7 @@ model Review {
   comment    String
   createdAt  DateTime @default(now())
   // course reviews
-  course     Course?  @relation(fields: [courseId], references: [id])
+  course     Course?  @relation(fields: [courseId], references: [id], onDelete: Cascade)
   courseId   String?
 }
 
@@ -105,21 +112,22 @@ model Module {
   order          Int
   organizationId String
   courseId       String
-  course         Course   @relation(fields: [courseId], references: [id])
+  course         Course   @relation(fields: [courseId], references: [id], onDelete: Cascade)
   lessons        Lesson[]
 }
 
 model Lesson {
-  id             String     @id @default(uuid())
+  id             String    @id @default(uuid())
   title          String
   description    String? // Nullable field
   url            String? // Nullable field
-  type           LessonType
-  duration       Int        @default(0) // Duration in minutes
+  type           String    @default("video")
+  duration       Int       @default(0) // Duration in minutes
   order          Int
-  isPreview      Boolean    @default(false)
+  isPreview      Boolean   @default(false)
+  startTime      DateTime?
   organizationId String
-  module         Module     @relation(fields: [moduleId], references: [id])
+  module         Module    @relation(fields: [moduleId], references: [id], onDelete: Cascade)
   moduleId       String
 }
 
@@ -127,13 +135,6 @@ enum Level {
   BEGINNER
   INTERMEDIATE
   ADVANCED
-}
-
-enum LessonType {
-  video
-  quiz
-  assignment
-  reading
 }
 
 enum Type {
@@ -147,4 +148,36 @@ enum Status {
   DRAFT
   PUBLISHED
   ARCHIVED
+}
+
+model Certificate {
+  id              String            @id @default(uuid())
+  title           String
+  description     String?
+  templateId      String            @default("default")
+  imageUrl        String?
+  issuedDate      DateTime          @default(now())
+  expiryDate      DateTime?
+  serialNumber    String            @unique
+  recipientName   String
+  recipientEmail  String
+  courseTitle     String
+  courseId        String
+  course          Course            @relation(fields: [courseId], references: [id])
+  organizationId  String
+  instructorId    String
+  instructorName  String
+  signatureUrl    String?
+  verificationUrl String?
+  status          CertificateStatus @default(ISSUED)
+  metadata        Json? // For additional custom fields
+  createdAt       DateTime          @default(now())
+  updatedAt       DateTime          @updatedAt
+}
+
+enum CertificateStatus {
+  DRAFT
+  ISSUED
+  REVOKED
+  EXPIRED
 }

@@ -145,7 +145,9 @@ exports.Prisma.CourseScalarFieldEnum = {
   categoryId: 'categoryId',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt',
-  publishedAt: 'publishedAt'
+  publishedAt: 'publishedAt',
+  enableCertificates: 'enableCertificates',
+  certificateTemplate: 'certificateTemplate'
 };
 
 exports.Prisma.CourseStatsScalarFieldEnum = {
@@ -199,13 +201,43 @@ exports.Prisma.LessonScalarFieldEnum = {
   duration: 'duration',
   order: 'order',
   isPreview: 'isPreview',
+  startTime: 'startTime',
   organizationId: 'organizationId',
   moduleId: 'moduleId'
+};
+
+exports.Prisma.CertificateScalarFieldEnum = {
+  id: 'id',
+  title: 'title',
+  description: 'description',
+  templateId: 'templateId',
+  imageUrl: 'imageUrl',
+  issuedDate: 'issuedDate',
+  expiryDate: 'expiryDate',
+  serialNumber: 'serialNumber',
+  recipientName: 'recipientName',
+  recipientEmail: 'recipientEmail',
+  courseTitle: 'courseTitle',
+  courseId: 'courseId',
+  organizationId: 'organizationId',
+  instructorId: 'instructorId',
+  instructorName: 'instructorName',
+  signatureUrl: 'signatureUrl',
+  verificationUrl: 'verificationUrl',
+  status: 'status',
+  metadata: 'metadata',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
 };
 
 exports.Prisma.SortOrder = {
   asc: 'asc',
   desc: 'desc'
+};
+
+exports.Prisma.NullableJsonNullValueInput = {
+  DbNull: Prisma.DbNull,
+  JsonNull: Prisma.JsonNull
 };
 
 exports.Prisma.QueryMode = {
@@ -216,6 +248,12 @@ exports.Prisma.QueryMode = {
 exports.Prisma.NullsOrder = {
   first: 'first',
   last: 'last'
+};
+
+exports.Prisma.JsonNullValueFilter = {
+  DbNull: Prisma.DbNull,
+  JsonNull: Prisma.JsonNull,
+  AnyNull: Prisma.AnyNull
 };
 exports.Status = exports.$Enums.Status = {
   DRAFT: 'DRAFT',
@@ -236,11 +274,11 @@ exports.Type = exports.$Enums.Type = {
   VIDEO: 'VIDEO'
 };
 
-exports.LessonType = exports.$Enums.LessonType = {
-  video: 'video',
-  quiz: 'quiz',
-  assignment: 'assignment',
-  reading: 'reading'
+exports.CertificateStatus = exports.$Enums.CertificateStatus = {
+  DRAFT: 'DRAFT',
+  ISSUED: 'ISSUED',
+  REVOKED: 'REVOKED',
+  EXPIRED: 'EXPIRED'
 };
 
 exports.Prisma.ModelName = {
@@ -250,7 +288,8 @@ exports.Prisma.ModelName = {
   FAQ: 'FAQ',
   Review: 'Review',
   Module: 'Module',
-  Lesson: 'Lesson'
+  Lesson: 'Lesson',
+  Certificate: 'Certificate'
 };
 
 /**

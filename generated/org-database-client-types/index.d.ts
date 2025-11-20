@@ -34,11 +34,6 @@ export type OrgStats = $Result.DefaultSelection<Prisma.$OrgStatsPayload>
  */
 export type Contact = $Result.DefaultSelection<Prisma.$ContactPayload>
 /**
- * Model Review
- * 
- */
-export type Review = $Result.DefaultSelection<Prisma.$ReviewPayload>
-/**
  * Model Instructor
  * 
  */
@@ -245,16 +240,6 @@ export class PrismaClient<
     * ```
     */
   get contact(): Prisma.ContactDelegate<ExtArgs, ClientOptions>;
-
-  /**
-   * `prisma.review`: Exposes CRUD operations for the **Review** model.
-    * Example usage:
-    * ```ts
-    * // Fetch zero or more Reviews
-    * const reviews = await prisma.review.findMany()
-    * ```
-    */
-  get review(): Prisma.ReviewDelegate<ExtArgs, ClientOptions>;
 
   /**
    * `prisma.instructor`: Exposes CRUD operations for the **Instructor** model.
@@ -719,7 +704,6 @@ export namespace Prisma {
     Organization: 'Organization',
     OrgStats: 'OrgStats',
     Contact: 'Contact',
-    Review: 'Review',
     Instructor: 'Instructor',
     InstructorStats: 'InstructorStats'
   };
@@ -740,7 +724,7 @@ export namespace Prisma {
       omit: GlobalOmitOptions
     }
     meta: {
-      modelProps: "profile" | "organization" | "orgStats" | "contact" | "review" | "instructor" | "instructorStats"
+      modelProps: "profile" | "organization" | "orgStats" | "contact" | "instructor" | "instructorStats"
       txIsolationLevel: Prisma.TransactionIsolationLevel
     }
     model: {
@@ -1040,80 +1024,6 @@ export namespace Prisma {
           }
         }
       }
-      Review: {
-        payload: Prisma.$ReviewPayload<ExtArgs>
-        fields: Prisma.ReviewFieldRefs
-        operations: {
-          findUnique: {
-            args: Prisma.ReviewFindUniqueArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$ReviewPayload> | null
-          }
-          findUniqueOrThrow: {
-            args: Prisma.ReviewFindUniqueOrThrowArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$ReviewPayload>
-          }
-          findFirst: {
-            args: Prisma.ReviewFindFirstArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$ReviewPayload> | null
-          }
-          findFirstOrThrow: {
-            args: Prisma.ReviewFindFirstOrThrowArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$ReviewPayload>
-          }
-          findMany: {
-            args: Prisma.ReviewFindManyArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$ReviewPayload>[]
-          }
-          create: {
-            args: Prisma.ReviewCreateArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$ReviewPayload>
-          }
-          createMany: {
-            args: Prisma.ReviewCreateManyArgs<ExtArgs>
-            result: BatchPayload
-          }
-          createManyAndReturn: {
-            args: Prisma.ReviewCreateManyAndReturnArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$ReviewPayload>[]
-          }
-          delete: {
-            args: Prisma.ReviewDeleteArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$ReviewPayload>
-          }
-          update: {
-            args: Prisma.ReviewUpdateArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$ReviewPayload>
-          }
-          deleteMany: {
-            args: Prisma.ReviewDeleteManyArgs<ExtArgs>
-            result: BatchPayload
-          }
-          updateMany: {
-            args: Prisma.ReviewUpdateManyArgs<ExtArgs>
-            result: BatchPayload
-          }
-          updateManyAndReturn: {
-            args: Prisma.ReviewUpdateManyAndReturnArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$ReviewPayload>[]
-          }
-          upsert: {
-            args: Prisma.ReviewUpsertArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$ReviewPayload>
-          }
-          aggregate: {
-            args: Prisma.ReviewAggregateArgs<ExtArgs>
-            result: $Utils.Optional<AggregateReview>
-          }
-          groupBy: {
-            args: Prisma.ReviewGroupByArgs<ExtArgs>
-            result: $Utils.Optional<ReviewGroupByOutputType>[]
-          }
-          count: {
-            args: Prisma.ReviewCountArgs<ExtArgs>
-            result: $Utils.Optional<ReviewCountAggregateOutputType> | number
-          }
-        }
-      }
       Instructor: {
         payload: Prisma.$InstructorPayload<ExtArgs>
         fields: Prisma.InstructorFieldRefs
@@ -1350,7 +1260,6 @@ export namespace Prisma {
     organization?: OrganizationOmit
     orgStats?: OrgStatsOmit
     contact?: ContactOmit
-    review?: ReviewOmit
     instructor?: InstructorOmit
     instructorStats?: InstructorStatsOmit
   }
@@ -1447,13 +1356,11 @@ export namespace Prisma {
    */
 
   export type OrganizationCountOutputType = {
-    reviews: number
     instructors: number
     profiles: number
   }
 
   export type OrganizationCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    reviews?: boolean | OrganizationCountOutputTypeCountReviewsArgs
     instructors?: boolean | OrganizationCountOutputTypeCountInstructorsArgs
     profiles?: boolean | OrganizationCountOutputTypeCountProfilesArgs
   }
@@ -1472,13 +1379,6 @@ export namespace Prisma {
   /**
    * OrganizationCountOutputType without action
    */
-  export type OrganizationCountOutputTypeCountReviewsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    where?: ReviewWhereInput
-  }
-
-  /**
-   * OrganizationCountOutputType without action
-   */
   export type OrganizationCountOutputTypeCountInstructorsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     where?: InstructorWhereInput
   }
@@ -1488,37 +1388,6 @@ export namespace Prisma {
    */
   export type OrganizationCountOutputTypeCountProfilesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     where?: ProfileWhereInput
-  }
-
-
-  /**
-   * Count Type InstructorCountOutputType
-   */
-
-  export type InstructorCountOutputType = {
-    reviews: number
-  }
-
-  export type InstructorCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    reviews?: boolean | InstructorCountOutputTypeCountReviewsArgs
-  }
-
-  // Custom InputTypes
-  /**
-   * InstructorCountOutputType without action
-   */
-  export type InstructorCountOutputTypeDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the InstructorCountOutputType
-     */
-    select?: InstructorCountOutputTypeSelect<ExtArgs> | null
-  }
-
-  /**
-   * InstructorCountOutputType without action
-   */
-  export type InstructorCountOutputTypeCountReviewsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    where?: ReviewWhereInput
   }
 
 
@@ -2706,7 +2575,6 @@ export namespace Prisma {
     name: string | null
     type: string | null
     logo: string | null
-    coverImage: string | null
     description: string | null
     shortDescription: string | null
     location: string | null
@@ -2720,7 +2588,6 @@ export namespace Prisma {
     name: string | null
     type: string | null
     logo: string | null
-    coverImage: string | null
     description: string | null
     shortDescription: string | null
     location: string | null
@@ -2734,7 +2601,6 @@ export namespace Prisma {
     name: number
     type: number
     logo: number
-    coverImage: number
     description: number
     shortDescription: number
     location: number
@@ -2752,7 +2618,6 @@ export namespace Prisma {
     name?: true
     type?: true
     logo?: true
-    coverImage?: true
     description?: true
     shortDescription?: true
     location?: true
@@ -2766,7 +2631,6 @@ export namespace Prisma {
     name?: true
     type?: true
     logo?: true
-    coverImage?: true
     description?: true
     shortDescription?: true
     location?: true
@@ -2780,7 +2644,6 @@ export namespace Prisma {
     name?: true
     type?: true
     logo?: true
-    coverImage?: true
     description?: true
     shortDescription?: true
     location?: true
@@ -2869,7 +2732,6 @@ export namespace Prisma {
     name: string
     type: string
     logo: string
-    coverImage: string
     description: string
     shortDescription: string
     location: string | null
@@ -2902,7 +2764,6 @@ export namespace Prisma {
     name?: boolean
     type?: boolean
     logo?: boolean
-    coverImage?: boolean
     description?: boolean
     shortDescription?: boolean
     location?: boolean
@@ -2911,7 +2772,6 @@ export namespace Prisma {
     mission?: boolean
     vision?: boolean
     social?: boolean
-    reviews?: boolean | Organization$reviewsArgs<ExtArgs>
     stats?: boolean | Organization$statsArgs<ExtArgs>
     contact?: boolean | Organization$contactArgs<ExtArgs>
     instructors?: boolean | Organization$instructorsArgs<ExtArgs>
@@ -2924,7 +2784,6 @@ export namespace Prisma {
     name?: boolean
     type?: boolean
     logo?: boolean
-    coverImage?: boolean
     description?: boolean
     shortDescription?: boolean
     location?: boolean
@@ -2940,7 +2799,6 @@ export namespace Prisma {
     name?: boolean
     type?: boolean
     logo?: boolean
-    coverImage?: boolean
     description?: boolean
     shortDescription?: boolean
     location?: boolean
@@ -2956,7 +2814,6 @@ export namespace Prisma {
     name?: boolean
     type?: boolean
     logo?: boolean
-    coverImage?: boolean
     description?: boolean
     shortDescription?: boolean
     location?: boolean
@@ -2967,9 +2824,8 @@ export namespace Prisma {
     social?: boolean
   }
 
-  export type OrganizationOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "name" | "type" | "logo" | "coverImage" | "description" | "shortDescription" | "location" | "verified" | "specialties" | "mission" | "vision" | "social", ExtArgs["result"]["organization"]>
+  export type OrganizationOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "name" | "type" | "logo" | "description" | "shortDescription" | "location" | "verified" | "specialties" | "mission" | "vision" | "social", ExtArgs["result"]["organization"]>
   export type OrganizationInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    reviews?: boolean | Organization$reviewsArgs<ExtArgs>
     stats?: boolean | Organization$statsArgs<ExtArgs>
     contact?: boolean | Organization$contactArgs<ExtArgs>
     instructors?: boolean | Organization$instructorsArgs<ExtArgs>
@@ -2982,7 +2838,6 @@ export namespace Prisma {
   export type $OrganizationPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     name: "Organization"
     objects: {
-      reviews: Prisma.$ReviewPayload<ExtArgs>[]
       stats: Prisma.$OrgStatsPayload<ExtArgs> | null
       contact: Prisma.$ContactPayload<ExtArgs> | null
       instructors: Prisma.$InstructorPayload<ExtArgs>[]
@@ -2993,7 +2848,6 @@ export namespace Prisma {
       name: string
       type: string
       logo: string
-      coverImage: string
       description: string
       shortDescription: string
       location: string | null
@@ -3396,7 +3250,6 @@ export namespace Prisma {
    */
   export interface Prisma__OrganizationClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
     readonly [Symbol.toStringTag]: "PrismaPromise"
-    reviews<T extends Organization$reviewsArgs<ExtArgs> = {}>(args?: Subset<T, Organization$reviewsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ReviewPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     stats<T extends Organization$statsArgs<ExtArgs> = {}>(args?: Subset<T, Organization$statsArgs<ExtArgs>>): Prisma__OrgStatsClient<$Result.GetResult<Prisma.$OrgStatsPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
     contact<T extends Organization$contactArgs<ExtArgs> = {}>(args?: Subset<T, Organization$contactArgs<ExtArgs>>): Prisma__ContactClient<$Result.GetResult<Prisma.$ContactPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
     instructors<T extends Organization$instructorsArgs<ExtArgs> = {}>(args?: Subset<T, Organization$instructorsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$InstructorPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
@@ -3434,7 +3287,6 @@ export namespace Prisma {
     readonly name: FieldRef<"Organization", 'String'>
     readonly type: FieldRef<"Organization", 'String'>
     readonly logo: FieldRef<"Organization", 'String'>
-    readonly coverImage: FieldRef<"Organization", 'String'>
     readonly description: FieldRef<"Organization", 'String'>
     readonly shortDescription: FieldRef<"Organization", 'String'>
     readonly location: FieldRef<"Organization", 'String'>
@@ -3828,30 +3680,6 @@ export namespace Prisma {
      * Limit how many Organizations to delete.
      */
     limit?: number
-  }
-
-  /**
-   * Organization.reviews
-   */
-  export type Organization$reviewsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the Review
-     */
-    select?: ReviewSelect<ExtArgs> | null
-    /**
-     * Omit specific fields from the Review
-     */
-    omit?: ReviewOmit<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: ReviewInclude<ExtArgs> | null
-    where?: ReviewWhereInput
-    orderBy?: ReviewOrderByWithRelationInput | ReviewOrderByWithRelationInput[]
-    cursor?: ReviewWhereUniqueInput
-    take?: number
-    skip?: number
-    distinct?: ReviewScalarFieldEnum | ReviewScalarFieldEnum[]
   }
 
   /**
@@ -6191,1183 +6019,6 @@ export namespace Prisma {
 
 
   /**
-   * Model Review
-   */
-
-  export type AggregateReview = {
-    _count: ReviewCountAggregateOutputType | null
-    _avg: ReviewAvgAggregateOutputType | null
-    _sum: ReviewSumAggregateOutputType | null
-    _min: ReviewMinAggregateOutputType | null
-    _max: ReviewMaxAggregateOutputType | null
-  }
-
-  export type ReviewAvgAggregateOutputType = {
-    rating: number | null
-  }
-
-  export type ReviewSumAggregateOutputType = {
-    rating: number | null
-  }
-
-  export type ReviewMinAggregateOutputType = {
-    id: string | null
-    username: string | null
-    avatar: string | null
-    rating: number | null
-    comment: string | null
-    createdAt: Date | null
-    instructorId: string | null
-    organizationId: string | null
-  }
-
-  export type ReviewMaxAggregateOutputType = {
-    id: string | null
-    username: string | null
-    avatar: string | null
-    rating: number | null
-    comment: string | null
-    createdAt: Date | null
-    instructorId: string | null
-    organizationId: string | null
-  }
-
-  export type ReviewCountAggregateOutputType = {
-    id: number
-    username: number
-    avatar: number
-    rating: number
-    comment: number
-    createdAt: number
-    instructorId: number
-    organizationId: number
-    _all: number
-  }
-
-
-  export type ReviewAvgAggregateInputType = {
-    rating?: true
-  }
-
-  export type ReviewSumAggregateInputType = {
-    rating?: true
-  }
-
-  export type ReviewMinAggregateInputType = {
-    id?: true
-    username?: true
-    avatar?: true
-    rating?: true
-    comment?: true
-    createdAt?: true
-    instructorId?: true
-    organizationId?: true
-  }
-
-  export type ReviewMaxAggregateInputType = {
-    id?: true
-    username?: true
-    avatar?: true
-    rating?: true
-    comment?: true
-    createdAt?: true
-    instructorId?: true
-    organizationId?: true
-  }
-
-  export type ReviewCountAggregateInputType = {
-    id?: true
-    username?: true
-    avatar?: true
-    rating?: true
-    comment?: true
-    createdAt?: true
-    instructorId?: true
-    organizationId?: true
-    _all?: true
-  }
-
-  export type ReviewAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Filter which Review to aggregate.
-     */
-    where?: ReviewWhereInput
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
-     * 
-     * Determine the order of Reviews to fetch.
-     */
-    orderBy?: ReviewOrderByWithRelationInput | ReviewOrderByWithRelationInput[]
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
-     * 
-     * Sets the start position
-     */
-    cursor?: ReviewWhereUniqueInput
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
-     * 
-     * Take `±n` Reviews from the position of the cursor.
-     */
-    take?: number
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
-     * 
-     * Skip the first `n` Reviews.
-     */
-    skip?: number
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
-     * 
-     * Count returned Reviews
-    **/
-    _count?: true | ReviewCountAggregateInputType
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
-     * 
-     * Select which fields to average
-    **/
-    _avg?: ReviewAvgAggregateInputType
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
-     * 
-     * Select which fields to sum
-    **/
-    _sum?: ReviewSumAggregateInputType
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
-     * 
-     * Select which fields to find the minimum value
-    **/
-    _min?: ReviewMinAggregateInputType
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
-     * 
-     * Select which fields to find the maximum value
-    **/
-    _max?: ReviewMaxAggregateInputType
-  }
-
-  export type GetReviewAggregateType<T extends ReviewAggregateArgs> = {
-        [P in keyof T & keyof AggregateReview]: P extends '_count' | 'count'
-      ? T[P] extends true
-        ? number
-        : GetScalarType<T[P], AggregateReview[P]>
-      : GetScalarType<T[P], AggregateReview[P]>
-  }
-
-
-
-
-  export type ReviewGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    where?: ReviewWhereInput
-    orderBy?: ReviewOrderByWithAggregationInput | ReviewOrderByWithAggregationInput[]
-    by: ReviewScalarFieldEnum[] | ReviewScalarFieldEnum
-    having?: ReviewScalarWhereWithAggregatesInput
-    take?: number
-    skip?: number
-    _count?: ReviewCountAggregateInputType | true
-    _avg?: ReviewAvgAggregateInputType
-    _sum?: ReviewSumAggregateInputType
-    _min?: ReviewMinAggregateInputType
-    _max?: ReviewMaxAggregateInputType
-  }
-
-  export type ReviewGroupByOutputType = {
-    id: string
-    username: string
-    avatar: string
-    rating: number
-    comment: string
-    createdAt: Date
-    instructorId: string | null
-    organizationId: string | null
-    _count: ReviewCountAggregateOutputType | null
-    _avg: ReviewAvgAggregateOutputType | null
-    _sum: ReviewSumAggregateOutputType | null
-    _min: ReviewMinAggregateOutputType | null
-    _max: ReviewMaxAggregateOutputType | null
-  }
-
-  type GetReviewGroupByPayload<T extends ReviewGroupByArgs> = Prisma.PrismaPromise<
-    Array<
-      PickEnumerable<ReviewGroupByOutputType, T['by']> &
-        {
-          [P in ((keyof T) & (keyof ReviewGroupByOutputType))]: P extends '_count'
-            ? T[P] extends boolean
-              ? number
-              : GetScalarType<T[P], ReviewGroupByOutputType[P]>
-            : GetScalarType<T[P], ReviewGroupByOutputType[P]>
-        }
-      >
-    >
-
-
-  export type ReviewSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
-    id?: boolean
-    username?: boolean
-    avatar?: boolean
-    rating?: boolean
-    comment?: boolean
-    createdAt?: boolean
-    instructorId?: boolean
-    organizationId?: boolean
-    instructor?: boolean | Review$instructorArgs<ExtArgs>
-    organization?: boolean | Review$organizationArgs<ExtArgs>
-  }, ExtArgs["result"]["review"]>
-
-  export type ReviewSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
-    id?: boolean
-    username?: boolean
-    avatar?: boolean
-    rating?: boolean
-    comment?: boolean
-    createdAt?: boolean
-    instructorId?: boolean
-    organizationId?: boolean
-    instructor?: boolean | Review$instructorArgs<ExtArgs>
-    organization?: boolean | Review$organizationArgs<ExtArgs>
-  }, ExtArgs["result"]["review"]>
-
-  export type ReviewSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
-    id?: boolean
-    username?: boolean
-    avatar?: boolean
-    rating?: boolean
-    comment?: boolean
-    createdAt?: boolean
-    instructorId?: boolean
-    organizationId?: boolean
-    instructor?: boolean | Review$instructorArgs<ExtArgs>
-    organization?: boolean | Review$organizationArgs<ExtArgs>
-  }, ExtArgs["result"]["review"]>
-
-  export type ReviewSelectScalar = {
-    id?: boolean
-    username?: boolean
-    avatar?: boolean
-    rating?: boolean
-    comment?: boolean
-    createdAt?: boolean
-    instructorId?: boolean
-    organizationId?: boolean
-  }
-
-  export type ReviewOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "username" | "avatar" | "rating" | "comment" | "createdAt" | "instructorId" | "organizationId", ExtArgs["result"]["review"]>
-  export type ReviewInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    instructor?: boolean | Review$instructorArgs<ExtArgs>
-    organization?: boolean | Review$organizationArgs<ExtArgs>
-  }
-  export type ReviewIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    instructor?: boolean | Review$instructorArgs<ExtArgs>
-    organization?: boolean | Review$organizationArgs<ExtArgs>
-  }
-  export type ReviewIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    instructor?: boolean | Review$instructorArgs<ExtArgs>
-    organization?: boolean | Review$organizationArgs<ExtArgs>
-  }
-
-  export type $ReviewPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    name: "Review"
-    objects: {
-      instructor: Prisma.$InstructorPayload<ExtArgs> | null
-      organization: Prisma.$OrganizationPayload<ExtArgs> | null
-    }
-    scalars: $Extensions.GetPayloadResult<{
-      id: string
-      username: string
-      avatar: string
-      rating: number
-      comment: string
-      createdAt: Date
-      instructorId: string | null
-      organizationId: string | null
-    }, ExtArgs["result"]["review"]>
-    composites: {}
-  }
-
-  type ReviewGetPayload<S extends boolean | null | undefined | ReviewDefaultArgs> = $Result.GetResult<Prisma.$ReviewPayload, S>
-
-  type ReviewCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
-    Omit<ReviewFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
-      select?: ReviewCountAggregateInputType | true
-    }
-
-  export interface ReviewDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
-    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['Review'], meta: { name: 'Review' } }
-    /**
-     * Find zero or one Review that matches the filter.
-     * @param {ReviewFindUniqueArgs} args - Arguments to find a Review
-     * @example
-     * // Get one Review
-     * const review = await prisma.review.findUnique({
-     *   where: {
-     *     // ... provide filter here
-     *   }
-     * })
-     */
-    findUnique<T extends ReviewFindUniqueArgs>(args: SelectSubset<T, ReviewFindUniqueArgs<ExtArgs>>): Prisma__ReviewClient<$Result.GetResult<Prisma.$ReviewPayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
-
-    /**
-     * Find one Review that matches the filter or throw an error with `error.code='P2025'`
-     * if no matches were found.
-     * @param {ReviewFindUniqueOrThrowArgs} args - Arguments to find a Review
-     * @example
-     * // Get one Review
-     * const review = await prisma.review.findUniqueOrThrow({
-     *   where: {
-     *     // ... provide filter here
-     *   }
-     * })
-     */
-    findUniqueOrThrow<T extends ReviewFindUniqueOrThrowArgs>(args: SelectSubset<T, ReviewFindUniqueOrThrowArgs<ExtArgs>>): Prisma__ReviewClient<$Result.GetResult<Prisma.$ReviewPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
-
-    /**
-     * Find the first Review that matches the filter.
-     * Note, that providing `undefined` is treated as the value not being there.
-     * Read more here: https://pris.ly/d/null-undefined
-     * @param {ReviewFindFirstArgs} args - Arguments to find a Review
-     * @example
-     * // Get one Review
-     * const review = await prisma.review.findFirst({
-     *   where: {
-     *     // ... provide filter here
-     *   }
-     * })
-     */
-    findFirst<T extends ReviewFindFirstArgs>(args?: SelectSubset<T, ReviewFindFirstArgs<ExtArgs>>): Prisma__ReviewClient<$Result.GetResult<Prisma.$ReviewPayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
-
-    /**
-     * Find the first Review that matches the filter or
-     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
-     * Note, that providing `undefined` is treated as the value not being there.
-     * Read more here: https://pris.ly/d/null-undefined
-     * @param {ReviewFindFirstOrThrowArgs} args - Arguments to find a Review
-     * @example
-     * // Get one Review
-     * const review = await prisma.review.findFirstOrThrow({
-     *   where: {
-     *     // ... provide filter here
-     *   }
-     * })
-     */
-    findFirstOrThrow<T extends ReviewFindFirstOrThrowArgs>(args?: SelectSubset<T, ReviewFindFirstOrThrowArgs<ExtArgs>>): Prisma__ReviewClient<$Result.GetResult<Prisma.$ReviewPayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
-
-    /**
-     * Find zero or more Reviews that matches the filter.
-     * Note, that providing `undefined` is treated as the value not being there.
-     * Read more here: https://pris.ly/d/null-undefined
-     * @param {ReviewFindManyArgs} args - Arguments to filter and select certain fields only.
-     * @example
-     * // Get all Reviews
-     * const reviews = await prisma.review.findMany()
-     * 
-     * // Get first 10 Reviews
-     * const reviews = await prisma.review.findMany({ take: 10 })
-     * 
-     * // Only select the `id`
-     * const reviewWithIdOnly = await prisma.review.findMany({ select: { id: true } })
-     * 
-     */
-    findMany<T extends ReviewFindManyArgs>(args?: SelectSubset<T, ReviewFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ReviewPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
-
-    /**
-     * Create a Review.
-     * @param {ReviewCreateArgs} args - Arguments to create a Review.
-     * @example
-     * // Create one Review
-     * const Review = await prisma.review.create({
-     *   data: {
-     *     // ... data to create a Review
-     *   }
-     * })
-     * 
-     */
-    create<T extends ReviewCreateArgs>(args: SelectSubset<T, ReviewCreateArgs<ExtArgs>>): Prisma__ReviewClient<$Result.GetResult<Prisma.$ReviewPayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
-
-    /**
-     * Create many Reviews.
-     * @param {ReviewCreateManyArgs} args - Arguments to create many Reviews.
-     * @example
-     * // Create many Reviews
-     * const review = await prisma.review.createMany({
-     *   data: [
-     *     // ... provide data here
-     *   ]
-     * })
-     *     
-     */
-    createMany<T extends ReviewCreateManyArgs>(args?: SelectSubset<T, ReviewCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
-
-    /**
-     * Create many Reviews and returns the data saved in the database.
-     * @param {ReviewCreateManyAndReturnArgs} args - Arguments to create many Reviews.
-     * @example
-     * // Create many Reviews
-     * const review = await prisma.review.createManyAndReturn({
-     *   data: [
-     *     // ... provide data here
-     *   ]
-     * })
-     * 
-     * // Create many Reviews and only return the `id`
-     * const reviewWithIdOnly = await prisma.review.createManyAndReturn({
-     *   select: { id: true },
-     *   data: [
-     *     // ... provide data here
-     *   ]
-     * })
-     * Note, that providing `undefined` is treated as the value not being there.
-     * Read more here: https://pris.ly/d/null-undefined
-     * 
-     */
-    createManyAndReturn<T extends ReviewCreateManyAndReturnArgs>(args?: SelectSubset<T, ReviewCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ReviewPayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
-
-    /**
-     * Delete a Review.
-     * @param {ReviewDeleteArgs} args - Arguments to delete one Review.
-     * @example
-     * // Delete one Review
-     * const Review = await prisma.review.delete({
-     *   where: {
-     *     // ... filter to delete one Review
-     *   }
-     * })
-     * 
-     */
-    delete<T extends ReviewDeleteArgs>(args: SelectSubset<T, ReviewDeleteArgs<ExtArgs>>): Prisma__ReviewClient<$Result.GetResult<Prisma.$ReviewPayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
-
-    /**
-     * Update one Review.
-     * @param {ReviewUpdateArgs} args - Arguments to update one Review.
-     * @example
-     * // Update one Review
-     * const review = await prisma.review.update({
-     *   where: {
-     *     // ... provide filter here
-     *   },
-     *   data: {
-     *     // ... provide data here
-     *   }
-     * })
-     * 
-     */
-    update<T extends ReviewUpdateArgs>(args: SelectSubset<T, ReviewUpdateArgs<ExtArgs>>): Prisma__ReviewClient<$Result.GetResult<Prisma.$ReviewPayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
-
-    /**
-     * Delete zero or more Reviews.
-     * @param {ReviewDeleteManyArgs} args - Arguments to filter Reviews to delete.
-     * @example
-     * // Delete a few Reviews
-     * const { count } = await prisma.review.deleteMany({
-     *   where: {
-     *     // ... provide filter here
-     *   }
-     * })
-     * 
-     */
-    deleteMany<T extends ReviewDeleteManyArgs>(args?: SelectSubset<T, ReviewDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
-
-    /**
-     * Update zero or more Reviews.
-     * Note, that providing `undefined` is treated as the value not being there.
-     * Read more here: https://pris.ly/d/null-undefined
-     * @param {ReviewUpdateManyArgs} args - Arguments to update one or more rows.
-     * @example
-     * // Update many Reviews
-     * const review = await prisma.review.updateMany({
-     *   where: {
-     *     // ... provide filter here
-     *   },
-     *   data: {
-     *     // ... provide data here
-     *   }
-     * })
-     * 
-     */
-    updateMany<T extends ReviewUpdateManyArgs>(args: SelectSubset<T, ReviewUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
-
-    /**
-     * Update zero or more Reviews and returns the data updated in the database.
-     * @param {ReviewUpdateManyAndReturnArgs} args - Arguments to update many Reviews.
-     * @example
-     * // Update many Reviews
-     * const review = await prisma.review.updateManyAndReturn({
-     *   where: {
-     *     // ... provide filter here
-     *   },
-     *   data: [
-     *     // ... provide data here
-     *   ]
-     * })
-     * 
-     * // Update zero or more Reviews and only return the `id`
-     * const reviewWithIdOnly = await prisma.review.updateManyAndReturn({
-     *   select: { id: true },
-     *   where: {
-     *     // ... provide filter here
-     *   },
-     *   data: [
-     *     // ... provide data here
-     *   ]
-     * })
-     * Note, that providing `undefined` is treated as the value not being there.
-     * Read more here: https://pris.ly/d/null-undefined
-     * 
-     */
-    updateManyAndReturn<T extends ReviewUpdateManyAndReturnArgs>(args: SelectSubset<T, ReviewUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ReviewPayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
-
-    /**
-     * Create or update one Review.
-     * @param {ReviewUpsertArgs} args - Arguments to update or create a Review.
-     * @example
-     * // Update or create a Review
-     * const review = await prisma.review.upsert({
-     *   create: {
-     *     // ... data to create a Review
-     *   },
-     *   update: {
-     *     // ... in case it already exists, update
-     *   },
-     *   where: {
-     *     // ... the filter for the Review we want to update
-     *   }
-     * })
-     */
-    upsert<T extends ReviewUpsertArgs>(args: SelectSubset<T, ReviewUpsertArgs<ExtArgs>>): Prisma__ReviewClient<$Result.GetResult<Prisma.$ReviewPayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
-
-
-    /**
-     * Count the number of Reviews.
-     * Note, that providing `undefined` is treated as the value not being there.
-     * Read more here: https://pris.ly/d/null-undefined
-     * @param {ReviewCountArgs} args - Arguments to filter Reviews to count.
-     * @example
-     * // Count the number of Reviews
-     * const count = await prisma.review.count({
-     *   where: {
-     *     // ... the filter for the Reviews we want to count
-     *   }
-     * })
-    **/
-    count<T extends ReviewCountArgs>(
-      args?: Subset<T, ReviewCountArgs>,
-    ): Prisma.PrismaPromise<
-      T extends $Utils.Record<'select', any>
-        ? T['select'] extends true
-          ? number
-          : GetScalarType<T['select'], ReviewCountAggregateOutputType>
-        : number
-    >
-
-    /**
-     * Allows you to perform aggregations operations on a Review.
-     * Note, that providing `undefined` is treated as the value not being there.
-     * Read more here: https://pris.ly/d/null-undefined
-     * @param {ReviewAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
-     * @example
-     * // Ordered by age ascending
-     * // Where email contains prisma.io
-     * // Limited to the 10 users
-     * const aggregations = await prisma.user.aggregate({
-     *   _avg: {
-     *     age: true,
-     *   },
-     *   where: {
-     *     email: {
-     *       contains: "prisma.io",
-     *     },
-     *   },
-     *   orderBy: {
-     *     age: "asc",
-     *   },
-     *   take: 10,
-     * })
-    **/
-    aggregate<T extends ReviewAggregateArgs>(args: Subset<T, ReviewAggregateArgs>): Prisma.PrismaPromise<GetReviewAggregateType<T>>
-
-    /**
-     * Group by Review.
-     * Note, that providing `undefined` is treated as the value not being there.
-     * Read more here: https://pris.ly/d/null-undefined
-     * @param {ReviewGroupByArgs} args - Group by arguments.
-     * @example
-     * // Group by city, order by createdAt, get count
-     * const result = await prisma.user.groupBy({
-     *   by: ['city', 'createdAt'],
-     *   orderBy: {
-     *     createdAt: true
-     *   },
-     *   _count: {
-     *     _all: true
-     *   },
-     * })
-     * 
-    **/
-    groupBy<
-      T extends ReviewGroupByArgs,
-      HasSelectOrTake extends Or<
-        Extends<'skip', Keys<T>>,
-        Extends<'take', Keys<T>>
-      >,
-      OrderByArg extends True extends HasSelectOrTake
-        ? { orderBy: ReviewGroupByArgs['orderBy'] }
-        : { orderBy?: ReviewGroupByArgs['orderBy'] },
-      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
-      ByFields extends MaybeTupleToUnion<T['by']>,
-      ByValid extends Has<ByFields, OrderFields>,
-      HavingFields extends GetHavingFields<T['having']>,
-      HavingValid extends Has<ByFields, HavingFields>,
-      ByEmpty extends T['by'] extends never[] ? True : False,
-      InputErrors extends ByEmpty extends True
-      ? `Error: "by" must not be empty.`
-      : HavingValid extends False
-      ? {
-          [P in HavingFields]: P extends ByFields
-            ? never
-            : P extends string
-            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
-            : [
-                Error,
-                'Field ',
-                P,
-                ` in "having" needs to be provided in "by"`,
-              ]
-        }[HavingFields]
-      : 'take' extends Keys<T>
-      ? 'orderBy' extends Keys<T>
-        ? ByValid extends True
-          ? {}
-          : {
-              [P in OrderFields]: P extends ByFields
-                ? never
-                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
-            }[OrderFields]
-        : 'Error: If you provide "take", you also need to provide "orderBy"'
-      : 'skip' extends Keys<T>
-      ? 'orderBy' extends Keys<T>
-        ? ByValid extends True
-          ? {}
-          : {
-              [P in OrderFields]: P extends ByFields
-                ? never
-                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
-            }[OrderFields]
-        : 'Error: If you provide "skip", you also need to provide "orderBy"'
-      : ByValid extends True
-      ? {}
-      : {
-          [P in OrderFields]: P extends ByFields
-            ? never
-            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
-        }[OrderFields]
-    >(args: SubsetIntersection<T, ReviewGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetReviewGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
-  /**
-   * Fields of the Review model
-   */
-  readonly fields: ReviewFieldRefs;
-  }
-
-  /**
-   * The delegate class that acts as a "Promise-like" for Review.
-   * Why is this prefixed with `Prisma__`?
-   * Because we want to prevent naming conflicts as mentioned in
-   * https://github.com/prisma/prisma-client-js/issues/707
-   */
-  export interface Prisma__ReviewClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
-    readonly [Symbol.toStringTag]: "PrismaPromise"
-    instructor<T extends Review$instructorArgs<ExtArgs> = {}>(args?: Subset<T, Review$instructorArgs<ExtArgs>>): Prisma__InstructorClient<$Result.GetResult<Prisma.$InstructorPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
-    organization<T extends Review$organizationArgs<ExtArgs> = {}>(args?: Subset<T, Review$organizationArgs<ExtArgs>>): Prisma__OrganizationClient<$Result.GetResult<Prisma.$OrganizationPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
-    /**
-     * Attaches callbacks for the resolution and/or rejection of the Promise.
-     * @param onfulfilled The callback to execute when the Promise is resolved.
-     * @param onrejected The callback to execute when the Promise is rejected.
-     * @returns A Promise for the completion of which ever callback is executed.
-     */
-    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
-    /**
-     * Attaches a callback for only the rejection of the Promise.
-     * @param onrejected The callback to execute when the Promise is rejected.
-     * @returns A Promise for the completion of the callback.
-     */
-    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
-    /**
-     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
-     * resolved value cannot be modified from the callback.
-     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
-     * @returns A Promise for the completion of the callback.
-     */
-    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
-  }
-
-
-
-
-  /**
-   * Fields of the Review model
-   */
-  interface ReviewFieldRefs {
-    readonly id: FieldRef<"Review", 'String'>
-    readonly username: FieldRef<"Review", 'String'>
-    readonly avatar: FieldRef<"Review", 'String'>
-    readonly rating: FieldRef<"Review", 'Float'>
-    readonly comment: FieldRef<"Review", 'String'>
-    readonly createdAt: FieldRef<"Review", 'DateTime'>
-    readonly instructorId: FieldRef<"Review", 'String'>
-    readonly organizationId: FieldRef<"Review", 'String'>
-  }
-    
-
-  // Custom InputTypes
-  /**
-   * Review findUnique
-   */
-  export type ReviewFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the Review
-     */
-    select?: ReviewSelect<ExtArgs> | null
-    /**
-     * Omit specific fields from the Review
-     */
-    omit?: ReviewOmit<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: ReviewInclude<ExtArgs> | null
-    /**
-     * Filter, which Review to fetch.
-     */
-    where: ReviewWhereUniqueInput
-  }
-
-  /**
-   * Review findUniqueOrThrow
-   */
-  export type ReviewFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the Review
-     */
-    select?: ReviewSelect<ExtArgs> | null
-    /**
-     * Omit specific fields from the Review
-     */
-    omit?: ReviewOmit<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: ReviewInclude<ExtArgs> | null
-    /**
-     * Filter, which Review to fetch.
-     */
-    where: ReviewWhereUniqueInput
-  }
-
-  /**
-   * Review findFirst
-   */
-  export type ReviewFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the Review
-     */
-    select?: ReviewSelect<ExtArgs> | null
-    /**
-     * Omit specific fields from the Review
-     */
-    omit?: ReviewOmit<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: ReviewInclude<ExtArgs> | null
-    /**
-     * Filter, which Review to fetch.
-     */
-    where?: ReviewWhereInput
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
-     * 
-     * Determine the order of Reviews to fetch.
-     */
-    orderBy?: ReviewOrderByWithRelationInput | ReviewOrderByWithRelationInput[]
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
-     * 
-     * Sets the position for searching for Reviews.
-     */
-    cursor?: ReviewWhereUniqueInput
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
-     * 
-     * Take `±n` Reviews from the position of the cursor.
-     */
-    take?: number
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
-     * 
-     * Skip the first `n` Reviews.
-     */
-    skip?: number
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
-     * 
-     * Filter by unique combinations of Reviews.
-     */
-    distinct?: ReviewScalarFieldEnum | ReviewScalarFieldEnum[]
-  }
-
-  /**
-   * Review findFirstOrThrow
-   */
-  export type ReviewFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the Review
-     */
-    select?: ReviewSelect<ExtArgs> | null
-    /**
-     * Omit specific fields from the Review
-     */
-    omit?: ReviewOmit<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: ReviewInclude<ExtArgs> | null
-    /**
-     * Filter, which Review to fetch.
-     */
-    where?: ReviewWhereInput
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
-     * 
-     * Determine the order of Reviews to fetch.
-     */
-    orderBy?: ReviewOrderByWithRelationInput | ReviewOrderByWithRelationInput[]
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
-     * 
-     * Sets the position for searching for Reviews.
-     */
-    cursor?: ReviewWhereUniqueInput
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
-     * 
-     * Take `±n` Reviews from the position of the cursor.
-     */
-    take?: number
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
-     * 
-     * Skip the first `n` Reviews.
-     */
-    skip?: number
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
-     * 
-     * Filter by unique combinations of Reviews.
-     */
-    distinct?: ReviewScalarFieldEnum | ReviewScalarFieldEnum[]
-  }
-
-  /**
-   * Review findMany
-   */
-  export type ReviewFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the Review
-     */
-    select?: ReviewSelect<ExtArgs> | null
-    /**
-     * Omit specific fields from the Review
-     */
-    omit?: ReviewOmit<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: ReviewInclude<ExtArgs> | null
-    /**
-     * Filter, which Reviews to fetch.
-     */
-    where?: ReviewWhereInput
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
-     * 
-     * Determine the order of Reviews to fetch.
-     */
-    orderBy?: ReviewOrderByWithRelationInput | ReviewOrderByWithRelationInput[]
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
-     * 
-     * Sets the position for listing Reviews.
-     */
-    cursor?: ReviewWhereUniqueInput
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
-     * 
-     * Take `±n` Reviews from the position of the cursor.
-     */
-    take?: number
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
-     * 
-     * Skip the first `n` Reviews.
-     */
-    skip?: number
-    distinct?: ReviewScalarFieldEnum | ReviewScalarFieldEnum[]
-  }
-
-  /**
-   * Review create
-   */
-  export type ReviewCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the Review
-     */
-    select?: ReviewSelect<ExtArgs> | null
-    /**
-     * Omit specific fields from the Review
-     */
-    omit?: ReviewOmit<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: ReviewInclude<ExtArgs> | null
-    /**
-     * The data needed to create a Review.
-     */
-    data: XOR<ReviewCreateInput, ReviewUncheckedCreateInput>
-  }
-
-  /**
-   * Review createMany
-   */
-  export type ReviewCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * The data used to create many Reviews.
-     */
-    data: ReviewCreateManyInput | ReviewCreateManyInput[]
-    skipDuplicates?: boolean
-  }
-
-  /**
-   * Review createManyAndReturn
-   */
-  export type ReviewCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the Review
-     */
-    select?: ReviewSelectCreateManyAndReturn<ExtArgs> | null
-    /**
-     * Omit specific fields from the Review
-     */
-    omit?: ReviewOmit<ExtArgs> | null
-    /**
-     * The data used to create many Reviews.
-     */
-    data: ReviewCreateManyInput | ReviewCreateManyInput[]
-    skipDuplicates?: boolean
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: ReviewIncludeCreateManyAndReturn<ExtArgs> | null
-  }
-
-  /**
-   * Review update
-   */
-  export type ReviewUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the Review
-     */
-    select?: ReviewSelect<ExtArgs> | null
-    /**
-     * Omit specific fields from the Review
-     */
-    omit?: ReviewOmit<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: ReviewInclude<ExtArgs> | null
-    /**
-     * The data needed to update a Review.
-     */
-    data: XOR<ReviewUpdateInput, ReviewUncheckedUpdateInput>
-    /**
-     * Choose, which Review to update.
-     */
-    where: ReviewWhereUniqueInput
-  }
-
-  /**
-   * Review updateMany
-   */
-  export type ReviewUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * The data used to update Reviews.
-     */
-    data: XOR<ReviewUpdateManyMutationInput, ReviewUncheckedUpdateManyInput>
-    /**
-     * Filter which Reviews to update
-     */
-    where?: ReviewWhereInput
-    /**
-     * Limit how many Reviews to update.
-     */
-    limit?: number
-  }
-
-  /**
-   * Review updateManyAndReturn
-   */
-  export type ReviewUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the Review
-     */
-    select?: ReviewSelectUpdateManyAndReturn<ExtArgs> | null
-    /**
-     * Omit specific fields from the Review
-     */
-    omit?: ReviewOmit<ExtArgs> | null
-    /**
-     * The data used to update Reviews.
-     */
-    data: XOR<ReviewUpdateManyMutationInput, ReviewUncheckedUpdateManyInput>
-    /**
-     * Filter which Reviews to update
-     */
-    where?: ReviewWhereInput
-    /**
-     * Limit how many Reviews to update.
-     */
-    limit?: number
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: ReviewIncludeUpdateManyAndReturn<ExtArgs> | null
-  }
-
-  /**
-   * Review upsert
-   */
-  export type ReviewUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the Review
-     */
-    select?: ReviewSelect<ExtArgs> | null
-    /**
-     * Omit specific fields from the Review
-     */
-    omit?: ReviewOmit<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: ReviewInclude<ExtArgs> | null
-    /**
-     * The filter to search for the Review to update in case it exists.
-     */
-    where: ReviewWhereUniqueInput
-    /**
-     * In case the Review found by the `where` argument doesn't exist, create a new Review with this data.
-     */
-    create: XOR<ReviewCreateInput, ReviewUncheckedCreateInput>
-    /**
-     * In case the Review was found with the provided `where` argument, update it with this data.
-     */
-    update: XOR<ReviewUpdateInput, ReviewUncheckedUpdateInput>
-  }
-
-  /**
-   * Review delete
-   */
-  export type ReviewDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the Review
-     */
-    select?: ReviewSelect<ExtArgs> | null
-    /**
-     * Omit specific fields from the Review
-     */
-    omit?: ReviewOmit<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: ReviewInclude<ExtArgs> | null
-    /**
-     * Filter which Review to delete.
-     */
-    where: ReviewWhereUniqueInput
-  }
-
-  /**
-   * Review deleteMany
-   */
-  export type ReviewDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Filter which Reviews to delete
-     */
-    where?: ReviewWhereInput
-    /**
-     * Limit how many Reviews to delete.
-     */
-    limit?: number
-  }
-
-  /**
-   * Review.instructor
-   */
-  export type Review$instructorArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the Instructor
-     */
-    select?: InstructorSelect<ExtArgs> | null
-    /**
-     * Omit specific fields from the Instructor
-     */
-    omit?: InstructorOmit<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: InstructorInclude<ExtArgs> | null
-    where?: InstructorWhereInput
-  }
-
-  /**
-   * Review.organization
-   */
-  export type Review$organizationArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the Organization
-     */
-    select?: OrganizationSelect<ExtArgs> | null
-    /**
-     * Omit specific fields from the Organization
-     */
-    omit?: OrganizationOmit<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: OrganizationInclude<ExtArgs> | null
-    where?: OrganizationWhereInput
-  }
-
-  /**
-   * Review without action
-   */
-  export type ReviewDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the Review
-     */
-    select?: ReviewSelect<ExtArgs> | null
-    /**
-     * Omit specific fields from the Review
-     */
-    omit?: ReviewOmit<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: ReviewInclude<ExtArgs> | null
-  }
-
-
-  /**
    * Model Instructor
    */
 
@@ -7382,9 +6033,8 @@ export namespace Prisma {
     name: string | null
     title: string | null
     avatar: string | null
-    coverImage: string | null
+    featured: boolean | null
     bio: string | null
-    shortBio: string | null
     profileId: string | null
     organizationId: string | null
     createdAt: Date | null
@@ -7395,9 +6045,8 @@ export namespace Prisma {
     name: string | null
     title: string | null
     avatar: string | null
-    coverImage: string | null
+    featured: boolean | null
     bio: string | null
-    shortBio: string | null
     profileId: string | null
     organizationId: string | null
     createdAt: Date | null
@@ -7408,9 +6057,8 @@ export namespace Prisma {
     name: number
     title: number
     avatar: number
-    coverImage: number
+    featured: number
     bio: number
-    shortBio: number
     specialties: number
     achievements: number
     education: number
@@ -7427,9 +6075,8 @@ export namespace Prisma {
     name?: true
     title?: true
     avatar?: true
-    coverImage?: true
+    featured?: true
     bio?: true
-    shortBio?: true
     profileId?: true
     organizationId?: true
     createdAt?: true
@@ -7440,9 +6087,8 @@ export namespace Prisma {
     name?: true
     title?: true
     avatar?: true
-    coverImage?: true
+    featured?: true
     bio?: true
-    shortBio?: true
     profileId?: true
     organizationId?: true
     createdAt?: true
@@ -7453,9 +6099,8 @@ export namespace Prisma {
     name?: true
     title?: true
     avatar?: true
-    coverImage?: true
+    featured?: true
     bio?: true
-    shortBio?: true
     specialties?: true
     achievements?: true
     education?: true
@@ -7543,9 +6188,8 @@ export namespace Prisma {
     name: string
     title: string
     avatar: string
-    coverImage: string | null
+    featured: boolean
     bio: string | null
-    shortBio: string
     specialties: string[]
     achievements: string[]
     education: string[]
@@ -7577,9 +6221,8 @@ export namespace Prisma {
     name?: boolean
     title?: boolean
     avatar?: boolean
-    coverImage?: boolean
+    featured?: boolean
     bio?: boolean
-    shortBio?: boolean
     specialties?: boolean
     achievements?: boolean
     education?: boolean
@@ -7588,10 +6231,8 @@ export namespace Prisma {
     organizationId?: boolean
     createdAt?: boolean
     stats?: boolean | Instructor$statsArgs<ExtArgs>
-    reviews?: boolean | Instructor$reviewsArgs<ExtArgs>
     profile?: boolean | ProfileDefaultArgs<ExtArgs>
     organization?: boolean | Instructor$organizationArgs<ExtArgs>
-    _count?: boolean | InstructorCountOutputTypeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["instructor"]>
 
   export type InstructorSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
@@ -7599,9 +6240,8 @@ export namespace Prisma {
     name?: boolean
     title?: boolean
     avatar?: boolean
-    coverImage?: boolean
+    featured?: boolean
     bio?: boolean
-    shortBio?: boolean
     specialties?: boolean
     achievements?: boolean
     education?: boolean
@@ -7618,9 +6258,8 @@ export namespace Prisma {
     name?: boolean
     title?: boolean
     avatar?: boolean
-    coverImage?: boolean
+    featured?: boolean
     bio?: boolean
-    shortBio?: boolean
     specialties?: boolean
     achievements?: boolean
     education?: boolean
@@ -7637,9 +6276,8 @@ export namespace Prisma {
     name?: boolean
     title?: boolean
     avatar?: boolean
-    coverImage?: boolean
+    featured?: boolean
     bio?: boolean
-    shortBio?: boolean
     specialties?: boolean
     achievements?: boolean
     education?: boolean
@@ -7649,13 +6287,11 @@ export namespace Prisma {
     createdAt?: boolean
   }
 
-  export type InstructorOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "name" | "title" | "avatar" | "coverImage" | "bio" | "shortBio" | "specialties" | "achievements" | "education" | "social" | "profileId" | "organizationId" | "createdAt", ExtArgs["result"]["instructor"]>
+  export type InstructorOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "name" | "title" | "avatar" | "featured" | "bio" | "specialties" | "achievements" | "education" | "social" | "profileId" | "organizationId" | "createdAt", ExtArgs["result"]["instructor"]>
   export type InstructorInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     stats?: boolean | Instructor$statsArgs<ExtArgs>
-    reviews?: boolean | Instructor$reviewsArgs<ExtArgs>
     profile?: boolean | ProfileDefaultArgs<ExtArgs>
     organization?: boolean | Instructor$organizationArgs<ExtArgs>
-    _count?: boolean | InstructorCountOutputTypeDefaultArgs<ExtArgs>
   }
   export type InstructorIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     profile?: boolean | ProfileDefaultArgs<ExtArgs>
@@ -7670,7 +6306,6 @@ export namespace Prisma {
     name: "Instructor"
     objects: {
       stats: Prisma.$InstructorStatsPayload<ExtArgs> | null
-      reviews: Prisma.$ReviewPayload<ExtArgs>[]
       profile: Prisma.$ProfilePayload<ExtArgs>
       organization: Prisma.$OrganizationPayload<ExtArgs> | null
     }
@@ -7679,9 +6314,8 @@ export namespace Prisma {
       name: string
       title: string
       avatar: string
-      coverImage: string | null
+      featured: boolean
       bio: string | null
-      shortBio: string
       specialties: string[]
       achievements: string[]
       education: string[]
@@ -8084,7 +6718,6 @@ export namespace Prisma {
   export interface Prisma__InstructorClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
     readonly [Symbol.toStringTag]: "PrismaPromise"
     stats<T extends Instructor$statsArgs<ExtArgs> = {}>(args?: Subset<T, Instructor$statsArgs<ExtArgs>>): Prisma__InstructorStatsClient<$Result.GetResult<Prisma.$InstructorStatsPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
-    reviews<T extends Instructor$reviewsArgs<ExtArgs> = {}>(args?: Subset<T, Instructor$reviewsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ReviewPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     profile<T extends ProfileDefaultArgs<ExtArgs> = {}>(args?: Subset<T, ProfileDefaultArgs<ExtArgs>>): Prisma__ProfileClient<$Result.GetResult<Prisma.$ProfilePayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
     organization<T extends Instructor$organizationArgs<ExtArgs> = {}>(args?: Subset<T, Instructor$organizationArgs<ExtArgs>>): Prisma__OrganizationClient<$Result.GetResult<Prisma.$OrganizationPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
     /**
@@ -8120,9 +6753,8 @@ export namespace Prisma {
     readonly name: FieldRef<"Instructor", 'String'>
     readonly title: FieldRef<"Instructor", 'String'>
     readonly avatar: FieldRef<"Instructor", 'String'>
-    readonly coverImage: FieldRef<"Instructor", 'String'>
+    readonly featured: FieldRef<"Instructor", 'Boolean'>
     readonly bio: FieldRef<"Instructor", 'String'>
-    readonly shortBio: FieldRef<"Instructor", 'String'>
     readonly specialties: FieldRef<"Instructor", 'String[]'>
     readonly achievements: FieldRef<"Instructor", 'String[]'>
     readonly education: FieldRef<"Instructor", 'String[]'>
@@ -8542,30 +7174,6 @@ export namespace Prisma {
      */
     include?: InstructorStatsInclude<ExtArgs> | null
     where?: InstructorStatsWhereInput
-  }
-
-  /**
-   * Instructor.reviews
-   */
-  export type Instructor$reviewsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the Review
-     */
-    select?: ReviewSelect<ExtArgs> | null
-    /**
-     * Omit specific fields from the Review
-     */
-    omit?: ReviewOmit<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: ReviewInclude<ExtArgs> | null
-    where?: ReviewWhereInput
-    orderBy?: ReviewOrderByWithRelationInput | ReviewOrderByWithRelationInput[]
-    cursor?: ReviewWhereUniqueInput
-    take?: number
-    skip?: number
-    distinct?: ReviewScalarFieldEnum | ReviewScalarFieldEnum[]
   }
 
   /**
@@ -9758,7 +8366,6 @@ export namespace Prisma {
     name: 'name',
     type: 'type',
     logo: 'logo',
-    coverImage: 'coverImage',
     description: 'description',
     shortDescription: 'shortDescription',
     location: 'location',
@@ -9799,28 +8406,13 @@ export namespace Prisma {
   export type ContactScalarFieldEnum = (typeof ContactScalarFieldEnum)[keyof typeof ContactScalarFieldEnum]
 
 
-  export const ReviewScalarFieldEnum: {
-    id: 'id',
-    username: 'username',
-    avatar: 'avatar',
-    rating: 'rating',
-    comment: 'comment',
-    createdAt: 'createdAt',
-    instructorId: 'instructorId',
-    organizationId: 'organizationId'
-  };
-
-  export type ReviewScalarFieldEnum = (typeof ReviewScalarFieldEnum)[keyof typeof ReviewScalarFieldEnum]
-
-
   export const InstructorScalarFieldEnum: {
     id: 'id',
     name: 'name',
     title: 'title',
     avatar: 'avatar',
-    coverImage: 'coverImage',
+    featured: 'featured',
     bio: 'bio',
-    shortBio: 'shortBio',
     specialties: 'specialties',
     achievements: 'achievements',
     education: 'education',
@@ -10090,7 +8682,6 @@ export namespace Prisma {
     name?: StringFilter<"Organization"> | string
     type?: StringFilter<"Organization"> | string
     logo?: StringFilter<"Organization"> | string
-    coverImage?: StringFilter<"Organization"> | string
     description?: StringFilter<"Organization"> | string
     shortDescription?: StringFilter<"Organization"> | string
     location?: StringNullableFilter<"Organization"> | string | null
@@ -10099,7 +8690,6 @@ export namespace Prisma {
     mission?: StringNullableFilter<"Organization"> | string | null
     vision?: StringNullableFilter<"Organization"> | string | null
     social?: JsonFilter<"Organization">
-    reviews?: ReviewListRelationFilter
     stats?: XOR<OrgStatsNullableScalarRelationFilter, OrgStatsWhereInput> | null
     contact?: XOR<ContactNullableScalarRelationFilter, ContactWhereInput> | null
     instructors?: InstructorListRelationFilter
@@ -10111,7 +8701,6 @@ export namespace Prisma {
     name?: SortOrder
     type?: SortOrder
     logo?: SortOrder
-    coverImage?: SortOrder
     description?: SortOrder
     shortDescription?: SortOrder
     location?: SortOrderInput | SortOrder
@@ -10120,7 +8709,6 @@ export namespace Prisma {
     mission?: SortOrderInput | SortOrder
     vision?: SortOrderInput | SortOrder
     social?: SortOrder
-    reviews?: ReviewOrderByRelationAggregateInput
     stats?: OrgStatsOrderByWithRelationInput
     contact?: ContactOrderByWithRelationInput
     instructors?: InstructorOrderByRelationAggregateInput
@@ -10135,7 +8723,6 @@ export namespace Prisma {
     name?: StringFilter<"Organization"> | string
     type?: StringFilter<"Organization"> | string
     logo?: StringFilter<"Organization"> | string
-    coverImage?: StringFilter<"Organization"> | string
     description?: StringFilter<"Organization"> | string
     shortDescription?: StringFilter<"Organization"> | string
     location?: StringNullableFilter<"Organization"> | string | null
@@ -10144,7 +8731,6 @@ export namespace Prisma {
     mission?: StringNullableFilter<"Organization"> | string | null
     vision?: StringNullableFilter<"Organization"> | string | null
     social?: JsonFilter<"Organization">
-    reviews?: ReviewListRelationFilter
     stats?: XOR<OrgStatsNullableScalarRelationFilter, OrgStatsWhereInput> | null
     contact?: XOR<ContactNullableScalarRelationFilter, ContactWhereInput> | null
     instructors?: InstructorListRelationFilter
@@ -10156,7 +8742,6 @@ export namespace Prisma {
     name?: SortOrder
     type?: SortOrder
     logo?: SortOrder
-    coverImage?: SortOrder
     description?: SortOrder
     shortDescription?: SortOrder
     location?: SortOrderInput | SortOrder
@@ -10178,7 +8763,6 @@ export namespace Prisma {
     name?: StringWithAggregatesFilter<"Organization"> | string
     type?: StringWithAggregatesFilter<"Organization"> | string
     logo?: StringWithAggregatesFilter<"Organization"> | string
-    coverImage?: StringWithAggregatesFilter<"Organization"> | string
     description?: StringWithAggregatesFilter<"Organization"> | string
     shortDescription?: StringWithAggregatesFilter<"Organization"> | string
     location?: StringNullableWithAggregatesFilter<"Organization"> | string | null
@@ -10326,81 +8910,6 @@ export namespace Prisma {
     organizationId?: StringWithAggregatesFilter<"Contact"> | string
   }
 
-  export type ReviewWhereInput = {
-    AND?: ReviewWhereInput | ReviewWhereInput[]
-    OR?: ReviewWhereInput[]
-    NOT?: ReviewWhereInput | ReviewWhereInput[]
-    id?: StringFilter<"Review"> | string
-    username?: StringFilter<"Review"> | string
-    avatar?: StringFilter<"Review"> | string
-    rating?: FloatFilter<"Review"> | number
-    comment?: StringFilter<"Review"> | string
-    createdAt?: DateTimeFilter<"Review"> | Date | string
-    instructorId?: StringNullableFilter<"Review"> | string | null
-    organizationId?: StringNullableFilter<"Review"> | string | null
-    instructor?: XOR<InstructorNullableScalarRelationFilter, InstructorWhereInput> | null
-    organization?: XOR<OrganizationNullableScalarRelationFilter, OrganizationWhereInput> | null
-  }
-
-  export type ReviewOrderByWithRelationInput = {
-    id?: SortOrder
-    username?: SortOrder
-    avatar?: SortOrder
-    rating?: SortOrder
-    comment?: SortOrder
-    createdAt?: SortOrder
-    instructorId?: SortOrderInput | SortOrder
-    organizationId?: SortOrderInput | SortOrder
-    instructor?: InstructorOrderByWithRelationInput
-    organization?: OrganizationOrderByWithRelationInput
-  }
-
-  export type ReviewWhereUniqueInput = Prisma.AtLeast<{
-    id?: string
-    AND?: ReviewWhereInput | ReviewWhereInput[]
-    OR?: ReviewWhereInput[]
-    NOT?: ReviewWhereInput | ReviewWhereInput[]
-    username?: StringFilter<"Review"> | string
-    avatar?: StringFilter<"Review"> | string
-    rating?: FloatFilter<"Review"> | number
-    comment?: StringFilter<"Review"> | string
-    createdAt?: DateTimeFilter<"Review"> | Date | string
-    instructorId?: StringNullableFilter<"Review"> | string | null
-    organizationId?: StringNullableFilter<"Review"> | string | null
-    instructor?: XOR<InstructorNullableScalarRelationFilter, InstructorWhereInput> | null
-    organization?: XOR<OrganizationNullableScalarRelationFilter, OrganizationWhereInput> | null
-  }, "id">
-
-  export type ReviewOrderByWithAggregationInput = {
-    id?: SortOrder
-    username?: SortOrder
-    avatar?: SortOrder
-    rating?: SortOrder
-    comment?: SortOrder
-    createdAt?: SortOrder
-    instructorId?: SortOrderInput | SortOrder
-    organizationId?: SortOrderInput | SortOrder
-    _count?: ReviewCountOrderByAggregateInput
-    _avg?: ReviewAvgOrderByAggregateInput
-    _max?: ReviewMaxOrderByAggregateInput
-    _min?: ReviewMinOrderByAggregateInput
-    _sum?: ReviewSumOrderByAggregateInput
-  }
-
-  export type ReviewScalarWhereWithAggregatesInput = {
-    AND?: ReviewScalarWhereWithAggregatesInput | ReviewScalarWhereWithAggregatesInput[]
-    OR?: ReviewScalarWhereWithAggregatesInput[]
-    NOT?: ReviewScalarWhereWithAggregatesInput | ReviewScalarWhereWithAggregatesInput[]
-    id?: StringWithAggregatesFilter<"Review"> | string
-    username?: StringWithAggregatesFilter<"Review"> | string
-    avatar?: StringWithAggregatesFilter<"Review"> | string
-    rating?: FloatWithAggregatesFilter<"Review"> | number
-    comment?: StringWithAggregatesFilter<"Review"> | string
-    createdAt?: DateTimeWithAggregatesFilter<"Review"> | Date | string
-    instructorId?: StringNullableWithAggregatesFilter<"Review"> | string | null
-    organizationId?: StringNullableWithAggregatesFilter<"Review"> | string | null
-  }
-
   export type InstructorWhereInput = {
     AND?: InstructorWhereInput | InstructorWhereInput[]
     OR?: InstructorWhereInput[]
@@ -10409,9 +8918,8 @@ export namespace Prisma {
     name?: StringFilter<"Instructor"> | string
     title?: StringFilter<"Instructor"> | string
     avatar?: StringFilter<"Instructor"> | string
-    coverImage?: StringNullableFilter<"Instructor"> | string | null
+    featured?: BoolFilter<"Instructor"> | boolean
     bio?: StringNullableFilter<"Instructor"> | string | null
-    shortBio?: StringFilter<"Instructor"> | string
     specialties?: StringNullableListFilter<"Instructor">
     achievements?: StringNullableListFilter<"Instructor">
     education?: StringNullableListFilter<"Instructor">
@@ -10420,7 +8928,6 @@ export namespace Prisma {
     organizationId?: StringNullableFilter<"Instructor"> | string | null
     createdAt?: DateTimeFilter<"Instructor"> | Date | string
     stats?: XOR<InstructorStatsNullableScalarRelationFilter, InstructorStatsWhereInput> | null
-    reviews?: ReviewListRelationFilter
     profile?: XOR<ProfileScalarRelationFilter, ProfileWhereInput>
     organization?: XOR<OrganizationNullableScalarRelationFilter, OrganizationWhereInput> | null
   }
@@ -10430,9 +8937,8 @@ export namespace Prisma {
     name?: SortOrder
     title?: SortOrder
     avatar?: SortOrder
-    coverImage?: SortOrderInput | SortOrder
+    featured?: SortOrder
     bio?: SortOrderInput | SortOrder
-    shortBio?: SortOrder
     specialties?: SortOrder
     achievements?: SortOrder
     education?: SortOrder
@@ -10441,7 +8947,6 @@ export namespace Prisma {
     organizationId?: SortOrderInput | SortOrder
     createdAt?: SortOrder
     stats?: InstructorStatsOrderByWithRelationInput
-    reviews?: ReviewOrderByRelationAggregateInput
     profile?: ProfileOrderByWithRelationInput
     organization?: OrganizationOrderByWithRelationInput
   }
@@ -10455,9 +8960,8 @@ export namespace Prisma {
     name?: StringFilter<"Instructor"> | string
     title?: StringFilter<"Instructor"> | string
     avatar?: StringFilter<"Instructor"> | string
-    coverImage?: StringNullableFilter<"Instructor"> | string | null
+    featured?: BoolFilter<"Instructor"> | boolean
     bio?: StringNullableFilter<"Instructor"> | string | null
-    shortBio?: StringFilter<"Instructor"> | string
     specialties?: StringNullableListFilter<"Instructor">
     achievements?: StringNullableListFilter<"Instructor">
     education?: StringNullableListFilter<"Instructor">
@@ -10465,7 +8969,6 @@ export namespace Prisma {
     organizationId?: StringNullableFilter<"Instructor"> | string | null
     createdAt?: DateTimeFilter<"Instructor"> | Date | string
     stats?: XOR<InstructorStatsNullableScalarRelationFilter, InstructorStatsWhereInput> | null
-    reviews?: ReviewListRelationFilter
     profile?: XOR<ProfileScalarRelationFilter, ProfileWhereInput>
     organization?: XOR<OrganizationNullableScalarRelationFilter, OrganizationWhereInput> | null
   }, "id" | "profileId">
@@ -10475,9 +8978,8 @@ export namespace Prisma {
     name?: SortOrder
     title?: SortOrder
     avatar?: SortOrder
-    coverImage?: SortOrderInput | SortOrder
+    featured?: SortOrder
     bio?: SortOrderInput | SortOrder
-    shortBio?: SortOrder
     specialties?: SortOrder
     achievements?: SortOrder
     education?: SortOrder
@@ -10498,9 +9000,8 @@ export namespace Prisma {
     name?: StringWithAggregatesFilter<"Instructor"> | string
     title?: StringWithAggregatesFilter<"Instructor"> | string
     avatar?: StringWithAggregatesFilter<"Instructor"> | string
-    coverImage?: StringNullableWithAggregatesFilter<"Instructor"> | string | null
+    featured?: BoolWithAggregatesFilter<"Instructor"> | boolean
     bio?: StringNullableWithAggregatesFilter<"Instructor"> | string | null
-    shortBio?: StringWithAggregatesFilter<"Instructor"> | string
     specialties?: StringNullableListFilter<"Instructor">
     achievements?: StringNullableListFilter<"Instructor">
     education?: StringNullableListFilter<"Instructor">
@@ -10671,7 +9172,6 @@ export namespace Prisma {
     name: string
     type: string
     logo: string
-    coverImage: string
     description: string
     shortDescription: string
     location?: string | null
@@ -10680,7 +9180,6 @@ export namespace Prisma {
     mission?: string | null
     vision?: string | null
     social: JsonNullValueInput | InputJsonValue
-    reviews?: ReviewCreateNestedManyWithoutOrganizationInput
     stats?: OrgStatsCreateNestedOneWithoutOrganizationInput
     contact?: ContactCreateNestedOneWithoutOrganizationInput
     instructors?: InstructorCreateNestedManyWithoutOrganizationInput
@@ -10692,7 +9191,6 @@ export namespace Prisma {
     name: string
     type: string
     logo: string
-    coverImage: string
     description: string
     shortDescription: string
     location?: string | null
@@ -10701,7 +9199,6 @@ export namespace Prisma {
     mission?: string | null
     vision?: string | null
     social: JsonNullValueInput | InputJsonValue
-    reviews?: ReviewUncheckedCreateNestedManyWithoutOrganizationInput
     stats?: OrgStatsUncheckedCreateNestedOneWithoutOrganizationInput
     contact?: ContactUncheckedCreateNestedOneWithoutOrganizationInput
     instructors?: InstructorUncheckedCreateNestedManyWithoutOrganizationInput
@@ -10713,7 +9210,6 @@ export namespace Prisma {
     name?: StringFieldUpdateOperationsInput | string
     type?: StringFieldUpdateOperationsInput | string
     logo?: StringFieldUpdateOperationsInput | string
-    coverImage?: StringFieldUpdateOperationsInput | string
     description?: StringFieldUpdateOperationsInput | string
     shortDescription?: StringFieldUpdateOperationsInput | string
     location?: NullableStringFieldUpdateOperationsInput | string | null
@@ -10722,7 +9218,6 @@ export namespace Prisma {
     mission?: NullableStringFieldUpdateOperationsInput | string | null
     vision?: NullableStringFieldUpdateOperationsInput | string | null
     social?: JsonNullValueInput | InputJsonValue
-    reviews?: ReviewUpdateManyWithoutOrganizationNestedInput
     stats?: OrgStatsUpdateOneWithoutOrganizationNestedInput
     contact?: ContactUpdateOneWithoutOrganizationNestedInput
     instructors?: InstructorUpdateManyWithoutOrganizationNestedInput
@@ -10734,7 +9229,6 @@ export namespace Prisma {
     name?: StringFieldUpdateOperationsInput | string
     type?: StringFieldUpdateOperationsInput | string
     logo?: StringFieldUpdateOperationsInput | string
-    coverImage?: StringFieldUpdateOperationsInput | string
     description?: StringFieldUpdateOperationsInput | string
     shortDescription?: StringFieldUpdateOperationsInput | string
     location?: NullableStringFieldUpdateOperationsInput | string | null
@@ -10743,7 +9237,6 @@ export namespace Prisma {
     mission?: NullableStringFieldUpdateOperationsInput | string | null
     vision?: NullableStringFieldUpdateOperationsInput | string | null
     social?: JsonNullValueInput | InputJsonValue
-    reviews?: ReviewUncheckedUpdateManyWithoutOrganizationNestedInput
     stats?: OrgStatsUncheckedUpdateOneWithoutOrganizationNestedInput
     contact?: ContactUncheckedUpdateOneWithoutOrganizationNestedInput
     instructors?: InstructorUncheckedUpdateManyWithoutOrganizationNestedInput
@@ -10755,7 +9248,6 @@ export namespace Prisma {
     name: string
     type: string
     logo: string
-    coverImage: string
     description: string
     shortDescription: string
     location?: string | null
@@ -10771,7 +9263,6 @@ export namespace Prisma {
     name?: StringFieldUpdateOperationsInput | string
     type?: StringFieldUpdateOperationsInput | string
     logo?: StringFieldUpdateOperationsInput | string
-    coverImage?: StringFieldUpdateOperationsInput | string
     description?: StringFieldUpdateOperationsInput | string
     shortDescription?: StringFieldUpdateOperationsInput | string
     location?: NullableStringFieldUpdateOperationsInput | string | null
@@ -10787,7 +9278,6 @@ export namespace Prisma {
     name?: StringFieldUpdateOperationsInput | string
     type?: StringFieldUpdateOperationsInput | string
     logo?: StringFieldUpdateOperationsInput | string
-    coverImage?: StringFieldUpdateOperationsInput | string
     description?: StringFieldUpdateOperationsInput | string
     shortDescription?: StringFieldUpdateOperationsInput | string
     location?: NullableStringFieldUpdateOperationsInput | string | null
@@ -10943,96 +9433,19 @@ export namespace Prisma {
     organizationId?: StringFieldUpdateOperationsInput | string
   }
 
-  export type ReviewCreateInput = {
-    id?: string
-    username: string
-    avatar: string
-    rating: number
-    comment: string
-    createdAt?: Date | string
-    instructor?: InstructorCreateNestedOneWithoutReviewsInput
-    organization?: OrganizationCreateNestedOneWithoutReviewsInput
-  }
-
-  export type ReviewUncheckedCreateInput = {
-    id?: string
-    username: string
-    avatar: string
-    rating: number
-    comment: string
-    createdAt?: Date | string
-    instructorId?: string | null
-    organizationId?: string | null
-  }
-
-  export type ReviewUpdateInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    username?: StringFieldUpdateOperationsInput | string
-    avatar?: StringFieldUpdateOperationsInput | string
-    rating?: FloatFieldUpdateOperationsInput | number
-    comment?: StringFieldUpdateOperationsInput | string
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    instructor?: InstructorUpdateOneWithoutReviewsNestedInput
-    organization?: OrganizationUpdateOneWithoutReviewsNestedInput
-  }
-
-  export type ReviewUncheckedUpdateInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    username?: StringFieldUpdateOperationsInput | string
-    avatar?: StringFieldUpdateOperationsInput | string
-    rating?: FloatFieldUpdateOperationsInput | number
-    comment?: StringFieldUpdateOperationsInput | string
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    instructorId?: NullableStringFieldUpdateOperationsInput | string | null
-    organizationId?: NullableStringFieldUpdateOperationsInput | string | null
-  }
-
-  export type ReviewCreateManyInput = {
-    id?: string
-    username: string
-    avatar: string
-    rating: number
-    comment: string
-    createdAt?: Date | string
-    instructorId?: string | null
-    organizationId?: string | null
-  }
-
-  export type ReviewUpdateManyMutationInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    username?: StringFieldUpdateOperationsInput | string
-    avatar?: StringFieldUpdateOperationsInput | string
-    rating?: FloatFieldUpdateOperationsInput | number
-    comment?: StringFieldUpdateOperationsInput | string
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-  }
-
-  export type ReviewUncheckedUpdateManyInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    username?: StringFieldUpdateOperationsInput | string
-    avatar?: StringFieldUpdateOperationsInput | string
-    rating?: FloatFieldUpdateOperationsInput | number
-    comment?: StringFieldUpdateOperationsInput | string
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    instructorId?: NullableStringFieldUpdateOperationsInput | string | null
-    organizationId?: NullableStringFieldUpdateOperationsInput | string | null
-  }
-
   export type InstructorCreateInput = {
     id?: string
     name: string
     title: string
     avatar: string
-    coverImage?: string | null
+    featured?: boolean
     bio?: string | null
-    shortBio: string
     specialties?: InstructorCreatespecialtiesInput | string[]
     achievements?: InstructorCreateachievementsInput | string[]
     education?: InstructorCreateeducationInput | string[]
     social: JsonNullValueInput | InputJsonValue
     createdAt?: Date | string
     stats?: InstructorStatsCreateNestedOneWithoutInstructorInput
-    reviews?: ReviewCreateNestedManyWithoutInstructorInput
     profile: ProfileCreateNestedOneWithoutInstructorInput
     organization?: OrganizationCreateNestedOneWithoutInstructorsInput
   }
@@ -11042,9 +9455,8 @@ export namespace Prisma {
     name: string
     title: string
     avatar: string
-    coverImage?: string | null
+    featured?: boolean
     bio?: string | null
-    shortBio: string
     specialties?: InstructorCreatespecialtiesInput | string[]
     achievements?: InstructorCreateachievementsInput | string[]
     education?: InstructorCreateeducationInput | string[]
@@ -11053,7 +9465,6 @@ export namespace Prisma {
     organizationId?: string | null
     createdAt?: Date | string
     stats?: InstructorStatsUncheckedCreateNestedOneWithoutInstructorInput
-    reviews?: ReviewUncheckedCreateNestedManyWithoutInstructorInput
   }
 
   export type InstructorUpdateInput = {
@@ -11061,16 +9472,14 @@ export namespace Prisma {
     name?: StringFieldUpdateOperationsInput | string
     title?: StringFieldUpdateOperationsInput | string
     avatar?: StringFieldUpdateOperationsInput | string
-    coverImage?: NullableStringFieldUpdateOperationsInput | string | null
+    featured?: BoolFieldUpdateOperationsInput | boolean
     bio?: NullableStringFieldUpdateOperationsInput | string | null
-    shortBio?: StringFieldUpdateOperationsInput | string
     specialties?: InstructorUpdatespecialtiesInput | string[]
     achievements?: InstructorUpdateachievementsInput | string[]
     education?: InstructorUpdateeducationInput | string[]
     social?: JsonNullValueInput | InputJsonValue
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     stats?: InstructorStatsUpdateOneWithoutInstructorNestedInput
-    reviews?: ReviewUpdateManyWithoutInstructorNestedInput
     profile?: ProfileUpdateOneRequiredWithoutInstructorNestedInput
     organization?: OrganizationUpdateOneWithoutInstructorsNestedInput
   }
@@ -11080,9 +9489,8 @@ export namespace Prisma {
     name?: StringFieldUpdateOperationsInput | string
     title?: StringFieldUpdateOperationsInput | string
     avatar?: StringFieldUpdateOperationsInput | string
-    coverImage?: NullableStringFieldUpdateOperationsInput | string | null
+    featured?: BoolFieldUpdateOperationsInput | boolean
     bio?: NullableStringFieldUpdateOperationsInput | string | null
-    shortBio?: StringFieldUpdateOperationsInput | string
     specialties?: InstructorUpdatespecialtiesInput | string[]
     achievements?: InstructorUpdateachievementsInput | string[]
     education?: InstructorUpdateeducationInput | string[]
@@ -11091,7 +9499,6 @@ export namespace Prisma {
     organizationId?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     stats?: InstructorStatsUncheckedUpdateOneWithoutInstructorNestedInput
-    reviews?: ReviewUncheckedUpdateManyWithoutInstructorNestedInput
   }
 
   export type InstructorCreateManyInput = {
@@ -11099,9 +9506,8 @@ export namespace Prisma {
     name: string
     title: string
     avatar: string
-    coverImage?: string | null
+    featured?: boolean
     bio?: string | null
-    shortBio: string
     specialties?: InstructorCreatespecialtiesInput | string[]
     achievements?: InstructorCreateachievementsInput | string[]
     education?: InstructorCreateeducationInput | string[]
@@ -11116,9 +9522,8 @@ export namespace Prisma {
     name?: StringFieldUpdateOperationsInput | string
     title?: StringFieldUpdateOperationsInput | string
     avatar?: StringFieldUpdateOperationsInput | string
-    coverImage?: NullableStringFieldUpdateOperationsInput | string | null
+    featured?: BoolFieldUpdateOperationsInput | boolean
     bio?: NullableStringFieldUpdateOperationsInput | string | null
-    shortBio?: StringFieldUpdateOperationsInput | string
     specialties?: InstructorUpdatespecialtiesInput | string[]
     achievements?: InstructorUpdateachievementsInput | string[]
     education?: InstructorUpdateeducationInput | string[]
@@ -11131,9 +9536,8 @@ export namespace Prisma {
     name?: StringFieldUpdateOperationsInput | string
     title?: StringFieldUpdateOperationsInput | string
     avatar?: StringFieldUpdateOperationsInput | string
-    coverImage?: NullableStringFieldUpdateOperationsInput | string | null
+    featured?: BoolFieldUpdateOperationsInput | boolean
     bio?: NullableStringFieldUpdateOperationsInput | string | null
-    shortBio?: StringFieldUpdateOperationsInput | string
     specialties?: InstructorUpdatespecialtiesInput | string[]
     achievements?: InstructorUpdateachievementsInput | string[]
     education?: InstructorUpdateeducationInput | string[]
@@ -11433,12 +9837,6 @@ export namespace Prisma {
     not?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | JsonNullValueFilter
   }
 
-  export type ReviewListRelationFilter = {
-    every?: ReviewWhereInput
-    some?: ReviewWhereInput
-    none?: ReviewWhereInput
-  }
-
   export type OrgStatsNullableScalarRelationFilter = {
     is?: OrgStatsWhereInput | null
     isNot?: OrgStatsWhereInput | null
@@ -11461,10 +9859,6 @@ export namespace Prisma {
     none?: ProfileWhereInput
   }
 
-  export type ReviewOrderByRelationAggregateInput = {
-    _count?: SortOrder
-  }
-
   export type InstructorOrderByRelationAggregateInput = {
     _count?: SortOrder
   }
@@ -11478,7 +9872,6 @@ export namespace Prisma {
     name?: SortOrder
     type?: SortOrder
     logo?: SortOrder
-    coverImage?: SortOrder
     description?: SortOrder
     shortDescription?: SortOrder
     location?: SortOrder
@@ -11494,7 +9887,6 @@ export namespace Prisma {
     name?: SortOrder
     type?: SortOrder
     logo?: SortOrder
-    coverImage?: SortOrder
     description?: SortOrder
     shortDescription?: SortOrder
     location?: SortOrder
@@ -11508,7 +9900,6 @@ export namespace Prisma {
     name?: SortOrder
     type?: SortOrder
     logo?: SortOrder
-    coverImage?: SortOrder
     description?: SortOrder
     shortDescription?: SortOrder
     location?: SortOrder
@@ -11681,47 +10072,6 @@ export namespace Prisma {
     organizationId?: SortOrder
   }
 
-  export type ReviewCountOrderByAggregateInput = {
-    id?: SortOrder
-    username?: SortOrder
-    avatar?: SortOrder
-    rating?: SortOrder
-    comment?: SortOrder
-    createdAt?: SortOrder
-    instructorId?: SortOrder
-    organizationId?: SortOrder
-  }
-
-  export type ReviewAvgOrderByAggregateInput = {
-    rating?: SortOrder
-  }
-
-  export type ReviewMaxOrderByAggregateInput = {
-    id?: SortOrder
-    username?: SortOrder
-    avatar?: SortOrder
-    rating?: SortOrder
-    comment?: SortOrder
-    createdAt?: SortOrder
-    instructorId?: SortOrder
-    organizationId?: SortOrder
-  }
-
-  export type ReviewMinOrderByAggregateInput = {
-    id?: SortOrder
-    username?: SortOrder
-    avatar?: SortOrder
-    rating?: SortOrder
-    comment?: SortOrder
-    createdAt?: SortOrder
-    instructorId?: SortOrder
-    organizationId?: SortOrder
-  }
-
-  export type ReviewSumOrderByAggregateInput = {
-    rating?: SortOrder
-  }
-
   export type InstructorStatsNullableScalarRelationFilter = {
     is?: InstructorStatsWhereInput | null
     isNot?: InstructorStatsWhereInput | null
@@ -11737,9 +10087,8 @@ export namespace Prisma {
     name?: SortOrder
     title?: SortOrder
     avatar?: SortOrder
-    coverImage?: SortOrder
+    featured?: SortOrder
     bio?: SortOrder
-    shortBio?: SortOrder
     specialties?: SortOrder
     achievements?: SortOrder
     education?: SortOrder
@@ -11754,9 +10103,8 @@ export namespace Prisma {
     name?: SortOrder
     title?: SortOrder
     avatar?: SortOrder
-    coverImage?: SortOrder
+    featured?: SortOrder
     bio?: SortOrder
-    shortBio?: SortOrder
     profileId?: SortOrder
     organizationId?: SortOrder
     createdAt?: SortOrder
@@ -11767,9 +10115,8 @@ export namespace Prisma {
     name?: SortOrder
     title?: SortOrder
     avatar?: SortOrder
-    coverImage?: SortOrder
+    featured?: SortOrder
     bio?: SortOrder
-    shortBio?: SortOrder
     profileId?: SortOrder
     organizationId?: SortOrder
     createdAt?: SortOrder
@@ -11897,13 +10244,6 @@ export namespace Prisma {
     set: string[]
   }
 
-  export type ReviewCreateNestedManyWithoutOrganizationInput = {
-    create?: XOR<ReviewCreateWithoutOrganizationInput, ReviewUncheckedCreateWithoutOrganizationInput> | ReviewCreateWithoutOrganizationInput[] | ReviewUncheckedCreateWithoutOrganizationInput[]
-    connectOrCreate?: ReviewCreateOrConnectWithoutOrganizationInput | ReviewCreateOrConnectWithoutOrganizationInput[]
-    createMany?: ReviewCreateManyOrganizationInputEnvelope
-    connect?: ReviewWhereUniqueInput | ReviewWhereUniqueInput[]
-  }
-
   export type OrgStatsCreateNestedOneWithoutOrganizationInput = {
     create?: XOR<OrgStatsCreateWithoutOrganizationInput, OrgStatsUncheckedCreateWithoutOrganizationInput>
     connectOrCreate?: OrgStatsCreateOrConnectWithoutOrganizationInput
@@ -11928,13 +10268,6 @@ export namespace Prisma {
     connectOrCreate?: ProfileCreateOrConnectWithoutOrganizationInput | ProfileCreateOrConnectWithoutOrganizationInput[]
     createMany?: ProfileCreateManyOrganizationInputEnvelope
     connect?: ProfileWhereUniqueInput | ProfileWhereUniqueInput[]
-  }
-
-  export type ReviewUncheckedCreateNestedManyWithoutOrganizationInput = {
-    create?: XOR<ReviewCreateWithoutOrganizationInput, ReviewUncheckedCreateWithoutOrganizationInput> | ReviewCreateWithoutOrganizationInput[] | ReviewUncheckedCreateWithoutOrganizationInput[]
-    connectOrCreate?: ReviewCreateOrConnectWithoutOrganizationInput | ReviewCreateOrConnectWithoutOrganizationInput[]
-    createMany?: ReviewCreateManyOrganizationInputEnvelope
-    connect?: ReviewWhereUniqueInput | ReviewWhereUniqueInput[]
   }
 
   export type OrgStatsUncheckedCreateNestedOneWithoutOrganizationInput = {
@@ -11966,20 +10299,6 @@ export namespace Prisma {
   export type OrganizationUpdatespecialtiesInput = {
     set?: string[]
     push?: string | string[]
-  }
-
-  export type ReviewUpdateManyWithoutOrganizationNestedInput = {
-    create?: XOR<ReviewCreateWithoutOrganizationInput, ReviewUncheckedCreateWithoutOrganizationInput> | ReviewCreateWithoutOrganizationInput[] | ReviewUncheckedCreateWithoutOrganizationInput[]
-    connectOrCreate?: ReviewCreateOrConnectWithoutOrganizationInput | ReviewCreateOrConnectWithoutOrganizationInput[]
-    upsert?: ReviewUpsertWithWhereUniqueWithoutOrganizationInput | ReviewUpsertWithWhereUniqueWithoutOrganizationInput[]
-    createMany?: ReviewCreateManyOrganizationInputEnvelope
-    set?: ReviewWhereUniqueInput | ReviewWhereUniqueInput[]
-    disconnect?: ReviewWhereUniqueInput | ReviewWhereUniqueInput[]
-    delete?: ReviewWhereUniqueInput | ReviewWhereUniqueInput[]
-    connect?: ReviewWhereUniqueInput | ReviewWhereUniqueInput[]
-    update?: ReviewUpdateWithWhereUniqueWithoutOrganizationInput | ReviewUpdateWithWhereUniqueWithoutOrganizationInput[]
-    updateMany?: ReviewUpdateManyWithWhereWithoutOrganizationInput | ReviewUpdateManyWithWhereWithoutOrganizationInput[]
-    deleteMany?: ReviewScalarWhereInput | ReviewScalarWhereInput[]
   }
 
   export type OrgStatsUpdateOneWithoutOrganizationNestedInput = {
@@ -12028,20 +10347,6 @@ export namespace Prisma {
     update?: ProfileUpdateWithWhereUniqueWithoutOrganizationInput | ProfileUpdateWithWhereUniqueWithoutOrganizationInput[]
     updateMany?: ProfileUpdateManyWithWhereWithoutOrganizationInput | ProfileUpdateManyWithWhereWithoutOrganizationInput[]
     deleteMany?: ProfileScalarWhereInput | ProfileScalarWhereInput[]
-  }
-
-  export type ReviewUncheckedUpdateManyWithoutOrganizationNestedInput = {
-    create?: XOR<ReviewCreateWithoutOrganizationInput, ReviewUncheckedCreateWithoutOrganizationInput> | ReviewCreateWithoutOrganizationInput[] | ReviewUncheckedCreateWithoutOrganizationInput[]
-    connectOrCreate?: ReviewCreateOrConnectWithoutOrganizationInput | ReviewCreateOrConnectWithoutOrganizationInput[]
-    upsert?: ReviewUpsertWithWhereUniqueWithoutOrganizationInput | ReviewUpsertWithWhereUniqueWithoutOrganizationInput[]
-    createMany?: ReviewCreateManyOrganizationInputEnvelope
-    set?: ReviewWhereUniqueInput | ReviewWhereUniqueInput[]
-    disconnect?: ReviewWhereUniqueInput | ReviewWhereUniqueInput[]
-    delete?: ReviewWhereUniqueInput | ReviewWhereUniqueInput[]
-    connect?: ReviewWhereUniqueInput | ReviewWhereUniqueInput[]
-    update?: ReviewUpdateWithWhereUniqueWithoutOrganizationInput | ReviewUpdateWithWhereUniqueWithoutOrganizationInput[]
-    updateMany?: ReviewUpdateManyWithWhereWithoutOrganizationInput | ReviewUpdateManyWithWhereWithoutOrganizationInput[]
-    deleteMany?: ReviewScalarWhereInput | ReviewScalarWhereInput[]
   }
 
   export type OrgStatsUncheckedUpdateOneWithoutOrganizationNestedInput = {
@@ -12136,38 +10441,6 @@ export namespace Prisma {
     update?: XOR<XOR<OrganizationUpdateToOneWithWhereWithoutContactInput, OrganizationUpdateWithoutContactInput>, OrganizationUncheckedUpdateWithoutContactInput>
   }
 
-  export type InstructorCreateNestedOneWithoutReviewsInput = {
-    create?: XOR<InstructorCreateWithoutReviewsInput, InstructorUncheckedCreateWithoutReviewsInput>
-    connectOrCreate?: InstructorCreateOrConnectWithoutReviewsInput
-    connect?: InstructorWhereUniqueInput
-  }
-
-  export type OrganizationCreateNestedOneWithoutReviewsInput = {
-    create?: XOR<OrganizationCreateWithoutReviewsInput, OrganizationUncheckedCreateWithoutReviewsInput>
-    connectOrCreate?: OrganizationCreateOrConnectWithoutReviewsInput
-    connect?: OrganizationWhereUniqueInput
-  }
-
-  export type InstructorUpdateOneWithoutReviewsNestedInput = {
-    create?: XOR<InstructorCreateWithoutReviewsInput, InstructorUncheckedCreateWithoutReviewsInput>
-    connectOrCreate?: InstructorCreateOrConnectWithoutReviewsInput
-    upsert?: InstructorUpsertWithoutReviewsInput
-    disconnect?: InstructorWhereInput | boolean
-    delete?: InstructorWhereInput | boolean
-    connect?: InstructorWhereUniqueInput
-    update?: XOR<XOR<InstructorUpdateToOneWithWhereWithoutReviewsInput, InstructorUpdateWithoutReviewsInput>, InstructorUncheckedUpdateWithoutReviewsInput>
-  }
-
-  export type OrganizationUpdateOneWithoutReviewsNestedInput = {
-    create?: XOR<OrganizationCreateWithoutReviewsInput, OrganizationUncheckedCreateWithoutReviewsInput>
-    connectOrCreate?: OrganizationCreateOrConnectWithoutReviewsInput
-    upsert?: OrganizationUpsertWithoutReviewsInput
-    disconnect?: OrganizationWhereInput | boolean
-    delete?: OrganizationWhereInput | boolean
-    connect?: OrganizationWhereUniqueInput
-    update?: XOR<XOR<OrganizationUpdateToOneWithWhereWithoutReviewsInput, OrganizationUpdateWithoutReviewsInput>, OrganizationUncheckedUpdateWithoutReviewsInput>
-  }
-
   export type InstructorCreatespecialtiesInput = {
     set: string[]
   }
@@ -12186,13 +10459,6 @@ export namespace Prisma {
     connect?: InstructorStatsWhereUniqueInput
   }
 
-  export type ReviewCreateNestedManyWithoutInstructorInput = {
-    create?: XOR<ReviewCreateWithoutInstructorInput, ReviewUncheckedCreateWithoutInstructorInput> | ReviewCreateWithoutInstructorInput[] | ReviewUncheckedCreateWithoutInstructorInput[]
-    connectOrCreate?: ReviewCreateOrConnectWithoutInstructorInput | ReviewCreateOrConnectWithoutInstructorInput[]
-    createMany?: ReviewCreateManyInstructorInputEnvelope
-    connect?: ReviewWhereUniqueInput | ReviewWhereUniqueInput[]
-  }
-
   export type ProfileCreateNestedOneWithoutInstructorInput = {
     create?: XOR<ProfileCreateWithoutInstructorInput, ProfileUncheckedCreateWithoutInstructorInput>
     connectOrCreate?: ProfileCreateOrConnectWithoutInstructorInput
@@ -12209,13 +10475,6 @@ export namespace Prisma {
     create?: XOR<InstructorStatsCreateWithoutInstructorInput, InstructorStatsUncheckedCreateWithoutInstructorInput>
     connectOrCreate?: InstructorStatsCreateOrConnectWithoutInstructorInput
     connect?: InstructorStatsWhereUniqueInput
-  }
-
-  export type ReviewUncheckedCreateNestedManyWithoutInstructorInput = {
-    create?: XOR<ReviewCreateWithoutInstructorInput, ReviewUncheckedCreateWithoutInstructorInput> | ReviewCreateWithoutInstructorInput[] | ReviewUncheckedCreateWithoutInstructorInput[]
-    connectOrCreate?: ReviewCreateOrConnectWithoutInstructorInput | ReviewCreateOrConnectWithoutInstructorInput[]
-    createMany?: ReviewCreateManyInstructorInputEnvelope
-    connect?: ReviewWhereUniqueInput | ReviewWhereUniqueInput[]
   }
 
   export type InstructorUpdatespecialtiesInput = {
@@ -12241,20 +10500,6 @@ export namespace Prisma {
     delete?: InstructorStatsWhereInput | boolean
     connect?: InstructorStatsWhereUniqueInput
     update?: XOR<XOR<InstructorStatsUpdateToOneWithWhereWithoutInstructorInput, InstructorStatsUpdateWithoutInstructorInput>, InstructorStatsUncheckedUpdateWithoutInstructorInput>
-  }
-
-  export type ReviewUpdateManyWithoutInstructorNestedInput = {
-    create?: XOR<ReviewCreateWithoutInstructorInput, ReviewUncheckedCreateWithoutInstructorInput> | ReviewCreateWithoutInstructorInput[] | ReviewUncheckedCreateWithoutInstructorInput[]
-    connectOrCreate?: ReviewCreateOrConnectWithoutInstructorInput | ReviewCreateOrConnectWithoutInstructorInput[]
-    upsert?: ReviewUpsertWithWhereUniqueWithoutInstructorInput | ReviewUpsertWithWhereUniqueWithoutInstructorInput[]
-    createMany?: ReviewCreateManyInstructorInputEnvelope
-    set?: ReviewWhereUniqueInput | ReviewWhereUniqueInput[]
-    disconnect?: ReviewWhereUniqueInput | ReviewWhereUniqueInput[]
-    delete?: ReviewWhereUniqueInput | ReviewWhereUniqueInput[]
-    connect?: ReviewWhereUniqueInput | ReviewWhereUniqueInput[]
-    update?: ReviewUpdateWithWhereUniqueWithoutInstructorInput | ReviewUpdateWithWhereUniqueWithoutInstructorInput[]
-    updateMany?: ReviewUpdateManyWithWhereWithoutInstructorInput | ReviewUpdateManyWithWhereWithoutInstructorInput[]
-    deleteMany?: ReviewScalarWhereInput | ReviewScalarWhereInput[]
   }
 
   export type ProfileUpdateOneRequiredWithoutInstructorNestedInput = {
@@ -12283,20 +10528,6 @@ export namespace Prisma {
     delete?: InstructorStatsWhereInput | boolean
     connect?: InstructorStatsWhereUniqueInput
     update?: XOR<XOR<InstructorStatsUpdateToOneWithWhereWithoutInstructorInput, InstructorStatsUpdateWithoutInstructorInput>, InstructorStatsUncheckedUpdateWithoutInstructorInput>
-  }
-
-  export type ReviewUncheckedUpdateManyWithoutInstructorNestedInput = {
-    create?: XOR<ReviewCreateWithoutInstructorInput, ReviewUncheckedCreateWithoutInstructorInput> | ReviewCreateWithoutInstructorInput[] | ReviewUncheckedCreateWithoutInstructorInput[]
-    connectOrCreate?: ReviewCreateOrConnectWithoutInstructorInput | ReviewCreateOrConnectWithoutInstructorInput[]
-    upsert?: ReviewUpsertWithWhereUniqueWithoutInstructorInput | ReviewUpsertWithWhereUniqueWithoutInstructorInput[]
-    createMany?: ReviewCreateManyInstructorInputEnvelope
-    set?: ReviewWhereUniqueInput | ReviewWhereUniqueInput[]
-    disconnect?: ReviewWhereUniqueInput | ReviewWhereUniqueInput[]
-    delete?: ReviewWhereUniqueInput | ReviewWhereUniqueInput[]
-    connect?: ReviewWhereUniqueInput | ReviewWhereUniqueInput[]
-    update?: ReviewUpdateWithWhereUniqueWithoutInstructorInput | ReviewUpdateWithWhereUniqueWithoutInstructorInput[]
-    updateMany?: ReviewUpdateManyWithWhereWithoutInstructorInput | ReviewUpdateManyWithWhereWithoutInstructorInput[]
-    deleteMany?: ReviewScalarWhereInput | ReviewScalarWhereInput[]
   }
 
   export type InstructorCreateNestedOneWithoutStatsInput = {
@@ -12540,7 +10771,6 @@ export namespace Prisma {
     name: string
     type: string
     logo: string
-    coverImage: string
     description: string
     shortDescription: string
     location?: string | null
@@ -12549,7 +10779,6 @@ export namespace Prisma {
     mission?: string | null
     vision?: string | null
     social: JsonNullValueInput | InputJsonValue
-    reviews?: ReviewCreateNestedManyWithoutOrganizationInput
     stats?: OrgStatsCreateNestedOneWithoutOrganizationInput
     contact?: ContactCreateNestedOneWithoutOrganizationInput
     instructors?: InstructorCreateNestedManyWithoutOrganizationInput
@@ -12560,7 +10789,6 @@ export namespace Prisma {
     name: string
     type: string
     logo: string
-    coverImage: string
     description: string
     shortDescription: string
     location?: string | null
@@ -12569,7 +10797,6 @@ export namespace Prisma {
     mission?: string | null
     vision?: string | null
     social: JsonNullValueInput | InputJsonValue
-    reviews?: ReviewUncheckedCreateNestedManyWithoutOrganizationInput
     stats?: OrgStatsUncheckedCreateNestedOneWithoutOrganizationInput
     contact?: ContactUncheckedCreateNestedOneWithoutOrganizationInput
     instructors?: InstructorUncheckedCreateNestedManyWithoutOrganizationInput
@@ -12585,16 +10812,14 @@ export namespace Prisma {
     name: string
     title: string
     avatar: string
-    coverImage?: string | null
+    featured?: boolean
     bio?: string | null
-    shortBio: string
     specialties?: InstructorCreatespecialtiesInput | string[]
     achievements?: InstructorCreateachievementsInput | string[]
     education?: InstructorCreateeducationInput | string[]
     social: JsonNullValueInput | InputJsonValue
     createdAt?: Date | string
     stats?: InstructorStatsCreateNestedOneWithoutInstructorInput
-    reviews?: ReviewCreateNestedManyWithoutInstructorInput
     organization?: OrganizationCreateNestedOneWithoutInstructorsInput
   }
 
@@ -12603,9 +10828,8 @@ export namespace Prisma {
     name: string
     title: string
     avatar: string
-    coverImage?: string | null
+    featured?: boolean
     bio?: string | null
-    shortBio: string
     specialties?: InstructorCreatespecialtiesInput | string[]
     achievements?: InstructorCreateachievementsInput | string[]
     education?: InstructorCreateeducationInput | string[]
@@ -12613,7 +10837,6 @@ export namespace Prisma {
     organizationId?: string | null
     createdAt?: Date | string
     stats?: InstructorStatsUncheckedCreateNestedOneWithoutInstructorInput
-    reviews?: ReviewUncheckedCreateNestedManyWithoutInstructorInput
   }
 
   export type InstructorCreateOrConnectWithoutProfileInput = {
@@ -12637,7 +10860,6 @@ export namespace Prisma {
     name?: StringFieldUpdateOperationsInput | string
     type?: StringFieldUpdateOperationsInput | string
     logo?: StringFieldUpdateOperationsInput | string
-    coverImage?: StringFieldUpdateOperationsInput | string
     description?: StringFieldUpdateOperationsInput | string
     shortDescription?: StringFieldUpdateOperationsInput | string
     location?: NullableStringFieldUpdateOperationsInput | string | null
@@ -12646,7 +10868,6 @@ export namespace Prisma {
     mission?: NullableStringFieldUpdateOperationsInput | string | null
     vision?: NullableStringFieldUpdateOperationsInput | string | null
     social?: JsonNullValueInput | InputJsonValue
-    reviews?: ReviewUpdateManyWithoutOrganizationNestedInput
     stats?: OrgStatsUpdateOneWithoutOrganizationNestedInput
     contact?: ContactUpdateOneWithoutOrganizationNestedInput
     instructors?: InstructorUpdateManyWithoutOrganizationNestedInput
@@ -12657,7 +10878,6 @@ export namespace Prisma {
     name?: StringFieldUpdateOperationsInput | string
     type?: StringFieldUpdateOperationsInput | string
     logo?: StringFieldUpdateOperationsInput | string
-    coverImage?: StringFieldUpdateOperationsInput | string
     description?: StringFieldUpdateOperationsInput | string
     shortDescription?: StringFieldUpdateOperationsInput | string
     location?: NullableStringFieldUpdateOperationsInput | string | null
@@ -12666,7 +10886,6 @@ export namespace Prisma {
     mission?: NullableStringFieldUpdateOperationsInput | string | null
     vision?: NullableStringFieldUpdateOperationsInput | string | null
     social?: JsonNullValueInput | InputJsonValue
-    reviews?: ReviewUncheckedUpdateManyWithoutOrganizationNestedInput
     stats?: OrgStatsUncheckedUpdateOneWithoutOrganizationNestedInput
     contact?: ContactUncheckedUpdateOneWithoutOrganizationNestedInput
     instructors?: InstructorUncheckedUpdateManyWithoutOrganizationNestedInput
@@ -12688,16 +10907,14 @@ export namespace Prisma {
     name?: StringFieldUpdateOperationsInput | string
     title?: StringFieldUpdateOperationsInput | string
     avatar?: StringFieldUpdateOperationsInput | string
-    coverImage?: NullableStringFieldUpdateOperationsInput | string | null
+    featured?: BoolFieldUpdateOperationsInput | boolean
     bio?: NullableStringFieldUpdateOperationsInput | string | null
-    shortBio?: StringFieldUpdateOperationsInput | string
     specialties?: InstructorUpdatespecialtiesInput | string[]
     achievements?: InstructorUpdateachievementsInput | string[]
     education?: InstructorUpdateeducationInput | string[]
     social?: JsonNullValueInput | InputJsonValue
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     stats?: InstructorStatsUpdateOneWithoutInstructorNestedInput
-    reviews?: ReviewUpdateManyWithoutInstructorNestedInput
     organization?: OrganizationUpdateOneWithoutInstructorsNestedInput
   }
 
@@ -12706,9 +10923,8 @@ export namespace Prisma {
     name?: StringFieldUpdateOperationsInput | string
     title?: StringFieldUpdateOperationsInput | string
     avatar?: StringFieldUpdateOperationsInput | string
-    coverImage?: NullableStringFieldUpdateOperationsInput | string | null
+    featured?: BoolFieldUpdateOperationsInput | boolean
     bio?: NullableStringFieldUpdateOperationsInput | string | null
-    shortBio?: StringFieldUpdateOperationsInput | string
     specialties?: InstructorUpdatespecialtiesInput | string[]
     achievements?: InstructorUpdateachievementsInput | string[]
     education?: InstructorUpdateeducationInput | string[]
@@ -12716,37 +10932,6 @@ export namespace Prisma {
     organizationId?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     stats?: InstructorStatsUncheckedUpdateOneWithoutInstructorNestedInput
-    reviews?: ReviewUncheckedUpdateManyWithoutInstructorNestedInput
-  }
-
-  export type ReviewCreateWithoutOrganizationInput = {
-    id?: string
-    username: string
-    avatar: string
-    rating: number
-    comment: string
-    createdAt?: Date | string
-    instructor?: InstructorCreateNestedOneWithoutReviewsInput
-  }
-
-  export type ReviewUncheckedCreateWithoutOrganizationInput = {
-    id?: string
-    username: string
-    avatar: string
-    rating: number
-    comment: string
-    createdAt?: Date | string
-    instructorId?: string | null
-  }
-
-  export type ReviewCreateOrConnectWithoutOrganizationInput = {
-    where: ReviewWhereUniqueInput
-    create: XOR<ReviewCreateWithoutOrganizationInput, ReviewUncheckedCreateWithoutOrganizationInput>
-  }
-
-  export type ReviewCreateManyOrganizationInputEnvelope = {
-    data: ReviewCreateManyOrganizationInput | ReviewCreateManyOrganizationInput[]
-    skipDuplicates?: boolean
   }
 
   export type OrgStatsCreateWithoutOrganizationInput = {
@@ -12802,16 +10987,14 @@ export namespace Prisma {
     name: string
     title: string
     avatar: string
-    coverImage?: string | null
+    featured?: boolean
     bio?: string | null
-    shortBio: string
     specialties?: InstructorCreatespecialtiesInput | string[]
     achievements?: InstructorCreateachievementsInput | string[]
     education?: InstructorCreateeducationInput | string[]
     social: JsonNullValueInput | InputJsonValue
     createdAt?: Date | string
     stats?: InstructorStatsCreateNestedOneWithoutInstructorInput
-    reviews?: ReviewCreateNestedManyWithoutInstructorInput
     profile: ProfileCreateNestedOneWithoutInstructorInput
   }
 
@@ -12820,9 +11003,8 @@ export namespace Prisma {
     name: string
     title: string
     avatar: string
-    coverImage?: string | null
+    featured?: boolean
     bio?: string | null
-    shortBio: string
     specialties?: InstructorCreatespecialtiesInput | string[]
     achievements?: InstructorCreateachievementsInput | string[]
     education?: InstructorCreateeducationInput | string[]
@@ -12830,7 +11012,6 @@ export namespace Prisma {
     profileId: string
     createdAt?: Date | string
     stats?: InstructorStatsUncheckedCreateNestedOneWithoutInstructorInput
-    reviews?: ReviewUncheckedCreateNestedManyWithoutInstructorInput
   }
 
   export type InstructorCreateOrConnectWithoutOrganizationInput = {
@@ -12877,36 +11058,6 @@ export namespace Prisma {
   export type ProfileCreateManyOrganizationInputEnvelope = {
     data: ProfileCreateManyOrganizationInput | ProfileCreateManyOrganizationInput[]
     skipDuplicates?: boolean
-  }
-
-  export type ReviewUpsertWithWhereUniqueWithoutOrganizationInput = {
-    where: ReviewWhereUniqueInput
-    update: XOR<ReviewUpdateWithoutOrganizationInput, ReviewUncheckedUpdateWithoutOrganizationInput>
-    create: XOR<ReviewCreateWithoutOrganizationInput, ReviewUncheckedCreateWithoutOrganizationInput>
-  }
-
-  export type ReviewUpdateWithWhereUniqueWithoutOrganizationInput = {
-    where: ReviewWhereUniqueInput
-    data: XOR<ReviewUpdateWithoutOrganizationInput, ReviewUncheckedUpdateWithoutOrganizationInput>
-  }
-
-  export type ReviewUpdateManyWithWhereWithoutOrganizationInput = {
-    where: ReviewScalarWhereInput
-    data: XOR<ReviewUpdateManyMutationInput, ReviewUncheckedUpdateManyWithoutOrganizationInput>
-  }
-
-  export type ReviewScalarWhereInput = {
-    AND?: ReviewScalarWhereInput | ReviewScalarWhereInput[]
-    OR?: ReviewScalarWhereInput[]
-    NOT?: ReviewScalarWhereInput | ReviewScalarWhereInput[]
-    id?: StringFilter<"Review"> | string
-    username?: StringFilter<"Review"> | string
-    avatar?: StringFilter<"Review"> | string
-    rating?: FloatFilter<"Review"> | number
-    comment?: StringFilter<"Review"> | string
-    createdAt?: DateTimeFilter<"Review"> | Date | string
-    instructorId?: StringNullableFilter<"Review"> | string | null
-    organizationId?: StringNullableFilter<"Review"> | string | null
   }
 
   export type OrgStatsUpsertWithoutOrganizationInput = {
@@ -12993,9 +11144,8 @@ export namespace Prisma {
     name?: StringFilter<"Instructor"> | string
     title?: StringFilter<"Instructor"> | string
     avatar?: StringFilter<"Instructor"> | string
-    coverImage?: StringNullableFilter<"Instructor"> | string | null
+    featured?: BoolFilter<"Instructor"> | boolean
     bio?: StringNullableFilter<"Instructor"> | string | null
-    shortBio?: StringFilter<"Instructor"> | string
     specialties?: StringNullableListFilter<"Instructor">
     achievements?: StringNullableListFilter<"Instructor">
     education?: StringNullableListFilter<"Instructor">
@@ -13042,7 +11192,6 @@ export namespace Prisma {
     name: string
     type: string
     logo: string
-    coverImage: string
     description: string
     shortDescription: string
     location?: string | null
@@ -13051,7 +11200,6 @@ export namespace Prisma {
     mission?: string | null
     vision?: string | null
     social: JsonNullValueInput | InputJsonValue
-    reviews?: ReviewCreateNestedManyWithoutOrganizationInput
     contact?: ContactCreateNestedOneWithoutOrganizationInput
     instructors?: InstructorCreateNestedManyWithoutOrganizationInput
     profiles?: ProfileCreateNestedManyWithoutOrganizationInput
@@ -13062,7 +11210,6 @@ export namespace Prisma {
     name: string
     type: string
     logo: string
-    coverImage: string
     description: string
     shortDescription: string
     location?: string | null
@@ -13071,7 +11218,6 @@ export namespace Prisma {
     mission?: string | null
     vision?: string | null
     social: JsonNullValueInput | InputJsonValue
-    reviews?: ReviewUncheckedCreateNestedManyWithoutOrganizationInput
     contact?: ContactUncheckedCreateNestedOneWithoutOrganizationInput
     instructors?: InstructorUncheckedCreateNestedManyWithoutOrganizationInput
     profiles?: ProfileUncheckedCreateNestedManyWithoutOrganizationInput
@@ -13098,7 +11244,6 @@ export namespace Prisma {
     name?: StringFieldUpdateOperationsInput | string
     type?: StringFieldUpdateOperationsInput | string
     logo?: StringFieldUpdateOperationsInput | string
-    coverImage?: StringFieldUpdateOperationsInput | string
     description?: StringFieldUpdateOperationsInput | string
     shortDescription?: StringFieldUpdateOperationsInput | string
     location?: NullableStringFieldUpdateOperationsInput | string | null
@@ -13107,7 +11252,6 @@ export namespace Prisma {
     mission?: NullableStringFieldUpdateOperationsInput | string | null
     vision?: NullableStringFieldUpdateOperationsInput | string | null
     social?: JsonNullValueInput | InputJsonValue
-    reviews?: ReviewUpdateManyWithoutOrganizationNestedInput
     contact?: ContactUpdateOneWithoutOrganizationNestedInput
     instructors?: InstructorUpdateManyWithoutOrganizationNestedInput
     profiles?: ProfileUpdateManyWithoutOrganizationNestedInput
@@ -13118,7 +11262,6 @@ export namespace Prisma {
     name?: StringFieldUpdateOperationsInput | string
     type?: StringFieldUpdateOperationsInput | string
     logo?: StringFieldUpdateOperationsInput | string
-    coverImage?: StringFieldUpdateOperationsInput | string
     description?: StringFieldUpdateOperationsInput | string
     shortDescription?: StringFieldUpdateOperationsInput | string
     location?: NullableStringFieldUpdateOperationsInput | string | null
@@ -13127,7 +11270,6 @@ export namespace Prisma {
     mission?: NullableStringFieldUpdateOperationsInput | string | null
     vision?: NullableStringFieldUpdateOperationsInput | string | null
     social?: JsonNullValueInput | InputJsonValue
-    reviews?: ReviewUncheckedUpdateManyWithoutOrganizationNestedInput
     contact?: ContactUncheckedUpdateOneWithoutOrganizationNestedInput
     instructors?: InstructorUncheckedUpdateManyWithoutOrganizationNestedInput
     profiles?: ProfileUncheckedUpdateManyWithoutOrganizationNestedInput
@@ -13138,7 +11280,6 @@ export namespace Prisma {
     name: string
     type: string
     logo: string
-    coverImage: string
     description: string
     shortDescription: string
     location?: string | null
@@ -13147,7 +11288,6 @@ export namespace Prisma {
     mission?: string | null
     vision?: string | null
     social: JsonNullValueInput | InputJsonValue
-    reviews?: ReviewCreateNestedManyWithoutOrganizationInput
     stats?: OrgStatsCreateNestedOneWithoutOrganizationInput
     instructors?: InstructorCreateNestedManyWithoutOrganizationInput
     profiles?: ProfileCreateNestedManyWithoutOrganizationInput
@@ -13158,7 +11298,6 @@ export namespace Prisma {
     name: string
     type: string
     logo: string
-    coverImage: string
     description: string
     shortDescription: string
     location?: string | null
@@ -13167,7 +11306,6 @@ export namespace Prisma {
     mission?: string | null
     vision?: string | null
     social: JsonNullValueInput | InputJsonValue
-    reviews?: ReviewUncheckedCreateNestedManyWithoutOrganizationInput
     stats?: OrgStatsUncheckedCreateNestedOneWithoutOrganizationInput
     instructors?: InstructorUncheckedCreateNestedManyWithoutOrganizationInput
     profiles?: ProfileUncheckedCreateNestedManyWithoutOrganizationInput
@@ -13194,7 +11332,6 @@ export namespace Prisma {
     name?: StringFieldUpdateOperationsInput | string
     type?: StringFieldUpdateOperationsInput | string
     logo?: StringFieldUpdateOperationsInput | string
-    coverImage?: StringFieldUpdateOperationsInput | string
     description?: StringFieldUpdateOperationsInput | string
     shortDescription?: StringFieldUpdateOperationsInput | string
     location?: NullableStringFieldUpdateOperationsInput | string | null
@@ -13203,7 +11340,6 @@ export namespace Prisma {
     mission?: NullableStringFieldUpdateOperationsInput | string | null
     vision?: NullableStringFieldUpdateOperationsInput | string | null
     social?: JsonNullValueInput | InputJsonValue
-    reviews?: ReviewUpdateManyWithoutOrganizationNestedInput
     stats?: OrgStatsUpdateOneWithoutOrganizationNestedInput
     instructors?: InstructorUpdateManyWithoutOrganizationNestedInput
     profiles?: ProfileUpdateManyWithoutOrganizationNestedInput
@@ -13214,191 +11350,6 @@ export namespace Prisma {
     name?: StringFieldUpdateOperationsInput | string
     type?: StringFieldUpdateOperationsInput | string
     logo?: StringFieldUpdateOperationsInput | string
-    coverImage?: StringFieldUpdateOperationsInput | string
-    description?: StringFieldUpdateOperationsInput | string
-    shortDescription?: StringFieldUpdateOperationsInput | string
-    location?: NullableStringFieldUpdateOperationsInput | string | null
-    verified?: BoolFieldUpdateOperationsInput | boolean
-    specialties?: OrganizationUpdatespecialtiesInput | string[]
-    mission?: NullableStringFieldUpdateOperationsInput | string | null
-    vision?: NullableStringFieldUpdateOperationsInput | string | null
-    social?: JsonNullValueInput | InputJsonValue
-    reviews?: ReviewUncheckedUpdateManyWithoutOrganizationNestedInput
-    stats?: OrgStatsUncheckedUpdateOneWithoutOrganizationNestedInput
-    instructors?: InstructorUncheckedUpdateManyWithoutOrganizationNestedInput
-    profiles?: ProfileUncheckedUpdateManyWithoutOrganizationNestedInput
-  }
-
-  export type InstructorCreateWithoutReviewsInput = {
-    id?: string
-    name: string
-    title: string
-    avatar: string
-    coverImage?: string | null
-    bio?: string | null
-    shortBio: string
-    specialties?: InstructorCreatespecialtiesInput | string[]
-    achievements?: InstructorCreateachievementsInput | string[]
-    education?: InstructorCreateeducationInput | string[]
-    social: JsonNullValueInput | InputJsonValue
-    createdAt?: Date | string
-    stats?: InstructorStatsCreateNestedOneWithoutInstructorInput
-    profile: ProfileCreateNestedOneWithoutInstructorInput
-    organization?: OrganizationCreateNestedOneWithoutInstructorsInput
-  }
-
-  export type InstructorUncheckedCreateWithoutReviewsInput = {
-    id?: string
-    name: string
-    title: string
-    avatar: string
-    coverImage?: string | null
-    bio?: string | null
-    shortBio: string
-    specialties?: InstructorCreatespecialtiesInput | string[]
-    achievements?: InstructorCreateachievementsInput | string[]
-    education?: InstructorCreateeducationInput | string[]
-    social: JsonNullValueInput | InputJsonValue
-    profileId: string
-    organizationId?: string | null
-    createdAt?: Date | string
-    stats?: InstructorStatsUncheckedCreateNestedOneWithoutInstructorInput
-  }
-
-  export type InstructorCreateOrConnectWithoutReviewsInput = {
-    where: InstructorWhereUniqueInput
-    create: XOR<InstructorCreateWithoutReviewsInput, InstructorUncheckedCreateWithoutReviewsInput>
-  }
-
-  export type OrganizationCreateWithoutReviewsInput = {
-    id?: string
-    name: string
-    type: string
-    logo: string
-    coverImage: string
-    description: string
-    shortDescription: string
-    location?: string | null
-    verified?: boolean
-    specialties?: OrganizationCreatespecialtiesInput | string[]
-    mission?: string | null
-    vision?: string | null
-    social: JsonNullValueInput | InputJsonValue
-    stats?: OrgStatsCreateNestedOneWithoutOrganizationInput
-    contact?: ContactCreateNestedOneWithoutOrganizationInput
-    instructors?: InstructorCreateNestedManyWithoutOrganizationInput
-    profiles?: ProfileCreateNestedManyWithoutOrganizationInput
-  }
-
-  export type OrganizationUncheckedCreateWithoutReviewsInput = {
-    id?: string
-    name: string
-    type: string
-    logo: string
-    coverImage: string
-    description: string
-    shortDescription: string
-    location?: string | null
-    verified?: boolean
-    specialties?: OrganizationCreatespecialtiesInput | string[]
-    mission?: string | null
-    vision?: string | null
-    social: JsonNullValueInput | InputJsonValue
-    stats?: OrgStatsUncheckedCreateNestedOneWithoutOrganizationInput
-    contact?: ContactUncheckedCreateNestedOneWithoutOrganizationInput
-    instructors?: InstructorUncheckedCreateNestedManyWithoutOrganizationInput
-    profiles?: ProfileUncheckedCreateNestedManyWithoutOrganizationInput
-  }
-
-  export type OrganizationCreateOrConnectWithoutReviewsInput = {
-    where: OrganizationWhereUniqueInput
-    create: XOR<OrganizationCreateWithoutReviewsInput, OrganizationUncheckedCreateWithoutReviewsInput>
-  }
-
-  export type InstructorUpsertWithoutReviewsInput = {
-    update: XOR<InstructorUpdateWithoutReviewsInput, InstructorUncheckedUpdateWithoutReviewsInput>
-    create: XOR<InstructorCreateWithoutReviewsInput, InstructorUncheckedCreateWithoutReviewsInput>
-    where?: InstructorWhereInput
-  }
-
-  export type InstructorUpdateToOneWithWhereWithoutReviewsInput = {
-    where?: InstructorWhereInput
-    data: XOR<InstructorUpdateWithoutReviewsInput, InstructorUncheckedUpdateWithoutReviewsInput>
-  }
-
-  export type InstructorUpdateWithoutReviewsInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    name?: StringFieldUpdateOperationsInput | string
-    title?: StringFieldUpdateOperationsInput | string
-    avatar?: StringFieldUpdateOperationsInput | string
-    coverImage?: NullableStringFieldUpdateOperationsInput | string | null
-    bio?: NullableStringFieldUpdateOperationsInput | string | null
-    shortBio?: StringFieldUpdateOperationsInput | string
-    specialties?: InstructorUpdatespecialtiesInput | string[]
-    achievements?: InstructorUpdateachievementsInput | string[]
-    education?: InstructorUpdateeducationInput | string[]
-    social?: JsonNullValueInput | InputJsonValue
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    stats?: InstructorStatsUpdateOneWithoutInstructorNestedInput
-    profile?: ProfileUpdateOneRequiredWithoutInstructorNestedInput
-    organization?: OrganizationUpdateOneWithoutInstructorsNestedInput
-  }
-
-  export type InstructorUncheckedUpdateWithoutReviewsInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    name?: StringFieldUpdateOperationsInput | string
-    title?: StringFieldUpdateOperationsInput | string
-    avatar?: StringFieldUpdateOperationsInput | string
-    coverImage?: NullableStringFieldUpdateOperationsInput | string | null
-    bio?: NullableStringFieldUpdateOperationsInput | string | null
-    shortBio?: StringFieldUpdateOperationsInput | string
-    specialties?: InstructorUpdatespecialtiesInput | string[]
-    achievements?: InstructorUpdateachievementsInput | string[]
-    education?: InstructorUpdateeducationInput | string[]
-    social?: JsonNullValueInput | InputJsonValue
-    profileId?: StringFieldUpdateOperationsInput | string
-    organizationId?: NullableStringFieldUpdateOperationsInput | string | null
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    stats?: InstructorStatsUncheckedUpdateOneWithoutInstructorNestedInput
-  }
-
-  export type OrganizationUpsertWithoutReviewsInput = {
-    update: XOR<OrganizationUpdateWithoutReviewsInput, OrganizationUncheckedUpdateWithoutReviewsInput>
-    create: XOR<OrganizationCreateWithoutReviewsInput, OrganizationUncheckedCreateWithoutReviewsInput>
-    where?: OrganizationWhereInput
-  }
-
-  export type OrganizationUpdateToOneWithWhereWithoutReviewsInput = {
-    where?: OrganizationWhereInput
-    data: XOR<OrganizationUpdateWithoutReviewsInput, OrganizationUncheckedUpdateWithoutReviewsInput>
-  }
-
-  export type OrganizationUpdateWithoutReviewsInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    name?: StringFieldUpdateOperationsInput | string
-    type?: StringFieldUpdateOperationsInput | string
-    logo?: StringFieldUpdateOperationsInput | string
-    coverImage?: StringFieldUpdateOperationsInput | string
-    description?: StringFieldUpdateOperationsInput | string
-    shortDescription?: StringFieldUpdateOperationsInput | string
-    location?: NullableStringFieldUpdateOperationsInput | string | null
-    verified?: BoolFieldUpdateOperationsInput | boolean
-    specialties?: OrganizationUpdatespecialtiesInput | string[]
-    mission?: NullableStringFieldUpdateOperationsInput | string | null
-    vision?: NullableStringFieldUpdateOperationsInput | string | null
-    social?: JsonNullValueInput | InputJsonValue
-    stats?: OrgStatsUpdateOneWithoutOrganizationNestedInput
-    contact?: ContactUpdateOneWithoutOrganizationNestedInput
-    instructors?: InstructorUpdateManyWithoutOrganizationNestedInput
-    profiles?: ProfileUpdateManyWithoutOrganizationNestedInput
-  }
-
-  export type OrganizationUncheckedUpdateWithoutReviewsInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    name?: StringFieldUpdateOperationsInput | string
-    type?: StringFieldUpdateOperationsInput | string
-    logo?: StringFieldUpdateOperationsInput | string
-    coverImage?: StringFieldUpdateOperationsInput | string
     description?: StringFieldUpdateOperationsInput | string
     shortDescription?: StringFieldUpdateOperationsInput | string
     location?: NullableStringFieldUpdateOperationsInput | string | null
@@ -13408,7 +11359,6 @@ export namespace Prisma {
     vision?: NullableStringFieldUpdateOperationsInput | string | null
     social?: JsonNullValueInput | InputJsonValue
     stats?: OrgStatsUncheckedUpdateOneWithoutOrganizationNestedInput
-    contact?: ContactUncheckedUpdateOneWithoutOrganizationNestedInput
     instructors?: InstructorUncheckedUpdateManyWithoutOrganizationNestedInput
     profiles?: ProfileUncheckedUpdateManyWithoutOrganizationNestedInput
   }
@@ -13432,36 +11382,6 @@ export namespace Prisma {
   export type InstructorStatsCreateOrConnectWithoutInstructorInput = {
     where: InstructorStatsWhereUniqueInput
     create: XOR<InstructorStatsCreateWithoutInstructorInput, InstructorStatsUncheckedCreateWithoutInstructorInput>
-  }
-
-  export type ReviewCreateWithoutInstructorInput = {
-    id?: string
-    username: string
-    avatar: string
-    rating: number
-    comment: string
-    createdAt?: Date | string
-    organization?: OrganizationCreateNestedOneWithoutReviewsInput
-  }
-
-  export type ReviewUncheckedCreateWithoutInstructorInput = {
-    id?: string
-    username: string
-    avatar: string
-    rating: number
-    comment: string
-    createdAt?: Date | string
-    organizationId?: string | null
-  }
-
-  export type ReviewCreateOrConnectWithoutInstructorInput = {
-    where: ReviewWhereUniqueInput
-    create: XOR<ReviewCreateWithoutInstructorInput, ReviewUncheckedCreateWithoutInstructorInput>
-  }
-
-  export type ReviewCreateManyInstructorInputEnvelope = {
-    data: ReviewCreateManyInstructorInput | ReviewCreateManyInstructorInput[]
-    skipDuplicates?: boolean
   }
 
   export type ProfileCreateWithoutInstructorInput = {
@@ -13500,7 +11420,6 @@ export namespace Prisma {
     name: string
     type: string
     logo: string
-    coverImage: string
     description: string
     shortDescription: string
     location?: string | null
@@ -13509,7 +11428,6 @@ export namespace Prisma {
     mission?: string | null
     vision?: string | null
     social: JsonNullValueInput | InputJsonValue
-    reviews?: ReviewCreateNestedManyWithoutOrganizationInput
     stats?: OrgStatsCreateNestedOneWithoutOrganizationInput
     contact?: ContactCreateNestedOneWithoutOrganizationInput
     profiles?: ProfileCreateNestedManyWithoutOrganizationInput
@@ -13520,7 +11438,6 @@ export namespace Prisma {
     name: string
     type: string
     logo: string
-    coverImage: string
     description: string
     shortDescription: string
     location?: string | null
@@ -13529,7 +11446,6 @@ export namespace Prisma {
     mission?: string | null
     vision?: string | null
     social: JsonNullValueInput | InputJsonValue
-    reviews?: ReviewUncheckedCreateNestedManyWithoutOrganizationInput
     stats?: OrgStatsUncheckedCreateNestedOneWithoutOrganizationInput
     contact?: ContactUncheckedCreateNestedOneWithoutOrganizationInput
     profiles?: ProfileUncheckedCreateNestedManyWithoutOrganizationInput
@@ -13565,22 +11481,6 @@ export namespace Prisma {
     totalStudents?: IntFieldUpdateOperationsInput | number
     totalCourses?: IntFieldUpdateOperationsInput | number
     id?: StringFieldUpdateOperationsInput | string
-  }
-
-  export type ReviewUpsertWithWhereUniqueWithoutInstructorInput = {
-    where: ReviewWhereUniqueInput
-    update: XOR<ReviewUpdateWithoutInstructorInput, ReviewUncheckedUpdateWithoutInstructorInput>
-    create: XOR<ReviewCreateWithoutInstructorInput, ReviewUncheckedCreateWithoutInstructorInput>
-  }
-
-  export type ReviewUpdateWithWhereUniqueWithoutInstructorInput = {
-    where: ReviewWhereUniqueInput
-    data: XOR<ReviewUpdateWithoutInstructorInput, ReviewUncheckedUpdateWithoutInstructorInput>
-  }
-
-  export type ReviewUpdateManyWithWhereWithoutInstructorInput = {
-    where: ReviewScalarWhereInput
-    data: XOR<ReviewUpdateManyMutationInput, ReviewUncheckedUpdateManyWithoutInstructorInput>
   }
 
   export type ProfileUpsertWithoutInstructorInput = {
@@ -13636,7 +11536,6 @@ export namespace Prisma {
     name?: StringFieldUpdateOperationsInput | string
     type?: StringFieldUpdateOperationsInput | string
     logo?: StringFieldUpdateOperationsInput | string
-    coverImage?: StringFieldUpdateOperationsInput | string
     description?: StringFieldUpdateOperationsInput | string
     shortDescription?: StringFieldUpdateOperationsInput | string
     location?: NullableStringFieldUpdateOperationsInput | string | null
@@ -13645,7 +11544,6 @@ export namespace Prisma {
     mission?: NullableStringFieldUpdateOperationsInput | string | null
     vision?: NullableStringFieldUpdateOperationsInput | string | null
     social?: JsonNullValueInput | InputJsonValue
-    reviews?: ReviewUpdateManyWithoutOrganizationNestedInput
     stats?: OrgStatsUpdateOneWithoutOrganizationNestedInput
     contact?: ContactUpdateOneWithoutOrganizationNestedInput
     profiles?: ProfileUpdateManyWithoutOrganizationNestedInput
@@ -13656,7 +11554,6 @@ export namespace Prisma {
     name?: StringFieldUpdateOperationsInput | string
     type?: StringFieldUpdateOperationsInput | string
     logo?: StringFieldUpdateOperationsInput | string
-    coverImage?: StringFieldUpdateOperationsInput | string
     description?: StringFieldUpdateOperationsInput | string
     shortDescription?: StringFieldUpdateOperationsInput | string
     location?: NullableStringFieldUpdateOperationsInput | string | null
@@ -13665,7 +11562,6 @@ export namespace Prisma {
     mission?: NullableStringFieldUpdateOperationsInput | string | null
     vision?: NullableStringFieldUpdateOperationsInput | string | null
     social?: JsonNullValueInput | InputJsonValue
-    reviews?: ReviewUncheckedUpdateManyWithoutOrganizationNestedInput
     stats?: OrgStatsUncheckedUpdateOneWithoutOrganizationNestedInput
     contact?: ContactUncheckedUpdateOneWithoutOrganizationNestedInput
     profiles?: ProfileUncheckedUpdateManyWithoutOrganizationNestedInput
@@ -13676,15 +11572,13 @@ export namespace Prisma {
     name: string
     title: string
     avatar: string
-    coverImage?: string | null
+    featured?: boolean
     bio?: string | null
-    shortBio: string
     specialties?: InstructorCreatespecialtiesInput | string[]
     achievements?: InstructorCreateachievementsInput | string[]
     education?: InstructorCreateeducationInput | string[]
     social: JsonNullValueInput | InputJsonValue
     createdAt?: Date | string
-    reviews?: ReviewCreateNestedManyWithoutInstructorInput
     profile: ProfileCreateNestedOneWithoutInstructorInput
     organization?: OrganizationCreateNestedOneWithoutInstructorsInput
   }
@@ -13694,9 +11588,8 @@ export namespace Prisma {
     name: string
     title: string
     avatar: string
-    coverImage?: string | null
+    featured?: boolean
     bio?: string | null
-    shortBio: string
     specialties?: InstructorCreatespecialtiesInput | string[]
     achievements?: InstructorCreateachievementsInput | string[]
     education?: InstructorCreateeducationInput | string[]
@@ -13704,7 +11597,6 @@ export namespace Prisma {
     profileId: string
     organizationId?: string | null
     createdAt?: Date | string
-    reviews?: ReviewUncheckedCreateNestedManyWithoutInstructorInput
   }
 
   export type InstructorCreateOrConnectWithoutStatsInput = {
@@ -13728,15 +11620,13 @@ export namespace Prisma {
     name?: StringFieldUpdateOperationsInput | string
     title?: StringFieldUpdateOperationsInput | string
     avatar?: StringFieldUpdateOperationsInput | string
-    coverImage?: NullableStringFieldUpdateOperationsInput | string | null
+    featured?: BoolFieldUpdateOperationsInput | boolean
     bio?: NullableStringFieldUpdateOperationsInput | string | null
-    shortBio?: StringFieldUpdateOperationsInput | string
     specialties?: InstructorUpdatespecialtiesInput | string[]
     achievements?: InstructorUpdateachievementsInput | string[]
     education?: InstructorUpdateeducationInput | string[]
     social?: JsonNullValueInput | InputJsonValue
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    reviews?: ReviewUpdateManyWithoutInstructorNestedInput
     profile?: ProfileUpdateOneRequiredWithoutInstructorNestedInput
     organization?: OrganizationUpdateOneWithoutInstructorsNestedInput
   }
@@ -13746,9 +11636,8 @@ export namespace Prisma {
     name?: StringFieldUpdateOperationsInput | string
     title?: StringFieldUpdateOperationsInput | string
     avatar?: StringFieldUpdateOperationsInput | string
-    coverImage?: NullableStringFieldUpdateOperationsInput | string | null
+    featured?: BoolFieldUpdateOperationsInput | boolean
     bio?: NullableStringFieldUpdateOperationsInput | string | null
-    shortBio?: StringFieldUpdateOperationsInput | string
     specialties?: InstructorUpdatespecialtiesInput | string[]
     achievements?: InstructorUpdateachievementsInput | string[]
     education?: InstructorUpdateeducationInput | string[]
@@ -13756,17 +11645,6 @@ export namespace Prisma {
     profileId?: StringFieldUpdateOperationsInput | string
     organizationId?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    reviews?: ReviewUncheckedUpdateManyWithoutInstructorNestedInput
-  }
-
-  export type ReviewCreateManyOrganizationInput = {
-    id?: string
-    username: string
-    avatar: string
-    rating: number
-    comment: string
-    createdAt?: Date | string
-    instructorId?: string | null
   }
 
   export type InstructorCreateManyOrganizationInput = {
@@ -13774,9 +11652,8 @@ export namespace Prisma {
     name: string
     title: string
     avatar: string
-    coverImage?: string | null
+    featured?: boolean
     bio?: string | null
-    shortBio: string
     specialties?: InstructorCreatespecialtiesInput | string[]
     achievements?: InstructorCreateachievementsInput | string[]
     education?: InstructorCreateeducationInput | string[]
@@ -13797,51 +11674,19 @@ export namespace Prisma {
     createdAt?: Date | string
   }
 
-  export type ReviewUpdateWithoutOrganizationInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    username?: StringFieldUpdateOperationsInput | string
-    avatar?: StringFieldUpdateOperationsInput | string
-    rating?: FloatFieldUpdateOperationsInput | number
-    comment?: StringFieldUpdateOperationsInput | string
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    instructor?: InstructorUpdateOneWithoutReviewsNestedInput
-  }
-
-  export type ReviewUncheckedUpdateWithoutOrganizationInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    username?: StringFieldUpdateOperationsInput | string
-    avatar?: StringFieldUpdateOperationsInput | string
-    rating?: FloatFieldUpdateOperationsInput | number
-    comment?: StringFieldUpdateOperationsInput | string
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    instructorId?: NullableStringFieldUpdateOperationsInput | string | null
-  }
-
-  export type ReviewUncheckedUpdateManyWithoutOrganizationInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    username?: StringFieldUpdateOperationsInput | string
-    avatar?: StringFieldUpdateOperationsInput | string
-    rating?: FloatFieldUpdateOperationsInput | number
-    comment?: StringFieldUpdateOperationsInput | string
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    instructorId?: NullableStringFieldUpdateOperationsInput | string | null
-  }
-
   export type InstructorUpdateWithoutOrganizationInput = {
     id?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
     title?: StringFieldUpdateOperationsInput | string
     avatar?: StringFieldUpdateOperationsInput | string
-    coverImage?: NullableStringFieldUpdateOperationsInput | string | null
+    featured?: BoolFieldUpdateOperationsInput | boolean
     bio?: NullableStringFieldUpdateOperationsInput | string | null
-    shortBio?: StringFieldUpdateOperationsInput | string
     specialties?: InstructorUpdatespecialtiesInput | string[]
     achievements?: InstructorUpdateachievementsInput | string[]
     education?: InstructorUpdateeducationInput | string[]
     social?: JsonNullValueInput | InputJsonValue
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     stats?: InstructorStatsUpdateOneWithoutInstructorNestedInput
-    reviews?: ReviewUpdateManyWithoutInstructorNestedInput
     profile?: ProfileUpdateOneRequiredWithoutInstructorNestedInput
   }
 
@@ -13850,9 +11695,8 @@ export namespace Prisma {
     name?: StringFieldUpdateOperationsInput | string
     title?: StringFieldUpdateOperationsInput | string
     avatar?: StringFieldUpdateOperationsInput | string
-    coverImage?: NullableStringFieldUpdateOperationsInput | string | null
+    featured?: BoolFieldUpdateOperationsInput | boolean
     bio?: NullableStringFieldUpdateOperationsInput | string | null
-    shortBio?: StringFieldUpdateOperationsInput | string
     specialties?: InstructorUpdatespecialtiesInput | string[]
     achievements?: InstructorUpdateachievementsInput | string[]
     education?: InstructorUpdateeducationInput | string[]
@@ -13860,7 +11704,6 @@ export namespace Prisma {
     profileId?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     stats?: InstructorStatsUncheckedUpdateOneWithoutInstructorNestedInput
-    reviews?: ReviewUncheckedUpdateManyWithoutInstructorNestedInput
   }
 
   export type InstructorUncheckedUpdateManyWithoutOrganizationInput = {
@@ -13868,9 +11711,8 @@ export namespace Prisma {
     name?: StringFieldUpdateOperationsInput | string
     title?: StringFieldUpdateOperationsInput | string
     avatar?: StringFieldUpdateOperationsInput | string
-    coverImage?: NullableStringFieldUpdateOperationsInput | string | null
+    featured?: BoolFieldUpdateOperationsInput | boolean
     bio?: NullableStringFieldUpdateOperationsInput | string | null
-    shortBio?: StringFieldUpdateOperationsInput | string
     specialties?: InstructorUpdatespecialtiesInput | string[]
     achievements?: InstructorUpdateachievementsInput | string[]
     education?: InstructorUpdateeducationInput | string[]
@@ -13915,46 +11757,6 @@ export namespace Prisma {
     access_lms?: BoolFieldUpdateOperationsInput | boolean
     instructorId?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-  }
-
-  export type ReviewCreateManyInstructorInput = {
-    id?: string
-    username: string
-    avatar: string
-    rating: number
-    comment: string
-    createdAt?: Date | string
-    organizationId?: string | null
-  }
-
-  export type ReviewUpdateWithoutInstructorInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    username?: StringFieldUpdateOperationsInput | string
-    avatar?: StringFieldUpdateOperationsInput | string
-    rating?: FloatFieldUpdateOperationsInput | number
-    comment?: StringFieldUpdateOperationsInput | string
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    organization?: OrganizationUpdateOneWithoutReviewsNestedInput
-  }
-
-  export type ReviewUncheckedUpdateWithoutInstructorInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    username?: StringFieldUpdateOperationsInput | string
-    avatar?: StringFieldUpdateOperationsInput | string
-    rating?: FloatFieldUpdateOperationsInput | number
-    comment?: StringFieldUpdateOperationsInput | string
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    organizationId?: NullableStringFieldUpdateOperationsInput | string | null
-  }
-
-  export type ReviewUncheckedUpdateManyWithoutInstructorInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    username?: StringFieldUpdateOperationsInput | string
-    avatar?: StringFieldUpdateOperationsInput | string
-    rating?: FloatFieldUpdateOperationsInput | number
-    comment?: StringFieldUpdateOperationsInput | string
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    organizationId?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
 

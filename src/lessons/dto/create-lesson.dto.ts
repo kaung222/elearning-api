@@ -7,7 +7,6 @@ import {
   IsEnum,
 } from 'class-validator';
 import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
-import { LessonType } from 'generated/course-database-client-types';
 
 export class CreateLessonDto {
   @ApiProperty({ description: 'Lesson title' })
@@ -26,9 +25,8 @@ export class CreateLessonDto {
   @IsString()
   url?: string;
 
-  @ApiProperty({ description: 'Type of lesson', enum: LessonType })
-  @IsEnum(LessonType)
-  type: LessonType;
+  @ApiProperty({ description: 'Type of lesson' })
+  type: string;
 
   @ApiProperty({ description: 'Duration in minutes', default: 0 })
   @IsInt()

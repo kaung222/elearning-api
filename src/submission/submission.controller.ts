@@ -1,15 +1,31 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
+import {
+  Controller,
+  Get,
+  Post,
+  Body,
+  Patch,
+  Param,
+  Delete,
+} from '@nestjs/common';
 import { SubmissionService } from './submission.service';
 import { CreateSubmissionDto } from './dto/create-submission.dto';
 import { UpdateSubmissionDto } from './dto/update-submission.dto';
+import { Role } from 'generated/org-database-client-types';
+import { ROLE_USER } from 'src/security/role.decorator';
+import { SignedUser, User } from 'src/security/user.decorator';
 
-@Controller('submission')
+@Controller('submissions')
+@ROLE_USER(Role.Student, Role.Instructor, Role.Admin)
 export class SubmissionController {
   constructor(private readonly submissionService: SubmissionService) {}
 
   @Post()
-  create(@Body() createSubmissionDto: CreateSubmissionDto) {
-    return this.submissionService.create(createSubmissionDto);
+  @ROLE_USER(Role.Student)
+  create(
+    @User() user: SignedUser,
+    @Body() createSubmissionDto: CreateSubmissionDto,
+  ) {
+    return this.submissionService.create(user, createSubmissionDto);
   }
 
   @Get()
@@ -23,8 +39,12 @@ export class SubmissionController {
   }
 
   @Patch(':id')
-  update(@Param('id') id: string, @Body() updateSubmissionDto: UpdateSubmissionDto) {
-    return this.submissionService.update(+id, updateSubmissionDto);
+  @ROLE_USER(Role.Instructor, Role.Admin)
+  update(
+    @Param('id') id: string,
+    @Body() updateSubmissionDto: UpdateSubmissionDto,
+  ) {
+    return this.submissionService.update(id, updateSubmissionDto);
   }
 
   @Delete(':id')

@@ -1,6 +1,5 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { SignedUser } from '../security/user.decorator';
-import { PrismaAssessService } from 'src/prisma/prisma-assess.service';
 import { PrismaEnrollService } from 'src/prisma/prisma-enroll.service';
 import { UpdateAssignmentDto } from './dto/update-assignment.dto';
 import { CreateAssignmentDto } from './dto/create-assignment.dto';
@@ -27,6 +26,29 @@ export class AssignmentsService {
         maxPoints,
       },
     });
+  }
+
+  async findAllByStudent(user: SignedUser) {
+    const enrollments = await this.prisma.enrollment.findMany({
+      where: { userId: user.sub, status: 'APPROVED' },
+    });
+    const courseIds = enrollments.map((enrollment) => enrollment.courseId);
+    const assignments = await this.prisma.assignment.findMany({
+      where: {
+        courseId: {
+          in: courseIds,
+        },
+      },
+    });
+    const submissions = await this.prisma.submission.findMany({
+      where: {
+        assignmentId: {
+          in: assignments.map((assignment) => assignment.id),
+        },
+        userId: user.sub,
+      },
+    });
+    return { assignments, submissions };
   }
 
   async findAll(courseId: string, user: SignedUser) {

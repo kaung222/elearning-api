@@ -10,7 +10,6 @@ import {
   IsUUID,
   ValidateNested,
 } from 'class-validator';
-import { LessonType } from 'generated/course-database-client-types';
 
 class CreateModuleDto {
   @ValidateNested()
@@ -55,9 +54,8 @@ class CreateLessonDto {
   @IsInt()
   order: number;
 
-  @ApiProperty({ enum: LessonType })
-  @IsEnum(LessonType)
-  type: LessonType;
+  @ApiProperty({ type: 'string' })
+  type: string;
 
   @ApiProperty()
   @IsOptional()

@@ -31,7 +31,7 @@ export class PublicController {
 
   @Get('organizations/:orgId/reviews')
   getReviewsByOrgId(@Param('orgId') orgId: string) {
-    return this.publicService.getReviewsByOrgId(orgId);
+    // return this.publicService.getReviewsByOrgId(orgId);
   }
 
   @Get('organizations/:orgId')

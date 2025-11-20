@@ -30,7 +30,6 @@ model Enrollment {
   createdAt      DateTime         @default(now())
   approvedAt     DateTime?
   attendances    Attendance[]
-  submissions    Submission[]
 
   @@unique([userId, courseId])
 }
@@ -64,8 +63,8 @@ model Submission {
   grade        Float? // 1-10
   feedback     String?
   assignment   Assignment @relation(fields: [assignmentId], references: [id])
-  enrollmentId String
-  enrollment   Enrollment @relation(references: [id], onDelete: Cascade, fields: [enrollmentId])
+  // enrollmentId String
+  // enrollment   Enrollment @relation(references: [id], onDelete: Cascade, fields: [enrollmentId])
 
   @@unique([userId, assignmentId])
 }

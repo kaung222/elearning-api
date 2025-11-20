@@ -96,6 +96,15 @@ export class AuthService {
     if (!member) {
       throw new NotFoundException(`You are not associated with any profiles`);
     }
+    if (member.status === 'PENDING') {
+      await this.orgService.profile.update({
+        where: { id: member.id },
+        data: {
+          status: 'ACTIVE',
+          //  joinedAt: new Date()
+        },
+      });
+    }
     const jwtPayload: SignedUser = {
       sub: user.id,
       avatar: user.avatar || undefined,

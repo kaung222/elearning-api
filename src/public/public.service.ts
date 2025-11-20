@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { Status } from 'generated/course-database-client-types';
 import { Role } from 'generated/org-database-client-types';
 import { PrismaCourseService } from 'src/prisma/prisma-course.service';
@@ -102,10 +102,6 @@ export class PublicService {
   }
 
   async getOrganizationDetails(organizationId: string) {
-    const reviews = await this.enrollService.review.findMany({
-      where: { organizationId },
-      take: 10,
-    });
     const organization = await this.orgService.organization.findUnique({
       where: { id: organizationId },
       include: {
@@ -114,6 +110,14 @@ export class PublicService {
         stats: true,
       },
     });
+
+    if (!organization) throw new NotFoundException('Organization not found');
+
+    const reviews = await this.enrollService.review.findMany({
+      where: { organizationId },
+      take: 10,
+    });
+
     const courses = await this.courseService.course.findMany({
       where: {
         organizationId,
@@ -140,13 +144,13 @@ export class PublicService {
     });
   }
 
-  async getReviewsByOrgId(orgId: string, page = 1) {
-    return await this.orgService.review.findMany({
-      skip: 10 * (page - 1),
-      take: 10,
-      where: { organizationId: orgId },
-    });
-  }
+  // async getReviewsByOrgId(orgId: string, page = 1) {
+  //   return await this.orgService.review.findMany({
+  //     skip: 10 * (page - 1),
+  //     take: 10,
+  //     where: { organizationId: orgId },
+  //   });
+  // }
 
   async getInstructorDetails(instructorId: string) {
     const courses = await this.courseService.course.findMany({

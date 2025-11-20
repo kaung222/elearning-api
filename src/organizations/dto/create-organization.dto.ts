@@ -22,10 +22,6 @@ export class CreateOrganizationDto {
   @IsUrl()
   logo: string;
 
-  @ApiProperty({ description: 'Organization cover image URL' })
-  @IsUrl()
-  coverImage: string;
-
   @ApiProperty({ description: 'Detailed description of the organization' })
   @IsString()
   shortDescription: string;

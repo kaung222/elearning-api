@@ -6,7 +6,6 @@ import {
   Patch,
   Param,
   Delete,
-  Query,
 } from '@nestjs/common';
 import { AssignmentsService } from './assignments.service';
 import { ApiTags, ApiOperation, ApiResponse, ApiParam } from '@nestjs/swagger';
@@ -23,7 +22,7 @@ export class AssignmentsController {
 
   // Assignment Session endpoints
   @Post()
-  @ROLE_USER(Role.Instructor)
+  @ROLE_USER(Role.Instructor, Role.Admin)
   @ApiOperation({ summary: 'Create a new assignment session' })
   @ApiResponse({
     status: 201,
@@ -37,6 +36,17 @@ export class AssignmentsController {
       createAssignmentSessionDto,
       user,
     );
+  }
+
+  @Get()
+  @ROLE_USER(Role.Student)
+  @ApiOperation({ summary: 'Get all assignment sessions' })
+  @ApiResponse({
+    status: 200,
+    description: 'Return all assignment sessions',
+  })
+  findAllByStudent(@User() user: SignedUser) {
+    return this.assignmentsService.findAllByStudent(user);
   }
 
   @Get(':courseId')

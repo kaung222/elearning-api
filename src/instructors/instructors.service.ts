@@ -24,7 +24,7 @@ export class InstructorsService {
         avatar,
         social,
         bio,
-        coverImage,
+        featured,
         title,
         specialties,
         achievements,
@@ -55,14 +55,13 @@ export class InstructorsService {
         data: {
           name,
           bio,
-          shortBio: '',
           education,
           avatar,
           achievements,
           specialties,
+          featured,
           title,
           social,
-          coverImage,
           stats: { create: {} },
           organizationId: user.orgId,
           profileId: profile.id,
@@ -96,7 +95,7 @@ export class InstructorsService {
           id,
         },
         include: {
-          reviews: true,
+          // reviews: true,
           profile: true,
         },
       });
@@ -129,7 +128,7 @@ export class InstructorsService {
         avatar,
         social,
         bio,
-        coverImage,
+        featured,
         title,
         specialties,
         achievements,
@@ -156,14 +155,13 @@ export class InstructorsService {
         data: {
           name,
           bio,
-          shortBio: '',
+          featured,
           education,
           avatar,
           achievements,
           specialties,
           title,
           social,
-          coverImage,
           profile: {
             update: {
               access_lms,

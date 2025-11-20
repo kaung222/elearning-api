@@ -113,7 +113,6 @@ model Instructor {
   avatar       String
   coverImage   String?
   bio          String?
-  shortBio     String
   specialties  String[]
   achievements String[]
   education    String[]

@@ -1,6 +1,6 @@
 import { Controller, Delete, Get, Query } from '@nestjs/common';
 import { UsersService } from './users.service';
-import { User } from 'src/security/user.decorator';
+import { SignedUser, User } from 'src/security/user.decorator';
 import { ApiOperation } from '@nestjs/swagger';
 import { Role } from 'generated/org-database-client-types';
 import { ROLE_USER } from 'src/security/role.decorator';
@@ -16,9 +16,9 @@ export class UsersController {
   }
 
   @Get('me')
-  @ROLE_USER(Role.Admin)
-  getProfile(@User('sub') id: string) {
-    return this.usersService.getProfile(id);
+  @ROLE_USER(Role.Admin, Role.Instructor, Role.Manager, Role.Student)
+  getProfile(@User() signedUser: SignedUser) {
+    return this.usersService.getProfile(signedUser);
   }
 
   @Get('search')

@@ -51,11 +51,11 @@ model Organization {
   name             String
   type             String  // university, company, institute, academy, boot camp, nonprofit
   logo             String
-  coverImage       String
   description      String
   shortDescription String
   location         String?
   verified         Boolean @default(false)
+  published        Boolean @default(false)
   // mission vision 
   specialties      String[]
   mission          String?
@@ -97,9 +97,8 @@ model Instructor {
   name          String
   title         String
   avatar        String
-  coverImage    String?
+  featured      Boolean @default(false)
   bio           String?
-  shortBio      String
   specialties   String[]
   achievements  String[]
   education     String[]

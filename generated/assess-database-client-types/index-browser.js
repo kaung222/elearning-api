@@ -123,28 +123,6 @@ exports.Prisma.TransactionIsolationLevel = makeStrictEnum({
 exports.Prisma.AssignmentScalarFieldEnum = {
   id: 'id',
   title: 'title',
-  description: 'description',
-  dueDate: 'dueDate',
-  isCompleted: 'isCompleted',
-  createdAt: 'createdAt',
-  assignmentSessionId: 'assignmentSessionId',
-  userId: 'userId'
-};
-
-exports.Prisma.AssignmentSessionScalarFieldEnum = {
-  id: 'id',
-  title: 'title',
-  description: 'description',
-  dueDate: 'dueDate',
-  isCompleted: 'isCompleted',
-  courseId: 'courseId',
-  createAt: 'createAt'
-};
-
-exports.Prisma.AssessmentScalarFieldEnum = {
-  id: 'id',
-  title: 'title',
-  type: 'type',
   courseId: 'courseId',
   dueDate: 'dueDate',
   createdAt: 'createdAt'
@@ -152,77 +130,26 @@ exports.Prisma.AssessmentScalarFieldEnum = {
 
 exports.Prisma.SubmissionScalarFieldEnum = {
   id: 'id',
-  assessmentId: 'assessmentId',
+  assignmentId: 'assignmentId',
   studentId: 'studentId',
+  title: 'title',
+  notes: 'notes',
   submittedAt: 'submittedAt',
   grade: 'grade',
   feedback: 'feedback'
 };
 
-exports.Prisma.ActivityLogScalarFieldEnum = {
+exports.Prisma.AttendanceScalarFieldEnum = {
   id: 'id',
-  userId: 'userId',
+  lessonId: 'lessonId',
   courseId: 'courseId',
-  action: 'action',
-  timestamp: 'timestamp'
-};
-
-exports.Prisma.CompetencyScalarFieldEnum = {
-  id: 'id',
-  name: 'name',
-  description: 'description',
-  courseId: 'courseId'
-};
-
-exports.Prisma.UserCompetencyScalarFieldEnum = {
-  id: 'id',
   userId: 'userId',
-  competencyId: 'competencyId',
-  achievedAt: 'achievedAt'
-};
-
-exports.Prisma.QuestionBankScalarFieldEnum = {
-  id: 'id',
-  text: 'text',
-  type: 'type',
-  options: 'options',
-  answer: 'answer',
-  createdAt: 'createdAt',
-  tags: 'tags'
-};
-
-exports.Prisma.ExamQuestionScalarFieldEnum = {
-  id: 'id',
-  assessmentId: 'assessmentId',
-  questionBankId: 'questionBankId',
-  points: 'points'
-};
-
-exports.Prisma.ExamSessionScalarFieldEnum = {
-  id: 'id',
-  studentId: 'studentId',
-  assessmentId: 'assessmentId',
-  startedAt: 'startedAt',
-  submittedAt: 'submittedAt',
-  status: 'status'
-};
-
-exports.Prisma.AnswerScalarFieldEnum = {
-  id: 'id',
-  sessionId: 'sessionId',
-  questionId: 'questionId',
-  response: 'response',
-  gradedScore: 'gradedScore'
+  createdAt: 'createdAt'
 };
 
 exports.Prisma.SortOrder = {
   asc: 'asc',
   desc: 'desc'
-};
-
-exports.Prisma.NullableJsonNullValueInput = {
-  DbNull: Prisma.DbNull,
-  JsonNull: Prisma.JsonNull
 };
 
 exports.Prisma.QueryMode = {
@@ -235,44 +162,11 @@ exports.Prisma.NullsOrder = {
   last: 'last'
 };
 
-exports.Prisma.JsonNullValueFilter = {
-  DbNull: Prisma.DbNull,
-  JsonNull: Prisma.JsonNull,
-  AnyNull: Prisma.AnyNull
-};
-exports.AssessmentType = exports.$Enums.AssessmentType = {
-  QUIZ: 'QUIZ',
-  ASSIGNMENT: 'ASSIGNMENT',
-  PROJECT: 'PROJECT',
-  EXAM: 'EXAM'
-};
-
-exports.QuestionType = exports.$Enums.QuestionType = {
-  MCQ: 'MCQ',
-  SHORT_ANSWER: 'SHORT_ANSWER',
-  ESSAY: 'ESSAY',
-  TRUE_FALSE: 'TRUE_FALSE'
-};
-
-exports.ExamStatus = exports.$Enums.ExamStatus = {
-  IN_PROGRESS: 'IN_PROGRESS',
-  SUBMITTED: 'SUBMITTED',
-  LATE: 'LATE',
-  CANCELLED: 'CANCELLED'
-};
 
 exports.Prisma.ModelName = {
   Assignment: 'Assignment',
-  AssignmentSession: 'AssignmentSession',
-  Assessment: 'Assessment',
   Submission: 'Submission',
-  ActivityLog: 'ActivityLog',
-  Competency: 'Competency',
-  UserCompetency: 'UserCompetency',
-  QuestionBank: 'QuestionBank',
-  ExamQuestion: 'ExamQuestion',
-  ExamSession: 'ExamSession',
-  Answer: 'Answer'
+  Attendance: 'Attendance'
 };
 
 /**

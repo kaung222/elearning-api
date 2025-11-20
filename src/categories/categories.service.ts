@@ -31,7 +31,7 @@ export class CategoriesService {
     });
   }
 
-  async findOne(id: string) {
+  async findOne(id: number) {
     const category = await this.prisma.category.findUnique({
       where: { id },
       include: {
@@ -48,7 +48,7 @@ export class CategoriesService {
     return category;
   }
 
-  async update(id: string, updateCategoryDto: UpdateCategoryDto) {
+  async update(id: number, updateCategoryDto: UpdateCategoryDto) {
     try {
       return await this.prisma.category.update({
         where: { id },
@@ -59,7 +59,7 @@ export class CategoriesService {
     }
   }
 
-  async remove(id: string) {
+  async remove(id: number) {
     try {
       // First check if the category has children
       const categoryWithChildren = await this.prisma.category.findUnique({

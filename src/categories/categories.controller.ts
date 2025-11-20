@@ -21,7 +21,7 @@ export class CategoriesController {
   constructor(private readonly categoriesService: CategoriesService) {}
 
   @Post()
-  // @ROLE_USER(Role.Admin)
+  @ROLE_USER(Role.Admin)
   @ApiOperation({ summary: 'Create a new category' })
   @ApiResponse({
     status: HttpStatus.CREATED,
@@ -54,12 +54,12 @@ export class CategoriesController {
     status: HttpStatus.NOT_FOUND,
     description: 'Category not found',
   })
-  findOne(@Param('id') id: string) {
+  findOne(@Param('id') id: number) {
     return this.categoriesService.findOne(id);
   }
 
   @Patch(':id')
-  // @ROLE_USER(Role.Admin)
+  @ROLE_USER(Role.Admin)
   @ApiOperation({ summary: 'Update a category' })
   @ApiParam({ name: 'id', description: 'Category ID' })
   @ApiResponse({
@@ -73,7 +73,7 @@ export class CategoriesController {
   })
   @ApiResponse({ status: HttpStatus.UNAUTHORIZED, description: 'Unauthorized' })
   update(
-    @Param('id') id: string,
+    @Param('id') id: number,
     @Body() updateCategoryDto: UpdateCategoryDto,
   ) {
     return this.categoriesService.update(id, updateCategoryDto);
@@ -96,7 +96,7 @@ export class CategoriesController {
     description: 'Cannot delete category with children or associated courses',
   })
   @ApiResponse({ status: HttpStatus.UNAUTHORIZED, description: 'Unauthorized' })
-  remove(@Param('id') id: string) {
+  remove(@Param('id') id: number) {
     return this.categoriesService.remove(id);
   }
 }

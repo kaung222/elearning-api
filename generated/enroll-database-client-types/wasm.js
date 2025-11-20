@@ -156,8 +156,7 @@ exports.Prisma.SubmissionScalarFieldEnum = {
   notes: 'notes',
   submittedAt: 'submittedAt',
   grade: 'grade',
-  feedback: 'feedback',
-  enrollmentId: 'enrollmentId'
+  feedback: 'feedback'
 };
 
 exports.Prisma.AttendanceScalarFieldEnum = {

@@ -6,6 +6,7 @@ import {
   Patch,
   Param,
   Delete,
+  Put,
 } from '@nestjs/common';
 import { OrganizationsService } from './organizations.service';
 import { CreateOrganizationDto } from './dto/create-organization.dto';
@@ -74,6 +75,19 @@ export class OrganizationsController {
     @User() user: SignedUser,
   ) {
     return this.organizationsService.update(id, updateOrganizationDto, user);
+  }
+
+  @Put(':id')
+  @ROLE_USER(Role.Admin)
+  @ApiOperation({ summary: 'Publish an organization' })
+  @ApiParam({ name: 'id', description: 'Organization ID' })
+  @ApiResponse({
+    status: 200,
+    description: 'Organization published successfully',
+  })
+  @ApiResponse({ status: 404, description: 'Organization not found' })
+  publish(@Param('id') id: string, @User() signedUser: SignedUser) {
+    // return this.organizationsService.publish(id, signedUser);
   }
 
   @Delete(':id')

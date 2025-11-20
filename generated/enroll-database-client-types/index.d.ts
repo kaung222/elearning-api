@@ -1253,12 +1253,10 @@ export namespace Prisma {
 
   export type EnrollmentCountOutputType = {
     attendances: number
-    submissions: number
   }
 
   export type EnrollmentCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     attendances?: boolean | EnrollmentCountOutputTypeCountAttendancesArgs
-    submissions?: boolean | EnrollmentCountOutputTypeCountSubmissionsArgs
   }
 
   // Custom InputTypes
@@ -1277,13 +1275,6 @@ export namespace Prisma {
    */
   export type EnrollmentCountOutputTypeCountAttendancesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     where?: AttendanceWhereInput
-  }
-
-  /**
-   * EnrollmentCountOutputType without action
-   */
-  export type EnrollmentCountOutputTypeCountSubmissionsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    where?: SubmissionWhereInput
   }
 
 
@@ -1605,7 +1596,6 @@ export namespace Prisma {
     createdAt?: boolean
     approvedAt?: boolean
     attendances?: boolean | Enrollment$attendancesArgs<ExtArgs>
-    submissions?: boolean | Enrollment$submissionsArgs<ExtArgs>
     _count?: boolean | EnrollmentCountOutputTypeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["enrollment"]>
 
@@ -1663,7 +1653,6 @@ export namespace Prisma {
   export type EnrollmentOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "courseId" | "userId" | "organizationId" | "instructorId" | "description" | "expiredDate" | "price" | "progress" | "assignments" | "attendance" | "status" | "createdAt" | "approvedAt", ExtArgs["result"]["enrollment"]>
   export type EnrollmentInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     attendances?: boolean | Enrollment$attendancesArgs<ExtArgs>
-    submissions?: boolean | Enrollment$submissionsArgs<ExtArgs>
     _count?: boolean | EnrollmentCountOutputTypeDefaultArgs<ExtArgs>
   }
   export type EnrollmentIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {}
@@ -1673,7 +1662,6 @@ export namespace Prisma {
     name: "Enrollment"
     objects: {
       attendances: Prisma.$AttendancePayload<ExtArgs>[]
-      submissions: Prisma.$SubmissionPayload<ExtArgs>[]
     }
     scalars: $Extensions.GetPayloadResult<{
       id: string
@@ -2085,7 +2073,6 @@ export namespace Prisma {
   export interface Prisma__EnrollmentClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
     readonly [Symbol.toStringTag]: "PrismaPromise"
     attendances<T extends Enrollment$attendancesArgs<ExtArgs> = {}>(args?: Subset<T, Enrollment$attendancesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$AttendancePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
-    submissions<T extends Enrollment$submissionsArgs<ExtArgs> = {}>(args?: Subset<T, Enrollment$submissionsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$SubmissionPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -2538,30 +2525,6 @@ export namespace Prisma {
     take?: number
     skip?: number
     distinct?: AttendanceScalarFieldEnum | AttendanceScalarFieldEnum[]
-  }
-
-  /**
-   * Enrollment.submissions
-   */
-  export type Enrollment$submissionsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the Submission
-     */
-    select?: SubmissionSelect<ExtArgs> | null
-    /**
-     * Omit specific fields from the Submission
-     */
-    omit?: SubmissionOmit<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: SubmissionInclude<ExtArgs> | null
-    where?: SubmissionWhereInput
-    orderBy?: SubmissionOrderByWithRelationInput | SubmissionOrderByWithRelationInput[]
-    cursor?: SubmissionWhereUniqueInput
-    take?: number
-    skip?: number
-    distinct?: SubmissionScalarFieldEnum | SubmissionScalarFieldEnum[]
   }
 
   /**
@@ -3755,7 +3718,6 @@ export namespace Prisma {
     submittedAt: Date | null
     grade: number | null
     feedback: string | null
-    enrollmentId: string | null
   }
 
   export type SubmissionMaxAggregateOutputType = {
@@ -3767,7 +3729,6 @@ export namespace Prisma {
     submittedAt: Date | null
     grade: number | null
     feedback: string | null
-    enrollmentId: string | null
   }
 
   export type SubmissionCountAggregateOutputType = {
@@ -3779,7 +3740,6 @@ export namespace Prisma {
     submittedAt: number
     grade: number
     feedback: number
-    enrollmentId: number
     _all: number
   }
 
@@ -3801,7 +3761,6 @@ export namespace Prisma {
     submittedAt?: true
     grade?: true
     feedback?: true
-    enrollmentId?: true
   }
 
   export type SubmissionMaxAggregateInputType = {
@@ -3813,7 +3772,6 @@ export namespace Prisma {
     submittedAt?: true
     grade?: true
     feedback?: true
-    enrollmentId?: true
   }
 
   export type SubmissionCountAggregateInputType = {
@@ -3825,7 +3783,6 @@ export namespace Prisma {
     submittedAt?: true
     grade?: true
     feedback?: true
-    enrollmentId?: true
     _all?: true
   }
 
@@ -3924,7 +3881,6 @@ export namespace Prisma {
     submittedAt: Date
     grade: number | null
     feedback: string | null
-    enrollmentId: string
     _count: SubmissionCountAggregateOutputType | null
     _avg: SubmissionAvgAggregateOutputType | null
     _sum: SubmissionSumAggregateOutputType | null
@@ -3955,9 +3911,7 @@ export namespace Prisma {
     submittedAt?: boolean
     grade?: boolean
     feedback?: boolean
-    enrollmentId?: boolean
     assignment?: boolean | AssignmentDefaultArgs<ExtArgs>
-    enrollment?: boolean | EnrollmentDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["submission"]>
 
   export type SubmissionSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
@@ -3969,9 +3923,7 @@ export namespace Prisma {
     submittedAt?: boolean
     grade?: boolean
     feedback?: boolean
-    enrollmentId?: boolean
     assignment?: boolean | AssignmentDefaultArgs<ExtArgs>
-    enrollment?: boolean | EnrollmentDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["submission"]>
 
   export type SubmissionSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
@@ -3983,9 +3935,7 @@ export namespace Prisma {
     submittedAt?: boolean
     grade?: boolean
     feedback?: boolean
-    enrollmentId?: boolean
     assignment?: boolean | AssignmentDefaultArgs<ExtArgs>
-    enrollment?: boolean | EnrollmentDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["submission"]>
 
   export type SubmissionSelectScalar = {
@@ -3997,28 +3947,23 @@ export namespace Prisma {
     submittedAt?: boolean
     grade?: boolean
     feedback?: boolean
-    enrollmentId?: boolean
   }
 
-  export type SubmissionOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "assignmentId" | "userId" | "title" | "notes" | "submittedAt" | "grade" | "feedback" | "enrollmentId", ExtArgs["result"]["submission"]>
+  export type SubmissionOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "assignmentId" | "userId" | "title" | "notes" | "submittedAt" | "grade" | "feedback", ExtArgs["result"]["submission"]>
   export type SubmissionInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     assignment?: boolean | AssignmentDefaultArgs<ExtArgs>
-    enrollment?: boolean | EnrollmentDefaultArgs<ExtArgs>
   }
   export type SubmissionIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     assignment?: boolean | AssignmentDefaultArgs<ExtArgs>
-    enrollment?: boolean | EnrollmentDefaultArgs<ExtArgs>
   }
   export type SubmissionIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     assignment?: boolean | AssignmentDefaultArgs<ExtArgs>
-    enrollment?: boolean | EnrollmentDefaultArgs<ExtArgs>
   }
 
   export type $SubmissionPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     name: "Submission"
     objects: {
       assignment: Prisma.$AssignmentPayload<ExtArgs>
-      enrollment: Prisma.$EnrollmentPayload<ExtArgs>
     }
     scalars: $Extensions.GetPayloadResult<{
       id: string
@@ -4029,7 +3974,6 @@ export namespace Prisma {
       submittedAt: Date
       grade: number | null
       feedback: string | null
-      enrollmentId: string
     }, ExtArgs["result"]["submission"]>
     composites: {}
   }
@@ -4425,7 +4369,6 @@ export namespace Prisma {
   export interface Prisma__SubmissionClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
     readonly [Symbol.toStringTag]: "PrismaPromise"
     assignment<T extends AssignmentDefaultArgs<ExtArgs> = {}>(args?: Subset<T, AssignmentDefaultArgs<ExtArgs>>): Prisma__AssignmentClient<$Result.GetResult<Prisma.$AssignmentPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
-    enrollment<T extends EnrollmentDefaultArgs<ExtArgs> = {}>(args?: Subset<T, EnrollmentDefaultArgs<ExtArgs>>): Prisma__EnrollmentClient<$Result.GetResult<Prisma.$EnrollmentPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -4463,7 +4406,6 @@ export namespace Prisma {
     readonly submittedAt: FieldRef<"Submission", 'DateTime'>
     readonly grade: FieldRef<"Submission", 'Float'>
     readonly feedback: FieldRef<"Submission", 'String'>
-    readonly enrollmentId: FieldRef<"Submission", 'String'>
   }
     
 
@@ -7086,8 +7028,7 @@ export namespace Prisma {
     notes: 'notes',
     submittedAt: 'submittedAt',
     grade: 'grade',
-    feedback: 'feedback',
-    enrollmentId: 'enrollmentId'
+    feedback: 'feedback'
   };
 
   export type SubmissionScalarFieldEnum = (typeof SubmissionScalarFieldEnum)[keyof typeof SubmissionScalarFieldEnum]
@@ -7241,7 +7182,6 @@ export namespace Prisma {
     createdAt?: DateTimeFilter<"Enrollment"> | Date | string
     approvedAt?: DateTimeNullableFilter<"Enrollment"> | Date | string | null
     attendances?: AttendanceListRelationFilter
-    submissions?: SubmissionListRelationFilter
   }
 
   export type EnrollmentOrderByWithRelationInput = {
@@ -7260,7 +7200,6 @@ export namespace Prisma {
     createdAt?: SortOrder
     approvedAt?: SortOrderInput | SortOrder
     attendances?: AttendanceOrderByRelationAggregateInput
-    submissions?: SubmissionOrderByRelationAggregateInput
   }
 
   export type EnrollmentWhereUniqueInput = Prisma.AtLeast<{
@@ -7283,7 +7222,6 @@ export namespace Prisma {
     createdAt?: DateTimeFilter<"Enrollment"> | Date | string
     approvedAt?: DateTimeNullableFilter<"Enrollment"> | Date | string | null
     attendances?: AttendanceListRelationFilter
-    submissions?: SubmissionListRelationFilter
   }, "id" | "userId_courseId">
 
   export type EnrollmentOrderByWithAggregationInput = {
@@ -7412,9 +7350,7 @@ export namespace Prisma {
     submittedAt?: DateTimeFilter<"Submission"> | Date | string
     grade?: FloatNullableFilter<"Submission"> | number | null
     feedback?: StringNullableFilter<"Submission"> | string | null
-    enrollmentId?: StringFilter<"Submission"> | string
     assignment?: XOR<AssignmentScalarRelationFilter, AssignmentWhereInput>
-    enrollment?: XOR<EnrollmentScalarRelationFilter, EnrollmentWhereInput>
   }
 
   export type SubmissionOrderByWithRelationInput = {
@@ -7426,9 +7362,7 @@ export namespace Prisma {
     submittedAt?: SortOrder
     grade?: SortOrderInput | SortOrder
     feedback?: SortOrderInput | SortOrder
-    enrollmentId?: SortOrder
     assignment?: AssignmentOrderByWithRelationInput
-    enrollment?: EnrollmentOrderByWithRelationInput
   }
 
   export type SubmissionWhereUniqueInput = Prisma.AtLeast<{
@@ -7444,9 +7378,7 @@ export namespace Prisma {
     submittedAt?: DateTimeFilter<"Submission"> | Date | string
     grade?: FloatNullableFilter<"Submission"> | number | null
     feedback?: StringNullableFilter<"Submission"> | string | null
-    enrollmentId?: StringFilter<"Submission"> | string
     assignment?: XOR<AssignmentScalarRelationFilter, AssignmentWhereInput>
-    enrollment?: XOR<EnrollmentScalarRelationFilter, EnrollmentWhereInput>
   }, "id" | "userId_assignmentId">
 
   export type SubmissionOrderByWithAggregationInput = {
@@ -7458,7 +7390,6 @@ export namespace Prisma {
     submittedAt?: SortOrder
     grade?: SortOrderInput | SortOrder
     feedback?: SortOrderInput | SortOrder
-    enrollmentId?: SortOrder
     _count?: SubmissionCountOrderByAggregateInput
     _avg?: SubmissionAvgOrderByAggregateInput
     _max?: SubmissionMaxOrderByAggregateInput
@@ -7478,7 +7409,6 @@ export namespace Prisma {
     submittedAt?: DateTimeWithAggregatesFilter<"Submission"> | Date | string
     grade?: FloatNullableWithAggregatesFilter<"Submission"> | number | null
     feedback?: StringNullableWithAggregatesFilter<"Submission"> | string | null
-    enrollmentId?: StringWithAggregatesFilter<"Submission"> | string
   }
 
   export type AttendanceWhereInput = {
@@ -7632,7 +7562,6 @@ export namespace Prisma {
     createdAt?: Date | string
     approvedAt?: Date | string | null
     attendances?: AttendanceCreateNestedManyWithoutEnrollmentInput
-    submissions?: SubmissionCreateNestedManyWithoutEnrollmentInput
   }
 
   export type EnrollmentUncheckedCreateInput = {
@@ -7651,7 +7580,6 @@ export namespace Prisma {
     createdAt?: Date | string
     approvedAt?: Date | string | null
     attendances?: AttendanceUncheckedCreateNestedManyWithoutEnrollmentInput
-    submissions?: SubmissionUncheckedCreateNestedManyWithoutEnrollmentInput
   }
 
   export type EnrollmentUpdateInput = {
@@ -7670,7 +7598,6 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     approvedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     attendances?: AttendanceUpdateManyWithoutEnrollmentNestedInput
-    submissions?: SubmissionUpdateManyWithoutEnrollmentNestedInput
   }
 
   export type EnrollmentUncheckedUpdateInput = {
@@ -7689,7 +7616,6 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     approvedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     attendances?: AttendanceUncheckedUpdateManyWithoutEnrollmentNestedInput
-    submissions?: SubmissionUncheckedUpdateManyWithoutEnrollmentNestedInput
   }
 
   export type EnrollmentCreateManyInput = {
@@ -7833,7 +7759,6 @@ export namespace Prisma {
     grade?: number | null
     feedback?: string | null
     assignment: AssignmentCreateNestedOneWithoutSubmissionsInput
-    enrollment: EnrollmentCreateNestedOneWithoutSubmissionsInput
   }
 
   export type SubmissionUncheckedCreateInput = {
@@ -7845,7 +7770,6 @@ export namespace Prisma {
     submittedAt?: Date | string
     grade?: number | null
     feedback?: string | null
-    enrollmentId: string
   }
 
   export type SubmissionUpdateInput = {
@@ -7857,7 +7781,6 @@ export namespace Prisma {
     grade?: NullableFloatFieldUpdateOperationsInput | number | null
     feedback?: NullableStringFieldUpdateOperationsInput | string | null
     assignment?: AssignmentUpdateOneRequiredWithoutSubmissionsNestedInput
-    enrollment?: EnrollmentUpdateOneRequiredWithoutSubmissionsNestedInput
   }
 
   export type SubmissionUncheckedUpdateInput = {
@@ -7869,7 +7792,6 @@ export namespace Prisma {
     submittedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     grade?: NullableFloatFieldUpdateOperationsInput | number | null
     feedback?: NullableStringFieldUpdateOperationsInput | string | null
-    enrollmentId?: StringFieldUpdateOperationsInput | string
   }
 
   export type SubmissionCreateManyInput = {
@@ -7881,7 +7803,6 @@ export namespace Prisma {
     submittedAt?: Date | string
     grade?: number | null
     feedback?: string | null
-    enrollmentId: string
   }
 
   export type SubmissionUpdateManyMutationInput = {
@@ -7903,7 +7824,6 @@ export namespace Prisma {
     submittedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     grade?: NullableFloatFieldUpdateOperationsInput | number | null
     feedback?: NullableStringFieldUpdateOperationsInput | string | null
-    enrollmentId?: StringFieldUpdateOperationsInput | string
   }
 
   export type AttendanceCreateInput = {
@@ -8139,22 +8059,12 @@ export namespace Prisma {
     none?: AttendanceWhereInput
   }
 
-  export type SubmissionListRelationFilter = {
-    every?: SubmissionWhereInput
-    some?: SubmissionWhereInput
-    none?: SubmissionWhereInput
-  }
-
   export type SortOrderInput = {
     sort: SortOrder
     nulls?: NullsOrder
   }
 
   export type AttendanceOrderByRelationAggregateInput = {
-    _count?: SortOrder
-  }
-
-  export type SubmissionOrderByRelationAggregateInput = {
     _count?: SortOrder
   }
 
@@ -8334,6 +8244,16 @@ export namespace Prisma {
     _max?: NestedDateTimeFilter<$PrismaModel>
   }
 
+  export type SubmissionListRelationFilter = {
+    every?: SubmissionWhereInput
+    some?: SubmissionWhereInput
+    none?: SubmissionWhereInput
+  }
+
+  export type SubmissionOrderByRelationAggregateInput = {
+    _count?: SortOrder
+  }
+
   export type AssignmentCountOrderByAggregateInput = {
     id?: SortOrder
     title?: SortOrder
@@ -8391,11 +8311,6 @@ export namespace Prisma {
     isNot?: AssignmentWhereInput
   }
 
-  export type EnrollmentScalarRelationFilter = {
-    is?: EnrollmentWhereInput
-    isNot?: EnrollmentWhereInput
-  }
-
   export type SubmissionUserIdAssignmentIdCompoundUniqueInput = {
     userId: string
     assignmentId: string
@@ -8410,7 +8325,6 @@ export namespace Prisma {
     submittedAt?: SortOrder
     grade?: SortOrder
     feedback?: SortOrder
-    enrollmentId?: SortOrder
   }
 
   export type SubmissionAvgOrderByAggregateInput = {
@@ -8426,7 +8340,6 @@ export namespace Prisma {
     submittedAt?: SortOrder
     grade?: SortOrder
     feedback?: SortOrder
-    enrollmentId?: SortOrder
   }
 
   export type SubmissionMinOrderByAggregateInput = {
@@ -8438,7 +8351,6 @@ export namespace Prisma {
     submittedAt?: SortOrder
     grade?: SortOrder
     feedback?: SortOrder
-    enrollmentId?: SortOrder
   }
 
   export type SubmissionSumOrderByAggregateInput = {
@@ -8459,6 +8371,11 @@ export namespace Prisma {
     _sum?: NestedFloatNullableFilter<$PrismaModel>
     _min?: NestedFloatNullableFilter<$PrismaModel>
     _max?: NestedFloatNullableFilter<$PrismaModel>
+  }
+
+  export type EnrollmentScalarRelationFilter = {
+    is?: EnrollmentWhereInput
+    isNot?: EnrollmentWhereInput
   }
 
   export type AttendanceUserIdLessonIdCompoundUniqueInput = {
@@ -8544,25 +8461,11 @@ export namespace Prisma {
     connect?: AttendanceWhereUniqueInput | AttendanceWhereUniqueInput[]
   }
 
-  export type SubmissionCreateNestedManyWithoutEnrollmentInput = {
-    create?: XOR<SubmissionCreateWithoutEnrollmentInput, SubmissionUncheckedCreateWithoutEnrollmentInput> | SubmissionCreateWithoutEnrollmentInput[] | SubmissionUncheckedCreateWithoutEnrollmentInput[]
-    connectOrCreate?: SubmissionCreateOrConnectWithoutEnrollmentInput | SubmissionCreateOrConnectWithoutEnrollmentInput[]
-    createMany?: SubmissionCreateManyEnrollmentInputEnvelope
-    connect?: SubmissionWhereUniqueInput | SubmissionWhereUniqueInput[]
-  }
-
   export type AttendanceUncheckedCreateNestedManyWithoutEnrollmentInput = {
     create?: XOR<AttendanceCreateWithoutEnrollmentInput, AttendanceUncheckedCreateWithoutEnrollmentInput> | AttendanceCreateWithoutEnrollmentInput[] | AttendanceUncheckedCreateWithoutEnrollmentInput[]
     connectOrCreate?: AttendanceCreateOrConnectWithoutEnrollmentInput | AttendanceCreateOrConnectWithoutEnrollmentInput[]
     createMany?: AttendanceCreateManyEnrollmentInputEnvelope
     connect?: AttendanceWhereUniqueInput | AttendanceWhereUniqueInput[]
-  }
-
-  export type SubmissionUncheckedCreateNestedManyWithoutEnrollmentInput = {
-    create?: XOR<SubmissionCreateWithoutEnrollmentInput, SubmissionUncheckedCreateWithoutEnrollmentInput> | SubmissionCreateWithoutEnrollmentInput[] | SubmissionUncheckedCreateWithoutEnrollmentInput[]
-    connectOrCreate?: SubmissionCreateOrConnectWithoutEnrollmentInput | SubmissionCreateOrConnectWithoutEnrollmentInput[]
-    createMany?: SubmissionCreateManyEnrollmentInputEnvelope
-    connect?: SubmissionWhereUniqueInput | SubmissionWhereUniqueInput[]
   }
 
   export type StringFieldUpdateOperationsInput = {
@@ -8615,20 +8518,6 @@ export namespace Prisma {
     deleteMany?: AttendanceScalarWhereInput | AttendanceScalarWhereInput[]
   }
 
-  export type SubmissionUpdateManyWithoutEnrollmentNestedInput = {
-    create?: XOR<SubmissionCreateWithoutEnrollmentInput, SubmissionUncheckedCreateWithoutEnrollmentInput> | SubmissionCreateWithoutEnrollmentInput[] | SubmissionUncheckedCreateWithoutEnrollmentInput[]
-    connectOrCreate?: SubmissionCreateOrConnectWithoutEnrollmentInput | SubmissionCreateOrConnectWithoutEnrollmentInput[]
-    upsert?: SubmissionUpsertWithWhereUniqueWithoutEnrollmentInput | SubmissionUpsertWithWhereUniqueWithoutEnrollmentInput[]
-    createMany?: SubmissionCreateManyEnrollmentInputEnvelope
-    set?: SubmissionWhereUniqueInput | SubmissionWhereUniqueInput[]
-    disconnect?: SubmissionWhereUniqueInput | SubmissionWhereUniqueInput[]
-    delete?: SubmissionWhereUniqueInput | SubmissionWhereUniqueInput[]
-    connect?: SubmissionWhereUniqueInput | SubmissionWhereUniqueInput[]
-    update?: SubmissionUpdateWithWhereUniqueWithoutEnrollmentInput | SubmissionUpdateWithWhereUniqueWithoutEnrollmentInput[]
-    updateMany?: SubmissionUpdateManyWithWhereWithoutEnrollmentInput | SubmissionUpdateManyWithWhereWithoutEnrollmentInput[]
-    deleteMany?: SubmissionScalarWhereInput | SubmissionScalarWhereInput[]
-  }
-
   export type AttendanceUncheckedUpdateManyWithoutEnrollmentNestedInput = {
     create?: XOR<AttendanceCreateWithoutEnrollmentInput, AttendanceUncheckedCreateWithoutEnrollmentInput> | AttendanceCreateWithoutEnrollmentInput[] | AttendanceUncheckedCreateWithoutEnrollmentInput[]
     connectOrCreate?: AttendanceCreateOrConnectWithoutEnrollmentInput | AttendanceCreateOrConnectWithoutEnrollmentInput[]
@@ -8641,20 +8530,6 @@ export namespace Prisma {
     update?: AttendanceUpdateWithWhereUniqueWithoutEnrollmentInput | AttendanceUpdateWithWhereUniqueWithoutEnrollmentInput[]
     updateMany?: AttendanceUpdateManyWithWhereWithoutEnrollmentInput | AttendanceUpdateManyWithWhereWithoutEnrollmentInput[]
     deleteMany?: AttendanceScalarWhereInput | AttendanceScalarWhereInput[]
-  }
-
-  export type SubmissionUncheckedUpdateManyWithoutEnrollmentNestedInput = {
-    create?: XOR<SubmissionCreateWithoutEnrollmentInput, SubmissionUncheckedCreateWithoutEnrollmentInput> | SubmissionCreateWithoutEnrollmentInput[] | SubmissionUncheckedCreateWithoutEnrollmentInput[]
-    connectOrCreate?: SubmissionCreateOrConnectWithoutEnrollmentInput | SubmissionCreateOrConnectWithoutEnrollmentInput[]
-    upsert?: SubmissionUpsertWithWhereUniqueWithoutEnrollmentInput | SubmissionUpsertWithWhereUniqueWithoutEnrollmentInput[]
-    createMany?: SubmissionCreateManyEnrollmentInputEnvelope
-    set?: SubmissionWhereUniqueInput | SubmissionWhereUniqueInput[]
-    disconnect?: SubmissionWhereUniqueInput | SubmissionWhereUniqueInput[]
-    delete?: SubmissionWhereUniqueInput | SubmissionWhereUniqueInput[]
-    connect?: SubmissionWhereUniqueInput | SubmissionWhereUniqueInput[]
-    update?: SubmissionUpdateWithWhereUniqueWithoutEnrollmentInput | SubmissionUpdateWithWhereUniqueWithoutEnrollmentInput[]
-    updateMany?: SubmissionUpdateManyWithWhereWithoutEnrollmentInput | SubmissionUpdateManyWithWhereWithoutEnrollmentInput[]
-    deleteMany?: SubmissionScalarWhereInput | SubmissionScalarWhereInput[]
   }
 
   export type SubmissionCreateNestedManyWithoutAssignmentInput = {
@@ -8705,12 +8580,6 @@ export namespace Prisma {
     connect?: AssignmentWhereUniqueInput
   }
 
-  export type EnrollmentCreateNestedOneWithoutSubmissionsInput = {
-    create?: XOR<EnrollmentCreateWithoutSubmissionsInput, EnrollmentUncheckedCreateWithoutSubmissionsInput>
-    connectOrCreate?: EnrollmentCreateOrConnectWithoutSubmissionsInput
-    connect?: EnrollmentWhereUniqueInput
-  }
-
   export type NullableFloatFieldUpdateOperationsInput = {
     set?: number | null
     increment?: number
@@ -8725,14 +8594,6 @@ export namespace Prisma {
     upsert?: AssignmentUpsertWithoutSubmissionsInput
     connect?: AssignmentWhereUniqueInput
     update?: XOR<XOR<AssignmentUpdateToOneWithWhereWithoutSubmissionsInput, AssignmentUpdateWithoutSubmissionsInput>, AssignmentUncheckedUpdateWithoutSubmissionsInput>
-  }
-
-  export type EnrollmentUpdateOneRequiredWithoutSubmissionsNestedInput = {
-    create?: XOR<EnrollmentCreateWithoutSubmissionsInput, EnrollmentUncheckedCreateWithoutSubmissionsInput>
-    connectOrCreate?: EnrollmentCreateOrConnectWithoutSubmissionsInput
-    upsert?: EnrollmentUpsertWithoutSubmissionsInput
-    connect?: EnrollmentWhereUniqueInput
-    update?: XOR<XOR<EnrollmentUpdateToOneWithWhereWithoutSubmissionsInput, EnrollmentUpdateWithoutSubmissionsInput>, EnrollmentUncheckedUpdateWithoutSubmissionsInput>
   }
 
   export type EnrollmentCreateNestedOneWithoutAttendancesInput = {
@@ -8996,38 +8857,6 @@ export namespace Prisma {
     skipDuplicates?: boolean
   }
 
-  export type SubmissionCreateWithoutEnrollmentInput = {
-    id?: string
-    userId: string
-    title: string
-    notes?: string | null
-    submittedAt?: Date | string
-    grade?: number | null
-    feedback?: string | null
-    assignment: AssignmentCreateNestedOneWithoutSubmissionsInput
-  }
-
-  export type SubmissionUncheckedCreateWithoutEnrollmentInput = {
-    id?: string
-    assignmentId: string
-    userId: string
-    title: string
-    notes?: string | null
-    submittedAt?: Date | string
-    grade?: number | null
-    feedback?: string | null
-  }
-
-  export type SubmissionCreateOrConnectWithoutEnrollmentInput = {
-    where: SubmissionWhereUniqueInput
-    create: XOR<SubmissionCreateWithoutEnrollmentInput, SubmissionUncheckedCreateWithoutEnrollmentInput>
-  }
-
-  export type SubmissionCreateManyEnrollmentInputEnvelope = {
-    data: SubmissionCreateManyEnrollmentInput | SubmissionCreateManyEnrollmentInput[]
-    skipDuplicates?: boolean
-  }
-
   export type AttendanceUpsertWithWhereUniqueWithoutEnrollmentInput = {
     where: AttendanceWhereUniqueInput
     update: XOR<AttendanceUpdateWithoutEnrollmentInput, AttendanceUncheckedUpdateWithoutEnrollmentInput>
@@ -9056,37 +8885,6 @@ export namespace Prisma {
     createdAt?: DateTimeFilter<"Attendance"> | Date | string
   }
 
-  export type SubmissionUpsertWithWhereUniqueWithoutEnrollmentInput = {
-    where: SubmissionWhereUniqueInput
-    update: XOR<SubmissionUpdateWithoutEnrollmentInput, SubmissionUncheckedUpdateWithoutEnrollmentInput>
-    create: XOR<SubmissionCreateWithoutEnrollmentInput, SubmissionUncheckedCreateWithoutEnrollmentInput>
-  }
-
-  export type SubmissionUpdateWithWhereUniqueWithoutEnrollmentInput = {
-    where: SubmissionWhereUniqueInput
-    data: XOR<SubmissionUpdateWithoutEnrollmentInput, SubmissionUncheckedUpdateWithoutEnrollmentInput>
-  }
-
-  export type SubmissionUpdateManyWithWhereWithoutEnrollmentInput = {
-    where: SubmissionScalarWhereInput
-    data: XOR<SubmissionUpdateManyMutationInput, SubmissionUncheckedUpdateManyWithoutEnrollmentInput>
-  }
-
-  export type SubmissionScalarWhereInput = {
-    AND?: SubmissionScalarWhereInput | SubmissionScalarWhereInput[]
-    OR?: SubmissionScalarWhereInput[]
-    NOT?: SubmissionScalarWhereInput | SubmissionScalarWhereInput[]
-    id?: StringFilter<"Submission"> | string
-    assignmentId?: StringFilter<"Submission"> | string
-    userId?: StringFilter<"Submission"> | string
-    title?: StringFilter<"Submission"> | string
-    notes?: StringNullableFilter<"Submission"> | string | null
-    submittedAt?: DateTimeFilter<"Submission"> | Date | string
-    grade?: FloatNullableFilter<"Submission"> | number | null
-    feedback?: StringNullableFilter<"Submission"> | string | null
-    enrollmentId?: StringFilter<"Submission"> | string
-  }
-
   export type SubmissionCreateWithoutAssignmentInput = {
     id?: string
     userId: string
@@ -9095,7 +8893,6 @@ export namespace Prisma {
     submittedAt?: Date | string
     grade?: number | null
     feedback?: string | null
-    enrollment: EnrollmentCreateNestedOneWithoutSubmissionsInput
   }
 
   export type SubmissionUncheckedCreateWithoutAssignmentInput = {
@@ -9106,7 +8903,6 @@ export namespace Prisma {
     submittedAt?: Date | string
     grade?: number | null
     feedback?: string | null
-    enrollmentId: string
   }
 
   export type SubmissionCreateOrConnectWithoutAssignmentInput = {
@@ -9135,6 +8931,20 @@ export namespace Prisma {
     data: XOR<SubmissionUpdateManyMutationInput, SubmissionUncheckedUpdateManyWithoutAssignmentInput>
   }
 
+  export type SubmissionScalarWhereInput = {
+    AND?: SubmissionScalarWhereInput | SubmissionScalarWhereInput[]
+    OR?: SubmissionScalarWhereInput[]
+    NOT?: SubmissionScalarWhereInput | SubmissionScalarWhereInput[]
+    id?: StringFilter<"Submission"> | string
+    assignmentId?: StringFilter<"Submission"> | string
+    userId?: StringFilter<"Submission"> | string
+    title?: StringFilter<"Submission"> | string
+    notes?: StringNullableFilter<"Submission"> | string | null
+    submittedAt?: DateTimeFilter<"Submission"> | Date | string
+    grade?: FloatNullableFilter<"Submission"> | number | null
+    feedback?: StringNullableFilter<"Submission"> | string | null
+  }
+
   export type AssignmentCreateWithoutSubmissionsInput = {
     id?: string
     title: string
@@ -9160,47 +8970,6 @@ export namespace Prisma {
   export type AssignmentCreateOrConnectWithoutSubmissionsInput = {
     where: AssignmentWhereUniqueInput
     create: XOR<AssignmentCreateWithoutSubmissionsInput, AssignmentUncheckedCreateWithoutSubmissionsInput>
-  }
-
-  export type EnrollmentCreateWithoutSubmissionsInput = {
-    id?: string
-    courseId: string
-    userId: string
-    organizationId: string
-    instructorId: string
-    description?: string | null
-    expiredDate?: Date | string | null
-    price?: number
-    progress?: number
-    assignments?: number
-    attendance?: number
-    status?: $Enums.EnrollmentStatus
-    createdAt?: Date | string
-    approvedAt?: Date | string | null
-    attendances?: AttendanceCreateNestedManyWithoutEnrollmentInput
-  }
-
-  export type EnrollmentUncheckedCreateWithoutSubmissionsInput = {
-    id?: string
-    courseId: string
-    userId: string
-    organizationId: string
-    instructorId: string
-    description?: string | null
-    expiredDate?: Date | string | null
-    price?: number
-    progress?: number
-    assignments?: number
-    attendance?: number
-    status?: $Enums.EnrollmentStatus
-    createdAt?: Date | string
-    approvedAt?: Date | string | null
-    attendances?: AttendanceUncheckedCreateNestedManyWithoutEnrollmentInput
-  }
-
-  export type EnrollmentCreateOrConnectWithoutSubmissionsInput = {
-    where: EnrollmentWhereUniqueInput
-    create: XOR<EnrollmentCreateWithoutSubmissionsInput, EnrollmentUncheckedCreateWithoutSubmissionsInput>
   }
 
   export type AssignmentUpsertWithoutSubmissionsInput = {
@@ -9236,53 +9005,6 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
-  export type EnrollmentUpsertWithoutSubmissionsInput = {
-    update: XOR<EnrollmentUpdateWithoutSubmissionsInput, EnrollmentUncheckedUpdateWithoutSubmissionsInput>
-    create: XOR<EnrollmentCreateWithoutSubmissionsInput, EnrollmentUncheckedCreateWithoutSubmissionsInput>
-    where?: EnrollmentWhereInput
-  }
-
-  export type EnrollmentUpdateToOneWithWhereWithoutSubmissionsInput = {
-    where?: EnrollmentWhereInput
-    data: XOR<EnrollmentUpdateWithoutSubmissionsInput, EnrollmentUncheckedUpdateWithoutSubmissionsInput>
-  }
-
-  export type EnrollmentUpdateWithoutSubmissionsInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    courseId?: StringFieldUpdateOperationsInput | string
-    userId?: StringFieldUpdateOperationsInput | string
-    organizationId?: StringFieldUpdateOperationsInput | string
-    instructorId?: StringFieldUpdateOperationsInput | string
-    description?: NullableStringFieldUpdateOperationsInput | string | null
-    expiredDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    price?: FloatFieldUpdateOperationsInput | number
-    progress?: IntFieldUpdateOperationsInput | number
-    assignments?: IntFieldUpdateOperationsInput | number
-    attendance?: IntFieldUpdateOperationsInput | number
-    status?: EnumEnrollmentStatusFieldUpdateOperationsInput | $Enums.EnrollmentStatus
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    approvedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    attendances?: AttendanceUpdateManyWithoutEnrollmentNestedInput
-  }
-
-  export type EnrollmentUncheckedUpdateWithoutSubmissionsInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    courseId?: StringFieldUpdateOperationsInput | string
-    userId?: StringFieldUpdateOperationsInput | string
-    organizationId?: StringFieldUpdateOperationsInput | string
-    instructorId?: StringFieldUpdateOperationsInput | string
-    description?: NullableStringFieldUpdateOperationsInput | string | null
-    expiredDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    price?: FloatFieldUpdateOperationsInput | number
-    progress?: IntFieldUpdateOperationsInput | number
-    assignments?: IntFieldUpdateOperationsInput | number
-    attendance?: IntFieldUpdateOperationsInput | number
-    status?: EnumEnrollmentStatusFieldUpdateOperationsInput | $Enums.EnrollmentStatus
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    approvedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    attendances?: AttendanceUncheckedUpdateManyWithoutEnrollmentNestedInput
-  }
-
   export type EnrollmentCreateWithoutAttendancesInput = {
     id?: string
     courseId: string
@@ -9298,7 +9020,6 @@ export namespace Prisma {
     status?: $Enums.EnrollmentStatus
     createdAt?: Date | string
     approvedAt?: Date | string | null
-    submissions?: SubmissionCreateNestedManyWithoutEnrollmentInput
   }
 
   export type EnrollmentUncheckedCreateWithoutAttendancesInput = {
@@ -9316,7 +9037,6 @@ export namespace Prisma {
     status?: $Enums.EnrollmentStatus
     createdAt?: Date | string
     approvedAt?: Date | string | null
-    submissions?: SubmissionUncheckedCreateNestedManyWithoutEnrollmentInput
   }
 
   export type EnrollmentCreateOrConnectWithoutAttendancesInput = {
@@ -9350,7 +9070,6 @@ export namespace Prisma {
     status?: EnumEnrollmentStatusFieldUpdateOperationsInput | $Enums.EnrollmentStatus
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     approvedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    submissions?: SubmissionUpdateManyWithoutEnrollmentNestedInput
   }
 
   export type EnrollmentUncheckedUpdateWithoutAttendancesInput = {
@@ -9368,7 +9087,6 @@ export namespace Prisma {
     status?: EnumEnrollmentStatusFieldUpdateOperationsInput | $Enums.EnrollmentStatus
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     approvedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    submissions?: SubmissionUncheckedUpdateManyWithoutEnrollmentNestedInput
   }
 
   export type AttendanceCreateManyEnrollmentInput = {
@@ -9377,17 +9095,6 @@ export namespace Prisma {
     courseId: string
     userId: string
     createdAt?: Date | string
-  }
-
-  export type SubmissionCreateManyEnrollmentInput = {
-    id?: string
-    assignmentId: string
-    userId: string
-    title: string
-    notes?: string | null
-    submittedAt?: Date | string
-    grade?: number | null
-    feedback?: string | null
   }
 
   export type AttendanceUpdateWithoutEnrollmentInput = {
@@ -9414,39 +9121,6 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
-  export type SubmissionUpdateWithoutEnrollmentInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    userId?: StringFieldUpdateOperationsInput | string
-    title?: StringFieldUpdateOperationsInput | string
-    notes?: NullableStringFieldUpdateOperationsInput | string | null
-    submittedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    grade?: NullableFloatFieldUpdateOperationsInput | number | null
-    feedback?: NullableStringFieldUpdateOperationsInput | string | null
-    assignment?: AssignmentUpdateOneRequiredWithoutSubmissionsNestedInput
-  }
-
-  export type SubmissionUncheckedUpdateWithoutEnrollmentInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    assignmentId?: StringFieldUpdateOperationsInput | string
-    userId?: StringFieldUpdateOperationsInput | string
-    title?: StringFieldUpdateOperationsInput | string
-    notes?: NullableStringFieldUpdateOperationsInput | string | null
-    submittedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    grade?: NullableFloatFieldUpdateOperationsInput | number | null
-    feedback?: NullableStringFieldUpdateOperationsInput | string | null
-  }
-
-  export type SubmissionUncheckedUpdateManyWithoutEnrollmentInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    assignmentId?: StringFieldUpdateOperationsInput | string
-    userId?: StringFieldUpdateOperationsInput | string
-    title?: StringFieldUpdateOperationsInput | string
-    notes?: NullableStringFieldUpdateOperationsInput | string | null
-    submittedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    grade?: NullableFloatFieldUpdateOperationsInput | number | null
-    feedback?: NullableStringFieldUpdateOperationsInput | string | null
-  }
-
   export type SubmissionCreateManyAssignmentInput = {
     id?: string
     userId: string
@@ -9455,7 +9129,6 @@ export namespace Prisma {
     submittedAt?: Date | string
     grade?: number | null
     feedback?: string | null
-    enrollmentId: string
   }
 
   export type SubmissionUpdateWithoutAssignmentInput = {
@@ -9466,7 +9139,6 @@ export namespace Prisma {
     submittedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     grade?: NullableFloatFieldUpdateOperationsInput | number | null
     feedback?: NullableStringFieldUpdateOperationsInput | string | null
-    enrollment?: EnrollmentUpdateOneRequiredWithoutSubmissionsNestedInput
   }
 
   export type SubmissionUncheckedUpdateWithoutAssignmentInput = {
@@ -9477,7 +9149,6 @@ export namespace Prisma {
     submittedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     grade?: NullableFloatFieldUpdateOperationsInput | number | null
     feedback?: NullableStringFieldUpdateOperationsInput | string | null
-    enrollmentId?: StringFieldUpdateOperationsInput | string
   }
 
   export type SubmissionUncheckedUpdateManyWithoutAssignmentInput = {
@@ -9488,7 +9159,6 @@ export namespace Prisma {
     submittedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     grade?: NullableFloatFieldUpdateOperationsInput | number | null
     feedback?: NullableStringFieldUpdateOperationsInput | string | null
-    enrollmentId?: StringFieldUpdateOperationsInput | string
   }
 
 

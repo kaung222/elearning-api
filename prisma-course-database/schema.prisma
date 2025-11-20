@@ -51,10 +51,15 @@ model Course {
   modules           Module[]
   reviews           Review[]
   faqs              FAQ[]
+  certificates      Certificate[] // Relation to certificates issued for this course
 
   createdAt         DateTime     @default(now())
   updatedAt         DateTime     @updatedAt
   publishedAt       DateTime?
+  
+  // Certificate settings
+  enableCertificates Boolean     @default(true)
+  certificateTemplate String?    // Template ID to use for this course
 }
 
 model CourseStats{
@@ -145,5 +150,37 @@ enum Status {
   DRAFT
   PUBLISHED
   ARCHIVED
+}
+
+model Certificate {
+  id              String    @id @default(uuid())
+  title           String
+  description     String?
+  templateId      String    @default("default")
+  imageUrl        String?
+  issuedDate      DateTime  @default(now())
+  expiryDate      DateTime?
+  serialNumber    String    @unique
+  recipientName   String
+  recipientEmail  String
+  courseTitle     String
+  courseId        String
+  course          Course    @relation(fields: [courseId], references: [id])
+  organizationId  String
+  instructorId    String
+  instructorName  String
+  signatureUrl    String?
+  verificationUrl String?
+  status          CertificateStatus @default(ISSUED)
+  metadata        Json?     // For additional custom fields
+  createdAt       DateTime  @default(now())
+  updatedAt       DateTime  @updatedAt
+}
+
+enum CertificateStatus {
+  DRAFT
+  ISSUED
+  REVOKED
+  EXPIRED
 }
 

@@ -98,6 +98,7 @@ export class CoursesService {
     if (user.role === Role.Instructor) {
       return await this.prisma.course.findMany({
         where: { instructorId: user.instructorId },
+        include: { stats: true },
       });
     }
     return await this.prisma.course.findMany({

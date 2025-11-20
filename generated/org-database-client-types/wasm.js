@@ -138,7 +138,6 @@ exports.Prisma.OrganizationScalarFieldEnum = {
   name: 'name',
   type: 'type',
   logo: 'logo',
-  coverImage: 'coverImage',
   description: 'description',
   shortDescription: 'shortDescription',
   location: 'location',
@@ -170,25 +169,13 @@ exports.Prisma.ContactScalarFieldEnum = {
   organizationId: 'organizationId'
 };
 
-exports.Prisma.ReviewScalarFieldEnum = {
-  id: 'id',
-  username: 'username',
-  avatar: 'avatar',
-  rating: 'rating',
-  comment: 'comment',
-  createdAt: 'createdAt',
-  instructorId: 'instructorId',
-  organizationId: 'organizationId'
-};
-
 exports.Prisma.InstructorScalarFieldEnum = {
   id: 'id',
   name: 'name',
   title: 'title',
   avatar: 'avatar',
-  coverImage: 'coverImage',
+  featured: 'featured',
   bio: 'bio',
-  shortBio: 'shortBio',
   specialties: 'specialties',
   achievements: 'achievements',
   education: 'education',
@@ -249,7 +236,6 @@ exports.Prisma.ModelName = {
   Organization: 'Organization',
   OrgStats: 'OrgStats',
   Contact: 'Contact',
-  Review: 'Review',
   Instructor: 'Instructor',
   InstructorStats: 'InstructorStats'
 };

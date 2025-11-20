@@ -7,8 +7,10 @@ export class CreateCategoryDto {
   @IsString()
   name: string;
 
-  @ApiProperty({ description: 'Parent category ID (optional)', required: false })
+  @ApiProperty({
+    description: 'Parent category ID (optional)',
+    required: false,
+  })
   @IsOptional()
-  @IsString()
-  parentId?: string;
+  parentId?: number;
 }
